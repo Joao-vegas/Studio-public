@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block titulo %}Melhoria sugerida{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('melhorias_lista') }}">Melhorias</a></p>
+<div class="topo-pagina"><div><h1>{{ ('Melhoria no estilo ' ~ (m.formato_titulo or 'do Estúdio') ~ ': ' ~ (m.achados[0].o_que[:140])) if (m.tipo == 'motor' and m.achados and m.achados[0].o_que) else m.titulo }}</h1>
+  <p class="sub">{{ 'Passar a limpo o aprendizado' if m.tipo == 'regras' else 'O Estúdio quer melhorar o próprio jeito de fazer este estilo' }}{% if m.repetido_em and m.repetido_em > 1 %} · apareceu em {{ m.repetido_em }} vídeos{% endif %}</p></div></div>
+
+<section class="cartao-config">
+  <h3>O que muda</h3>
+  <p>{{ m.resumo or m.o_que_muda }}</p>
+  {% if m.causa %}<p class="meta"><b>Por quê:</b> {{ m.causa }}</p>{% endif %}
+  {% for a in m.achados or [] %}<p class="meta">Visto no vídeo {{ a.job.split('/')[-1]|replace('-', ' ') }}{% if a.t %}, no segundo {{ a.t }}{% endif %}: {{ a.o_que }}</p>{% endfor %}
+  {% if m.miniatura %}<p><img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=m.miniatura) }}" alt="Quadro do problema" style="max-width:180px;border-radius:var(--raio-p)"></p>{% endif %}
+</section>
+
+{% if m.estado in ['preparando', 'aplicando'] %}
+<p class="aviso rodando-aviso" id="mel-andando">● {{ 'Preparando a mudança numa cópia (nada foi alterado)' if m.estado == 'preparando' else 'Aplicando: preparo, testo e só grava se passar' }}… esta página se atualiza sozinha.</p>
+<script>setTimeout(function(){location.reload()},5000)</script>
+{% endif %}
+
+{% if m.estado == 'falhou' %}<p class="aviso erro" role="alert">Não apliquei: {{ m.motivo }}</p>{% endif %}
+
+{% if m.tipo == 'motor' and m.diff %}
+<section class="cartao-config"><details><summary><b>Ver a mudança no código ({{ m.linhas_mudadas }} linhas, pra quem entende)</b></summary>
+  <p class="meta">Arquivo: <code>{{ m.arquivos|join(', ') }}</code></p>
+  <pre class="mel-diff">{{ diff_html|safe }}</pre></details></section>
+{% endif %}
+
+{% if m.tipo == 'regras' and m.estado in ['pronta', 'aplicando', 'aplicada', 'desfeita'] %}
+<section class="cartao-config"><h3>Regras novas e reescritas</h3>
+  {% for r in m.regras_novas or [] %}<div class="mel-regra"><b>Nova · {{ r.id }}</b> <small>{{ r.categoria }}</small>{{ r.texto }}</div>{% endfor %}
+  {% for r in m.regras_reescritas or [] %}<div class="mel-regra"><b>Reescrita · {{ r.id }}</b><small>Antes: {{ r.antes }}</small>Depois: {{ r.depois }}</div>{% endfor %}
+  {% if m.regras_juntadas %}<p class="meta">Juntadas em outras: {{ m.regras_juntadas|join(', ') }}.</p>{% endif %}
+</section>
+{% endif %}
+
+{% if imgs.antes and imgs.depois %}
+<section class="cartao-config"><h3>Quadro de prova (segundo {{ m.t }})</h3>
+  <div class="mel-par"><figure><img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=imgs.antes) }}" alt="Antes"><figcaption class="meta">Antes (o vídeo que saiu)</figcaption></figure>
+  <figure><img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=imgs.depois) }}" alt="Depois"><figcaption class="meta">Depois (renderizado com o motor novo)</figcaption></figure></div></section>
+{% endif %}
+
+{% if m.prova and m.prova.passos %}
+<section class="cartao-config"><h3>Prova</h3><ul class="mel-passos">{% for p in m.prova.passos %}<li class="{{ '' if p.ok else 'ruim' }}"><b>{{ p.nome }}</b>: {{ p.detalhe }}</li>{% endfor %}</ul></section>
+{% endif %}
+
+<div class="acoes">
+  {% if m.estado in ['proposta', 'pronta', 'falhou'] %}
+    {% if m.estado in ['proposta', 'falhou'] %}<form method="post" action="{{ url_for('melhoria_acao', id_=m.id, acao='ver') }}"><button class="btn">Ver a mudança</button></form>{% endif %}
+    {% if m.estado != 'falhou' %}<form method="post" action="{{ url_for('melhoria_acao', id_=m.id, acao='aplicar') }}"><button class="btn primario">{{ 'OK, passar a limpo' if m.tipo == 'regras' else 'Aplicar' }}</button></form>{% endif %}
+    <form method="post" action="{{ url_for('melhoria_acao', id_=m.id, acao='agora-nao') }}"><input type="hidden" name="volta" value="/aprovar"><button class="btn fantasma">Agora não</button></form>
+  {% elif m.estado == 'aplicada' %}
+    <p class="meta">Aplicada em {{ m.aplicada_em }}. Se algo ficou estranho, desfaz e o arquivo volta como estava.</p>
+    <form method="post" action="{{ url_for('melhoria_acao', id_=m.id, acao='desfazer') }}"><button class="btn">Desfazer</button></form>
+  {% endif %}
+</div>
+{% if m.estado == 'proposta' and m.tipo == 'motor' %}<p class="meta">“Ver a mudança” pede ao Claude uma cópia editada e mostra o que mudaria. “Aplicar” faz isso e ainda roda a prova antes de gravar; se a prova falhar, o arquivo volta como estava. Nada muda no arquivo sem o seu Aplicar.</p>{% endif %}
+{% endblock %}

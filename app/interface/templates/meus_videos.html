@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titulo %}Meus vídeos{% endblock %}
+{% from "_apagar_ui.html" import forms as ap_forms, card as ap_card, barra as ap_barra with context %}
+{% macro linha(j, finalizado=False) %}
+<article class="vc">
+  <a class="vc-capa" href="{{ j.pagina }}">
+    {% if j.saida and existe(j.saida) %}<img loading="lazy" src="{{ url_for('thumb_rota', caminho=j.saida) }}" alt="">{% else %}<span class="vc-vazio"><svg class="icon"><use href="#i-video"/></svg></span>{% endif %}
+    <span class="vc-selo {{ 'ok' if finalizado or j.status == 'aprovado' }}">{{ 'Aprovado' if j.status == 'aprovado' else status_label(j.status) }}</span>
+  </a>
+  <div class="vc-info">
+    <a href="{{ j.pagina }}"><b title="{{ j.titulo }}">{{ j.titulo }}</b></a>
+    <small>{{ j.cliente }} · {{ j.formato_titulo }}</small>
+    <small>{{ j.criado_em[:10] }}{% if j.mb %} · {{ j.mb }} MB{% endif %}</small>
+  </div>
+  {% if not j.rodando %}{{ ap_card('video', j.cliente ~ '/' ~ j.slug, j.titulo) }}{% endif %}
+</article>
+{% endmacro %}
+{% block conteudo %}
+<div class="cabecalho">
+  <div><h1>Meus vídeos</h1><p class="sub">Os vídeos prontos e aprovados.</p></div>
+  <div class="acoes"><a class="btn fantasma" href="{{ url_for('saidas_lista') }}">Saídas: tudo que ocupa espaço →</a>
+  <form method="get"><select class="btn" name="cliente" onchange="this.form.submit()" aria-label="Filtrar por cliente">
+    <option value="">Todos os clientes</option>{% for c in clientes %}<option value="{{ c.nome }}" {{ 'selected' if quem==c.nome }}>{{ c.nome }}</option>{% endfor %}
+  </select></form></div>
+</div>
+{{ ap_forms(request.full_path) }}<div class="titulo-linha"><h2 class="sem-topo">Prontos</h2>{{ ap_barra() }}</div>
+<div class="vc-grade">
+{% for j in prontos %}{{ linha(j) }}
+{% else %}<div class="vazio-bonito"><h3>Nenhum vídeo pronto e aprovado ainda.</h3><p>Vídeo que espera a sua aprovação fica em Em andamento.</p><a class="btn primario" href="{{ url_for('novo_tela') }}">Criar vídeo</a></div>{% endfor %}
+</div>
+{% if em_producao %}
+<h2>Em produção</h2>
+<div class="vc-grade">{% for j in em_producao %}{{ linha(j) }}{% endfor %}</div>
+{% endif %}
+{% if finalizados %}
+<div class="titulo-linha"><h2>Finalizados <span class="etiqueta">{{ finalizados|length }}</span></h2>
+  <form method="post" action="{{ url_for('videos_apagar_finalizados') }}" data-apagar-previa="/espaco/previa?{% for j in finalizados %}video={{ (j.cliente ~ '/' ~ j.slug)|urlencode }}&{% endfor %}aviso={{ 'As cópias exportadas pro Mac continuam onde estão.'|urlencode }}" data-titulo="Todos os {{ finalizados|length }} vídeos finalizados"><button class="btn mini perigo">Apagar todos os finalizados</button></form></div>
+<div class="vc-grade">{% for j in finalizados %}{{ linha(j, True) }}{% endfor %}</div>
+{% endif %}
+{% endblock %}

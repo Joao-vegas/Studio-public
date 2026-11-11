@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block titulo %}Vozes{% endblock %}
+{% block conteudo %}
+<div class="topo-pagina"><div><h1>Vozes</h1>
+<p class="sub">Todas as vozes do VoiceStudio, de graça e rodando no seu Mac. A prévia fala em português e tem pergunta, pra você ouvir se a voz sobe no fim. “Usar” faz dela a voz padrão; a voz de cada cliente fica na página dele.</p>
+<p class="meta"><span class="selo {{ 'ok' if voz_estado.estado == 'no_ar' else ('espera' if voz_estado.estado in ('ligando', 'ocupado') else 'erro') }}" id="vz-estado" data-recarrega="1" data-estado="{{ voz_estado.estado }}">{% if voz_estado.estado == 'no_ar' %}VoiceStudio no ar{% else %}{{ voz_estado.texto }}{% endif %}</span>{% if motor %} · motor: <b>{{ motor }}</b>{% endif %}</p></div></div>
+
+{% from "_vozes_ui.html" import barra, cartao_voz with context %}
+<div class="fv" id="fv">
+  {{ barra(rotulos_tags) }}
+  <section class="fv-grupo">
+    <h2 class="fv-titulo">Prontas pra usar <small class="meta">{{ cartoes|length }} · as suas, em português primeiro</small></h2>
+    <div class="vz-grade fv-lista">{% for v in cartoes %}{{ cartao_voz(v) }}{% else %}<div class="vazio">Nenhuma voz ainda: a voz está desligada. Ela liga sozinha ao abrir esta página; se não ligar, use o botão no topo.</div>{% endfor %}</div>
+    <p class="meta fv-vazio" hidden>Nenhuma voz com essa busca. Tire uma etiqueta.</p>
+    <button type="button" class="btn fantasma fv-mais" hidden>Ver todas</button>
+  </section>
+  {% if arquetipos %}
+  <section class="fv-grupo">
+    <h2 class="fv-titulo">Mais vozes do VoiceStudio <small class="meta">{{ arquetipos|length }} · grátis · na 1ª vez que você usa, vira uma voz fixa em português, sem sotaque</small></h2>
+    <div class="vz-grade fv-lista">{% for v in arquetipos %}{{ cartao_voz(v) }}{% endfor %}</div>
+    <p class="meta fv-vazio" hidden>Nenhuma voz com essa busca. Tire uma etiqueta.</p>
+    <button type="button" class="btn fantasma fv-mais" hidden>Ver todas</button>
+  </section>
+  {% endif %}
+</div>
+
+{% include "_vozes_emocao.html" %}
+
+<h2>Criar voz nova <small class="meta">grátis</small></h2>
+<div class="vz-criar">
+  <form class="cartao-config" id="vz-desenhar">
+    <h3>Desenhar uma voz</h3>
+    <p class="meta">Diga como ela é. O Estúdio gera a frase de prova e guarda a voz fixa: ela não muda de pessoa no meio do vídeo.</p>
+    <div class="vz-prontas">{% for p in prontas %}<button type="button" class="btn mini" data-pronta='{{ p|tojson }}'>{{ p.nome }}</button>{% endfor %}</div>
+    <label class="campo"><b>Nome</b><input name="nome" placeholder="Ex.: Narrador grave"></label>
+    <fieldset class="vz-op"><legend>Quem fala</legend>{% for g in generos %}<label><input type="radio" name="genero" value="{{ g }}" {{ 'checked' if loop.first }}> {{ g }}</label>{% endfor %}</fieldset>
+    <fieldset class="vz-op"><legend>Idade</legend>{% for g in idades %}<label><input type="radio" name="idade" value="{{ g }}" {{ 'checked' if g == 'adulto' }}> {{ g }}</label>{% endfor %}</fieldset>
+    <fieldset class="vz-op"><legend>Tom</legend>{% for g in tons %}<label><input type="radio" name="tom" value="{{ g }}" {{ 'checked' if g == 'médio' }}> {{ g }}</label>{% endfor %}</fieldset>
+    <button class="btn primario">Criar a voz</button> <span class="meta vz-msg"></span>
+  </form>
+  <form class="cartao-config" id="vz-clonar" enctype="multipart/form-data">
+    <h3>Clonar de uma gravação</h3>
+    <p class="meta">10 a 20 s de alguém falando solto, sem música. Se tiver pergunta na fala, a voz aprende a entonação de pergunta. O texto sai sozinho pela transcrição.</p>
+    <label class="campo"><b>Nome</b><input name="nome" placeholder="Ex.: João"></label>
+    <label class="campo"><b>Gravação</b><input type="file" name="audio" accept="audio/*,video/*"></label>
+    <button class="btn primario">Clonar</button> <span class="meta vz-msg"></span>
+  </form>
+</div>
+
+<script src="{{ url_for('static', filename='vozes-ui.js') }}"></script>
+<script>
+(function () {
+  var U = { previa: {{ url_for('vozes_previa')|tojson }}, usar: {{ url_for('vozes_usar')|tojson }},
+            desenhar: {{ url_for('vozes_desenhar')|tojson }}, clonar: {{ url_for('vozes_clonar')|tojson }} };
+  function post(url, fd, msg, ok) { msg.textContent = 'Fazendo… (pode levar até 1 minuto)';
+    fetch(url, { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j.ok) { msg.textContent = '✖ ' + j.erro; return; } msg.textContent = '✓ Pronto'; if (ok) ok(j); }).catch(function () { VozesUI.explicar(msg, 'Não deu agora. Tente de novo.'); }); }
+  [].forEach.call(document.querySelectorAll('.vz-usar'), function (b) { b.onclick = function () {
+    var fd = new FormData(); fd.append('id', b.dataset.id); var arq = b.dataset.id.indexOf('arq:') === 0, txt = b.textContent;
+    b.disabled = true; b.textContent = arq ? 'Fixando a voz… (até 1 min)' : 'Usando…';
+    fetch(U.usar, { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
+      if (j.ok) { location.reload(); return; } b.disabled = false; b.textContent = txt; alert('Não deu: ' + j.erro); })
+      .catch(function () { b.disabled = false; b.textContent = txt; VozesUI.estado().then(function (e) { alert(e.estado === 'no_ar' ? 'Não deu agora. Tente de novo.' : e.texto); }); }); }; });
+  VozesUI.filtro(document.getElementById('fv'));
+  // Situação da voz no topo: fora do ar liga sozinha ao abrir a página (sem janela); ligando e ocupado se atualizam sozinhos
+  (function () {
+    var selo = document.getElementById('vz-estado'), antes = selo.dataset.estado, ligou = false;
+    function cor(e) { selo.className = 'selo ' + (e === 'no_ar' ? 'ok' : (e === 'ligando' || e === 'ocupado' ? 'espera' : 'erro')); }
+    function ver(e, n) {
+      cor(e.estado); selo.dataset.estado = e.estado;
+      if (e.estado === 'no_ar') { selo.textContent = 'VoiceStudio no ar'; if (antes !== 'no_ar' || ligou) location.reload(); return; }
+      VozesUI.pinta(selo, e);
+      if ((e.estado === 'ligando' || e.estado === 'ocupado') && n < 60) setTimeout(function () { VozesUI.estado().then(function (x) { ver(x, n + 1); }); }, 2000);
+    }
+    if (antes === 'fora' && !{{ 'true' if voz_estado.pode_ligar else 'false' }}) { VozesUI.pinta(selo, { estado: 'fora', texto: selo.textContent, pode_ligar: false }); return; }
+    if (antes === 'fora') { ligou = true; selo.textContent = 'Ligando a voz (uns 10 s)…'; fetch({{ url_for('api_voz_ligar')|tojson }}, { method: 'POST' }).then(function (r) { return r.json(); }).then(function (e) { ver(e, 0); }); }
+    else if (antes !== 'no_ar') ver({ estado: antes, texto: selo.textContent, pode_ligar: false }, 0);
+  })();
+  [].forEach.call(document.querySelectorAll('[data-pronta]'), function (b) { b.onclick = function () { var p = JSON.parse(b.dataset.pronta), f = document.getElementById('vz-desenhar');
+    f.nome.value = p.nome; ['genero', 'idade', 'tom'].forEach(function (k) { var r = f.querySelector('input[name=' + k + '][value="' + p[k] + '"]'); if (r) r.checked = true; }); }; });
+  ['vz-desenhar', 'vz-clonar'].forEach(function (id) { var f = document.getElementById(id); f.addEventListener('submit', function (e) { e.preventDefault();
+    post(id === 'vz-desenhar' ? U.desenhar : U.clonar, new FormData(f), f.querySelector('.vz-msg'), function () { location.reload(); }); }); });
+})();
+</script>
+{% endblock %}

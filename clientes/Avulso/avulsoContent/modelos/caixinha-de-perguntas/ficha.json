@@ -1,0 +1,58 @@
+{
+  "titulo": "Caixinha de perguntas",
+  "resumo": "Pessoa em tela cheia respondendo uma pergunta, com a caixa de pergunta do Stories do Instagram fixa em cima da cabeça o vídeo inteiro: faixa escura #262626 com \"O que você quer saber?\" e parte branca com a pergunta. Igual ao print do Instagram: SF Pro, mesmas medidas e margens. Sem legenda da fala, b-roll, música nem efeito.",
+  "quando_usar": "Resposta a uma pergunta (de seguidor ou inventada como gancho). A pergunta é o gancho; a fala é a resposta.",
+  "formato": {
+    "resolucao": "1080x1920",
+    "proporcao": "9:16",
+    "duracao_tipica": "15-60s"
+  },
+  "estrutura": [
+    "Vídeo gravado em tela cheia (9:16), cortado antes: sem silêncio, gaguejo nem erro de começo",
+    "Caixa de 708 px centrada, topo em y=255, cantos de 24 px",
+    "Faixa #262626 com o título em SF Pro peso 700, 35,6 px, #FAFAFA (quebra em linhas se for longo)",
+    "Parte branca com a pergunta em SF Pro peso 680, 47,2 px, #262626, centralizada; a caixa cresce pra baixo conforme as linhas",
+    "Texto editável depois de pronto: camada.json tipo caixinha, tela Editar o texto"
+  ],
+  "paleta": [
+    {
+      "cor": "#262626",
+      "uso": "faixa do título e texto da pergunta"
+    },
+    {
+      "cor": "#FAFAFA",
+      "uso": "título"
+    },
+    {
+      "cor": "#FFFFFF",
+      "uso": "fundo da pergunta"
+    }
+  ],
+  "fontes": [
+    {
+      "nome": "SF Pro (/System/Library/Fonts/SFNS.ttf)",
+      "uso": "título e pergunta"
+    }
+  ],
+  "audio": {
+    "musica": "não usa",
+    "sfx": [],
+    "voz": "áudio original"
+  },
+  "broll": "Não usa.",
+  "entrada": "Bruto vertical já cortado em work/joao.mp4 (checar rotation; 1080x1920).",
+  "comando": "zsh ../gerar.sh --dir . --pergunta \"A PERGUNTA\"",
+  "qa": [
+    "Caixa acima da cabeça, sem cobrir o rosto",
+    "Pergunta sem erro de digitação além do que o João escreveu",
+    "Nenhuma legenda da fala, b-roll, música nem efeito"
+  ],
+  "templates": [
+    "build-caixinha.py (grava a camada)",
+    "app/ferramentas/caixinha.py (desenho da caixa)"
+  ],
+  "motor": "ffmpeg + PIL, h264_videotoolbox",
+  "origem": "Referência reel DeaVGPYod4- (Instagram), 22-out-2026",
+  "tempo_producao": "5-15 min",
+  "tipo": "completo"
+}

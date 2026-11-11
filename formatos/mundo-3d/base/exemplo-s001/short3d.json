@@ -1,0 +1,71 @@
+{
+ "musica": null,
+ "cenas": [
+  {
+   "de": 0.0,
+   "tipo": "3d",
+   "cena": "espaco"
+  },
+  {
+   "de": 3.0,
+   "tipo": "3d",
+   "cena": "volante"
+  },
+  {
+   "de": 5.3,
+   "tipo": "3d",
+   "cena": "afastar"
+  },
+  {
+   "de": 8.1,
+   "tipo": "3d",
+   "cena": "lateral"
+  },
+  {
+   "de": 12.2,
+   "tipo": "3d",
+   "cena": "foguete"
+  },
+  {
+   "de": 17.7,
+   "tipo": "3d",
+   "cena": "carro_xray"
+  },
+  {
+   "de": 20.7,
+   "tipo": "3d",
+   "cena": "starman_close"
+  },
+  {
+   "de": 24.9,
+   "tipo": "3d",
+   "cena": "orbita"
+  },
+  {
+   "de": 35.2,
+   "tipo": "3d",
+   "cena": "mergulho"
+  },
+  {
+   "de": 37.9,
+   "tipo": "3d",
+   "cena": "patios_2018"
+  },
+  {
+   "de": 46.5,
+   "tipo": "3d",
+   "cena": "patios_2025"
+  },
+  {
+   "de": 55.5,
+   "tipo": "3d",
+   "cena": "patios_pergunta"
+  },
+  {
+   "de": 58.2,
+   "tipo": "3d",
+   "cena": "final_espaco"
+  }
+ ],
+ "musica_vol": 0.09
+}

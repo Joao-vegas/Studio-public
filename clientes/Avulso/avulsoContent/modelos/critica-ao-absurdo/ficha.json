@@ -1,0 +1,28 @@
+{
+  "titulo": "Crítica ao absurdo",
+  "resumo": "Trecho de um vídeo absurdo em cima com legenda de 1 a 3 palavras, a foto do João fixa embaixo reagindo, e depois a resposta dele em tela cheia.",
+  "quando_usar": "Quando o João rejeita um comportamento que as pessoas normalizaram, a partir do vídeo de alguém falando isso.",
+  "formato": {"resolucao": "1080x1920", "proporcao": "9:16", "duracao_tipica": "20-30 s de trecho + a resposta"},
+  "estrutura": [
+    "Vídeo absurdo em cima, 1080x1046, cortado pra preencher (--foco-x/--foco-y)",
+    "Foto fixa embaixo, 1080x874 (divisão em y=1046), a mesma do trecho inteiro",
+    "Legenda do trecho: 1 a 3 palavras, Roboto Black 50 px, caixa roxa #6D28D9, branco e palavra forte amarela #FFE500, centro y=960",
+    "Resposta do João em tela cheia, sem legenda (opcional)"
+  ],
+  "paleta": [
+    {"cor": "#6D28D9", "uso": "caixa da legenda"},
+    {"cor": "#FFFFFF", "uso": "texto da legenda"},
+    {"cor": "#FFE500", "uso": "palavra forte da legenda"}
+  ],
+  "fontes": [{"nome": "Roboto-Black", "uso": "legenda do trecho"}],
+  "audio": {"musica": "não usa", "sfx": [], "voz": "áudio do trecho + voz do João, nivelados (loudnorm -16)"},
+  "broll": "Não usa.",
+  "entrada": "work/absurdo.mp4 (vídeo inteiro), --de/--ate, foto (padrão assets/foto-padrao.png), work/joao.mp4 opcional.",
+  "comando": "zsh ../gerar.sh --dir . --de <DE> --ate <ATE>",
+  "qa": ["Foto parada no mesmo lugar o trecho todo", "Rosto de quem fala dentro da metade de cima", "Sem legenda dobrada", "Volume parelho entre o trecho e a resposta"],
+  "templates": ["build.py"],
+  "motor": "ffmpeg + PIL, h264_videotoolbox",
+  "origem": "Reel DdXnhWBPmza do @soujoaovegas (22-out-2026)",
+  "tempo_producao": "5-15 min",
+  "tipo": "completo"
+}

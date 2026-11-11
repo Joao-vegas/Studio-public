@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block titulo %}B-rolls · {{ j.titulo }}{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('job',cli=j.cliente,slug=j.slug) }}">← Voltar à edição</a> / B-rolls</p>
+<div class="cabecalho"><div><p class="eyebrow">ILUSTRE A FALA</p><h1>Uma cena com propósito.</h1><p class="sub">Escolha o trecho, desenhe a cena e revise antes de gerar.</p></div><span class="chip">{{ j.titulo }}</span></div>
+<div class="creation-flow"><span class="ativo">1. Preparar cena</span><span>2. Aprovar imagem</span><span>3. Animar se precisar</span><span>4. Usar na edição</span></div>
+{% if j.broll_config and j.broll_config.origem=='nenhum' %}<section class="painel"><h2>Esta edição está sem b-rolls.</h2><p>Você pode editar só o bruto. Se quiser cenas de apoio, ative a opção e escolha a quantidade nas preferências da edição.</p><a class="btn" href="{{ url_for('job',cli=j.cliente,slug=j.slug) }}#preferencias-edicao">Voltar à edição →</a></section>{% elif not beats %}<section class="painel"><h2>Primeiro, prepare o plano da edição.</h2><p>Os b-rolls são ligados aos trechos reais da fala.</p><a class="btn primario" href="{{ url_for('job',cli=j.cliente,slug=j.slug) }}#editar">Ir para análise do bruto →</a></section>{% else %}
+<div class="broll-workspace">
+<section class="painel">
+<form method="post" class="form" id="broll-draft">
+<input type="hidden" name="tipo" value="imagem">
+<label>Qual trecho precisa de uma cena?<select name="beat" id="scene-beat">{% for b in beats %}<option value="{{ b.id }}" data-fala="{{ b.fala }}" {{ 'selected' if escolhido and escolhido.id == b.id }}>{{ b.inicio }}–{{ b.fim }}s · {{ b.fala[:90] }}</option>{% endfor %}</select></label>
+<blockquote id="scene-fala">{{ escolhido.fala }}</blockquote>
+<label>O que deve aparecer?<textarea name="prompt" id="scene-prompt" rows="5" minlength="10" maxlength="15000" required placeholder="Ex.: mãos de um dentista ajustando o equipamento, consultório claro, enquadramento próximo. Sem texto nem logos.">{{ escolhido.geracao_sugerida.prompt if escolhido and escolhido.geracao_sugerida else '' }}</textarea></label>
+<p class="meta">Descreva sujeito, ação e ambiente. Para pessoas, produtos ou provas reais, prefira material próprio ou busca.</p>
+<fieldset class="ratio-picker"><legend>Onde a cena vai entrar?</legend>
+{% for value, label in ratios.items() %}<label><input type="radio" name="ratio" value="{{ value }}" {{ 'checked' if value == '9:16' }}><span class="ratio-icon" style="--ratio:{{ value|replace(':','/') }}"></span><b>{{ label.split(' · ')[0] }}</b><small>{{ value }} · {{ label.split(' · ')[1] }}</small></label>{% endfor %}
+</fieldset>
+{% set atual = (mod_img|selectattr('id','equalto',img_padrao)|first) %}
+<label>Modelo de imagem<select name="modelo" id="image-model">{% for m in mod_img %}<option value="{{ m.id }}" {{ 'selected' if m.id==img_padrao }}>{{ m.nome }} · {{ 'desde ' if m.varia }}US$ {{ '%.3f'|format(m.desde)|replace('.',',') }} · {{ m.nota }}</option>{% endfor %}</select></label>
+<label>Qualidade da imagem<select name="resolucao" id="image-resolution">{% for res, usd in atual.precos %}<option value="{{ res }}" {{ 'selected' if res=='2K' or atual.precos|length==1 }}>{{ res }} · estimativa US$ {{ '%.3f'|format(usd)|replace('.',',') }}</option>{% endfor %}</select></label>
+<button class="btn primario">Revisar cena e custo →</button><p class="meta">Salvar este rascunho não usa créditos.</p>
+</form></section>
+<aside class="painel scene-preview"><p class="eyebrow">ENQUADRAMENTO</p><div class="scene-frame" id="scene-frame" style="--ratio:9/16"><span>Prévia do formato<small>A imagem será gerada após sua aprovação</small></span><div class="safe-caption">Área de legenda</div></div><h3>Imagem primeiro. Movimento depois.</h3><p class="meta">Esta imagem: {% set p0 = (atual.precos|selectattr(0,'equalto','2K')|list or atual.precos)|first %}<b id="image-price">~US$ {{ '%.3f'|format(p0[1])|replace('.',',') }}</b> no modelo escolhido.<br>A animação é opcional e vem depois, com preço e aprovação próprios.</p><small class="meta">Referência de preços: {{ preco_em }}. Estimativas, sujeitas à cobrança da Kie.</small></aside>
+</div>{% endif %}
+<div class="section-heading"><h2>Suas cenas <span class="count">{{ itens|length }}</span></h2><span class="meta">Imagens, animações e rascunhos deste vídeo</span></div>
+<div class="generated-grid">{% for r in itens %}<a class="generated-card" href="{{ url_for('broll_detail',cli=j.cliente,slug=j.slug,ident=r.id) }}">
+{% if r.arquivo %}{% if r.tipo=='video' %}<video muted preload="metadata" src="{{ url_for('arquivo',caminho=j.sandbox~'/'~r.arquivo) }}"></video>{% else %}<img loading="lazy" src="{{ url_for('arquivo',caminho=j.sandbox~'/'~r.arquivo) }}" alt="Cena para {{ r.fala }}">{% endif %}{% else %}<div class="generated-placeholder">{{ '▷' if r.tipo=='video' else '▧' }}</div>{% endif %}
+<div><span class="chip">{{ estados[r.status] }}</span><p>{{ r.inicio }}–{{ r.fim }}s · {{ r.fala[:80] }}</p><small>{{ r.ratio }} · {{ r.resolucao }} · {{ 'Animação' if r.tipo=='video' else 'Imagem' }}</small></div></a>{% else %}<p class="meta">As cenas que você preparar vão aparecer aqui.</p>{% endfor %}</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var sel = document.getElementById('image-model'), res = document.getElementById('image-resolution'), preco = document.getElementById('image-price');
+  if (!sel || !res) return;
+  var cat = {{ mod_img|tojson }};
+  function fmt(v) { return 'US$ ' + v.toFixed(3).replace('.', ','); }
+  function achar() { return cat.filter(function (m) { return m.id === sel.value; })[0]; }
+  function mostrar() {
+    var m = achar(); if (!m || !preco) return;
+    var p = m.precos.filter(function (x) { return x[0] === res.value; })[0];
+    if (p) preco.textContent = '~' + fmt(p[1]);
+  }
+  function trocar() {
+    var m = achar(); if (!m) return;
+    var antes = res.value, tem2k = false, tem = false;
+    res.innerHTML = '';
+    m.precos.forEach(function (x) {
+      var o = document.createElement('option'); o.value = x[0]; o.textContent = x[0] + ' · estimativa ' + fmt(x[1]); res.appendChild(o);
+      if (x[0] === '2K') tem2k = true; if (x[0] === antes) tem = true;
+    });
+    res.value = tem ? antes : (tem2k ? '2K' : m.precos[0][0]);
+    mostrar();
+  }
+  sel.addEventListener('change', trocar);
+  res.addEventListener('change', mostrar);
+  mostrar();
+})();
+</script>
+{% endblock %}

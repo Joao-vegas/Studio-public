@@ -1,0 +1,456 @@
+<!doctype html>
+<!-- Motor do Editorial. O render.py põe as cenas em window.PLANO e chama seek(t) quadro a quadro.
+     Regra: o quadro do segundo t depende só de t (nada solto no relógio). Biblioteca de cenas no README.md. -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Motor do Editorial</title>
+<style>
+  :root { --forte: #e0353f; --forte-claro: #ff626b; --ouro: #d4af37; --apagado: rgba(255,255,255,.26); }
+  html, body { margin: 0; overflow: hidden; background: #070707; color: #fff; }
+  body { position: relative; font-family: Inter, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; }
+  .cena { position: absolute; inset: 0; overflow: hidden; display: none; background: radial-gradient(ellipse at 50% 46%, #2b2b2b 0%, #141414 45%, #090909 100%); }
+  .cena.viva { display: block; }
+  .full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; will-change: transform; }
+  .pb { filter: grayscale(1) contrast(1.15); }
+  .ponto::after { content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: .55;
+                  background: radial-gradient(circle, rgba(0,0,0,0) 38%, rgba(0,0,0,.9) 42%) 0 0 / 7px 7px; }
+  .escurece { position: absolute; inset: 0; background: #000; pointer-events: none; }
+  .gilroy { font-family: Gilroy, "Gilroy ExtraBold", Inter, sans-serif; font-weight: 800; }
+  .sobre { position: absolute; left: 7%; right: 7%; text-align: center; line-height: 1.02; letter-spacing: -.02em;
+           text-shadow: 0 4px 22px rgba(0,0,0,.75); }
+  .sobre.g { font-size: 108px; } .sobre.m { font-size: 76px; } .sobre.p { font-size: 46px; font-family: Inter, sans-serif; font-weight: 700; letter-spacing: -.01em; }
+  .sobre .f { color: var(--forte); }
+  .cartao { position: absolute; left: 9%; right: 9%; top: 17%; bottom: 17%; border-radius: 56px; overflow: hidden;
+            box-shadow: 0 30px 90px rgba(0,0,0,.8); transform-origin: 50% 50%; }
+  .print { position: absolute; left: 7%; right: 7%; top: 50%; border-radius: 22px; overflow: hidden; background: #fff;
+           box-shadow: 0 40px 110px rgba(0,0,0,.85); transform-origin: 50% 50%; }
+  .print img { display: block; width: 100%; }
+  .grifo { position: absolute; background: rgba(255, 214, 0, .55); mix-blend-mode: multiply; border-radius: 4px; width: 0; }
+  .borrado { filter: blur(38px) brightness(.35) saturate(.6); transform: scale(1.25); }
+  /* fundo vivo (30-out-2026): a imagem real mais próxima do vídeo, desfocada, escura e andando devagar atrás das peças que não têm foto */
+  .fundo-vivo { filter: blur(22px) brightness(.42) saturate(.9); }   /* o brilho final é acertado por imagem em seek (fundo_lum) */
+  .fundo-luz { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 46%, rgba(255,255,255,.07) 0%, rgba(0,0,0,0) 60%); }
+  /* rótulo legível sobre o fundo vivo (30-out, João: a palavra vermelha some no desfocado médio): halo escuro atrás do texto e vermelho mais claro; contraste medido em render (>= 3:1) */
+  .cena.fv .rotulo, .cena.fv .sobre, .cena.fv .texto, .cena.fv .numero, .cena.fv .etq-clip, .cena.fv .chip, .cena.fv .marco span
+    { text-shadow: 0 0 5px rgba(0,0,0,.98), 0 0 14px rgba(0,0,0,.95), 0 3px 26px rgba(0,0,0,.9); }
+  .cena.fv .f, .cena.fv .texto span.on.f { color: var(--forte-claro); }
+  .fundo-banda { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,.12) 0%, rgba(0,0,0,.4) 35%, rgba(0,0,0,.4) 72%, rgba(0,0,0,.12) 100%); }
+  .icone-logo { position: absolute; inset: 40px; border-radius: 50%; display: grid; place-items: center; box-shadow: 0 24px 70px rgba(0,0,0,.6); }
+  .icone-logo.claro { background: #f4f1ea; } .icone-logo.escuro { background: rgba(14,14,14,.72); }
+  .icone-logo img { width: 66%; height: 66%; object-fit: contain; display: block; }
+  .peca { position: absolute; border: 7px solid #f4f1ea; box-shadow: 0 18px 50px rgba(0,0,0,.7); overflow: hidden; background: #222; }
+  .peca img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .texto { position: absolute; left: 9%; right: 9%; top: 50%; transform: translateY(-50%); text-align: center;
+           font-size: 66px; line-height: 1.14; letter-spacing: -.015em; }
+  .texto span { color: var(--apagado); }
+  .texto span.on { color: #fff; } .texto span.on.f { color: var(--forte); }
+  .chip { position: absolute; left: 50%; padding: 16px 46px; border: 3px solid rgba(255,255,255,.85); border-radius: 60px;
+          background: rgba(10,10,10,.45); backdrop-filter: blur(6px); font: 800 50px/1 Inter, sans-serif; letter-spacing: .02em;
+          text-transform: uppercase; white-space: nowrap; transform-origin: 50% 50%; }
+  .rotulo { position: absolute; left: 0; right: 0; text-align: center; font: 700 44px/1.1 Inter, sans-serif; }
+  .rotulo .f { color: var(--forte); }
+  .etq { position: absolute; left: 6%; padding: 8px 22px; font: italic 900 52px/1 Inter, sans-serif; background: var(--forte); color: #fff;
+         transform: rotate(-3deg); box-shadow: 0 8px 24px rgba(0,0,0,.5); }
+  .numero { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-size: 230px;
+            letter-spacing: -.04em; line-height: 1; }
+  .numero small { display: block; font: 700 54px/1.2 Inter, sans-serif; letter-spacing: .02em; margin-top: 18px; }
+  .zap { position: absolute; left: 7%; right: 7%; top: 14%; bottom: 14%; border-radius: 46px; background: #0b141a; overflow: hidden;
+         box-shadow: 0 40px 120px rgba(0,0,0,.85); border: 2px solid #1f2c33; }
+  .zap .topo { height: 118px; background: #1f2c33; display: flex; align-items: center; padding: 0 34px; gap: 22px; font: 700 40px/1 Inter, sans-serif; }
+  .zap .topo i { width: 74px; height: 74px; border-radius: 50%; background: #6b7c85; display: grid; place-items: center; font-style: normal; font-size: 40px; }
+  .zap .topo small { display: block; font: 500 26px/1.4 Inter, sans-serif; color: #8696a0; }
+  .msg { position: absolute; left: 30px; max-width: 76%; background: #202c33; border-radius: 0 26px 26px 26px; padding: 18px 26px 22px;
+         font: 500 36px/1.3 Inter, sans-serif; box-shadow: 0 2px 0 rgba(0,0,0,.4); transform-origin: 0 0; }
+  .msg b { display: block; font: 700 28px/1.3 Inter, sans-serif; margin-bottom: 6px; }
+  .msg img { display: block; width: 100%; border-radius: 14px; margin-top: 8px; background: #fff; }
+  .msg.eu { left: auto; right: 30px; background: #005c4b; border-radius: 26px 0 26px 26px; }
+  .linha { position: absolute; left: 10%; right: 10%; top: 50%; height: 5px; background: #fff; transform-origin: 0 50%; }
+  .marco { position: absolute; top: 50%; width: 5px; height: 70px; background: #fff; transform: translate(-50%, -50%); }
+  .marco span { position: absolute; bottom: 92px; left: 50%; transform: translateX(-50%); font: 800 64px/1 Inter, sans-serif; white-space: nowrap; }
+  .marco em { position: absolute; top: 96px; left: 50%; transform: translateX(-50%); font: 600 36px/1.15 Inter, sans-serif; font-style: normal;
+              white-space: nowrap; color: #cfcfcf; }
+  .etq-clip { position: absolute; left: 6%; bottom: 23%; font: italic 800 46px/1.1 Inter, sans-serif; color: #fff; text-shadow: 0 3px 12px rgba(0,0,0,.9); }
+  .etq-clip::after { content: ""; display: block; height: 6px; margin-top: 8px; background: var(--forte); width: var(--w, 100%); }
+  .etq-clip small { display: block; font: 600 30px/1.3 Inter, sans-serif; font-style: normal; color: #ddd; margin-top: 8px; }
+  .fala-canto { position: absolute; width: 44%; height: 44%; bottom: 15%; border-radius: 44px; overflow: hidden; border: 5px solid #f4f1ea;
+                box-shadow: 0 30px 90px rgba(0,0,0,.85); background: #111; transform-origin: 50% 100%; }
+  .fala-canto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .fala-leg { position: absolute; left: 6%; right: 6%; text-align: center; font-size: 84px; line-height: 1.02; letter-spacing: -.02em;
+              text-shadow: 0 4px 22px rgba(0,0,0,.85), 0 0 3px #000; }
+  .fala-leg .f { color: var(--forte); }
+  .recorte { position: absolute; left: 50%; bottom: 0; transform-origin: 50% 100%; filter: drop-shadow(0 24px 40px rgba(0,0,0,.75)); }
+  #marca { position: absolute; top: 5.2%; left: 0; right: 0; text-align: center; z-index: 21; font: 700 30px/1 Inter, sans-serif;
+           letter-spacing: .04em; color: rgba(255,255,255,.34); text-shadow: 0 1px 6px rgba(0,0,0,.5); pointer-events: none; }
+  #leg { position: absolute; left: 8%; right: 8%; text-align: center; font: 700 44px/1.15 Inter, sans-serif; letter-spacing: -.01em;
+         text-shadow: 0 3px 14px rgba(0,0,0,.95), 0 0 2px #000; z-index: 20; }
+  #grao { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 30; pointer-events: none; mix-blend-mode: overlay; opacity: .12; }   /* 30-out: era .32 e, depois que o canvas passou a cobrir a tela toda, sujava o fundo desfocado (João: sutil, .10-.14) */   /* canvas não estica com inset: sem width/height o grão ficava só no canto de cima */
+  #vinheta { position: absolute; inset: 0; z-index: 31; pointer-events: none;
+             background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%); }
+  #flash { position: absolute; inset: 0; z-index: 32; background: #fff; opacity: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="palco"></div>
+<div id="leg"></div>
+<div id="marca"></div>
+<canvas id="grao"></canvas>
+<div id="vinheta"></div>
+<div id="flash"></div>
+<script>
+  const P = window.PLANO || { total: 3, largura: 1080, altura: 1920, fps: 30, palavras: [], cenas: [{ n: 1, tipo: 'texto', de: 0, ate: 3, texto: 'Exemplo' }] };
+  const W = P.largura, H = P.altura, FPS = P.fps || 30;
+  document.body.style.width = W + 'px'; document.body.style.height = H + 'px';
+  const palco = document.getElementById('palco'), leg = document.getElementById('leg'), flash = document.getElementById('flash');
+  const grao = document.getElementById('grao'); grao.width = W / 3; grao.height = H / 3;
+  const gctx = grao.getContext('2d');
+  const PAL = (P.palavras || []).map(function (p) { return { w: p.w || p.word || '', s: +(p.s != null ? p.s : p.start), e: +(p.e != null ? p.e : p.end) }; });
+
+  const cl = function (x, a, b) { return Math.max(a, Math.min(b, x)); };
+  const sai = function (p) { return 1 - Math.pow(1 - cl(p, 0, 1), 2.2); };          // entra rápido e assenta
+  const mola = function (p) { p = cl(p, 0, 1); return 1 + Math.pow(2, -10 * p) * Math.sin((p * 10 - .75) * 2.094) * -1 + 0; };
+  const pop = function (p) { p = cl(p, 0, 1); return p >= 1 ? 1 : 1 - Math.pow(1 - p, 3) * Math.cos(p * 7) ; };
+  function rnd(n) { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+  function el(tag, cls, pai, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; (pai || palco).appendChild(e); return e; }
+  function img(src, cls, pai) { const i = el('img', cls, pai); i.src = src; i.alt = ''; return i; }
+  function marcaForte(txt, fortes) {
+    const f = (fortes || []).map(function (x) { return x.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''); });
+    return String(txt || '').split(/(\s+)/).map(function (w) {
+      const k = w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+      return f.indexOf(k) >= 0 ? '<span class="f">' + w + '</span>' : w;
+    }).join('');
+  }
+  // movimento de câmera: nunca para; entra com impulso e assenta (régua: câmera andando em ~97% dos quadros)
+  function camera(c, u, d) {
+    const m = c.mov || ['in', 'esq', 'out', 'dir', 'cima'][c.n % 5];
+    // régua (estudo quadro a quadro): creep ~13,6% da largura por segundo, impulso na entrada só 1,3× o resto
+    const L = u / Math.max(d, .3), p = sai(L) * .25 + L * .75, f = (c.forca || 1) * Math.min(1.6, Math.max(.8, d / 1.2));
+    let s = 1.1, x = 0, y = 0;
+    if (m === 'in') s = 1.08 + .26 * p * f;
+    else if (m === 'out') s = 1.36 - .26 * p * f;
+    else if (m === 'esq') { s = 1.26; x = (7 - 14 * p) * f; }
+    else if (m === 'dir') { s = 1.26; x = (-7 + 14 * p) * f; }
+    else if (m === 'cima') { s = 1.26; y = (6 - 12 * p) * f; }
+    else if (m === 'baixo') { s = 1.26; y = (-6 + 12 * p) * f; }
+    const fo = c.foco || [.5, .5];
+    return 'translate(' + x + '%,' + y + '%) scale(' + s.toFixed(4) + ')';
+  }
+  function origem(e, c) { const fo = c.foco || [.5, .5]; e.style.objectPosition = (fo[0] * 100) + '% ' + (fo[1] * 100) + '%'; e.style.transformOrigin = (fo[0] * 100) + '% ' + (fo[1] * 100) + '%'; }
+
+  // ───────── biblioteca de cenas: montar(c) cria o DOM uma vez; anima(c, u, d, t) põe o quadro do tempo t ─────────
+  const B = {
+    foto: {
+      montar: function (c, r) {
+        c._i = img(c.imagem, 'full' + (c.pb ? ' pb' : ''), r); origem(c._i, c);
+        if (c.ponto) r.classList.add('ponto');
+        c._e = el('div', 'escurece', r); c._e.style.opacity = c.escuro != null ? c.escuro : (c.texto ? .38 : 0);
+        if (c.texto) { c._t = el('div', 'sobre gilroy ' + (c.tam || 'g'), r, marcaForte(c.texto, c.forte)); c._t.style.top = (c.y || 44) + '%'; }
+      },
+      anima: function (c, u, d) {
+        c._i.style.transform = camera(c, u, d);
+        if (c._t) { const k = sai(u / .22); c._t.style.opacity = k; c._t.style.transform = 'translateY(-50%) scale(' + (1.18 - .18 * k) + ')'; }
+      }
+    },
+    cartao: {
+      montar: function (c, r) {
+        if (c.fundo_borrado !== false) img(c.imagem, 'full borrado', r);
+        c._c = el('div', 'cartao', r); c._i = img(c.imagem, 'full' + (c.pb ? ' pb' : ''), c._c); origem(c._i, c);
+        if (c.ponto) c._c.classList.add('ponto');
+        if (c.texto) { el('div', 'escurece', c._c).style.opacity = .3; c._t = el('div', 'sobre gilroy ' + (c.tam || 'm'), r, marcaForte(c.texto, c.forte)); c._t.style.top = (c.y || 50) + '%'; }
+      },
+      anima: function (c, u, d) {
+        const k = sai(u / .28); c._c.style.transform = 'scale(' + (.9 + .1 * k) + ')'; c._c.style.opacity = cl(u / .08, 0, 1);
+        c._i.style.transform = camera(c, u, d);
+        if (c._t) { const q = sai((u - .1) / .2); c._t.style.opacity = q; c._t.style.transform = 'translateY(-50%) scale(' + (1.15 - .15 * q) + ')'; }
+      }
+    },
+    rajada: {   // fotos trocando a cada N quadros (ref. 3: 3-4 quadros por foto, P&B)
+      montar: function (c, r) { c._is = (c.imagens || []).map(function (s, k) { const i = img(s, 'full' + (c.pb !== false ? ' pb' : ''), r); i.style.display = 'none'; return i; });
+        if (c.texto) { c._t = el('div', 'sobre gilroy ' + (c.tam || 'g'), r, marcaForte(c.texto, c.forte)); c._t.style.top = (c.y || 50) + '%'; } },
+      anima: function (c, u) {
+        const q = c.quadros || 8, k = Math.floor(u * FPS / q) % Math.max(1, c._is.length);
+        c._is.forEach(function (i, j) { i.style.display = j === k ? 'block' : 'none'; });
+        const i = c._is[k]; if (i) i.style.transform = 'scale(' + (1.1 + .04 * rnd(k + c.n)) + ') translate(' + ((rnd(k * 3) - .5) * 3) + '%,' + ((rnd(k * 7) - .5) * 3) + '%)';
+      }
+    },
+    clipe: {   // vídeo real (quadros extraídos a 30 fps, 1 por quadro) com etiqueta de onde veio (ref. 2: podcast, rua, campanha)
+      montar: function (c, r) { c._is = (c.imagens || []).map(function (s) { const i = img(s, 'full' + (c.pb ? ' pb' : ''), r); i.style.display = 'none'; return i; });
+        if (c.etiqueta) { c._q = el('div', 'etq-clip', r, c.etiqueta + (c.nota ? '<small>' + c.nota + '</small>' : '')); }
+        if (c._q && c.texto_base) c._q.style.bottom = '40%';   // o clipe traz timecode/texto queimado embaixo: rótulo sobe pra não empilhar em cima
+        if (c.texto) { c._t = el('div', 'sobre gilroy ' + (c.tam || 'm'), r, marcaForte(c.texto, c.forte)); c._t.style.top = (c.y || 50) + '%'; } },
+      anima: function (c, u, d) {
+        const k = Math.min(c._is.length - 1, (c.inicio || 0) + Math.floor(u * FPS * (c.vel || 1)));
+        c._is.forEach(function (i, j) { i.style.display = j === k ? 'block' : 'none'; });
+        const i = c._is[k]; if (i) i.style.transform = 'scale(' + (1.06 + .08 * u / d) + ')';   // o clipe também anda (régua)
+        if (c._q) { const q = sai((u - .08) / .25); c._q.style.opacity = q; c._q.style.setProperty('--w', (q * 100) + '%'); }
+        if (c._t) { const q = sai(u / .22); c._t.style.opacity = q; }
+      }
+    },
+    recorte: {   // pessoas recortadas (sem fundo) em camadas sobre um print/foto: cada camada anda numa velocidade (o "3D")
+      montar: function (c, r) {
+        c._f = img(c.imagem, 'full' + (c.pb ? ' pb' : ''), r); origem(c._f, c);
+        c._e = el('div', 'escurece', r); c._e.style.opacity = c.escuro != null ? c.escuro : .25;
+        c._ps = (c.pessoas || []).map(function (p) { const i = img(p.imagem, 'recorte', r); i.style.height = (p.altura || 62) + '%'; return { i: i, p: p }; });
+        if (c.texto) { c._t = el('div', 'sobre gilroy ' + (c.tam || 'm'), r, marcaForte(c.texto, c.forte)); c._t.style.top = (c.y || 14) + '%'; }
+      },
+      anima: function (c, u, d) {
+        c._f.style.transform = 'scale(' + (1.12 + .05 * u / d) + ') translateX(' + (-1.5 * u / d) + '%)';
+        c._ps.forEach(function (o, j) {
+          const ent = sai((u - (o.p.t != null ? o.p.t : j * .12)) / .3), z = 1 + j * .5;   // a da frente anda mais
+          o.i.style.opacity = cl(ent * 3, 0, 1);
+          o.i.style.transform = 'translateX(calc(-50% + ' + ((o.p.x || 0) + (j % 2 ? 1 : -1) * 2.2 * z * u / d) + '%)) translateY(' + ((1 - ent) * 30) + '%) scale(' + ((o.p.escala || 1) * (1 + .05 * z * u / d)) + ')';
+        });
+        if (c._t) { const q = sai(u / .22); c._t.style.opacity = q; }
+      }
+    },
+    fala: {   // o João gravado: quadros do vídeo dele no tempo da cena (render.py extrai), em tela cheia ou no cantinho sobre um print/foto,
+              // com legenda FORTE (2-3 palavras, Gilroy grande, palavra-chave em vermelho). A voz é a dele (já está na faixa de voz).
+      montar: function (c, r) {
+        c._q = c.quadros || [];
+        if (c.modo === 'canto') {
+          if (c.imagem) { c._f = img(c.imagem, 'full' + (c.pb ? ' pb' : ''), r); origem(c._f, c); }
+          c._e = el('div', 'escurece', r); c._e.style.opacity = c.escuro != null ? c.escuro : .42;
+          c._b = el('div', 'fala-canto', r); c._b.style[c.lado === 'esq' ? 'left' : 'right'] = '4%';
+          c._v = el('img', '', c._b);
+        } else { c._v = el('img', 'full', r); }
+        c._v.alt = '';
+        c._l = el('div', 'fala-leg gilroy', r); c._l.style.top = (c.y || (c.modo === 'canto' ? 12 : 66)) + '%';
+      },
+      anima: function (c, u, d, t) {
+        const k = Math.max(0, Math.min(c._q.length - 1, Math.floor(u * FPS + 1e-6)));
+        if (c._q[k] && c._v.getAttribute('src') !== c._q[k]) c._v.src = c._q[k];
+        const bi = BLOCOS.findIndex(function (b) { return t >= Math.max(b[0].s - .05, c.de) && t < b[b.length - 1].e + .08; });
+        if (c.modo === 'canto') {   // fundo anda (câmera nunca para); o quadro dele entra de baixo e respira com a fala
+          if (c._f) c._f.style.transform = camera(c, u, d);
+          const q = sai(u / .28);
+          c._b.style.opacity = cl(q * 3, 0, 1); c._b.style.transform = 'translateY(' + ((1 - q) * 14) + '%) scale(' + (.92 + .08 * q + .02 * (u / d)) + ')';
+        } else {   // tela cheia: soco de zoom a cada bloco de legenda (corte de edição) + deriva
+          c._v.style.transform = 'scale(' + (1.02 + (bi >= 0 && bi % 2 ? .05 : 0) + .03 * (u / d)).toFixed(4) + ')';
+        }
+        const b = bi >= 0 ? BLOCOS[bi] : null;
+        if (!b || c.legenda === false) { c._l.style.opacity = 0; return; }
+        c._l.innerHTML = marcaForte(b.map(function (p) { return p.w; }).join(' '), c.forte);
+        const e = cl((t - b[0].s) / .12, 0, 1); c._l.style.opacity = 1; c._l.style.transform = 'scale(' + (1.14 - .14 * sai(e)) + ')';
+      }
+    },
+    print: {   // print/manchete flutuando sobre o fundo borrado dele mesmo
+      montar: function (c, r) { img(c.imagem, 'full borrado', r); c._p = el('div', 'print', r); img(c.imagem, '', c._p);
+        if (c.largura) { c._p.style.left = (100 - c.largura) / 2 + '%'; c._p.style.right = (100 - c.largura) / 2 + '%'; }
+        if (c.texto) { c._t = el('div', 'sobre gilroy ' + (c.tam || 'm'), r, marcaForte(c.texto, c.forte)); c._t.style.top = (c.y || 16) + '%'; }
+        // grifo: marca-texto passando no trecho exato da matéria/pesquisa quando a palavra é dita (João, 29/10: "pegar a pesquisa e grifar")
+        c._gs = (c.grifos || []).map(function (gf) { const e = el('span', 'grifo', c._p);
+          e.style.left = gf.x + '%'; e.style.top = gf.y + '%'; e.style.height = gf.h + '%'; return { e: e, g: gf }; }); },
+      anima: function (c, u, d) {
+        const k = sai(u / .3), g = c.giro != null ? c.giro : (c.n % 2 ? -2.2 : 1.8);
+        let z = 1 + .06 * (u / d), orig = '50% 50%';
+        c._gs.forEach(function (o, j) {   // o marca-texto corre em 0,35 s a partir da palavra; a câmera chega perto do 1º grifo (lupa)
+          const t0 = (o.g.t != null ? o.g.t - c.de : .35 + j * .5), q = sai((u - t0) / .35);
+          o.e.style.width = (o.g.w * cl(q, 0, 1)) + '%';
+          if (j === 0 && c.lupa !== false) { z *= 1 + .45 * sai((u - t0 + .1) / .6); orig = (o.g.x + o.g.w / 2) + '% ' + (o.g.y + o.g.h / 2) + '%'; }
+        });
+        // print parado demais (10-13 s do Blockbuster): passando de 1,6 s troca de plano no meio, com corte seco:
+        // 1ª metade = manchete inteira, 2ª metade = aproximação no trecho destacado (1º grifo, ou a parte de baixo)
+        const meio = d > 1.6 ? d / 2 : 0;
+        if (meio && u >= meio) {
+          const g0 = c._gs.length ? c._gs[0].g : null;
+          z = 1.55 + .06 * ((u - meio) / (d - meio));
+          orig = g0 ? (g0.x + g0.w / 2) + '% ' + (g0.y + g0.h / 2) + '%' : '50% 85%';
+        }
+        c._p.style.transformOrigin = orig;
+        c._p.style.transform = 'translateY(' + (-50 + (1 - k) * 18) + '%) rotate(' + (g * (1 - .4 * k)) + 'deg) scale(' + z.toFixed(4) + ')';
+        c._p.style.opacity = cl(u / .1, 0, 1);
+        if (c._t) { c._t.style.opacity = sai((u - .15) / .2); c._t.style.transform = 'translateY(-50%)'; }
+      }
+    },
+    colagem: {  // fotos entrando uma a uma, espalhadas (ref. 1 e 2)
+      montar: function (c, r) {
+        r.style.background = '#1b1b1b'; const n = (c.imagens || []).length;
+        c._ps = (c.imagens || []).map(function (s, k) {
+          const p = el('div', 'peca', r), col = k % 2, lin = Math.floor(k / 2), linhas = Math.ceil(n / 2);
+          const w = 44 + rnd(k + 9) * 8, h = w * 1.05 * (W / H) * (H / W);
+          p.style.width = w + '%'; p.style.height = (78 / linhas) + '%';
+          p.style.left = (col ? 50 : 4) + (rnd(k * 5) - .5) * 6 + '%'; p.style.top = 8 + lin * (84 / linhas) + (rnd(k * 11) - .5) * 4 + '%';
+          img(s, c.pb ? 'pb' : '', p); p._g = (rnd(k * 13) - .5) * 9; return p;
+        });
+        if (c.texto) { c._t = el('div', 'sobre gilroy ' + (c.tam || 'g'), r, marcaForte(c.texto, c.forte)); c._t.style.top = (c.y || 50) + '%'; c._t.style.zIndex = 5; }
+      },
+      anima: function (c, u, d) {
+        const n = c._ps.length, passo = Math.min(.32, d * .75 / Math.max(1, n));
+        c._ps.forEach(function (p, k) { const q = (u - k * passo) / .18; p.style.opacity = q > 0 ? 1 : 0;
+          p.style.transform = 'rotate(' + p._g + 'deg) scale(' + (q >= 1 ? 1 + .03 * (u / d) : 1.35 - .35 * sai(q)) + ')'; });
+        if (c._t) c._t.style.opacity = sai((u - n * passo) / .2);
+      }
+    },
+    texto: {   // tela preta, a frase inteira apagada e cada palavra acende quando é falada (ref. 4)
+      montar: function (c, r) {
+        if (c.imagem) { c._i = img(c.imagem, 'full pb', r); el('div', 'escurece', r).style.opacity = .72; }
+        c._t = el('div', 'texto gilroy', r); const f = (c.forte || []).map(function (x) { return x.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''); });   // "técnica." e "técnica" valem igual
+        c._ws = String(c.texto || '').split(/\s+/).filter(Boolean).map(function (w) {
+          const s = el('span', f.indexOf(w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '')) >= 0 ? 'f' : '', c._t, w); c._t.appendChild(document.createTextNode(' ')); return s; });
+        if (c.tam) c._t.style.fontSize = c.tam + 'px';
+      },
+      anima: function (c, u, d, t) {
+        const ts = c.tempos || [];
+        c._ws.forEach(function (s, k) { const on = ts.length ? t >= (ts[k] != null ? ts[k] : 1e9) - .04 : u >= k * (d * .8 / c._ws.length); s.classList.toggle('on', on); });
+        if (c._i) c._i.style.transform = camera(c, u, d);
+        c._t.style.transform = 'translateY(-50%) scale(' + (1 + .035 * (u / d)) + ')';
+      }
+    },
+    icone: {   // círculo tracejado girando com um símbolo dentro e o rótulo embaixo (ref. 3 e 4)
+      montar: function (c, r) {
+        c._s = el('div', '', r); c._s.style.cssText = 'position:absolute;left:50%;top:44%;width:500px;height:500px;margin:-250px 0 0 -250px';
+        c._s.innerHTML = '<svg viewBox="0 0 500 500" width="500" height="500"><circle cx="250" cy="250" r="236" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="22 16"/></svg>';
+        if (c.imagem && c.logo) {   // logo real: colorida, inteira, sobre um disco (claro se a logo é escura)
+          c._in = el('div', 'icone-logo ' + (c.disco || 'escuro'), c._s); img(c.imagem, '', c._in);
+        } else {
+          c._in = el('div', '', c._s); c._in.style.cssText = 'position:absolute;inset:40px;border-radius:50%;overflow:hidden;display:grid;place-items:center;font:800 190px/1 Inter,sans-serif;';
+          if (c.imagem) { const i = img(c.imagem, 'full pb', c._in); origem(i, c); } else c._in.textContent = c.simbolo || '!';
+        }
+        if (c.cor) c._in.style.color = c.cor;
+        if (c.rotulo) { c._ro = el('div', 'rotulo', r, marcaForte(c.rotulo, c.forte)); c._ro.style.top = '64%'; c._ro.style.fontSize = '58px'; }
+      },
+      anima: function (c, u) {
+        const k = sai(u / .3); c._s.style.transform = 'scale(' + (.7 + .3 * k) + ')'; c._s.style.opacity = k;
+        c._s.firstChild.style.transform = 'rotate(' + (u * 40) + 'deg)';
+        if (c._ro) c._ro.style.opacity = sai((u - .15) / .2);
+      }
+    },
+    venn: {
+      montar: function (c, r) {
+        c._a = el('div', '', r); c._b = el('div', '', r);
+        [c._a, c._b].forEach(function (e, k) { e.style.cssText = 'position:absolute;top:50%;left:50%;width:520px;height:520px;margin:-260px 0 0 -260px;border:4px dashed rgba(255,255,255,.8);border-radius:50%;display:grid;place-items:center;font:700 50px/1.1 Inter,sans-serif;text-align:center';
+          el('span', '', e, (c.rotulos || ['A', 'B'])[k]).style.transform = 'translateX(' + (k ? 70 : -70) + 'px)'; });
+        if (c.meio) { c._m = el('div', 'rotulo gilroy', r, marcaForte(c.meio, c.forte)); c._m.style.top = '72%'; c._m.style.fontSize = '64px'; }
+      },
+      anima: function (c, u) { const k = sai(u / .6), x = 330 - 160 * k;
+        c._a.style.transform = 'translateX(' + (-x) + 'px)'; c._b.style.transform = 'translateX(' + x + 'px)';
+        c._a.style.opacity = c._b.style.opacity = cl(u / .15, 0, 1); if (c._m) c._m.style.opacity = sai((u - .4) / .2); }
+    },
+    chips: {   // pílulas empilhadas acendendo sobre a foto escurecida (ref. 1)
+      montar: function (c, r) {
+        if (c.imagem) { c._i = img(c.imagem, 'full' + (c.pb ? ' pb' : ''), r); origem(c._i, c); el('div', 'escurece', r).style.opacity = .45; }
+        const n = (c.itens || []).length;
+        c._cs = (c.itens || []).map(function (it, k) { const e = el('div', 'chip', r, it.texto || it); e.style.top = (50 - (n - 1) * 4.6 + k * 9.2) + '%'; e._t = it.t; return e; });
+      },
+      anima: function (c, u, d, t) {
+        if (c._i) c._i.style.transform = camera(c, u, d);
+        c._cs.forEach(function (e, k) { const t0 = e._t != null ? e._t - c.de : k * Math.min(.35, d * .7 / c._cs.length), q = (u - t0) / .2;
+          e.style.opacity = q > 0 ? 1 : 0; e.style.transform = 'translate(-50%,-50%) scale(' + (q >= 1 ? 1 : .6 + .4 * sai(q)) + ')'; });
+      }
+    },
+    dividido: {  // duas imagens em cima e embaixo com etiqueta (ref. 4: cópia × original)
+      montar: function (c, r) {
+        c._ls = (c.imagens || []).slice(0, 2).map(function (s, k) {
+          const b = el('div', '', r); b.style.cssText = 'position:absolute;left:0;right:0;overflow:hidden;' + (k ? 'top:50%;bottom:0' : 'top:0;bottom:50%');
+          const i = img(s, 'full' + (c.pb ? ' pb' : ''), b); if (c.focos && c.focos[k]) origem(i, { foco: c.focos[k] });
+          const ro = (c.rotulos || [])[k]; if (ro) { const e = el('div', 'etq', b, ro); e.style.top = '62%'; if (k) e.style.background = '#1b1b1b'; }
+          return { b: b, i: i };
+        });
+        el('div', '', r).style.cssText = 'position:absolute;left:0;right:0;top:50%;height:6px;margin-top:-3px;background:#070707';
+      },
+      anima: function (c, u, d) { c._ls.forEach(function (l, k) { const q = sai((u - k * .18) / .22);
+        l.b.style.transform = 'translateX(' + ((1 - q) * (k ? 100 : -100)) + '%)'; l.i.style.transform = camera({ n: c.n + k, mov: k ? 'out' : 'in' }, u, d); }); }
+    },
+    contador: {
+      montar: function (c, r) {
+        if (c.imagem) { c._i = img(c.imagem, 'full pb', r); el('div', 'escurece', r).style.opacity = .7; }
+        c._n = el('div', 'numero gilroy', r); c._n.innerHTML = '<b></b><small></small>'; c._n.lastChild.innerHTML = marcaForte(c.rotulo || '', c.forte);
+      },
+      anima: function (c, u, d) { const k = sai(u / Math.min(.9, d * .7)), a = +c.de_n || 0, b = +c.ate_n || 0;
+        const v = Math.round(a + (b - a) * k);
+        c._n.firstChild.textContent = (c.prefixo || '') + (c.ano ? String(v) : v.toLocaleString('pt-BR').replace(/\s/g, '.')) + (c.sufixo || '');
+        c._n.style.transform = 'translateY(-50%) scale(' + (1.04 + .05 * (u / d)) + ')';
+        if (c._i) c._i.style.transform = camera(c, u, d); }
+    },
+    zap: {   // conversa de grupo genérica (sem marca), mensagens entrando no tempo da fala
+      montar: function (c, r) {
+        if (c.imagem) { img(c.imagem, 'full borrado', r); }
+        c._z = el('div', 'zap', r);
+        el('div', 'topo', c._z, '<i>' + (c.avatar || '👪') + '</i><div>' + (c.grupo || 'Família') + '<small>' + (c.membros || 'Tio Carlos, Mãe, Dinda, você') + '</small></div>');
+        let y = 150;
+        c._ms = (c.msgs || []).map(function (m) { const e = el('div', 'msg' + (m.eu ? ' eu' : ''), c._z, (m.de && !m.eu ? '<b style="color:' + (m.cor || '#53bdeb') + '">' + m.de + '</b>' : '') + (m.texto || ''));
+          if (m.imagem) img(m.imagem, '', e); e.style.top = y + 'px'; e._t = m.t; y += (m.altura || (m.imagem ? 470 : 150)); return e; });
+      },
+      anima: function (c, u, d, t) {
+        // movimento (30-out-2026: a cena da conversa ficava ~3 s quase parada, e a conferência acusava): cada mensagem entra deslizando de baixo
+        // com um empurrão de câmera e empurra as anteriores pra cima, e a câmera segue num avanço contínuo e mais forte. O tempo é o da fala (m.t).
+        const k = sai(u / .3), t0s = c._ms.map(function (e, j) { return e._t != null ? e._t - c.de : .25 + j * .5; });
+        let kick = 0;
+        t0s.forEach(function (t0) { const s = u - t0; if (s >= 0 && s < .35) kick = Math.max(kick, Math.pow(1 - s / .35, 2)); });
+        const push = 1 + .04 * (u / d) + .03 * kick;
+        c._z.style.transform = 'translateY(' + ((1 - k) * 8 - .7 * kick - 1.5 * (u / d)) + '%) scale(' + push.toFixed(4) + ')'; c._z.style.opacity = cl(u / .1, 0, 1);
+        c._ms.forEach(function (e, j) { const t0 = t0s[j], q = (u - t0) / .18;
+          let sobe = 0; for (let m = j + 1; m < t0s.length; m++) sobe += 20 * sai((u - t0s[m]) / .25);   // as mensagens de cima sobem 20 px a cada nova
+          const entra = q >= 1 ? 0 : 46 * (1 - sai(q));
+          e.style.opacity = q > 0 ? 1 : 0; e.style.transform = 'translateY(' + (entra - sobe).toFixed(1) + 'px) scale(' + (q >= 1 ? 1 : .7 + .3 * sai(q)) + ')'; });
+      }
+    },
+    linha: {   // linha do tempo com marcos (ref. 2); cada marco no meio do seu trecho pro texto nunca sair da tela
+      montar: function (c, r) {
+        if (c.imagem) { img(c.imagem, 'full pb', r); el('div', 'escurece', r).style.opacity = .75; }
+        c._l = el('div', 'linha', r);
+        c._ms = (c.marcos || []).map(function (m, k, a) { const e = el('div', 'marco', r, '<span>' + m.texto + '</span>' + (m.nota ? '<em>' + m.nota + '</em>' : ''));
+          e.style.left = (10 + 80 * (a.length > 1 ? (k + .5) / a.length : .5)) + '%'; e._t = m.t; return e; });
+      },
+      anima: function (c, u, d) { c._l.style.transform = 'scaleX(' + sai(u / Math.min(.8, d * .6)) + ')';
+        c._ms.forEach(function (e, k, a) { const t0 = e._t != null ? e._t - c.de : (.2 + k * Math.min(.5, d * .6 / a.length)); e.style.opacity = sai((u - t0) / .15); }); }
+    }
+  };
+  B.titulo = B.foto;   // foto com frase grande por cima
+
+  // ───────── legenda curta da fala (2-3 palavras, centro ~58%): só nas cenas de imagem sem texto próprio ─────────
+  const BLOCOS = (function () {
+    const out = []; let cur = [];
+    PAL.forEach(function (p, i) { cur.push(p); const fim = /[.,!?:;]$/.test(p.w) || cur.length >= 3 || (PAL[i + 1] && PAL[i + 1].s - p.e > .25);
+      if (fim) { out.push(cur); cur = []; } });
+    if (cur.length) out.push(cur); return out;
+  })();
+  function legenda(c, t) {
+    const usa = P.legenda !== false && c.legenda !== false && !c.texto && ['texto', 'contador', 'zap', 'linha', 'venn', 'icone', 'chips', 'fala'].indexOf(c.tipo) < 0;
+    if (!usa) { leg.textContent = ''; return; }
+    const b = BLOCOS.find(function (b) { return t >= Math.max(b[0].s - .05, c.de) && t < b[b.length - 1].e + .08; });
+    leg.style.top = (c.tipo === 'clipe' && c.texto_base ? Math.min(P.legenda_y || 62, 48) : (P.legenda_y || 62)) + '%';   // clipe com texto queimado na base: legenda sobe
+    leg.textContent = b ? b.map(function (p) { return p.w; }).join(' ') : '';
+  }
+
+  document.getElementById('marca').textContent = P.marca || '';   // assinatura leve do cliente no topo (cenas.json "marca")
+  // ───────── quadro ─────────
+  P.cenas.forEach(function (c) { const r = el('div', 'cena'); r.dataset.n = c.n; c._r = r; (B[c.tipo] || B.foto).montar(c, r);
+    if (c.fundo_vivo) {   // o render.py achou a imagem real mais próxima: fica atrás de tudo, desfocada, e a câmera anda nela (anima em seek)
+      c._fv = img(c.fundo_vivo, 'full fundo-vivo', r); r.insertBefore(c._fv, r.firstChild);
+      const lum = c.fundo_lum != null ? c.fundo_lum : .4;   // média ~0,27 depois do filtro: foto escura clareia, print branco escurece
+      c._fv.style.filter = 'blur(22px) saturate(.9) brightness(' + cl(.31 / Math.max(.05, lum), .26, 1.25).toFixed(3) + ')';
+      r.classList.add('fv'); r.insertBefore(el('div', 'fundo-banda', r), c._fv.nextSibling);
+      r.insertBefore(el('div', 'fundo-luz', r), c._fv.nextSibling);
+    } });
+  function grain(f) { const im = gctx.createImageData(grao.width, grao.height), a = im.data; let s = (f * 9301 + 49297) % 233280;
+    for (let i = 0; i < a.length; i += 4) { s = (s * 9301 + 49297) % 233280; const v = s / 233280 * 255; a[i] = a[i + 1] = a[i + 2] = v; a[i + 3] = 255; }
+    gctx.putImageData(im, 0, 0); }
+  window.seek = function (t) {
+    const c = P.cenas.find(function (x) { return t >= x.de && t < x.ate; }) || P.cenas[P.cenas.length - 1];
+    P.cenas.forEach(function (x) { x._r.classList.toggle('viva', x === c); });
+    const u = t - c.de, d = Math.max(.05, c.ate - c.de), f = Math.round(t * FPS);
+    (B[c.tipo] || B.foto).anima(c, u, d, t);
+    if (c._fv) {   // fundo vivo: avanço lento (zoom e deriva de lado), direção alternando de cena pra cena; nunca parado
+      const L = u / Math.max(d, .3), s = c.n % 2 ? 1.3 + .1 * L : 1.4 - .1 * L, x = (c.n % 3 - 1) * (3 - 6 * L);
+      c._fv.style.transform = 'translate(' + x.toFixed(2) + '%,' + (-1.5 * L).toFixed(2) + '%) scale(' + s.toFixed(4) + ')';
+    }
+    // transição de entrada: corte seco (padrão), flash branco, negativo piscando (ref. 1, 10 quadros) ou soco de zoom
+    const q = Math.round(u * FPS), en = c === P.cenas[0] ? 'corte' : (c.entrada || 'corte');
+    flash.style.opacity = en === 'flash' && q < 4 ? (1 - q / 4) * .9 : 0;
+    // chicote: o plano entra deslizando com rastro (6 quadros), na batida; dá a sensação de câmera contínua entre as cenas
+    const chi = en === 'chicote' && q < 6 ? 1 - sai(q / 6) : 0, lado = c.n % 2 ? 1 : -1;
+    c._r.style.filter = en === 'negativo' && q < 10 && q % 2 === 0 ? 'invert(1) grayscale(1)' : (chi ? 'blur(' + (chi * 26).toFixed(1) + 'px)' : '');
+    const anda = ['texto', 'icone', 'venn', 'zap', 'linha', 'contador'].indexOf(c.tipo) >= 0 ? 1 + .09 * (u / d) : 1;
+    c._r.style.transform = (chi ? 'translateX(' + (lado * 55 * chi).toFixed(2) + '%) ' : '') + 'scale(' + ((en === 'zoom' && q < 7 ? 1.22 - .22 * sai(q / 7) : 1) * anda).toFixed(4) + ') translateY(' + (anda > 1 ? -1.5 * (u / d) : 0) + '%)';
+    legenda(c, t);
+    grain(f);
+    const imgs = Array.prototype.slice.call(c._r.querySelectorAll('img'));
+    return Promise.all(imgs.map(function (i) { return i.complete ? null : i.decode().catch(function () {}); }));
+  };
+  Promise.all([document.fonts.ready].concat(Array.prototype.slice.call(document.images).map(function (i) {
+    return i.decode().catch(function () {});
+  }))).then(function () { window.seek(0); window.pronto = true; });
+</script>
+</body>
+</html>

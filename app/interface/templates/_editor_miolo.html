@@ -1,0 +1,460 @@
+{# O editor por cena (player, tira de cenas, painel do Claude): usado em /editar/video e na página do vídeo pronto (Em andamento).
+   Quem inclui passa o contexto de editor_rotas.contexto_editor(): pasta_ed, cenas, video, sugestoes, ... #}
+{% from "_modelo_forca.html" import modelo_forca %}
+<div class="editor ev">
+  <section class="ev-centro">
+    <div class="ev-tela">{% if video %}<video id="ev-player" controls playsinline preload="metadata" poster="{{ url_for('thumb_rota', caminho=video) }}" src="{{ url_for('arquivo', caminho=video) }}"></video>{% else %}<div class="vazio">Este vídeo ainda não foi gerado.</div>{% endif %}</div>
+    <div class="ev-linha" id="ev-linha" aria-label="Cenas do vídeo">
+      {% for c in cenas %}
+      <button type="button" class="ev-cena" data-n="{{ c.n }}" data-de="{{ c.de }}" title="{{ c.fala }}">
+        <span class="ev-mini"><img loading="lazy" decoding="async" alt="" data-n="{{ c.n }}"></span>
+        <b>{{ c.n }}</b> <small>{{ '%.1f'|format(c.de) }}s · {{ c.tipo_rotulo }}</small>
+        <em>{{ c.fala }}</em>
+      </button>
+      {% endfor %}
+    </div>
+    <p class="meta ev-dica" id="ev-carregando">Preparando as miniaturas das cenas…</p>
+    <div class="ev-etapas" aria-label="Etapas do vídeo">
+      <span class="meta">Etapas</span>
+      {% for e in etapas %}<button type="button" class="ev-etapa{{ ' feito' if e.feito }}" data-desde="{{ e.id }}" {{ 'disabled' if not e.pode }} title="{{ 'Refazer daqui em diante (mantém as suas edições por cena)' if e.pode else 'Não dá pra refazer este passo daqui' }}">{{ '✓ ' if e.feito }}{{ e.rotulo }} <small>↻</small></button>{% endfor %}
+    </div>
+    {% if tem_narracao %}<details class="ev-narr" id="ev-narr">
+      <summary><b>Narração</b> · voz <span>{{ (vozes|selectattr('id','equalto',narr.voz)|map(attribute='nome')|first) or narr.voz }}</span> {% if narr.pode %}<small class="meta">trocar a voz ou o texto refaz o tempo das cenas e mantém as suas edições</small>{% endif %}</summary>
+      {% if narr.pode %}
+      <form id="ev-narr-form" class="ev-form">
+        <div class="ev-narr-voz"><select name="voz" id="ev-voz">{% for v in vozes %}<option value="{{ v.id }}" {{ 'selected' if v.id == narr.voz }}>{{ v.nome }}{% if v.clientes %} · voz do {{ v.clientes|join(', ') }}{% endif %}</option>{% endfor %}</select>
+          <button type="button" class="btn mini" id="ev-voz-ouvir">▶ Ouvir</button> <a class="meta" href="{{ url_for('vozes_lista') }}">todas as vozes</a></div>
+        <audio id="ev-voz-audio" controls hidden preload="none"></audio>
+        <label class="campo"><b>Roteiro</b> <small class="meta">uma frase por linha; mudou o texto, a narração é refeita</small>
+          <textarea name="roteiro" rows="8">{{ narr.roteiro }}</textarea></label>
+        {% if narr.emocoes_opcoes and narr.roteiro.strip() %}<div class="ev-emo"><b>Emoção de cada frase</b>
+          <small class="meta">{% if narr.voz_tem_emocao %}trocar uma etiqueta refaz só a voz e o tempo{% else %}esta voz ainda não tem variações aprovadas (tela Vozes → Voz com emoção): por enquanto a frase sai com a voz normal{% endif %}</small>
+          <button type="button" class="btn mini" id="ev-emo-marcar">{{ 'Marcar de novo' if narr.emocoes else 'Marcar as emoções' }}</button> <span class="meta" id="ev-emo-msg"></span>
+          <div class="emo-frases" id="ev-emo-frases"></div></div>{% endif %}
+        <button class="btn">Refazer a narração</button>
+      </form>
+      {% else %}<p class="meta">{{ narr.motivo }}</p>{% endif %}
+    </details>{% endif %}
+    {% if musica.pode %}<details class="ev-narr" id="ev-musica">
+      <summary><b>Música (vale pro vídeo todo)</b> · <span id="ev-mus-atual">{{ 'sem música' if musica.atual.sem else (musica.atual.titulo ~ (' · ' ~ musica.atual.artista if musica.atual.artista else '')) }}</span>
+        <small class="meta">diga o clima que quer, escolha entre 3 opções e o volume; refaz o vídeo e guarda uma versão</small></summary>
+      <div class="mv-edit">
+        {% if musica.atual.previa_rel %}<div><b>Tocando agora</b> <small class="meta">{{ musica.atual.fonte }}{% if musica.atual.t0 %} · entra a {{ musica.atual.t0|round|int }} s da faixa{% endif %}</small>
+          <audio controls preload="none" src="{{ url_for('arquivo', caminho=musica.atual.previa_rel) }}" style="width:100%;max-width:420px;height:34px"></audio>
+          {% if musica.atual.aviso %}<p class="meta">{{ musica.atual.aviso }}</p>{% endif %}</div>{% endif %}
+        <div id="ev-mus-w"></div>
+        <div class="ev-mus-linha"><b>Começa no refrão (automático)</b> <button type="button" class="btn mini" id="ev-mus-ouvir">▶ Ouvir</button>
+          <details class="ev-mus-ajustar"><summary class="meta">ajustar</summary>
+            <label class="meta">Começar em outro ponto da faixa, em segundos (vazio = o refrão que o Estúdio achou)
+              <input type="number" id="ev-mus-entrada" min="0" step="0.5" style="width:110px"></label></details></div>
+        <div id="ev-mus-ouvir-card" hidden><audio controls style="width:100%;max-width:420px;height:34px"></audio></div>
+        <div class="ev-mus-linha" id="ev-mus-vol-box" data-base="{{ (musica.atual.abaixo_db or 17)|round|int }}"><b>Volume</b>
+          <div class="nv-seg" id="ev-mus-vol" role="radiogroup" aria-label="Volume da música">
+            <button type="button" data-vol="baixa"><span><b>Mais baixa</b></span></button>
+            <button type="button" data-vol="normal" class="ativo"><span><b>Normal</b></span></button>
+            <button type="button" data-vol="alta"><span><b>Mais alta</b></span></button></div></div>
+        <div><button type="button" class="btn primario" id="ev-mus-aplicar">Trocar a música e refazer o vídeo</button> <span class="meta" id="ev-mus-msg" role="status"></span></div>
+      </div>
+    </details>{% endif %}
+  </section>
+
+  <aside class="ev-claude" id="ev-claude">
+    <h2><span class="ev-ponto"></span> Claude</h2>
+    {% if tem_gerar %}<div class="ev-sugia" id="ev-sugia" aria-live="polite"></div>{% endif %}
+    <div class="ev-alcance" role="radiogroup" aria-label="Até onde o Claude pode mexer">
+      <button type="button" data-escopo="elemento">Elemento</button>
+      <button type="button" data-escopo="cena" class="ativo">Cena</button>
+      <button type="button" data-escopo="video">Vídeo todo</button>
+    </div>
+    <p class="ev-alvo" id="ev-alvo">Clique numa cena embaixo do vídeo.</p>
+    <div class="ev-elementos" id="ev-elementos" hidden></div>
+    <div class="ev-sugestoes">{% for s in sugestoes %}<button type="button" class="ev-sug">{{ s }}</button>{% endfor %}</div>
+    {% if tem_gerar %}<div class="ev-gerar-linha"><button type="button" class="btn" id="eg-abrir" disabled>✦ Gerar com IA</button>
+      <small class="meta" id="eg-dica">Imagem ou vídeo da cena, com o custo antes. Só gera com o seu clique.</small></div>{% endif %}
+    <form id="ev-form" class="ev-form">
+      <textarea id="ev-texto" name="texto" rows="4" placeholder="O que mudar?"></textarea>
+      <div class="ev-print" id="ev-print" hidden><img loading="lazy" decoding="async" alt="Print anexado"><button type="button" class="btn mini" id="ev-tirar">Tirar o print</button></div>
+      <label class="btn mini ev-anexar">Anexar print<input type="file" name="print" id="ev-arquivo" accept="image/*" hidden></label>
+      <div class="ev-ajustes">{{ modelo_forca('modelo', 'esforco', gpt=False, compacto=True, id='ev-mf') }}</div>
+      <button class="btn primario grande" id="ev-aplicar">Aplicar</button>
+    </form>
+    <div class="ev-status" id="ev-status" hidden><b id="ev-fase"></b><pre id="ev-cauda"></pre></div>
+    <div class="ev-resultado" id="ev-resultado" hidden></div>
+
+    {% if tem_material %}<details class="ev-material" id="ev-material"><summary><b>Material deste vídeo</b> <small class="meta">clique numa cena e depois no material: entra direto, sem gastar Claude</small></summary>
+      <div id="ev-mat-grupos"><p class="meta">Carregando…</p></div>
+    </details>{% endif %}
+
+    <h3>Versões <small class="meta">nenhuma é apagada</small></h3>
+    <ol class="ev-versoes" id="ev-versoes"></ol>
+  </aside>
+</div>
+
+{% if tem_gerar %}<dialog class="ev-gerar" id="eg" aria-labelledby="eg-titulo">
+  <div class="eg-corpo">
+    <h2 id="eg-titulo">Gerar com IA <small class="meta" id="eg-cena"></small></h2>
+    <div id="eg-pedido">
+      <label class="campo"><b>O que gerar</b> <small class="meta">já sugerido pela fala da cena e pelo estilo; mude à vontade</small>
+        <textarea id="eg-prompt" rows="5"></textarea></label>
+      <div class="ev-alcance" id="eg-tipo" role="radiogroup" aria-label="Tipo">
+        <button type="button" data-tipo="imagem" class="ativo">Imagem</button>
+        <button type="button" data-tipo="video" title="Anima a imagem que a cena tem agora">Vídeo (anima a imagem da cena)</button>
+      </div>
+      <div class="eg-grade">
+        <label>Modelo <select id="eg-modelo"></select></label>
+        <label>Opções <select id="eg-opcoes"></select></label>
+        <label id="eg-res-l">Qualidade <select id="eg-res"></select></label>
+        <label id="eg-dur-l">Duração <select id="eg-dur"></select></label>
+      </div>
+      <p class="meta" id="eg-nota"></p>
+      <div class="eg-atual" id="eg-atual" hidden><img loading="lazy" decoding="async" alt="Imagem atual da cena"><small class="meta">Imagem atual da cena: é ela que vira vídeo.</small></div>
+      <div class="eg-custo" id="eg-custo" aria-live="polite">Calculando o custo…</div>
+      <p class="eg-aviso" id="eg-aviso" hidden></p>
+      <div class="eg-acoes">
+        <button type="button" class="btn primario grande" id="eg-permitir" disabled>Permitir e gerar</button>
+        <button type="button" class="btn" id="eg-cancelar">Cancelar</button>
+      </div>
+    </div>
+    <div id="eg-andamento" hidden>
+      <p><b id="eg-fase">Gerando…</b> <small class="meta" id="eg-fase-det"></small></p>
+      <div class="eg-opcoes" id="eg-resultados"></div>
+      <div class="eg-acoes"><button type="button" class="btn" id="eg-fechar">Fechar</button>
+        <button type="button" class="btn" id="eg-outra">Gerar outra</button></div>
+    </div>
+    <details class="eg-antes" id="eg-antes" hidden><summary>Já gerados neste vídeo</summary><div class="eg-opcoes" id="eg-antes-grade"></div></details>
+  </div>
+</dialog>{% endif %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='musica-viral.css') }}">
+<script src="{{ url_for('static', filename='musica-viral.js') }}"></script>
+<script src="{{ url_for('static', filename='emocao-ui.js') }}"></script>
+<script src="{{ url_for('static', filename='modelo-forca.js') }}"></script>
+<script>
+(function () {
+  var PASTA = {{ pasta_ed|tojson }}, CENAS = {{ cenas|tojson }}, U = {
+    mini: {{ url_for('editor_miniaturas')|tojson }}, pedir: {{ url_for('editor_pedir')|tojson }},
+    estado: {{ url_for('editor_estado')|tojson }}, voltar: {{ url_for('editor_voltar')|tojson }}, arq: {{ url_for('arquivo', caminho='X')|tojson }} };
+  var arq = function (c, v) { return U.arq.replace(/X$/, encodeURI(c)) + (v ? '?v=' + v : ''); };
+  var est = { n: null, n_fim: null, escopo: 'cena', campo: '', colado: '' };
+  var player = document.getElementById('ev-player'), cenasEl = [].slice.call(document.querySelectorAll('.ev-cena'));
+  var q = function (u) { return u + (u.indexOf('?') < 0 ? '?' : '&') + 'pasta=' + encodeURIComponent(PASTA); };
+
+  function escolher(n, pular, trecho) {
+    if (trecho && est.n && est.escopo === 'cena') { est.n_fim = n; } else { est.n = n; est.n_fim = null; }
+    var a = Math.min(est.n, est.n_fim || est.n), z = Math.max(est.n, est.n_fim || est.n), c = CENAS[n - 1];
+    cenasEl.forEach(function (b) { var k = +b.dataset.n; b.classList.toggle('escolhida', k >= a && k <= z); });
+    if (player && pular !== false) { player.currentTime = c.de + .05; }
+    alvo();
+  }
+  function alvo() {
+    var c = est.n ? CENAS[est.n - 1] : null, el = document.getElementById('ev-elementos'), t = document.getElementById('ev-texto');
+    if (est.escopo === 'video') { document.getElementById('ev-alvo').textContent = 'Alcance: o vídeo todo.'; el.hidden = true; t.placeholder = 'O que mudar no vídeo?'; return; }
+    if (!c) { document.getElementById('ev-alvo').textContent = 'Clique numa cena embaixo do vídeo (Shift+clique em outra marca um trecho).'; el.hidden = true; return; }
+    if (est.n_fim && est.n_fim !== est.n && est.escopo === 'cena') {
+      var a = Math.min(est.n, est.n_fim), z = Math.max(est.n, est.n_fim);
+      document.getElementById('ev-alvo').innerHTML = '<b>Trecho: cenas ' + a + ' a ' + z + '</b> · ' + CENAS[a - 1].de.toFixed(1) + ' a ' + CENAS[z - 1].ate.toFixed(1) + ' s';
+      el.hidden = true; t.placeholder = 'O que mudar nas cenas ' + a + ' a ' + z + '?'; return; }
+    document.getElementById('ev-alvo').innerHTML = '<b>Cena ' + c.n + '</b> · ' + c.tipo_rotulo + (c.fala ? ' · <i>“' + c.fala + '”</i>' : '');
+    el.hidden = est.escopo !== 'elemento'; el.innerHTML = '';
+    c.elementos.forEach(function (e) { var b = document.createElement('button'); b.type = 'button'; b.textContent = e.rotulo;
+      b.className = e.campo === est.campo ? 'ativo' : ''; b.onclick = function () { est.campo = e.campo; if (e.campo === 'musica' && typeof abrirMusica === 'function') abrirMusica(); alvo(); }; el.appendChild(b); });
+    if (est.escopo === 'elemento' && !c.elementos.some(function (e) { return e.campo === est.campo; })) est.campo = '';
+    t.placeholder = est.escopo === 'elemento' ? (est.campo ? 'O que mudar em “' + (c.elementos.find(function (e) { return e.campo === est.campo; }) || {}).rotulo + '” da cena ' + c.n + '?' : 'Escolha o elemento acima.') : 'O que mudar na cena ' + c.n + '?';
+  }
+  // "Música (vale pro vídeo todo)": o painel da música (faixa, entrada, volume), sem passar pelo Claude
+  var MUS = {{ musica|tojson }}, mv = null, painelMus = document.getElementById('ev-musica');
+  function abrirMusica() { if (!painelMus) return; painelMus.open = true; painelMus.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  if (painelMus) {
+    painelMus.addEventListener('toggle', function () { if (!painelMus.open || mv) return;
+      mv = MusicaViral.criar({ raiz: document.getElementById('ev-mus-w'), padrao: '', nome: 'musica',
+        params: function () { return { formato: 'editorial', cliente: MUS.cliente, texto: MUS.texto, dur: MUS.dur || 75 }; } }); });
+    // volume: 3 opções sobre a régua do estilo (abaixo da voz, em dB): mais baixa = +4 dB, normal = a régua, mais alta = -4 dB
+    var volBox = document.getElementById('ev-mus-vol'), base = +document.getElementById('ev-mus-vol-box').dataset.base || 17, volEsc = 'normal';
+    var DB_VOL = { baixa: base + 4, normal: base, alta: base - 4 };
+    [].forEach.call(volBox.querySelectorAll('button'), function (b) { b.onclick = function () { volEsc = b.dataset.vol;
+      [].forEach.call(volBox.querySelectorAll('button'), function (x) { x.classList.toggle('ativo', x === b); }); }; });
+    var faixaAtual = function () { var v = mv ? mv.valor() : { modo: '', faixa: '' }; return v; };
+    document.getElementById('ev-mus-ouvir').onclick = function () {
+      var v = faixaAtual(), e = document.getElementById('ev-mus-entrada').value, msg = document.getElementById('ev-mus-msg');
+      if (!v.faixa) { msg.textContent = 'Escolha uma das opções (ou clique em Com música) pra ouvir o começo dela.'; return; }
+      msg.textContent = 'Cortando 10 s…';
+      fetch('/musica/viral/previa?faixa=' + encodeURIComponent(v.faixa) + (e !== '' ? '&entrada=' + e : '')).then(function (r) { return r.json(); }).then(function (j) {
+        if (!j.ok || !j.confere) { msg.textContent = j.erro || ('Marca d\'água ou defeito: ' + (j.motivos || []).join('; ')); return; }
+        msg.textContent = ''; var c = document.getElementById('ev-mus-ouvir-card'); c.hidden = false; var a = c.querySelector('audio'); a.src = '/arquivo/' + j.previa + '?v=' + Date.now(); a.play(); }); };
+    document.getElementById('ev-mus-aplicar').onclick = function () {
+      var v = faixaAtual(), e = document.getElementById('ev-mus-entrada').value, fd = new FormData(), msg = document.getElementById('ev-mus-msg');
+      fd.append('pasta', PASTA);
+      if (v.modo === 'sem') fd.append('sem', '1'); else if (v.faixa) fd.append('faixa', v.faixa);
+      if (e !== '') fd.append('entrada', e);
+      if (volEsc !== 'normal') fd.append('abaixo_db', Math.max(8, Math.min(30, DB_VOL[volEsc])));
+      this.disabled = true; msg.textContent = '';
+      fetch('/editar/musica', { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
+        document.getElementById('ev-mus-aplicar').disabled = false;
+        if (!j.ok) { msg.textContent = j.erro; return; } msg.textContent = 'Trocando… acompanhe no quadro de status ao lado.'; acompanhar(); }); };
+  }
+  cenasEl.forEach(function (b) { b.onclick = function (e) { escolher(+b.dataset.n, true, e.shiftKey); }; });
+  if (player) player.addEventListener('timeupdate', function () {   // a cena que está passando fica marcada na linha
+    var t = player.currentTime, k = CENAS.findIndex(function (c) { return t >= c.de && t < c.ate; });
+    cenasEl.forEach(function (b, i) { b.classList.toggle('tocando', i === k); });
+  });
+  [].forEach.call(document.querySelectorAll('[data-escopo]'), function (b) { b.onclick = function () {
+    est.escopo = b.dataset.escopo; [].forEach.call(document.querySelectorAll('[data-escopo]'), function (x) { x.classList.toggle('ativo', x === b); }); alvo(); }; });
+  window.editorFocar = function () {   // "Quero alterar" da página do vídeo: abre o painel; sem cena marcada, o pedido é pro vídeo todo
+    var aside = document.getElementById('ev-claude'); aside.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!est.n) { var bv = document.querySelector('[data-escopo=video]'); if (bv) bv.click(); }
+    document.getElementById('ev-texto').focus({ preventScroll: true });
+  };
+  [].forEach.call(document.querySelectorAll('.ev-sug'), function (b) { b.onclick = function () { var t = document.getElementById('ev-texto'); t.value = b.textContent; t.focus(); }; });
+
+  // print: colar (Cmd+V) ou anexar
+  function mostrarPrint(src) { var box = document.getElementById('ev-print'); box.hidden = !src; box.querySelector('img').src = src || ''; }
+  document.getElementById('ev-texto').addEventListener('paste', function (e) {
+    var it = [].slice.call((e.clipboardData || {}).items || []).find(function (i) { return i.type.indexOf('image') === 0; });
+    if (!it) return; e.preventDefault(); var r = new FileReader();
+    r.onload = function () { est.colado = r.result; mostrarPrint(r.result); }; r.readAsDataURL(it.getAsFile());
+  });
+  document.getElementById('ev-arquivo').addEventListener('change', function () {
+    var f = this.files[0]; if (!f) return; est.colado = ''; var r = new FileReader(); r.onload = function () { mostrarPrint(r.result); }; r.readAsDataURL(f); });
+  document.getElementById('ev-tirar').onclick = function () { est.colado = ''; document.getElementById('ev-arquivo').value = ''; mostrarPrint(''); };
+
+  document.getElementById('ev-form').addEventListener('submit', function (e) {
+    e.preventDefault(); var fd = new FormData(this);
+    fd.append('pasta', PASTA); fd.append('escopo', est.escopo); fd.append('n', est.n || ''); fd.append('n_fim', est.escopo === 'cena' ? (est.n_fim || '') : ''); fd.append('campo', est.campo);
+    if (est.colado) fd.append('print_colado', est.colado);
+    document.getElementById('ev-aplicar').disabled = true;
+    fetch(U.pedir, { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j.ok) { resultado('erro', j.erro); document.getElementById('ev-aplicar').disabled = false; return; }
+      document.getElementById('ev-texto').value = ''; est.colado = ''; mostrarPrint(''); acompanhar(); document.dispatchEvent(new CustomEvent('ev:pediu'));
+    });
+  });
+  function resultado(tipo, txt) { var r = document.getElementById('ev-resultado'); r.hidden = !txt; r.className = 'ev-resultado ' + tipo; r.textContent = txt || ''; }
+
+  var ultima = null, timer = null, viuRodando = false;
+  function versoes(vs) {
+    var ol = document.getElementById('ev-versoes'); ol.innerHTML = '';
+    vs.slice().reverse().forEach(function (v) { var li = document.createElement('li');
+      li.innerHTML = '<b>' + v.v + '</b> <small>' + v.quando + '</small><span>' + (v.o_que || '') + '</span>';
+      if (v.video) { var a = document.createElement('a'); a.href = arq(v.video); a.target = '_blank'; a.className = 'btn mini'; a.textContent = '▶'; li.appendChild(a); }
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'btn mini'; b.textContent = 'Voltar pra esta';
+      b.onclick = function () { var fd = new FormData(); fd.append('pasta', PASTA); fd.append('v', v.v);
+        fetch(U.voltar, { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) { if (!j.ok) resultado('erro', j.erro); else location.reload(); }); };
+      li.appendChild(b); ol.appendChild(li); });
+    if (!vs.length) ol.innerHTML = '<li class="meta">A primeira mudança guarda o original como v1.</li>';
+  }
+  function acompanhar() {
+    fetch(q(U.estado)).then(function (r) { return r.json(); }).then(function (j) {
+      var e = j.estado || {}, st = document.getElementById('ev-status');
+      versoes(j.versoes || []);
+      st.hidden = !e.rodando; document.getElementById('ev-fase').textContent = e.fase || ''; document.getElementById('ev-cauda').textContent = j.cauda || '';
+      document.getElementById('ev-aplicar').disabled = !!e.rodando;
+      if (e.rodando) { viuRodando = true; clearTimeout(timer); timer = setTimeout(acompanhar, 2000); return; }
+      if (!viuRodando) { ultima = j.mtime; return; }   // resultado só do pedido que você fez agora, não o antigo
+      viuRodando = false;
+      if (e.erro) resultado('erro', e.erro);
+      else if (e.resumo || e.versao) resultado('ok', '✓ ' + (e.versao ? e.versao + ': ' : '') + (e.resumo || 'Pronto.') + ((e.avisos || []).length ? '  ' + e.avisos.join(' ') : ''));
+      if (ultima !== null && j.mtime !== ultima && player) { var t = player.currentTime; player.src = arq(j.video, j.mtime); player.currentTime = t; minis(); }
+      ultima = j.mtime;
+      if (window.sugestoesIA) window.sugestoesIA();
+      document.dispatchEvent(new CustomEvent('ev:terminou'));
+    });
+  }
+  function minis() {
+    fetch(q(U.mini)).then(function (r) { return r.json(); }).then(function (j) {
+      if (j.preparando) { if (j.cenas) CENAS = j.cenas; setTimeout(minis, 2500); return; }   // nascendo em segundo plano: pergunta de novo
+      (j.minis || []).forEach(function (m, i) { var im = document.querySelector('.ev-mini img[data-n="' + (i + 1) + '"]'); if (im) im.src = arq(m, Date.now()); });
+      if (j.cenas) CENAS = j.cenas; document.getElementById('ev-carregando').hidden = true; alvo();
+    });
+  }
+  [].forEach.call(document.querySelectorAll('.ev-etapa'), function (b) { b.onclick = function () {
+    if (b.dataset.desde === 'voz') { document.getElementById('ev-narr').open = true; return; }   // voz: escolhe a voz no painel
+    if (!confirm('Refazer a partir de "' + b.textContent.replace('↻', '').replace('✓', '').trim() + '"? As suas edições por cena continuam.')) return;
+    var fd = new FormData(); fd.append('pasta', PASTA); fd.append('desde', b.dataset.desde);
+    fetch({{ url_for('editor_refazer')|tojson }}, { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j.ok) resultado('erro', j.erro); else acompanhar(); }); }; });
+  var matEl = document.getElementById('ev-material');
+  if (matEl) matEl.addEventListener('toggle', function () {
+    if (!this.open || this.dataset.ok) return; this.dataset.ok = 1;
+    fetch(q({{ url_for('editor_material')|tojson }})).then(function (r) { return r.json(); }).then(function (j) {
+      var box = document.getElementById('ev-mat-grupos'); box.innerHTML = '';
+      j.grupos.forEach(function (g) { var h = document.createElement('h4'); h.textContent = g.grupo + ' · ' + g.itens.length; box.appendChild(h);
+        var grade = document.createElement('div'); grade.className = 'ev-mat-grade';
+        g.itens.forEach(function (it) { var b = document.createElement('button'); b.type = 'button'; b.title = it.arquivo + (it.origem ? ' · ' + it.origem : '');
+          b.innerHTML = '<img loading="lazy" alt="" src="' + arq(it.mini) + '">';
+          b.onclick = function () { if (!est.n) { resultado('erro', 'Clique numa cena primeiro.'); return; }
+            if (!confirm('Usar este material na cena ' + est.n + '?')) return;
+            var fd = new FormData(); fd.append('pasta', PASTA); fd.append('n', est.n); fd.append('arquivo', it.arquivo);
+            fetch({{ url_for('editor_usar_material')|tojson }}, { method: 'POST', body: fd }).then(function (r) { return r.json(); })
+              .then(function (j) { if (!j.ok) resultado('erro', j.erro); else acompanhar(); }); };
+          grade.appendChild(b); });
+        box.appendChild(grade); });
+      if (!j.grupos.length) box.innerHTML = '<p class="meta">Esta pasta não tem material guardado.</p>';
+    });
+  });
+  var nf = document.getElementById('ev-narr-form'), emoLinhas = [], emoRoteiro = '';
+  if (nf) {
+    var emoBox = document.getElementById('ev-emo-frases');
+    if (emoBox) {
+      var emoOpc = {{ (narr.emocoes_opcoes or [])|tojson }};
+      emoLinhas = {{ (narr.emocoes or [])|tojson }}; emoRoteiro = nf.roteiro.value.trim();
+      EmocaoUI.montar(emoBox, emoLinhas, emoOpc);
+      document.getElementById('ev-emo-marcar').onclick = function () { var b = this, m = document.getElementById('ev-emo-msg'); b.disabled = true; m.textContent = 'O Claude está marcando…';
+        EmocaoUI.marcar('/api/emocoes/marcar', nf.roteiro.value).then(function (j) { b.disabled = false;
+          if (!j.ok) { m.textContent = '✖ ' + j.erro; return; } m.textContent = 'Troque o que quiser e clique em Refazer a narração.'; emoLinhas = j.linhas; emoRoteiro = nf.roteiro.value.trim(); EmocaoUI.montar(emoBox, emoLinhas, emoOpc); })
+          .catch(function () { b.disabled = false; m.textContent = '✖ A IA não respondeu.'; }); };
+    }
+    document.getElementById('ev-voz-ouvir').onclick = function () { var a = document.getElementById('ev-voz-audio'); a.hidden = false;
+      a.src = {{ url_for('vozes_previa')|tojson }} + '?id=' + encodeURIComponent(document.getElementById('ev-voz').value); a.play().catch(function () {}); };
+    nf.addEventListener('submit', function (e) { e.preventDefault(); var fd = new FormData(nf); fd.append('pasta', PASTA);
+      if (emoLinhas.length && nf.roteiro.value.trim() === emoRoteiro) fd.append('emocoes', JSON.stringify(emoLinhas.map(function (l) { return l.emocao; })));
+      fetch({{ url_for('editor_narracao')|tojson }}, { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
+        if (!j.ok) { resultado('erro', j.erro); return; } document.getElementById('ev-narr').open = false; acompanhar(); }); });
+  }
+
+  // ── Gerar com IA: custo antes, só com o clique ──
+  var eg = document.getElementById('eg');
+  if (eg) (function () {
+    var G = { opcoes: null, tipo: 'imagem', orc: null, n: null, fase: 'pedido', timer: null };
+    var $ = function (id) { return document.getElementById(id); };
+    var brl = function (v) { return 'R$ ' + (+v).toFixed(2).replace('.', ','); };
+    var usd = function (v) { return 'US$ ' + (+v).toFixed(v < .1 ? 3 : 2).replace('.', ','); };
+    var U2 = { opcoes: {{ url_for('editor_gerar_opcoes')|tojson }}, orc: {{ url_for('editor_gerar_orcamento')|tojson }}, rasc: {{ url_for('editor_gerar_rascunho')|tojson }},
+      conf: {{ url_for('editor_gerar_confirmar')|tojson }}, est: {{ url_for('editor_gerar_estado')|tojson }}, lista: {{ url_for('editor_gerar_lista')|tojson }},
+      sug: {{ url_for('editor_gerar_sugestoes')|tojson }}, disp: {{ url_for('editor_gerar_dispensar')|tojson }}, mat: {{ url_for('editor_usar_material')|tojson }} };
+    function json(u, fd) { return fetch(u, fd ? { method: 'POST', body: fd } : undefined).then(function (r) { return r.json(); }); }
+    function fdBase(extra) { var fd = new FormData(); fd.append('pasta', PASTA); Object.keys(extra || {}).forEach(function (k) { fd.append(k, extra[k]); }); return fd; }
+    function params() { return { n: G.n, tipo: G.tipo, modelo: $('eg-modelo').value, opcoes: $('eg-opcoes').value, resolucao: $('eg-res').value, duracao: $('eg-dur').value, prompt: $('eg-prompt').value }; }
+    function opt(sel, itens, atual) { sel.innerHTML = ''; itens.forEach(function (i) { var o = document.createElement('option'); o.value = i[0]; o.textContent = i[1]; if (String(i[0]) === String(atual)) o.selected = true; sel.appendChild(o); }); }
+
+    function modelos() {
+      var lista = G.opcoes[G.tipo].modelos, atual = $('eg-modelo').value || G.opcoes[G.tipo].padrao;
+      if (!lista.some(function (m) { return m.id === atual; })) atual = G.opcoes[G.tipo].padrao;
+      opt($('eg-modelo'), lista.map(function (m) { return [m.id, m.nome + ' · ' + m.nota]; }), atual);
+      detalhes();
+    }
+    function detalhes() {
+      var m = G.opcoes[G.tipo].modelos.find(function (x) { return x.id === $('eg-modelo').value; }), v = G.tipo === 'video';
+      var rs = m.resolucoes.map(function (r) { return [r.id, r.id + ' · ' + usd(r.usd) + (v ? ' por segundo' : '')]; });
+      var ra = $('eg-res').value;
+      opt($('eg-res'), rs, rs.some(function (r) { return r[0] === ra; }) ? ra : (v ? (m.resolucoes.some(function (r) { return r.id === '720p'; }) ? '720p' : m.resolucoes[0].id)
+        : m.resolucoes.reduce(function (a, b) { return b.usd < a.usd ? b : a; }).id));
+      $('eg-res-l').hidden = rs.length < 2 && !v;
+      $('eg-dur-l').hidden = !v; if (v) opt($('eg-dur'), m.duracoes.map(function (d) { return [d, d + ' s']; }), $('eg-dur').value);
+      var pt = m.por_tarefa || 1, max = v ? 2 : 4, os = [];
+      for (var i = 1; i <= max; i++) { if (pt > 1 && i % pt && i < max) continue; os.push([i, i + (i > 1 ? ' opções' : ' opção')]); }
+      opt($('eg-opcoes'), os, os.some(function (o) { return String(o[0]) === $('eg-opcoes').value; }) ? $('eg-opcoes').value : (v ? 1 : 2));
+      $('eg-nota').textContent = pt > 1 ? m.nome + ' devolve ' + pt + ' imagens por pedido (o preço é por pedido).' : '';
+      orcar();
+    }
+    function saldoTxt() {
+      var s = G.opcoes.saldo;
+      if (!G.opcoes.configurado) return 'Sem chave da kie.ai: configure em Configurações para gerar.';
+      return s ? 'Saldo na kie.ai: ' + s.creditos.toLocaleString('pt-BR') + ' créditos ≈ ' + usd(s.usd) + ' (' + brl(s.brl) + ')' : 'Saldo na kie.ai: não consegui consultar agora.';
+    }
+    function orcar() {
+      var q = new URLSearchParams(Object.assign({ pasta: PASTA }, params())), box = $('eg-custo'); $('eg-permitir').disabled = true; G.orc = null;
+      $('eg-atual').hidden = G.tipo !== 'video' || !G.opcoes.imagem_atual;
+      json(U2.orc + '?' + q).then(function (j) {
+        if (!j.ok) { box.className = 'eg-custo erro'; box.textContent = j.erro; return; }
+        var o = j.orcamento; G.orc = o; box.className = 'eg-custo';
+        box.innerHTML = '<span class="eg-valor">' + brl(o.brl) + '</span> <span class="meta">' + usd(o.usd) + ' · ' + o.nome + ' · ' + o.opcoes + (o.opcoes > 1 ? ' opções' : ' opção')
+          + (o.tarefas > 1 ? ' (' + o.tarefas + ' pedidos)' : '') + (o.duracao ? ' · ' + o.duracao + ' s' : '') + ' · cotação ' + brl(o.cotacao) + '</span><br><small class="meta">' + saldoTxt() + '</small>';
+        var sal = G.opcoes.saldo, curto = sal && sal.creditos < o.creditos;
+        $('eg-aviso').hidden = !curto; if (curto) $('eg-aviso').textContent = 'Saldo insuficiente na kie.ai para este pedido.';
+        $('eg-permitir').disabled = !G.opcoes.configurado || curto || $('eg-prompt').value.trim().length < 10;
+      });
+    }
+    function mostrar(fase) { G.fase = fase; $('eg-pedido').hidden = fase !== 'pedido'; $('eg-andamento').hidden = fase === 'pedido'; }
+    function abrir(n, prompt, tipo) {
+      if (!n) { resultado('erro', 'Clique numa cena primeiro.'); return; }
+      G.n = n; $('eg-cena').textContent = 'cena ' + n; mostrar('pedido'); $('eg-aviso').hidden = true; $('eg-custo').textContent = 'Calculando o custo…'; $('eg-permitir').disabled = true;
+      json(q(U2.opcoes) + '&n=' + n).then(function (j) {
+        if (!j.ok) { resultado('erro', j.erro); return; }
+        G.opcoes = j.opcoes; G.tipo = tipo || 'imagem'; $('eg-prompt').value = prompt || j.opcoes.prompt;
+        [].forEach.call($('eg-tipo').children, function (b) { b.classList.toggle('ativo', b.dataset.tipo === G.tipo); });
+        $('eg-atual').querySelector('img').src = j.opcoes.imagem_atual ? arq(j.opcoes.imagem_atual) : '';
+        $('eg-modelo').value = ''; modelos();
+        if (!eg.open) eg.showModal(); antes();
+      });
+    }
+    function antes() {
+      json(q(U2.lista)).then(function (j) {
+        var d = $('eg-antes'), g = $('eg-antes-grade'); g.innerHTML = ''; var n = 0;
+        (j.geracoes || []).forEach(function (r) { (r.arquivos || []).forEach(function (a) { n++; g.appendChild(cartao(a, r)); }); });
+        d.hidden = !n;
+      });
+    }
+    function cartao(a, r) {
+      var b = document.createElement('div'); b.className = 'eg-opc';
+      b.innerHTML = '<img loading="lazy" alt="" src="' + arq(a.mini) + '"><small class="meta">' + (r.nome || '') + (r.n ? ' · cena ' + r.n : '') + '</small>';
+      var u = document.createElement('button'); u.type = 'button'; u.className = 'btn mini primario'; u.textContent = 'Usar na cena ' + (est.n || G.n);
+      u.onclick = function () { usar(a); }; b.appendChild(u);
+      if (a.video) { var l = document.createElement('a'); l.href = arq(a.video); l.target = '_blank'; l.className = 'btn mini'; l.textContent = '▶ Ver'; b.appendChild(l); }
+      return b;
+    }
+    function usar(a) {
+      var n = est.n || G.n;
+      json(U2.mat, fdBase({ n: n, arquivo: a.arquivo })).then(function (j) {
+        if (!j.ok) { $('eg-fase').textContent = j.erro; return; }
+        eg.close(); acompanhar();
+      });
+    }
+    function andamento(g) {
+      mostrar('andamento'); G.n = g.n; $('eg-cena').textContent = 'cena ' + g.n; if (!eg.open) eg.showModal();
+      var box = $('eg-resultados'); box.innerHTML = '';
+      (g.arquivos || []).forEach(function (a) { box.appendChild(cartao(a, g)); });
+      var f = $('eg-fase'), det = $('eg-fase-det');
+      if (g.status === 'enviando' || g.status === 'processando') { f.textContent = 'Gerando… ' + (g.arquivos || []).length + ' de ' + g.opcoes + ' opções'; det.textContent = g.tipo === 'video' ? 'vídeo leva alguns minutos' : 'costuma levar menos de um minuto'; }
+      else if (g.status === 'pronto') { f.textContent = 'Pronto: clique numa opção pra ela entrar na cena ' + g.n + '.'; det.textContent = 'vira versão nova; dá pra voltar'; }
+      else { f.textContent = g.erro || 'Não saiu.'; det.textContent = ''; }
+      if (g.status === 'enviando' || g.status === 'processando') { clearTimeout(G.timer); G.timer = setTimeout(function () { json(q(U2.est) + '&id=' + g.id).then(function (j) { if (j.ok) andamento(j.geracao); else { f.textContent = j.erro; } }); }, 3000); }
+    }
+    // pede o rascunho (custo congelado + nonce) e SÓ ENTÃO manda o Permitir; se o custo mudou, para e mostra o novo
+    function permitir(campos, custoVisto, depois) {
+      return json(U2.rasc, fdBase(campos)).then(function (j) {
+        if (!j.ok) { throw new Error(j.erro); }
+        var g = j.geracao;
+        if (Math.abs(g.usd_estimado - custoVisto) > 1e-9) { throw new Error('O custo mudou para ' + brl(g.brl_estimado) + '. Confira e permita de novo.'); }
+        return json(U2.conf, fdBase({ id: g.id, nonce: g.nonce }));
+      }).then(function (j) { if (!j.ok) throw new Error(j.erro); depois(j.geracao); });
+    }
+    $('eg-permitir').onclick = function () {
+      if (!G.orc) return; this.disabled = true;
+      permitir(Object.assign(params(), { prompt: $('eg-prompt').value }), G.orc.usd, andamento).catch(function (e) { $('eg-aviso').hidden = false; $('eg-aviso').textContent = e.message; orcar(); });
+    };
+    $('eg-cancelar').onclick = $('eg-fechar').onclick = function () { clearTimeout(G.timer); eg.close(); };
+    $('eg-outra').onclick = function () { clearTimeout(G.timer); abrir(G.n); };
+    eg.addEventListener('close', function () { clearTimeout(G.timer); });
+    [].forEach.call($('eg-tipo').children, function (b) { b.onclick = function () {
+      G.tipo = b.dataset.tipo; [].forEach.call($('eg-tipo').children, function (x) { x.classList.toggle('ativo', x === b); }); $('eg-modelo').value = ''; $('eg-opcoes').value = ''; $('eg-res').value = ''; modelos(); }; });
+    $('eg-modelo').onchange = detalhes;
+    ['eg-opcoes', 'eg-res', 'eg-dur'].forEach(function (id) { $(id).onchange = orcar; });
+    $('eg-prompt').addEventListener('input', function () { $('eg-permitir').disabled = !G.orc || this.value.trim().length < 10; });
+    var botao = $('eg-abrir');
+    botao.onclick = function () { abrir(est.n); };
+    function dica() { botao.disabled = !est.n; $('eg-dica').textContent = est.n ? 'Gerar imagem ou vídeo pra cena ' + est.n + ', com o custo antes. Só gera com o seu clique.' : 'Clique numa cena para gerar imagem ou vídeo pra ela. Só gera com o seu clique.'; }
+    var alvo0 = alvo; alvo = function () { alvo0(); dica(); }; dica();
+
+    // cartões "não achei imagem pra X" (escritos pelo Claude em editor/sugestao_ia.json; o Claude NÃO gera)
+    window.sugestoesIA = function () {
+      json(q(U2.sug)).then(function (j) {
+        var box = $('ev-sugia'); box.innerHTML = '';
+        (j.sugestoes || []).forEach(function (s) {
+          var c = document.createElement('div'); c.className = 'ev-sugia-cartao';
+          c.innerHTML = '<p><b>Não achei imagem pra cena ' + s.n + '</b> <small class="meta">' + (s.motivo || '') + '</small><br><i></i></p>';
+          c.querySelector('i').textContent = '“' + s.o_que.slice(0, 140) + (s.o_que.length > 140 ? '…' : '') + '”';
+          var p2 = document.createElement('p'); p2.className = 'meta'; p2.textContent = 'Gerar com ' + s.nome + ' (~' + brl(s.brl) + ', ' + s.opcoes + ' opções)?'; c.appendChild(p2);
+          var ok = document.createElement('button'); ok.type = 'button'; ok.className = 'btn mini primario'; ok.textContent = 'Permitir';
+          ok.onclick = function () { ok.disabled = true; permitir({ n: s.n, tipo: 'imagem', modelo: s.modelo, opcoes: s.opcoes, prompt: s.o_que, sugestao: s.id }, s.usd, function (g) { andamento(g); window.sugestoesIA(); })
+            .catch(function (e) { resultado('erro', e.message); ok.disabled = false; }); };
+          var aj = document.createElement('button'); aj.type = 'button'; aj.className = 'btn mini'; aj.textContent = 'Ajustar'; aj.onclick = function () { escolher(s.n, true); abrir(s.n, s.o_que); };
+          var di = document.createElement('button'); di.type = 'button'; di.className = 'btn mini'; di.textContent = 'Dispensar';
+          di.onclick = function () { json(U2.disp, fdBase({ id: s.id })).then(window.sugestoesIA); };
+          [ok, aj, di].forEach(function (b) { c.appendChild(b); }); box.appendChild(c);
+        });
+      });
+    };
+    window.sugestoesIA();
+  })();
+  minis(); acompanhar();
+})();
+</script>

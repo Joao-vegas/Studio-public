@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block titulo %}Prévia{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('broll') }}">Buscar b-roll</a> › prévia</p>
+<h1>{{ c.title if c else cand }}</h1>
+<p class="sub">{{ cand }} · {{ ini }}–{{ fim }}s{% if c %} · <a href="{{ c.source_url }}" target="_blank">fonte ↗</a>{% endif %}{% if r.summary %} · {{ r.summary }}{% endif %}</p>
+{% if erro %}<div class="aviso erro">{{ erro }}</div>{% endif %}
+
+{% if r._rel %}
+<div class="duas alinhado-topo">
+  <section class="painel">
+    <h2>Contact sheet (olhe cada célula)</h2>
+    {% if r._rel.contact_sheet %}<img loading="lazy" decoding="async" class="sheet" src="{{ url_for('arquivo', caminho=r._rel.contact_sheet) }}" alt="contact sheet">{% endif %}
+    {% if r.preview and r.preview.frame_times_s %}<p class="meta">tempos das células: {{ r.preview.frame_times_s|map('round', 1)|join('s · ') }}s{% if not r.preview.sheet_labels %} · (sem numeração: ffmpeg sem drawtext){% endif %}</p>{% endif %}
+    {% if r.preview and r.preview.warning %}<div class="aviso">{{ r.preview.warning }}</div>{% endif %}
+  </section>
+  <section class="painel">
+    <h2>Movimento (GIF)</h2>
+    {% if r._rel.gif %}<img loading="lazy" decoding="async" class="gif" src="{{ url_for('arquivo', caminho=r._rel.gif) }}" alt="gif">{% else %}<p class="meta">sem GIF (prévia estática)</p>{% endif %}
+    <form method="post" action="{{ url_for('broll_previa') }}" class="form compacto">
+      <input type="hidden" name="candidate" value="{{ cand }}">
+      <div class="tres"><input name="start" type="number" step="0.5" value="{{ ini }}"><input name="end" type="number" step="0.5" value="{{ fim }}"><button class="btn mini">Outro intervalo</button></div>
+    </form>
+  </section>
+</div>
+
+<section class="painel">
+  <h2>Tá bom? Confere e guarda no acervo</h2>
+  <form method="post" action="{{ url_for('broll_aprovar') }}" class="form">
+    <input type="hidden" name="candidate" value="{{ cand }}">
+    <input type="hidden" name="start" value="{{ ini }}"><input type="hidden" name="end" value="{{ fim }}">
+    <div class="checks">{% for k, rotulo in checklist %}<label class="check"><input type="checkbox" name="chk_{{ k }}"> {{ rotulo }}</label>{% endfor %}</div>
+    <div class="duas">
+      <label>Título no acervo <input name="titulo" value="{{ c.title if c else '' }}" required></label>
+      <label>Tags <input name="tags" placeholder="tensao, relogio, thriller"></label>
+    </div>
+    <label>Condição de uso / evidência <input name="evidence" placeholder="Ex.: canal declara 'free stock, no copyright' na descrição · Pexels License · cena de filme (uso editorial)"></label>
+    <label>Observação (pra qual fala serve, o que evitar) <input name="observacao"></label>
+    <button class="btn primario">✓ Aprovar, baixar o corte e guardar no acervo</button>
+    <span class="meta">roda approve → permit → fetch (~30-60s)</span>
+  </form>
+</section>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll('form').forEach(f => f.addEventListener('submit', () => {
+  f.querySelectorAll('button').forEach(b => { b.disabled = true; b.textContent = '⏳ …'; });
+}));
+</script>
+{% endblock %}

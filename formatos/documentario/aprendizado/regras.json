@@ -1,0 +1,217 @@
+{
+  "formato": "documentario",
+  "regras": [
+    {
+      "id": "exemplo-e-a-regua",
+      "titulo": "O exemplo é a régua: cada vídeo igual ou melhor",
+      "categoria": "qa",
+      "peso": 9,
+      "cobre": [
+        "E1"
+      ],
+      "texto": "O exemplo-1.mp4 (Correria · Cliente3) é régua de estilo e qualidade, nunca molde (cenas, falas e pessoas são do vídeo novo): cada vídeo fica no nível dele ou melhor, com o mesmo tipo de construção (frase acendendo, recorte P&B, relógio, polaroid no jornal, caderno, traço, jornal com etiqueta, cena de filme), música e efeitos. Só entrega com `render.py --conferir` em exit 0 e depois de olhar a qa/folha-comparacao.jpg ao lado do exemplo. Saiu melhor que o exemplo: oferecer ao João pra virar exemplo (ele decide).",
+      "evitar": "Rosto falando quase o vídeo todo com legenda genérica, b-roll numa caixinha, sem música, sem efeito (Vídeo 1 do Cliente4, 09-out: '20 vezes pior').",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "tela-ate-2-5s",
+      "titulo": "Nenhuma tela mais de 2,5 s",
+      "categoria": "beats",
+      "peso": 8,
+      "cobre": [
+        "M5"
+      ],
+      "texto": "Cada cena dura no máximo 2,5 s: trecho de fala longo vira duas cenas (troca de construção, de plano aberto pra close, de fundo). A última cena vai até o fim do vídeo e a sobra depois da última palavra conta (o V2 do Cliente4 fechou com 2,9 s). Dentro da cena algo sempre anda: palavra entrando, zoom lento de 3 a 6%, recorte deslizando, traço desenhando.",
+      "evitar": "Tela parada de 4 s ou mais; a mesma construção repetida em sequência sem troca de plano.",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "imagem-literal",
+      "titulo": "A imagem mostra literalmente a fala: ação em vídeo, real, nunca clichê",
+      "categoria": "beats",
+      "peso": "10",
+      "cobre": [
+        "I12",
+        "G6"
+      ],
+      "texto": "A construção mostra a fala daquele segundo: hora falada vira relógio; lista, caderno com X/✓; dois caminhos, traço; nome ou cargo, jornal com etiqueta; objeto, ação ou lugar, polaroid ou filme com a imagem DELE, achada com `casar_imagem.py melhores` e conferida com `pontuar`/`conferir` (\"engenheiro da Kodak em 1975\" = a câmera, não o inventor). Ação (mandar dinheiro, pagar, assinar...) = vídeo da ação, nunca foto parada. Real e viral, nunca clichê: momento real do caso, depois clipe viral, só então banco (`cliche` abaixo de 0,05). Nada repetido nem quase igual; mesma pessoa até 2 vezes.",
+      "evitar": "Imagem do tema geral do vídeo; frase resumida ou inventada no lugar da fala; relógio com hora que ninguém falou.",
+      "desde": "2026-10-09",
+      "atualizada": "2026-10-30"
+    },
+    {
+      "id": "rosto-35",
+      "titulo": "Pessoa falando até 35%, e na tela somando tudo até 40%",
+      "categoria": "beats",
+      "peso": 9,
+      "texto": "Cenas `pessoa` somam no máximo 35% da duração (exemplo: 27%). Somando tudo em que a pessoa aparece (falando, recorte, jornal, relógio com silhueta, polaroid/filme do bruto), no máximo 40% (exemplo: 35%; o V2 do Cliente4 tinha 52% e cansava). A pessoa volta entre 1 e 3 construções, alternando aberto e close, com legenda serifa curta e palavra colorida. Pelo menos 6 tipos de construção (exemplo: 8). Pra tirar a pessoa da tela, o caminho é objeto, não frase (regra objeto-nao-frase). O --storyboard e o --conferir medem.",
+      "evitar": "Vídeo quase todo com o rosto (o Vídeo 1 do Cliente4 tinha 67%); recorte atrás de recorte da mesma pose; menos de 6 tipos.",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "objeto-nao-frase",
+      "titulo": "Objeto, não frase: frase até 30%, objetos 30% ou mais",
+      "categoria": "beats",
+      "peso": 9,
+      "texto": "Frase em fundo liso em no máximo 30% do tempo e nunca mais de 2 seguidas; polaroid, caderno, traço, jornal, filme e relógio somam pelo menos 30% (exemplo: frase ~29%, objetos ~45%). Lista ou contraste na fala vira caderno com 2 itens ou mais (X/✓) e o círculo; dois caminhos vira traço; nome ou cargo vira jornal; lugar, gente ou situação vira polaroid ou filme com cena de fora. O --storyboard e o --conferir medem e reprovam.",
+      "evitar": "Trocar polaroid e relógio por frase pra baixar a pessoa na tela: o V2 refeito do Cliente4 ficou com 43% de frase, 4 frases seguidas (CAIXA, TURNOVER, EXTREMAMENTE, DANOSO) e 19% de objetos, 'texto no preto' em vez de documentário.",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "caderno-e-lista",
+      "titulo": "Caderno é lista, não frase disfarçada",
+      "categoria": "beats",
+      "peso": 7,
+      "texto": "Caderno entra quando a fala tem lista ou contraste: título e 2 itens ou mais com X/✓, e o círculo fecha a ideia (exemplo: revisar cada peça, responder cada cliente, aprovar cada detalhe → TUDO passa por você). Só o círculo, ou 1 item, é frase disfarçada: use frase, traço ou outra construção. O --storyboard reprova.",
+      "evitar": "Caderno 'Quem faz isso' só com NÃO É A MAIORIA, 'Ser mandado embora' só com SENSO COMUM, 'Custo' com 1 item (V2 do Cliente4).",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "cena-fecha-a-ideia",
+      "titulo": "Cada tela mostra uma ideia inteira, e o vídeo fecha forte",
+      "categoria": "beats",
+      "peso": 9,
+      "texto": "A tela de texto começa onde a ideia começa (depois da vírgula, do ponto ou de uma pausa) e termina no fim dela: com pontuação, pausa ou antes de 'e', 'mas', 'que'; nunca em 'o', 'do', 'muito' nem em 'mas também envolve' com 'uma carga' na tela seguinte. Ideia curta (até 5 s) em 1 ou 2 telas, nunca 3. A palavra-chave está na fala da cena. A última tela termina na palavra-chave ou corta a sobra com \"duracao\". O motor reprova.",
+      "evitar": "'BARGANHA o', 'muito GRANDE' depois de 'uma habilidade', 'HABILIDADE' + 'muito GRANDE' + 'pra fazer a retenção' em 3 telas e o fim 'DIRETAMENTE com ele' (V2 do Cliente4, 09-out). 'que envolve DINHEIRO, mas também envolve' + polaroid 'uma carga emocional' (prova das 22h).",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "palavra-chave-forte",
+      "titulo": "Palavra-chave forte em letra grande",
+      "categoria": "legenda",
+      "peso": 8,
+      "texto": "A palavra grande da frase, do traço e do círculo do caderno carrega a ideia: o substantivo ou o verbo forte da fala (BARGANHA, PREJUÍZO, TURNOVER, PROCESSO, LIBERDADE). Nunca quantidade, intensidade, tempo genérico ou pronome (VEZES, TODO, GRANDE, INTEIRO, MAIORIA, ISSO) nem advérbio em -mente. O --storyboard e o --conferir reprovam.",
+      "evitar": "'e muitas VEZES', 'o tempo TODO', 'muito GRANDE', 'isso o tempo INTEIRO', 'DIRETAMENTE com ele' (V2 do Cliente4, 09-out).",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "gancho-construcao",
+      "titulo": "Os 3 primeiros segundos numa construção",
+      "categoria": "beats",
+      "peso": 7,
+      "cobre": [
+        "R7"
+      ],
+      "texto": "O vídeo abre numa construção forte nos 3 primeiros segundos: frase acendendo com a palavra-chave grande, recorte do próprio bruto, relógio. Fundo: jornal limpo, papel, caderno ou recorte sobre escuro. Sem tela preta inicial (João, 16/10): o t=0 já tem imagem, pode ser o cliente em cor falando. Abertura 'punk': cortes de 0,6 a 0,8 s nos 3 primeiros segundos (pessoa em cor, recorte, frase seca, polaroid) com \"estilo\": {\"abre_com_pessoa\": true} no cenas.json (libera pessoa nos 3 s e as ideias quebradas ali) e \"seco\": true + \"texto\" na frase pra entrar de uma vez.",
+      "evitar": "Abrir com a pessoa falando em tela cheia; obrigar fundo preto no começo.",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "texto-contorno-sombra",
+      "titulo": "Texto com contorno escuro e sombra",
+      "categoria": "legenda",
+      "peso": 7,
+      "cobre": [
+        "G2"
+      ],
+      "texto": "Todo texto em serifa Tinos 700 com contorno escuro (~0,09 em) e sombra por baixo; a palavra-chave na cor do cliente (boa, dor ou empresa) também, senão a cor clara some. Nada passa de 860 px de largura (110 px de margem); a palavra-chave grande encolhe pra caber com o cursor.",
+      "evitar": "Cor clara sem contorno sobre fundo claro; palavra cortada na borda; fonte sem serifa genérica. Palavra do círculo do caderno de borda a borda (o motor encolhe e o círculo abraça a palavra).",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "papel-claro-e-escuro",
+      "titulo": "Papel claro e escuro se alternam",
+      "categoria": "layout",
+      "peso": 7,
+      "texto": "Alterne papel claro (polaroid no papel, caderno quadriculado com caneta) e escuro (frase, traço, relógio, jornal): pelo menos uma tela clara a cada ~42 s. Caderno sem \"tom\": \"escuro\" e polaroid com \"fundo\": \"papel\" são as telas claras. O cliente dá as cores (marca, dor), não deixa tudo escuro. O --storyboard reprova menos telas claras que o pedido (1 a cada ~42 s). Exceção: regra do modelo do cliente que recusa papel claro (a Vegas recusou papel claro + azul na Cartilha) leva \"estilo\": {\"papel_claro\": false}.",
+      "evitar": "Tudo escuro: o V2 do Cliente4 tinha 8 cadernos escuros e zero tela clara, por uma regra 'fundo sempre escuro' que o João não pediu.",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "frase-centraliza",
+      "titulo": "A frase centraliza conforme as palavras entram",
+      "categoria": "legenda",
+      "peso": 6,
+      "texto": "A frase acende palavra a palavra no tempo da fala, com cursor; só existe na tela o que já foi falado, então ela fica centralizada a cada palavra nova (não reserva o lugar da frase inteira). A fala aparece escrita uma vez só: sob as construções (polaroid, filme, jornal, recorte, relógio) o rodapé vai DIRETO no fundo, sem caixa de papel rasgado e sem cursor piscando (João, 30-out, Kodak: \"acho muito feio visualmente falando\"): claro com contorno no escuro, escuro no papel claro; nunca num retângulo preto (16/10).",
+      "evitar": "Primeira palavra encostada de lado esperando o resto; a mesma frase em dois lugares (G4).",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "legenda-abaixo-do-queixo",
+      "titulo": "Legenda da pessoa no peito, abaixo do queixo",
+      "categoria": "legenda",
+      "peso": 10,
+      "cobre": [
+        "G3"
+      ],
+      "texto": "Nas cenas de pessoa a legenda fica no peito, bem abaixo do queixo (e da barba), (~1,5 rosto abaixo do rosto é a medida de estilo), e acima da zona do post (até y=1500). O motor acha o rosto no bruto e deixa 0,35 rosto de folga, subindo o rosto com o zoom quando a selfie não deixa (estilo.legenda_y é só o mínimo). O --storyboard mede no quadro pronto e o --conferir em 3 quadros de cada cena: abaixo de 0,22 rosto reprova.",
+      "evitar": "Folga fixa de 30 px: no V2 do Cliente4 (selfie, rosto grande) a legenda colou na ponta da barba nas cenas 4, 8 e 10 (0,09 a 0,18 rosto). Legenda num y fixo (1290) com o close empurrando o queixo pra baixo dela.",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "recorte-do-bruto",
+      "titulo": "Recorte e jornal do próprio bruto, com o rosto bom",
+      "categoria": "broll",
+      "peso": 9,
+      "cobre": [
+        "I3"
+      ],
+      "texto": "Recorte, jornal e relógio com silhueta usam um quadro do próprio vídeo (`quadro_s`), só a pessoa, P&B com borda branca, gesto que casa com a fala; cada quadro uma vez (2 s ou mais entre eles) e no máximo 1 recorte a cada ~30 s (o exemplo tem só a silhueta do relógio): o mesmo bruto dá recortes iguais. O jornal é retrato: de frente, olho aberto, parado (render.py --rostos). O motor reprova recorte demais e jornal de olho fechado ou borrado.",
+      "evitar": "Jornal com o olho fechado e a mão borrada (quadro 9 do V2 do Cliente4); 9 recortes de 5 quadros e o abajur grudado na cabeça; polaroid e jornal com o próprio rosto no lugar de cena de fora. 6 recortes de frente e de camisa branca em 2 min, iguais (prova das 22h).",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "cena-de-fora-real",
+      "titulo": "Cena de fora real, cada clipe uma vez",
+      "categoria": "broll",
+      "peso": 9,
+      "cobre": [
+        "G7"
+      ],
+      "texto": "Polaroid e filme mostram cena de fora, nunca a pessoa: uma a cada ~21 s, cada uma de um clipe diferente. Alterne filme (faixa reta de ponta a ponta) e polaroid: pelo menos 1/3 polaroid. Cena de filme ou de arquivo real, nunca banco de imagem posado; sem marca d'água; toda cena leva \"origem\". NITIDEZ: arquivo esticado mais de 1,3x pra tela passa pelo tratamento (foto: Real-ESRGAN; clipe: denoise + Lanczos 2x + nitidez) e, se depois ainda passa de 1,25x, reprova (clipe de 712 px em 1080 px saía em bloco, 30-out). Prefira trecho parado a mão em movimento.",
+      "evitar": "A caixa FIRED do Pexels 3 vezes, The Office, aperto de mão e Joey 2 vezes cada, e o 'British Pathé' no canto da fábrica (V2 do Cliente4). O João odeia 'banco de dados de vídeo'. 13 das 14 cenas de fora como filme na mesma tira de jornal (prova das 22h).",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "musica-mixkit-audivel",
+      "titulo": "Música do Mixkit audível, escolhida pelo clima",
+      "categoria": "audio",
+      "peso": 8,
+      "cobre": [
+        "S3",
+        "S4",
+        "G9",
+        "G12"
+      ],
+      "texto": "Todo documentário tem música: faixa aprovada do base/audio/catalogo.json pelo clima ou nova do Mixkit (busca pelo clima, baixa pra audio/musicas/ com o número), nunca a do vídeo anterior do cliente. Pode trocar no meio, na virada da fala: a opção escolhida no PLANO.json leva os mesmos \"trechos\" (arquivo, inicio_s, de) do cenas.json, senão o vídeo sai só com a 1ª (o --storyboard reprova). O motor mixa: ~-40 dB sob a fala e acima de -35 dB nas pausas (medido na qa/trilha-sem-voz.wav).",
+      "evitar": "Vídeo sem música; drone/pad (médio+agudo < 20%); faixas rejeitadas 614, 623, 970, 473 e 32; mixar à mão fora do motor.",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "efeitos-suaves-zero-golpe",
+      "titulo": "Efeitos suaves e espaçados, no ritmo do exemplo",
+      "categoria": "audio",
+      "peso": 9,
+      "cobre": [
+        "M2",
+        "S2",
+        "G11"
+      ],
+      "texto": "Em 1:23 cabem ~16 efeitos: o teclado de cada tela de texto, nada de passagem ou pop a cada corte. O motor põe até 12 por minuto, com 2,4 s ou mais entre eles: primeiro o teclado da frase/traço/relógio, depois um toque por construção (tique, clique, tecla), o teclado do rodapé, o pop e, por último, a passagem quando o mundo muda. De 0,10 a 0,18, sem grave, zero golpe. O João ouve o número real (o rodapé do storyboard diz).",
+      "evitar": "108 efeitos em 2 min (46 teclados, 41 passagens) no V2 do Cliente4, e o resumo dizendo '5 sons'; impacto, boom, golpe; efeito alto por cima da voz.",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "storyboard-antes",
+      "titulo": "Storyboard aprovado antes do render",
+      "categoria": "processo",
+      "peso": 7,
+      "cobre": [
+        "I11"
+      ],
+      "texto": "Depois do cenas.json, rodar `render.py --storyboard`: ele confere as cenas antes (o que o --conferir reprovaria) e grava a previa-som.m4a (voz, música e efeitos). Só mostrar ao João com 'APROVADO na checagem'; o que faltar sai em vermelho no rodapé. Cada quadro sai no fim da cena, com a palavra-chave inteira. Tempo no ANALISE.md em m:ss (1:17, nunca 0:77), com o número real de efeitos que ele imprime. Ajuste é no cenas.json, nunca no motor da sandbox.",
+      "evitar": "Renderizar sem aprovação; storyboard com quadro vazio, palavra pela metade ('D▌', 'BARG▌') ou texto quebrado.",
+      "desde": "2026-10-09"
+    },
+    {
+      "id": "jornal-limpo",
+      "titulo": "Jornal limpo: nada inventado, nada borrado",
+      "categoria": "layout",
+      "peso": 8,
+      "desde": "2026-10-30",
+      "origem": "joao",
+      "texto": "O fundo `jornal` é papel de jornal escuro e limpo: luz quente no centro, grão e moldura de 2 réguas finas. NUNCA cabeçalho inventado (\"BALCÃO\"), colunas de linhas cinza de enfeite, borda rasgada nem caixa datilografada: o filme é faixa reta de ponta a ponta com régua clara, o jornal leva painel reto atrás da pessoa. Foto e clipe nunca borrados: a conferência 3j mede o quanto o arquivo é esticado na tela e reprova acima de 1,25x depois do tratamento (a checagem do rosto do jornal não olhava o b-roll).",
+      "evitar": "BALCÃO + colunas cinza + borda rasgada + clipe de 712 px esticado 1,7x (Kodak 0:02)."
+    }
+  ]
+}

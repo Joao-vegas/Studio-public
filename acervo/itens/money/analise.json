@@ -1,0 +1,26 @@
+{
+  "duracao_s": 2.0,
+  "bpm": 161.5,
+  "bpm_confianca": 0.4,
+  "lufs": -16.6,
+  "faixa_dinamica_lu": 0.0,
+  "pico_true_db": -0.6,
+  "bandas_geral": {
+    "grave": 0.01,
+    "medio": 0.41,
+    "agudo": 0.57
+  },
+  "bandas_pico": {},
+  "secoes": [],
+  "trechos_usaveis": [],
+  "pico_energia_s": 0,
+  "melhor_trecho_cama": null,
+  "imagens": {
+    "waveform": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/money/waveform.png",
+    "espectro": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/money/espectro.png",
+    "curva": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/money/curva.png"
+  },
+  "youtube": {},
+  "arquivo": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/money/clip.mp3",
+  "analisado_em": "20260917-213511"
+}

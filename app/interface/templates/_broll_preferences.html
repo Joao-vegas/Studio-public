@@ -1,0 +1,9 @@
+{% set bp = j.broll_config or {'origem':'nenhum','quantidade':0} %}
+{% set origem_sel = bp.origem if bp.origem in ('busca','ia','misto') else 'busca' %}
+<div class="broll-settings" data-broll-settings>
+<label class="scope-option"><input type="checkbox" name="usar_broll" value="1" data-broll-toggle {{ 'checked' if bp.origem != 'nenhum' }}><span><b>Usar cenas de apoio (b-rolls)</b><small>Opcional. Desligado: editar apenas o bruto, com cortes, legendas e acabamento.</small></span></label>
+<div class="broll-options duas">
+<label>Quantidade máxima<select name="quantidade_broll">{% for n in range(1,13) %}<option value="{{ n }}" {{ 'selected' if n == ((cenas_qtd is defined and cenas_qtd) or bp.quantidade or 3) }}>{{ n }} {{ 'cena' if n==1 else 'cenas' }}</option>{% endfor %}</select></label>
+<label>De onde vêm as cenas?<select name="origem_broll"><option value="busca" {{ 'selected' if origem_sel=='busca' }}>Cenas reais (internet, grátis)</option><option value="ia" {{ 'selected' if origem_sel=='ia' }}>Imagem por IA (paga, você aprova antes)</option><option value="misto" {{ 'selected' if origem_sel=='misto' }}>As duas</option></select></label>
+<p class="meta">Cenas reais: YouTube, Pexels e outros sites, de graça. IA: a imagem é feita pela kie.ai e só sai depois que você vê o custo e aprova.</p>
+</div></div>

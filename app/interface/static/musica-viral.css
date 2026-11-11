@@ -1,0 +1,16 @@
+/* Música de fundo (Novo vídeo e Editar vídeo): só usa as variáveis de estilo.css */
+.mv .nv-seg{margin-bottom:8px}
+.mv-lista{display:grid;gap:10px;margin-top:8px}
+.mv-opcao{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:12px;border:1px solid var(--linha);border-radius:12px}
+.mv-opcao.escolhida{border-color:var(--txt);box-shadow:0 0 0 1px var(--txt)}
+.mv-opcao audio{width:100%;max-width:420px;height:34px}
+.mv-acoes{display:flex;gap:6px;flex-wrap:wrap}
+.mv-ok{color:var(--ok, inherit)}
+.mv-aviso{font-size:12.5px}
+.mv-busca{display:flex;gap:8px;flex-wrap:wrap}.mv-busca input{flex:1;min-width:200px}
+.mv-edit{display:grid;gap:10px;margin:10px 0}
+.mv-edit label{display:grid;gap:4px}
+.mv-modos{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.mv-modos button{display:block;text-align:left;padding:10px 12px;border:1px solid var(--linha);border-radius:12px;background:transparent;color:inherit;cursor:pointer}
+.mv-modos button.ativo{border-color:var(--txt);box-shadow:0 0 0 1px var(--txt)}
+.mv-modos b,.mv-modos small{display:block}

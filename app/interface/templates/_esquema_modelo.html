@@ -1,0 +1,21 @@
+<section class="model-blueprint" aria-label="Desenho da composição do vídeo" data-blueprint>
+  <div class="section-heading"><h3>Assim o vídeo se organiza</h3><span class="chip">Esquema visual</span></div>
+  <p class="meta">{{ visual.nota }}</p>
+  {% if visual.estados|length>1 %}<div class="blueprint-tabs" role="group" aria-label="Momentos do vídeo">{% for estado in visual.estados %}<button type="button" class="btn mini" data-blueprint-select="{{ loop.index0 }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ estado.titulo }}</button>{% endfor %}</div>{% endif %}
+  {% for estado in visual.estados %}
+  <div class="blueprint-state" data-blueprint-state="{{ loop.index0 }}" {{ 'hidden' if not loop.first }}>
+    <div class="blueprint-phone" style="aspect-ratio:{{ visual.ratio }}" role="img" aria-label="{{ estado.titulo }}: {{ estado.zonas|map(attribute='titulo')|join(', ') }}">
+      {% for z in estado.zonas %}<div class="blueprint-zone zone-{{ z.tipo }}" style="left:{{ z.x }}%;top:{{ z.y }}%;width:{{ z.w }}%;height:{{ z.h }}%;{% if z.cor %}--zone-color:{{ z.cor }};{% endif %}">
+        {% if z.tipo=='pessoa' %}<svg viewBox="0 0 240 260" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><rect width="240" height="260" fill="#304047"/><path d="M0 0H60V260H0zM186 0H240V260H186z" fill="#3c5057"/><ellipse cx="120" cy="282" rx="93" ry="145" fill="#aac0b8"/><path d="M98 102h44v62c-15 16-29 16-44 0z" fill="#c49d82"/><ellipse cx="120" cy="79" rx="44" ry="53" fill="#e1b89a"/><path d="M76 83Q58 13 115 14Q178 9 163 89L151 52Q118 68 86 47Z" fill="#1d2629"/><path d="M87 72h26m12 0h27m-39 0h12" stroke="#485754" stroke-width="5"/><path d="M105 105Q120 114 135 104" fill="none" stroke="#9d7563" stroke-width="3"/></svg>
+        {% elif z.tipo=='cena' %}<svg viewBox="0 0 240 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="240" height="220" fill="#62606e"/><path d="M0 0h240v142H0z" fill="#394555"/><path d="M18 16h64v112H18zm83 0h57v112h-57zm74 0h48v112h-48z" fill="#97adb2"/><path d="M0 155L240 133v87H0z" fill="#494954"/><path d="M46 171h164v12H46z" fill="#c9b099"/><circle cx="82" cy="110" r="19" fill="#c3997f"/><path d="M48 164q0-40 34-35q40-5 38 35z" fill="#26343c"/><circle cx="174" cy="118" r="18" fill="#d4b18d"/><path d="M144 164q0-36 30-28q30-8 38 28z" fill="#7d9390"/></svg>
+        {% elif z.tipo=='legenda' %}<span class="blueprint-caption">Uma ideia por vez</span>
+        {% elif z.tipo=='faixa' %}<span class="blueprint-band">UMA IDEIA POR VEZ</span>
+        {% elif z.tipo=='switches' %}<div class="blueprint-switch">● <span>Primeira ideia</span></div><div class="blueprint-switch">● <span>Segunda ideia</span></div>
+        {% elif z.tipo=='post' %}<div class="blueprint-post"><span>● &nbsp; Nome do perfil</span><b>Uma mensagem<br>que abre o assunto.</b></div>{% endif %}
+        <span class="blueprint-pin">{{ loop.index }}</span>
+      </div>{% endfor %}
+    </div>
+    <ol class="blueprint-legend">{% for z in estado.zonas %}<li><span>{{ loop.index }}</span><div><b>{{ z.titulo }}</b><p>{{ z.descricao }}</p></div></li>{% endfor %}</ol>
+  </div>{% endfor %}
+  <details class="blueprint-technical"><summary>Medidas e instruções técnicas</summary><ol>{% for e in visual.tecnica %}<li>{{ e }}</li>{% endfor %}</ol></details>
+</section>

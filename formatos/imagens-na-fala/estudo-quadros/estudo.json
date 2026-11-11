@@ -1,0 +1,850 @@
+{
+  "versao": 1,
+  "nome": "DecxbwzBRru",
+  "criado_em": "2026-11-05",
+  "videos": [
+    {
+      "video": "/private/tmp/claude-501/-Users-joaomarcospiki-Cerebro/0355784e-4405-401c-81ad-ad84c75e1d8c/scratchpad/refs/DecxbwzBRru.mp4",
+      "nome": "DecxbwzBRru",
+      "duracao": 49.4,
+      "fps": 30.0,
+      "quadros": 1482,
+      "largura": 1080,
+      "altura": 1920,
+      "som_no_arquivo": true,
+      "planos": {
+        "n": 7,
+        "por_min": 8.5,
+        "media_s": 7.06,
+        "mediana_s": 6.13,
+        "min_s": 0.1,
+        "max_s": 20.53,
+        "lista": [
+          {
+            "q": 0,
+            "q_fim": 269,
+            "s": 0.0,
+            "dura_s": 9.0
+          },
+          {
+            "q": 270,
+            "q_fim": 272,
+            "s": 9.0,
+            "dura_s": 0.1
+          },
+          {
+            "q": 273,
+            "q_fim": 888,
+            "s": 9.1,
+            "dura_s": 20.53
+          },
+          {
+            "q": 889,
+            "q_fim": 893,
+            "s": 29.63,
+            "dura_s": 0.17
+          },
+          {
+            "q": 894,
+            "q_fim": 1061,
+            "s": 29.8,
+            "dura_s": 5.6
+          },
+          {
+            "q": 1062,
+            "q_fim": 1245,
+            "s": 35.4,
+            "dura_s": 6.13
+          },
+          {
+            "q": 1246,
+            "q_fim": 1481,
+            "s": 41.53,
+            "dura_s": 7.87
+          }
+        ]
+      },
+      "transicoes": [
+        {
+          "q": 270,
+          "q_fim": 270,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 9.0,
+          "mudanca": 31.0,
+          "cor": 0.29
+        },
+        {
+          "q": 273,
+          "q_fim": 273,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 9.1,
+          "mudanca": 13.5,
+          "cor": 0.23
+        },
+        {
+          "q": 889,
+          "q_fim": 889,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 29.633,
+          "mudanca": 12.4,
+          "cor": 0.23
+        },
+        {
+          "q": 894,
+          "q_fim": 894,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 29.8,
+          "mudanca": 21.9,
+          "cor": 0.24
+        },
+        {
+          "q": 1062,
+          "q_fim": 1062,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 35.4,
+          "mudanca": 14.0,
+          "cor": 0.2
+        },
+        {
+          "q": 1246,
+          "q_fim": 1246,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 41.533,
+          "mudanca": 29.0,
+          "cor": 0.32
+        }
+      ],
+      "transicao_resumo": {
+        "corte": 6,
+        "dissolve": 0,
+        "especial": 0,
+        "dissolve_quadros_mediana": null,
+        "dissolve_pct": 0.0
+      },
+      "camera": {
+        "pct_quadros_andando": 90.3,
+        "creep_pct_s": 0.9,
+        "zoom_pct_s_mediana": 0.31,
+        "entrada_x_resto": 1.8,
+        "parado_max_q": 8,
+        "parado_max_em_q": 372,
+        "fortes_q": [
+          1,
+          740,
+          1253,
+          653,
+          156
+        ],
+        "creep_tipico_q": 760
+      },
+      "acao": {
+        "picos": 37,
+        "casados": 36,
+        "quadros_antes_mediana": 0.5,
+        "padrao": false,
+        "frac_1a6": 0.33,
+        "frac_acaso": 0.53,
+        "exemplos": [
+          [
+            3,
+            0
+          ],
+          [
+            13,
+            23
+          ],
+          [
+            68,
+            73
+          ],
+          [
+            132,
+            134
+          ],
+          [
+            142,
+            148
+          ],
+          [
+            226,
+            224
+          ],
+          [
+            251,
+            248
+          ],
+          [
+            285,
+            286
+          ],
+          [
+            380,
+            382
+          ],
+          [
+            388,
+            384
+          ],
+          [
+            398,
+            395
+          ],
+          [
+            406,
+            402
+          ]
+        ],
+        "troca_palavra_q_mediana": 0.5,
+        "troca_casadas": 6
+      },
+      "fala": {
+        "palavras": 163,
+        "ppm": 198.0,
+        "ppm_falando": 201.2,
+        "voz_pct": 79.3,
+        "primeira_palavra_s": 0.0,
+        "pausa_frase_mediana_s": 0.2,
+        "pausa_frase_max_s": 0.3,
+        "pausa_tipica_q": 374,
+        "pausa_max_q": 1089,
+        "frases": 11,
+        "pausa_qualquer_mediana_s": 0.37,
+        "texto": "Um cachorro que quer virar lobo precisa perder o apetite por ração. É inútil você ter grandes ambições enquanto passa o dia inteiro se alimentando de migalhas. O que você consome todo dia define o tamanho das suas ambições. O pior é que quando você corta as coisas baratas que você faz para relaxar, como ficar rolando feed ou comer besteira, você se sente vazio, como se faltasse alguma coisa. E é nesse silêncio que a maioria das pessoas desiste. E aí elas começam a pensar que aquilo que rebaixa elas, na verdade, fazia bem. Mas esse vazio é justamente o espaço para o novo que você tanto queria. É o primeiro território da versão maior de você. O lobo nasce no dia em que o cachorro aceita matar de fome a versão menor dele. Então, para de se alimentar de ração e chamar isso de descanso. Aquilo que você se recusa a consumir é o que te dá o direito de crescer.",
+        "fonte_pausa": "audio"
+      },
+      "numeros": [],
+      "numeros_resumo": {
+        "n": 0,
+        "por_min": 0.0,
+        "com_evento_pct": null,
+        "evento_menos_palavra_q_mediana": null
+      },
+      "som": {
+        "lufs": -14.1,
+        "voz_db": -12.8,
+        "pausa_db": -28.7,
+        "pausa_db_variacao": 7.9,
+        "pausa_janelas": 5,
+        "musica_abaixo_da_voz_db": 15.3,
+        "efeitos_s": [
+          1.02,
+          3.33,
+          8.19,
+          9.75,
+          32.3,
+          40.58,
+          44.94,
+          46.83,
+          47.72
+        ],
+        "efeitos_por_min": 10.9,
+        "musica_db": -28.1,
+        "musica_variacao_db": 19.2
+      },
+      "legenda": {
+        "y_pct": 57.3,
+        "altura_texto_px_1920": 43.0,
+        "palavras_por_quadro": 2.0,
+        "quadros_com_legenda_pct": 93.8,
+        "prova_q": 750
+      },
+      "cara": {
+        "lisura": 0.13,
+        "ruido": 9.0,
+        "saturacao": 78.1,
+        "rosto_pct": 100.0
+      },
+      "base_sugerida": {
+        "base": "gravado",
+        "tipo": "pessoa gravada",
+        "porque": "rosto de gente em 100% dos quadros (ruído de câmera 9,0)"
+      },
+      "fala_imagem": {
+        "oracoes": [
+          {
+            "texto": "Um cachorro que quer virar lobo precisa perder o apetite por ração.",
+            "s": 0.0,
+            "e": 4.4,
+            "q": 0,
+            "q_fim": 132,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -3,
+            "imagem_nova": true,
+            "quadro_palavra": 2
+          },
+          {
+            "texto": "É inútil você ter grandes ambições enquanto passa o dia inteiro se alimentando de migalhas.",
+            "s": 4.46,
+            "e": 9.18,
+            "q": 134,
+            "q_fim": 275,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -3,
+            "imagem_nova": true,
+            "quadro_palavra": 136
+          },
+          {
+            "texto": "O que você consome todo dia define o tamanho das suas ambições.",
+            "s": 9.06,
+            "e": 12.34,
+            "q": 272,
+            "q_fim": 370,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 2,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 274
+          },
+          {
+            "texto": "O pior é que quando você corta as coisas baratas que você faz para relaxar,",
+            "s": 12.72,
+            "e": 16.86,
+            "q": 382,
+            "q_fim": 506,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -2,
+            "imagem_nova": true,
+            "quadro_palavra": 384
+          },
+          {
+            "texto": "como ficar rolando feed ou comer besteira,",
+            "s": 16.88,
+            "e": 18.98,
+            "q": 506,
+            "q_fim": 569,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 508
+          },
+          {
+            "texto": "você se sente vazio,",
+            "s": 18.96,
+            "e": 20.12,
+            "q": 569,
+            "q_fim": 604,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -4,
+            "imagem_nova": true,
+            "quadro_palavra": 571
+          },
+          {
+            "texto": "como se faltasse alguma coisa.",
+            "s": 20.12,
+            "e": 21.7,
+            "q": 604,
+            "q_fim": 651,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 0,
+            "imagem_nova": true,
+            "quadro_palavra": 606
+          },
+          {
+            "texto": "E é nesse silêncio que a maioria das pessoas desiste.",
+            "s": 21.64,
+            "e": 24.86,
+            "q": 649,
+            "q_fim": 746,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 6,
+            "imagem_nova": true,
+            "quadro_palavra": 651
+          },
+          {
+            "texto": "E aí elas começam a pensar que aquilo que rebaixa elas,",
+            "s": 24.52,
+            "e": 27.6,
+            "q": 736,
+            "q_fim": 828,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 738
+          },
+          {
+            "texto": "na verdade,",
+            "s": 27.6,
+            "e": 28.18,
+            "q": 828,
+            "q_fim": 845,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -2,
+            "imagem_nova": true,
+            "quadro_palavra": 830
+          },
+          {
+            "texto": "fazia bem.",
+            "s": 28.18,
+            "e": 29.28,
+            "q": 845,
+            "q_fim": 878,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 5,
+            "imagem_nova": true,
+            "quadro_palavra": 847
+          },
+          {
+            "texto": "Mas esse vazio é justamente o espaço para o novo que você tanto queria.",
+            "s": 28.8,
+            "e": 33.4,
+            "q": 864,
+            "q_fim": 1002,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -3,
+            "imagem_nova": true,
+            "quadro_palavra": 866
+          },
+          {
+            "texto": "É o primeiro território da versão maior de você.",
+            "s": 33.44,
+            "e": 36.22,
+            "q": 1003,
+            "q_fim": 1087,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 1005
+          },
+          {
+            "texto": "O lobo nasce no dia em que o cachorro aceita matar de fome a versão menor dele.",
+            "s": 36.6,
+            "e": 41.9,
+            "q": 1098,
+            "q_fim": 1257,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 1100
+          },
+          {
+            "texto": "Então, para de se alimentar de ração e chamar isso de descanso.",
+            "s": 41.62,
+            "e": 45.12,
+            "q": 1249,
+            "q_fim": 1354,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 3,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 1251
+          },
+          {
+            "texto": "Aquilo que você se recusa a consumir é o que te dá o direito de crescer.",
+            "s": 45.48,
+            "e": 49.72,
+            "q": 1364,
+            "q_fim": 1492,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 6,
+            "imagem_nova": true,
+            "quadro_palavra": 1366
+          }
+        ],
+        "n": 16,
+        "com_troca_pct": 12.5,
+        "imagem_nova_pct": 100.0,
+        "lead_q_mediana": 1.0,
+        "oracao_s_mediana": 3.25
+      },
+      "loop_diferenca_inicio_fim": 43.3,
+      "brilho_medio": 92.4,
+      "d1_mediana": 0.9,
+      "folhas": [
+        {
+          "arquivo": "folhas/DecxbwzBRru-geral.jpg",
+          "tipo": "geral"
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-01-transicao-q270.jpg",
+          "tipo": "transicao",
+          "q": 270
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-02-transicao-q273.jpg",
+          "tipo": "transicao",
+          "q": 273
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-03-transicao-q889.jpg",
+          "tipo": "transicao",
+          "q": 889
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-04-transicao-q894.jpg",
+          "tipo": "transicao",
+          "q": 894
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-05-transicao-q1062.jpg",
+          "tipo": "transicao",
+          "q": 1062
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-06-transicao-q1246.jpg",
+          "tipo": "transicao",
+          "q": 1246
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-07-movimento-q1.jpg",
+          "tipo": "movimento",
+          "q": 1
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-08-movimento-q740.jpg",
+          "tipo": "movimento",
+          "q": 740
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-09-movimento-q1253.jpg",
+          "tipo": "movimento",
+          "q": 1253
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-10-movimento-q653.jpg",
+          "tipo": "movimento",
+          "q": 653
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-11-movimento-q156.jpg",
+          "tipo": "movimento",
+          "q": 156
+        },
+        {
+          "arquivo": "folhas/DecxbwzBRru-fala-imagem-1.jpg",
+          "tipo": "fala-imagem"
+        }
+      ]
+    }
+  ],
+  "conjunto": {
+    "planos.mediana_s": {
+      "rotulo": "Plano: mediana",
+      "unidade": "s",
+      "mediana": 6.13,
+      "min": 6.13,
+      "max": 6.13,
+      "n": 1
+    },
+    "planos.media_s": {
+      "rotulo": "Plano: média",
+      "unidade": "s",
+      "mediana": 7.06,
+      "min": 7.06,
+      "max": 7.06,
+      "n": 1
+    },
+    "planos.por_min": {
+      "rotulo": "Planos por minuto",
+      "unidade": "/min",
+      "mediana": 8.5,
+      "min": 8.5,
+      "max": 8.5,
+      "n": 1
+    },
+    "transicao_resumo.dissolve_pct": {
+      "rotulo": "Transição dissolve",
+      "unidade": "% das trocas",
+      "mediana": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 1
+    },
+    "transicao_resumo.dissolve_quadros_mediana": {
+      "rotulo": "Dissolve: quadros",
+      "unidade": "quadros",
+      "mediana": null,
+      "min": null,
+      "max": null,
+      "n": 0
+    },
+    "camera.pct_quadros_andando": {
+      "rotulo": "Câmera andando",
+      "unidade": "% dos quadros",
+      "mediana": 90.0,
+      "min": 90.3,
+      "max": 90.3,
+      "n": 1
+    },
+    "camera.creep_pct_s": {
+      "rotulo": "Creep típico",
+      "unidade": "% da largura/s",
+      "mediana": 0.9,
+      "min": 0.9,
+      "max": 0.9,
+      "n": 1
+    },
+    "camera.entrada_x_resto": {
+      "rotulo": "Entrada do plano × resto",
+      "unidade": "×",
+      "mediana": 1.8,
+      "min": 1.8,
+      "max": 1.8,
+      "n": 1
+    },
+    "camera.parado_max_q": {
+      "rotulo": "Maior trecho parado",
+      "unidade": "quadros",
+      "mediana": 8.0,
+      "min": 8,
+      "max": 8,
+      "n": 1
+    },
+    "fala.ppm": {
+      "rotulo": "Fala",
+      "unidade": "palavras/min",
+      "mediana": 198.0,
+      "min": 198.0,
+      "max": 198.0,
+      "n": 1
+    },
+    "fala.voz_pct": {
+      "rotulo": "Voz no tempo",
+      "unidade": "%",
+      "mediana": 79.0,
+      "min": 79.3,
+      "max": 79.3,
+      "n": 1
+    },
+    "fala.pausa_frase_mediana_s": {
+      "rotulo": "Pausa pós-frase: mediana",
+      "unidade": "s",
+      "mediana": 0.2,
+      "min": 0.2,
+      "max": 0.2,
+      "n": 1
+    },
+    "fala.pausa_frase_max_s": {
+      "rotulo": "Pausa pós-frase: máx",
+      "unidade": "s",
+      "mediana": 0.3,
+      "min": 0.3,
+      "max": 0.3,
+      "n": 1
+    },
+    "acao.troca_palavra_q_mediana": {
+      "rotulo": "Troca de plano × palavra",
+      "unidade": "quadros",
+      "mediana": 0.5,
+      "min": 0.5,
+      "max": 0.5,
+      "n": 1
+    },
+    "acao.quadros_antes_mediana": {
+      "rotulo": "Ação antes da palavra",
+      "unidade": "quadros",
+      "mediana": 0.5,
+      "min": 0.5,
+      "max": 0.5,
+      "n": 1
+    },
+    "fala_imagem.imagem_nova_pct": {
+      "rotulo": "Oração com imagem nova",
+      "unidade": "% das orações",
+      "mediana": 100.0,
+      "min": 100.0,
+      "max": 100.0,
+      "n": 1
+    },
+    "fala_imagem.com_troca_pct": {
+      "rotulo": "Oração com troca de plano",
+      "unidade": "% das orações",
+      "mediana": 12.0,
+      "min": 12.5,
+      "max": 12.5,
+      "n": 1
+    },
+    "fala_imagem.lead_q_mediana": {
+      "rotulo": "Imagem muda antes da palavra",
+      "unidade": "quadros",
+      "mediana": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 1
+    },
+    "numeros_resumo.por_min": {
+      "rotulo": "Números falados",
+      "unidade": "/min",
+      "mediana": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 1
+    },
+    "numeros_resumo.com_evento_pct": {
+      "rotulo": "Número com evento visual",
+      "unidade": "%",
+      "mediana": null,
+      "min": null,
+      "max": null,
+      "n": 0
+    },
+    "som.lufs": {
+      "rotulo": "Volume (LUFS integrado)",
+      "unidade": "LUFS",
+      "mediana": -14.1,
+      "min": -14.1,
+      "max": -14.1,
+      "n": 1
+    },
+    "som.musica_abaixo_da_voz_db": {
+      "rotulo": "Música abaixo da voz",
+      "unidade": "dB",
+      "mediana": 15.3,
+      "min": 15.3,
+      "max": 15.3,
+      "n": 1
+    },
+    "som.efeitos_por_min": {
+      "rotulo": "Efeitos (estimativa)",
+      "unidade": "/min",
+      "mediana": 10.9,
+      "min": 10.9,
+      "max": 10.9,
+      "n": 1
+    },
+    "legenda.y_pct": {
+      "rotulo": "Legenda: altura do centro",
+      "unidade": "% da altura",
+      "mediana": 57.0,
+      "min": 57.3,
+      "max": 57.3,
+      "n": 1
+    },
+    "legenda.altura_texto_px_1920": {
+      "rotulo": "Legenda: altura do texto",
+      "unidade": "px em 1920",
+      "mediana": 43.0,
+      "min": 43.0,
+      "max": 43.0,
+      "n": 1
+    },
+    "legenda.palavras_por_quadro": {
+      "rotulo": "Legenda: palavras na tela",
+      "unidade": "palavras",
+      "mediana": 2.0,
+      "min": 2.0,
+      "max": 2.0,
+      "n": 1
+    },
+    "base_sugerida": "gravado"
+  },
+  "regras": [
+    {
+      "id": "plano",
+      "titulo": "Duração do plano",
+      "texto": "Plano de 6,13 s na mediana (média 7,06 s; 8 planos por minuto). Imagem nova a cada ~6,1 s.",
+      "prova": "DecxbwzBRru q1062-q1245 (35,40 s, 6,13 s)"
+    },
+    {
+      "id": "transicao",
+      "titulo": "Tipo de transição",
+      "texto": "0% das trocas são dissolve; o resto é corte seco. Especiais: 0 em 6 trocas (0,0 por vídeo).",
+      "prova": "DecxbwzBRru q270-q270 (corte, 9,00 s)"
+    },
+    {
+      "id": "camera",
+      "titulo": "Câmera nunca para",
+      "texto": "Câmera andando em 90% dos quadros; creep típico de 0,9% da largura por segundo; nos 10 primeiros quadros do plano ela anda 1,8× o resto (impulso na entrada). Maior trecho parado: 8 quadros.",
+      "prova": "DecxbwzBRru q760 (25,33 s)"
+    },
+    {
+      "id": "fala",
+      "titulo": "Ritmo da fala",
+      "texto": "198 palavras por minuto, voz em 79% do tempo; pausa depois de frase de 0,20 s na mediana (máx 0,30 s).",
+      "prova": "DecxbwzBRru pausa típica no fim de frase em q374 (12,47 s)"
+    },
+    {
+      "id": "troca_palavra",
+      "titulo": "Troca de plano presa à palavra",
+      "texto": "A troca de plano começa junto do começo da palavra mais perto (±1 quadro, mediana): imagem nova entra junto com a palavra nova.",
+      "prova": "DecxbwzBRru troca q270"
+    },
+    {
+      "id": "acao",
+      "titulo": "Ação × palavra",
+      "texto": "Sem padrão medível entre o gesto e a palavra seguinte (fala densa: uma palavra a cada ~8 quadros; o casamento não passa do acaso). Use a regra do formato (gesto termina ~4 quadros antes da palavra tônica).",
+      "prova": "DecxbwzBRru pico q3 → palavra q0"
+    },
+    {
+      "id": "fala_imagem",
+      "titulo": "A imagem é o que a fala diz, no quadro da palavra",
+      "texto": "100% das orações trazem imagem nova (troca de plano em 12%, o resto é ação/objeto dentro do plano); a imagem muda 1 quadro(s) antes da 1ª palavra da oração (mediana). Conferir oração por oração na folha fala-imagem e na tabela `fala-imagem/<vídeo>.md` (o que aparece × o que é dito).",
+      "prova": "DecxbwzBRru 'O que você consome todo dia define o tam' troca q270 → palavra q272"
+    },
+    {
+      "id": "som",
+      "titulo": "Som medido",
+      "texto": "Volume integrado -14,1 LUFS. Música (medida nas pausas da fala) 15 dB abaixo da voz. Picos de efeito: ~11 por minuto (estimativa: conferir no ouvido).",
+      "prova": "DecxbwzBRru (áudio inteiro)"
+    },
+    {
+      "id": "legenda",
+      "titulo": "Legenda",
+      "texto": "Legenda com o centro a 57% da altura, letra de ~43 px numa tela de 1920, ~2 palavras por vez.",
+      "prova": "DecxbwzBRru q750 (25,00 s)"
+    },
+    {
+      "id": "loop",
+      "titulo": "Fim que emenda no começo",
+      "texto": "Diferença entre o 1º e o último quadro: 43,3 (0 = idêntico; abaixo de ~12 o fim emenda no começo). Mais parecido: DecxbwzBRru (43,3).",
+      "prova": "DecxbwzBRru q0 × q1481"
+    },
+    {
+      "id": "gancho",
+      "titulo": "Gancho",
+      "texto": "A 1ª troca de imagem vem em 9,00 s na mediana; a primeira palavra em 0,00 s.",
+      "prova": "DecxbwzBRru q270"
+    }
+  ]
+}

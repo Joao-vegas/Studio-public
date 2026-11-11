@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% block titulo %}{{ c.nome }}{% endblock %}
+{% block conteudo %}
+{% from "_apagar_ui.html" import forms as ap_forms, card as ap_card, barra as ap_barra with context %}
+{% set voz_nome = namespace(t='') %}
+{% for v in vozes %}{% if voz_cliente.id and voz_cliente.id==v.id %}{% set voz_nome.t = v.rotulo %}{% endif %}{% endfor %}
+<p class="sobre"><a href="{{ url_for('clientes_lista') }}">Clientes</a> / {{ c.nome }}</p>
+<header class="cl-cab">
+  <span class="cl-avatar" aria-hidden="true">{{ c.nome[:2]|upper }}</span>
+  <div class="cl-id">
+    <h1>{{ c.nome }}</h1>
+    <div class="cl-fatos">
+      {% if identidade.cores %}<span class="cl-fato"><span class="cl-cores">{% for cor in identidade.cores %}<i class="cl-cor" style="background:{{ cor }}" title="{{ cor }}"></i>{% endfor %}</span></span>{% endif %}
+      {% if identidade.fontes %}<span class="cl-fato"><small>Fontes</small> {{ identidade.fontes|join(' · ') }}</span>{% endif %}
+      <span class="cl-fato"><small>Voz</small> {% if voz_nome.t %}{{ voz_nome.t }}{% elif voz_cliente.id %}{{ voz_cliente.id }}{% else %}a de Configurações{% endif %}</span>
+    </div>
+    {% if identidade.tom %}<p class="cl-tom">{{ identidade.tom }}</p>{% endif %}
+  </div>
+  <a class="btn grande primario" href="{{ url_for('novo_tela', cliente=c.nome) }}">Criar vídeo pra {{ c.nome }}</a>
+</header>
+
+<section class="cl-sec"><div class="titulo-linha"><h2>Vídeos dele {% if videos %}<span class="etiqueta">{{ videos|length }}</span>{% endif %}</h2>{% if videos %}{{ ap_barra() }}{% endif %}</div>
+{% if videos %}{{ ap_forms(request.path) }}
+<div class="vc-grade">
+  {% for v in videos[:12] %}
+  <article class="vc">
+    <a class="vc-capa" href="{{ url_for('arquivo', caminho=v.rel) }}" target="_blank">
+      <img loading="lazy" src="{{ url_for('thumb_rota', caminho=v.rel) }}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'vc-vazio'}))">
+      <span class="vc-selo">{{ v.formato }}</span>
+    </a>
+    <div class="vc-info"><b title="{{ v.nome }}">{{ v.nome }}</b><small>{{ v.data }}</small></div>
+    {{ ap_card('caminho', v.rel, v.nome) }}
+  </article>
+  {% endfor %}
+</div>
+{% if videos|length > 12 %}<details class="cl-resto"><summary class="btn fantasma">Ver {{ 'o outro vídeo' if videos|length == 13 else 'os outros ' ~ (videos|length - 12) ~ ' vídeos' }}</summary>
+<div class="vc-grade">
+  {% for v in videos[12:] %}
+  <article class="vc">
+    <a class="vc-capa" href="{{ url_for('arquivo', caminho=v.rel) }}" target="_blank">
+      <img loading="lazy" src="{{ url_for('thumb_rota', caminho=v.rel) }}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'vc-vazio'}))">
+      <span class="vc-selo">{{ v.formato }}</span>
+    </a>
+    <div class="vc-info"><b title="{{ v.nome }}">{{ v.nome }}</b><small>{{ v.data }}</small></div>
+    {{ ap_card('caminho', v.rel, v.nome) }}
+  </article>
+  {% endfor %}
+</div></details>{% endif %}
+{% else %}
+<div class="vazio"><p>Ainda nenhum vídeo pronto. Toque em “Criar vídeo pra {{ c.nome }}” e o primeiro aparece aqui.</p></div>
+{% endif %}
+</section>
+
+<section class="cl-sec"><div class="titulo-linha"><h2>Estilos que ele usa {% if modelos %}<span class="etiqueta">{{ modelos|length }}</span>{% endif %}</h2></div>
+{% if modelos %}
+<div class="cl-estilos">
+  {% for m in modelos %}
+  <article class="cl-estilo">
+    <div class="cl-est-capa">
+      {% if m.exemplo_poster %}<img loading="lazy" src="{{ url_for('arquivo', caminho=m.exemplo_poster) }}" alt="">
+      {% elif m.exemplo %}<video poster="{{ url_for('thumb_rota', caminho=m.exemplo) }}" muted playsinline preload="none" src="{{ url_for('arquivo', caminho=m.exemplo) }}#t=1"></video>
+      {% else %}<span class="vc-vazio"><svg class="icon"><use href="#i-formatos"/></svg></span>{% endif %}
+    </div>
+    <div class="cl-est-txt">
+      <b>{{ m.estilo }}</b>
+      {% if m.estilo_frase %}<p>{{ m.estilo_frase }}</p>{% endif %}
+      <small>{{ m.n_regras }} regra{{ 's' if m.n_regras != 1 }} aprendida{{ 's' if m.n_regras != 1 }}</small>
+      <a class="btn mini" href="{{ url_for('aprendizado_ver', cli=c.nome, mod=m.nome) }}">O que ele aprendeu</a>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% else %}<div class="vazio"><p>Ainda sem estilo próprio. Ao criar o primeiro vídeo, o Estúdio monta o dele.</p></div>{% endif %}
+</section>
+
+<details class="cl-mais" id="cl-mais"><summary class="btn fantasma">Mais opções do {{ c.nome }}</summary>
+<div class="cl-mais-corpo">
+<section class="cl-bloco"><h2>A cara</h2>
+<div class="cartao-config">
+  <p class="sub">O {{ c.nome }} é só a pele: o Estúdio pinta qualquer estilo com estas cores, fontes e tom.</p>
+  <div>
+  <form method="post" action="{{ url_for('cliente_identidade', nome=c.nome) }}">
+    <div class="ficha-simples" style="margin:10px 0 0">
+      <div><small>Cores (separe por vírgula)</small><input name="cores" value="{{ identidade.cores|join(', ') }}" style="width:100%;border:0;background:none;font:inherit;color:inherit;font-weight:600"></div>
+      <div><small>Fontes</small><input name="fontes" value="{{ identidade.fontes|join(', ') }}" style="width:100%;border:0;background:none;font:inherit;color:inherit;font-weight:600"></div>
+    </div>
+    <div class="campo"><label>Tom e cuidados</label><textarea name="tom" placeholder="Ex.: sério, sem gíria; nunca mostrar paciente; preço sempre 'por apenas'">{{ identidade.tom }}</textarea></div>
+    <button class="btn mini">Salvar a cara do cliente</button>
+  </form></div>
+
+</div>
+</section>
+<section class="cl-bloco"><details id="voz" class="cl-recolhido"><summary><b>Voz preferida</b> <small class="meta">{{ voz_nome.t or ("a de Configurações" if not voz_cliente.id else voz_cliente.id) }}</small></summary>
+<div class="cartao-config">
+  <p class="sub">A voz que narra os vídeos por roteiro do {{ c.nome }}. Sem escolha, vale a de Configurações.</p>
+  <form method="post" action="{{ url_for('cliente_voz', nome=c.nome) }}" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <select name="voz" id="voz-cli"><option value="">A de Configurações</option>{% for v in vozes %}<option value="{{ v.id }}" {{ 'selected' if voz_cliente.id==v.id }}>{{ v.rotulo }}{% if v.idioma %} ({{ v.idioma }}){% endif %}</option>{% endfor %}</select>
+    <button type="button" class="btn mini" onclick="var s=document.getElementById('voz-cli');var a=document.getElementById('voz-amostra');a.src='{{ url_for('voz_amostra') }}?voz='+encodeURIComponent(s.value||'default');a.hidden=false;a.play()">▶ ouvir</button>
+    <button class="btn mini">Salvar voz</button>
+    <audio id="voz-amostra" controls hidden></audio>
+  </form>
+  {% if not vozes %}<p class="meta" style="margin-top:8px">O VoiceStudio está fora do ar: abra o app pra escolher a voz.</p>{% endif %}
+</div>
+</details>
+</section>
+<section class="cl-bloco"><h2 id="favoritos">♥ Favoritos: músicas e efeitos</h2>
+<div class="cartao-config">
+  {% for tipo, rotulo in (('musica', 'Músicas'), ('sfx', 'Efeitos')) %}
+  <h3 style="margin:8px 0 6px;font-size:14px">{{ rotulo }}</h3>
+  {% for f in favs[tipo] %}
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+    <b style="min-width:180px">{{ f.titulo }}</b>
+    {% if f.rel %}<audio controls preload="none" src="{{ url_for('arquivo', caminho=f.rel) }}"></audio>{% endif %}
+    <small class="meta">{{ 'só dele' if f.so_dele else 'de todos' }}</small>
+    {% if f.so_dele %}<button class="btn mini" onclick="fetch('{{ url_for('musica_favorito') }}',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug:'{{ f.slug }}',tipo:'{{ tipo }}',cliente:'{{ c.nome }}',desligar:true})}).then(function(){location.reload()})">tirar ♥</button>{% endif %}
+  </div>
+  {% else %}<p class="meta">Nenhum ainda. Clique no ♥ numa faixa na busca de música e ela volta nas opções dos próximos vídeos.</p>{% endfor %}
+  {% endfor %}
+</div>
+
+</section>
+<section class="cl-bloco"><h2>Fichas técnicas dos estilos</h2>
+<div class="cartao-config">
+  {% if modelos %}<div class="cl-links">{% for m in modelos %}<a class="btn mini" href="{{ url_for('modelo', nome=c.nome, mod=m.nome) }}">{{ m.estilo }} · ficha e arquivos</a>{% endfor %}</div>
+  {% else %}<p class="meta">Nenhum estilo ainda.</p>{% endif %}
+</div>
+</section>
+{% if opcoes %}<section class="cl-bloco"><h2>Trazer um estilo de outro cliente</h2>
+<div class="cartao-config">
+  <form method="post" action="{{ url_for('portar', nome=c.nome) }}" class="form-inline">
+    <select name="portar" aria-label="Estilo de outro cliente">{% for val, rotulo in opcoes %}<option value="{{ val }}">{{ rotulo }}</option>{% endfor %}</select>
+    <button class="btn mini">Trazer (aprendizado zerado)</button>
+  </form>
+</div>
+</section>{% endif %}
+<section class="cl-bloco"><h2 id="material">Templates do {{ c.nome }}</h2>
+<p class="meta">O material <b>do projeto</b>: imagem, vídeo, logo, print de prova, capa de produto.
+  Organizado por assunto (“Marca3”, “Logos”, “Depoimentos”). Ao criar um vídeo você marca o
+  template e os arquivos entram como material próprio daquele vídeo, com prioridade máxima —
+  ou é só pedir no briefing: <i>“usa o template da Marca3”</i>.</p>
+<details class="explicador"><summary>Onde fica cada tipo de material?</summary>
+  <ul>
+    <li><b>Acervo</b> (<a href="{{ url_for('acervo') }}">compartilhado</a>) — serve todo mundo: b-roll, <b>música e SFX</b>. Banco de música não é por cliente: a mesma cama serve o {{ c.nome }} e os outros.</li>
+    <li><b>Templates do {{ c.nome }}</b> (aqui) — imagem, vídeo e template que são <b>deste projeto</b>: produto, prova, logo.</li>
+    <li><b>Modelo</b> — é só o motor (os scripts que montam o vídeo). Os arquivos que ele lê ficam na pasta dele por necessidade técnica, mas quem manda é o que você organiza aqui e no acervo.</li>
+  </ul>
+</details>
+<div class="grade material">
+  {% for col in material %}
+  <div class="card">
+    {% if col.capa %}<img loading="lazy" decoding="async" class="capa-colecao" src="{{ url_for('arquivo', caminho=col.capa.rel) }}" alt="">{% endif %}
+    <div class="card-titulo">{{ col.titulo }}</div>
+    <div class="card-meta">{{ col.n }} arquivo(s) · {{ col.mb }} MB{% for t in col.tags %} · <span class="chip cinza">{{ t }}</span>{% endfor %}</div>
+    {% if col.descricao %}<p class="desc">{{ col.descricao }}</p>{% endif %}
+    <details>
+      <summary>Ver e mexer nos arquivos</summary>
+      <div class="assets">
+        {% for it in col.itens %}
+        <div class="asset">
+          {% if it.tipo == 'imagem' %}<img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=it.rel) }}" alt="">
+          {% elif it.tipo == 'audio' %}<audio controls preload="none" src="{{ url_for('arquivo', caminho=it.rel) }}"></audio>
+          {% elif it.tipo == 'video' %}<video controls preload="none" src="{{ url_for('arquivo', caminho=it.rel) }}"></video>
+          {% else %}<span class="chip">Aa</span>{% endif %}
+          <small>{{ it.nome }}</small><small class="meta">{{ it.mb }} MB</small>
+          <details class="asset-acoes"><summary>Mexer</summary>
+            <form method="post" action="{{ url_for('material_pro_acervo', nome=c.nome, slug=col.slug) }}">
+              <input type="hidden" name="item" value="{{ it.nome }}">
+              <input name="titulo" placeholder="Nome no acervo"><input name="tags" placeholder="tags">
+              <button class="btn mini">→ Mandar pro acervo compartilhado</button>
+            </form>
+            <form method="post" action="{{ url_for('material_remover', nome=c.nome, slug=col.slug) }}"
+                  data-confirm="Tirar {{ it.nome }} da coleção? Vai pra lixeira e dá pra restaurar.">
+              <input type="hidden" name="item" value="{{ it.nome }}">
+              <button class="btn mini perigo">🗑 Tirar</button>
+            </form>
+          </details>
+        </div>
+        {% else %}<p class="meta">Template vazio — suba os arquivos abaixo.</p>{% endfor %}
+      </div>
+      <form method="post" action="{{ url_for('material_subir', nome=c.nome, slug=col.slug) }}" enctype="multipart/form-data" class="form-inline">
+        <input type="file" name="arquivos" multiple accept="image/*,video/*,audio/*"><button class="btn mini">⤴ Subir</button>
+      </form>
+      <form method="post" action="{{ url_for('material_editar', nome=c.nome, slug=col.slug) }}" class="form-inline">
+        <input name="titulo" value="{{ col.titulo }}"><input name="descricao" value="{{ col.descricao }}" placeholder="pra que serve">
+        <input name="tags" value="{{ col.tags|join(', ') }}" placeholder="tags"><button class="btn mini">Salvar</button>
+      </form>
+      <form method="post" action="{{ url_for('material_remover', nome=c.nome, slug=col.slug) }}"
+            data-confirm="Remover o template {{ col.titulo }} inteiro ({{ col.n }} arquivo(s))? Vai pra lixeira e dá pra restaurar.">
+        <button class="btn mini perigo">🗑 Remover o template inteiro</button>
+      </form>
+    </details>
+  </div>
+  {% endfor %}
+  <details class="card tracejado">
+    <summary>＋ Novo template</summary>
+    <form method="post" action="{{ url_for('material_criar', nome=c.nome) }}" enctype="multipart/form-data" class="form">
+      <label>Assunto do template <input name="titulo" placeholder="ex.: Marca3 (produto)" required></label>
+      <label>Pra que serve <span class="meta">(opcional)</span> <input name="descricao" placeholder="capas, prints de prova e foto da loja cheia"></label>
+      <label>Tags <span class="meta">(opcional)</span> <input name="tags" placeholder="produto, prova"></label>
+      <label>Arquivos <input type="file" name="arquivos" multiple accept="image/*,video/*,audio/*"></label>
+      <button class="btn primario">Criar template</button>
+    </form>
+  </details>
+</div>
+
+{% if jobs %}
+<h2>Jobs do Estúdio</h2>
+<div class="lista">
+  {% for j in jobs %}
+  <a class="linha" href="{{ url_for('job', cli=j.cliente, slug=j.slug) }}">
+    {% if j.saida %}<img loading="lazy" decoding="async" class="mini" src="{{ url_for('thumb_rota', caminho=j.saida) }}" alt="">{% else %}<div class="mini vazio"></div>{% endif %}
+    <div class="linha-txt"><b>{{ j.titulo }}</b><span class="meta">{{ j.modelo }} · {{ j.criado_em }} · v{{ j.versao }}</span></div>
+    <span class="status s-{{ j.status }}">{{ status_label(j.status) }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if ajustes %}
+<details class="explicador" ><summary>Ajustes aprendidos deste cliente</summary>
+  <p class="sub" style="margin:8px 0 14px">O que você já corrigiu nos vídeos dele e o Estúdio guardou pra não errar de novo.</p>
+  <div class="grade-clientes">
+    {% for x in ajustes %}
+    <div class="cliente-card">
+      <b>{{ x.titulo }}</b>
+      <small>{% if x.do_formato %}{{ x.do_formato }} regras do formato + {% endif %}{{ x.do_cliente }} regras aprendidas com o {{ c.nome }}</small>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:auto">
+        <a class="btn mini" href="{{ url_for('aprendizado_ver', cli=c.nome, mod=x.modelo) }}">Ver e ajustar</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</details>
+{% endif %}
+</section>
+<details class="zona-perigo cl-perigo"><summary>Zona de perigo</summary>
+  <p class="sub">Vai pra lixeira do Estúdio. Dá pra restaurar em Configurações.</p>
+  <form method="post" action="{{ url_for('cliente_remover', nome=c.nome) }}" data-confirm="Remover {{ c.nome }} inteiro? Vai pra lixeira do Estúdio (dá pra restaurar em Configurações)."><button class="btn perigo">Remover cliente</button></form>
+</details>
+</div>
+</details>
+{% endblock %}
+{% block scripts %}<script>
+(function(){var h=location.hash;if(!h)return;try{var e=document.querySelector(h);var d=e&&e.closest('details');if(d){d.open=true;e.scrollIntoView()}}catch(x){}})();
+</script>{% endblock %}

@@ -1,0 +1,8 @@
+{
+  "name": "estudio-motor-3d",
+  "private": true,
+  "description": "Three.js para os formatos 3D do Estúdio (Diálogo 3D). Renderizado quadro a quadro com Playwright.",
+  "dependencies": {
+    "three": "0.186.1"
+  }
+}

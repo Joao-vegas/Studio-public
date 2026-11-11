@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block titulo %}B-rolls de IA{% endblock %}
+{% block conteudo %}
+<div class="cabecalho"><div><p class="eyebrow">KIE.AI NO ESTÚDIO</p><h1>Crie a cena que falta.</h1><p class="sub">Escolha a edição. Depois, ligue a imagem ou animação a um trecho da fala.</p></div><a class="btn" href="{{ url_for('config') }}#kie">{{ 'Chave configurada' if kie_configurada else 'Configurar Kie.ai' }} →</a></div>
+<div class="creation-flow"><span class="ativo">Escolher vídeo</span><span>Preparar cena</span><span>Revisar custo</span><span>Gerar e aprovar</span></div>
+<div class="section-heading"><h2>Em qual vídeo vamos trabalhar?</h2><input class="quick-search" type="search" data-filter=".broll-job" placeholder="Buscar vídeo ou cliente…" aria-label="Buscar vídeo ou cliente"></div>
+<div class="grade">{% for j in jobs %}<a class="card broll-job" href="{{ url_for('broll_studio',cli=j.cliente,slug=j.slug) }}" data-search="{{ j.titulo }} {{ j.cliente }}"><span class="status">{{ status_label(j.status) }}</span><h3>{{ j.titulo }}</h3><p class="meta">{{ j.cliente }} · {{ j.modelo }}</p><span class="text-link">Abrir cenas deste vídeo →</span></a>{% else %}<div class="empty-state"><h3>Comece com um vídeo bruto.</h3><p>O plano da edição indica onde cada cena pode ajudar.</p><a class="btn primario" href="{{ url_for('criar') }}">＋ Editar vídeo bruto</a></div>{% endfor %}</div><p class="empty-filter" hidden>Nenhum vídeo encontrado.</p>
+{% endblock %}

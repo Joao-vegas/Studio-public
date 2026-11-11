@@ -1,0 +1,27 @@
+{% extends 'base.html' %}{% block titulo %}Variações{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="/aprovar">Esperando você</a> / variações</p>
+<div class="topo-pagina"><div><h1>{{ st.variacoes|length if st.variacoes else st.qtd }} ideias de vídeo nesse estilo</h1>
+<p class="sub">Leia e marque quais você quer que eu faça. Elas seguem o jeito de {% for r in refs %}<a href="{{ url_for('referencia_rapida_ver', id_=r.id) }}">{{ r.nome_curto }}</a>{{ ', ' if not loop.last }}{% endfor %}, mas com assunto novo (nada copiado da fala).</p></div></div>
+{% if st.estado == 'analisando' %}<div class="vazio"><h2>Pensando nas variações…</h2><p class="passo-dica">{{ st.passo }} A página atualiza sozinha.</p></div>
+{% elif st.estado == 'erro' %}<div class="vazio"><h2>Não deu certo</h2><p>{{ st.erro }}</p><form method="post" action="{{ url_for('variacoes_refazer', vid=st.id) }}"><button class="btn grande primario">Tentar de novo</button></form></div>
+{% else %}
+<div class="grade-cards variacoes-grade">{% for v in st.variacoes %}<section class="painel variacao variacao-{{ v.estado }}">
+  <div class="topo-pagina"><small class="meta">Ideia {{ v.n }}</small>{% if v.estado != 'proposta' %}<span class="selo {{ 'ok' if v.estado == 'aprovada' else 'erro' }}">{{ 'aprovada' if v.estado == 'aprovada' else 'não' }}</span>{% endif %}</div>
+  <b>{{ v.titulo }}</b>
+  <p class="ideia-gancho">“{{ v.gancho }}”</p>
+  <p>{{ v.ideia }}</p>
+  {% set texto = v.roteiro_curto or v.plano_corte %}{% set linhas = texto.splitlines() %}
+  <pre class="roteiro-curto">{{ linhas[:3]|join('\n') }}{{ '\n…' if linhas|length > 3 }}</pre>
+  {% if linhas|length > 3 %}<details><summary>Ler o roteiro inteiro</summary><pre class="roteiro-curto">{{ texto }}</pre></details>{% endif %}
+  <details><summary>O que é igual e o que é novo</summary><p class="meta"><b>Igual ao estilo:</b> {{ v.mantem }}</p><p class="meta"><b>Novo:</b> {{ v.muda }}</p></details>
+  {% if v.estado == 'proposta' and st.estado == 'proposta' %}<div class="acoes">
+    <form method="post" action="{{ url_for('variacoes_decidir', vid=st.id, n=v.n, decisao='aprovar') }}"><button class="btn primario">Fazer este vídeo</button></form>
+    <form method="post" action="{{ url_for('variacoes_decidir', vid=st.id, n=v.n, decisao='recusar') }}"><button class="btn fantasma">Não</button></form></div>
+  <small class="se-aprovar">Se você aprovar: abre o Criar já preenchido com esta ideia; o vídeo só é feito quando você clicar em Criar lá.</small>
+  {% elif v.estado == 'aprovada' %}<div class="acoes"><a class="btn grande primario" href="/criar-agora?variacao={{ st.id }}:{{ v.n }}{{ ('&estilo=' ~ st.estilo) if st.estilo }}{{ ('&cliente=' ~ st.cliente) if st.cliente and st.cliente != 'Avulso' }}">Abrir no Criar</a></div>{% endif %}
+</section>{% endfor %}</div>
+<form method="post" action="{{ url_for('variacoes_refazer', vid=st.id) }}"><button class="btn">Pedir outras 3 ideias</button> <small class="meta">as ideias de agora ficam guardadas</small></form>
+{% endif %}
+{% endblock %}
+{% block scripts %}{% if st.estado == 'analisando' %}<script>setTimeout(function(){location.reload()},5000)</script>{% endif %}{% endblock %}

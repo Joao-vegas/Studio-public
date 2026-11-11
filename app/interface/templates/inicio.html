@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% from "_formato.html" import cartao, script_play %}
+{% block titulo %}Início{% endblock %}
+{% block conteudo %}
+{% if n_esperando %}
+<a class="faixa-espera" href="/aprovar"><b>{{ n_esperando }}</b> {{ 'coisa esperando você' if n_esperando==1 else 'coisas esperando você' }}<span class="btn mini">Ver</span></a>
+{% endif %}
+<h1 class="titulo-display">O que vamos criar hoje?</h1>
+<p class="sub sub-inicio">Escolha um estilo, mande o material. Você só aprova.</p>
+<div class="tres-botoes">
+  <a class="botao-grande primario" href="/criar-agora"><svg class="icon"><use href="#i-mais"/></svg><b>Criar um vídeo</b><span>Um vídeo, do começo ao fim.</span></a>
+  <a class="botao-grande" href="/novo-lote"><svg class="icon"><use href="#i-stack"/></svg><b>Vários de uma vez</b><span>Joga os brutos e escolhe o estilo uma vez.</span></a>
+  <a class="botao-grande" href="/referencias#jogar"><svg class="icon"><use href="#i-ref"/></svg><b>Jogar um vídeo</b><span>Vi um vídeo e quero esse estilo.</span></a>
+</div>
+
+{% if esperando %}
+<div class="titulo-linha"><h2>Esperando você <span class="etiqueta destaque">{{ esperando|length }}</span></h2><a class="ver-todos" href="/aprovar">Ver todos →</a></div>
+<div class="vc-grade">
+{% for j in esperando[:6] %}
+  <article class="vc">
+    <a class="vc-capa" href="{{ j.url or url_for('andamento_ver' if j.andamento else 'job', cli=j.cliente, slug=j.slug) }}">
+      {% if j.saida and existe(j.saida) %}<img loading="lazy" src="{{ url_for('thumb_rota', caminho=j.saida) }}" alt="">{% else %}<span class="vc-vazio"><svg class="icon"><use href="#i-video"/></svg></span>{% endif %}
+      <span class="vc-selo">{{ j.acao }}</span>
+    </a>
+    <div class="vc-info"><b>{{ j.titulo }}</b><small>{{ j.cliente ~ ' · ' if j.cliente }}{{ j.formato_titulo }}</small></div>
+  </article>
+{% endfor %}
+</div>
+{% endif %}
+
+{% if andamento %}
+<div class="titulo-linha"><h2>Em andamento</h2><a class="ver-todos" href="{{ url_for('andamento_lista') }}">Ver os passos</a></div>
+<div class="lista-videos">
+{% for d in andamento[:6] %}
+  <a class="linha-video" href="{{ url_for('andamento_ver', cli=d.cliente, slug=d.slug) }}">
+    <span class="miniatura">{% if d.estado=='trabalhando' %}<span class="and-vivo"></span>{% else %}<svg class="icon"><use href="#i-andamento"/></svg>{% endif %}</span>
+    <div class="txt"><b>{{ d.titulo }}</b><small>{{ d.cliente }} · Agora: {{ d.atual.texto }} · {{ d.ha }}</small></div>
+  </a>
+{% endfor %}
+</div>
+{% endif %}
+
+{% if rodando %}
+<h2>Trabalhando agora</h2>
+<div class="lista-videos">
+{% for j in rodando[:6] %}
+  <a class="linha-video" href="{{ url_for('job', cli=j.cliente, slug=j.slug) }}">
+    <span class="miniatura"><span class="ponto"></span></span>
+    <div class="txt"><b>{{ j.titulo }}</b><small>{{ j.cliente }} · {{ j.formato_titulo }} · {{ status_label(j.status) }}</small></div>
+  </a>
+{% endfor %}
+</div>
+{% endif %}
+
+<div class="titulo-linha"><h2>Estilos prontos</h2><a class="ver-todos" href="/formatos">Ver todos →</a></div>
+<div class="tira">
+{% for f in formatos[:8] %}{{ cartao(f) }}{% endfor %}
+</div>
+{{ script_play() }}
+{% endblock %}

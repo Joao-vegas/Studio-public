@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+{% block titulo %}{{ j.titulo }}{% endblock %}
+{% macro tempo(s) %}{% set s = (s or 0)|float %}{{ '%d:%02d'|format(s // 60, s % 60) }}{% endmacro %}
+{# *destaque* do card vira negrito colorido (cor da identidade do cliente quando houver) #}
+{% macro destaque(txt) %}{% for parte in (txt or '').split('*') %}{% if loop.index is even %}<b class="destaque-card"{% if cor_destaque is defined and cor_destaque %} style="color:{{ cor_destaque }}"{% endif %}>{{ parte }}</b>{% else %}{{ parte }}{% endif %}{% endfor %}{% endmacro %}
+{% macro bloco_audio() %}{% if musica is defined and musica %}
+<div class="audio-bloco" id="musica">
+  <h3>Música</h3>
+  {% if not musica.escolha %}<p class="meta">Nenhuma marcada ainda. Ouça e marque uma; se não marcar, a IA escolhe na hora do vídeo.</p>{% endif %}
+  <div class="musica-lista">
+    {% for o in musica.opcoes %}{% set src = url_for('arquivo', caminho=o.arquivo) if o.arquivo else o.previa %}
+    <label class="musica-op {{ 'escolhida' if musica.escolha == o.id }}">
+      <input type="radio" name="musica" value="{{ o.id }}" {{ 'checked' if musica.escolha == o.id }}>
+      <span class="musica-txt"><b>{{ o.titulo }}</b>{% if o.usada_txt %} <span class="etiqueta destaque">{{ o.usada_txt }}</span>{% endif %}<small>{{ o.motivo }}{% if o.troca_txt %} · <b>{{ o.troca_txt }}</b>{% elif o.inicio_s is number %} · trecho {{ tempo(o.inicio_s) }}{% if o.fim_s is number %}–{{ tempo(o.fim_s) }}{% endif %}{% endif %}</small></span>
+      {% if src %}<audio controls preload="none" src="{{ src }}{% if o.inicio_s is number %}#t={{ o.inicio_s }}{% if o.fim_s is number %},{{ o.fim_s }}{% endif %}{% endif %}"></audio>{% endif %}
+    </label>
+    {% endfor %}
+    <label class="musica-op {{ 'escolhida' if musica.escolha == 'sem' }}"><input type="radio" name="musica" value="sem" {{ 'checked' if musica.escolha == 'sem' }}><span class="musica-txt"><b>Sem música</b><small>Só a voz (e os efeitos, se estiverem ligados).</small></span></label>
+  </div>
+  <a class="btn mini" href="{{ url_for('musica_busca', q=musica.clima, cliente=j.cliente, job=j.cliente ~ '/' ~ j.slug) }}">Buscar outra ↗</a>
+  <span class="meta">Mixkit, Biblioteca e as músicas do {{ j.cliente }}. A que você escolher lá volta pra cá.</span>
+</div>
+{% if efeitos is defined and efeitos %}
+<div class="audio-bloco" id="efeitos">
+  <input type="hidden" name="sfx_bloco" value="1">
+  <h3>Efeitos sonoros</h3>
+  <label class="scope-option"><input type="checkbox" name="sfx_ligado" value="1" {{ 'checked' if efeitos.ligado }}><span><b>Usar efeitos sonoros</b><small>Desligado, o vídeo sai sem nenhum efeito.</small></span></label>
+  {% if efeitos.itens %}{% set por_som = not (efeitos.itens|selectattr('em', 'number')|list) %}
+  <p class="meta">{% if por_som %}Cada som vale pro vídeo todo: desmarque o que não quiser ouvir.{% else %}Desmarque o efeito que não quiser.{% endif %} O ▶ toca o som.</p>
+  <div class="sfx-chips">{% for s in efeitos.itens %}
+    <label class="sfx-chip"{% if s.motivo %} title="{{ s.motivo }}"{% endif %}><input type="checkbox" name="sfx" value="{{ s.id }}" {{ 'checked' if s.ligado }}><span>{{ s.titulo }}{% if s.em is number %} · {{ tempo(s.em) }}{% endif %}</span>{% if s.arquivo %}<button type="button" class="btn mini tocar" data-src="{{ url_for('arquivo', caminho=s.arquivo) }}" aria-label="Ouvir {{ s.titulo }}">▶</button>{% endif %}</label>
+  {% endfor %}</div>
+  {% else %}<p class="meta">A IA põe os efeitos (whoosh na troca de cena, clique no card) na hora de fazer o vídeo.</p>{% endif %}
+</div>
+{% endif %}
+{% endif %}{% endmacro %}
+{% block conteudo %}
+{% set st = j.status %}
+<p class="migalha"><a href="{{ url_for('home') }}">Clientes</a> › <a href="{{ url_for('cliente', nome=j.cliente) }}">{{ j.cliente }}</a> › <a href="{{ url_for('modelo', nome=j.cliente, mod=j.modelo) }}">{{ j.modelo }}</a> › {{ j.titulo }}</p>
+<div class="cabecalho">
+  <div><h1>{{ j.titulo }}</h1>
+    <p class="sub">{{ j.cliente }} · {{ j.modelo }} · criado {{ j.criado_em }} · versão {{ j.versao }}{% if j.legenda is sameas false %} · <b>sem legenda</b>{% endif %} · <span class="status s-{{ st }}" id="status">{{ status_label(st) }}</span></p></div>
+  <div class="acoes">
+    {% if j.saida and existe(j.saida) %}<a class="btn primario" href="#render-final">▶ Assistir render final</a><a class="btn" href="{{ url_for('arquivo', caminho=j.saida) }}?v={{ mtime(j.saida) }}" target="_blank" rel="noopener">Abrir vídeo</a>{% endif %}
+    {% if j.rodando or st=='na_fila' %}<form method="post" action="{{ url_for('job_parar', cli=j.cliente, slug=j.slug) }}"><button class="btn">■ Parar</button></form>{% endif %}
+    <form method="post" action="{{ url_for('job_apagar', cli=j.cliente, slug=j.slug) }}" data-apagar="video={{ (j.cliente ~ '/' ~ j.slug)|urlencode }}" data-titulo="{{ j.titulo or j.slug }}"><button class="btn perigo">🗑 Apagar</button></form>
+  </div>
+</div>
+
+{% if st=='na_fila' %}<div class="aviso" data-poll>Este vídeo está na fila para {{ j.etapa_fila }}. Você pode continuar trabalhando.<form method="post" action="{{ url_for('priorizar',cli=j.cliente,slug=j.slug) }}"><button class="btn mini">Subir na fila</button></form></div>{% endif %}
+{% from '_aprendi.html' import aprendi_card %}{% set aprs = aprendi_pendentes(j.cliente, j.slug) %}{% if aprs %}<section class="cartao-config" id="and-aprendi"><h3>O que aprendi com seu pedido</h3><p class="meta">A regra só vale depois do seu OK.</p>{% for a in aprs %}{{ aprendi_card(a, url_for('job', cli=j.cliente, slug=j.slug)) }}{% endfor %}</section>{% endif %}
+{% if andamento and andamento.estado in ('trabalhando','esperando') %}<a class="and-faixa" href="{{ url_for('andamento_ver', cli=j.cliente, slug=j.slug) }}">{% if andamento.estado=='trabalhando' %}<span class="and-vivo"></span>Agora:{% else %}Esperando você:{% endif %} <b id="and-faixa-txt">{{ andamento.atual.texto }}</b> <span class="and-ha" id="and-faixa-ha">· {{ andamento.ha }}</span><span class="and-ver">Ver todos os passos →</span></a>{% endif %}
+{% if j.rodando %}{% set ult = (j.execucoes or [{}])[-1].tipo %}
+<div class="aviso rodando-aviso">● <b>{{ {'analise':'Lendo o vídeo e montando o storyboard','rebusca':'Procurando outras opções pros trechos que você não aprovou','previas':'Gerando as prévias dos trechos','producao':'Renderizando o vídeo final','feedback':'Refazendo o vídeo com o seu feedback (e registrando o aprendizado)'}.get(ult, 'Rodando') }}…</b> Pode fechar a página: as etapas abaixo acompanham e suas escolhas ficam guardadas.</div>
+{% endif %}
+{% if j.edicao_alterada %}<div class="aviso">O plano tem novas escolhas. O vídeo disponível ainda é da versão anterior; revise os trechos e renderize para aplicar.</div>{% endif %}
+{% set corte_pendente = j.cortar_bruto and not j.corte_aplicado %}
+<section class="process-board compacto" aria-label="Etapas do vídeo"><div class="section-heading"><p class="eyebrow">ETAPAS DO VÍDEO</p><span class="meta">{{ 'Passos do estilo' if (esteira is defined and esteira) else ('Só o seu bruto' if j.broll_config and j.broll_config.origem=='nenhum' else 'Cenas de apoio opcionais') }}</span></div>
+<div class="process-track">{% for step in pipeline %}<a class="process-step state-{{ step.estado }}{{ ' atual' if step.atual }}" data-process-step="{{ step.id }}" href="{{ url_for('broll_studio',cli=j.cliente,slug=j.slug) if step.alvo=='brolls' else step.alvo }}"><span class="process-number">{{ loop.index }}</span><span class="process-state">{{ {'pronto':'Pronto','rodando':'Em andamento','revisar':'Sua aprovação','aguardando':'Próxima etapa','atencao':'Precisa de atenção'}[step.estado] }}</span><span class="process-quem{{ ' sua-vez' if step.sua_vez }}">{{ 'Sua vez: ' ~ ('aprovar' if step.estado=='revisar' else 'olhar') if step.sua_vez else step.quem }}</span><h3>{{ step.titulo }}</h3><p>{{ step.detalhe }}</p>{% if step.editor_corte %}<small class="process-link" role="link" onclick="event.preventDefault();event.stopPropagation();location.href='{{ url_for('corte_manual', tipo='video', a=j.cliente, b=j.slug) }}'">✂︎ Corrigir o corte na mão</small>{% endif %}</a>{% endfor %}</div></section>
+
+
+{# ───────────── ETAPA 4: vídeo final + feedback ───────────── #}
+{% if j.saida and existe(j.saida) %}
+<div class="duas alinhado-topo" id="render-final">
+  <section class="painel">
+    <h2>{{ 'Vídeo disponível · revisão pendente' if j.status == 'erro' else 'Vídeo final' }} <span class="meta">v{{ j.versao }}</span></h2>
+    <video controls preload="metadata" class="player" poster="{{ url_for('thumb_rota', caminho=j.saida) }}?v={{ mtime(j.saida) }}" src="{{ url_for('arquivo', caminho=j.saida) }}?v={{ mtime(j.saida) }}"></video>
+    <div class="acoes">
+      {% if tem_camada(j.sandbox) %}<a class="btn" href="{{ url_for('camada_editor', pasta=j.sandbox, voltar=url_for('job', cli=j.cliente, slug=j.slug)) }}">✎ Mudar texto ou posição</a>{% endif %}
+      {% if j.entrada != 'roteiro' and j.bruto %}<a class="btn" href="{{ url_for('corte_manual', tipo='video', a=j.cliente, b=j.slug) }}">✂︎ Ajustar o corte</a>{% endif %}
+    </div>
+    {% if j.formato %}<form method="get" action="{{ url_for('job_virar_referencia', cli=j.cliente, slug=j.slug) }}" style="margin:8px 0"><button class="btn mini">★ Gostei: guardar como referência deste estilo</button> <small class="meta">vira uma opção em "Qual referência seguir" no Criar</small></form>{% endif %}
+    {% if j.versoes %}<p class="meta">Versões anteriores: {% for v in j.versoes %}<a href="{{ url_for('arquivo', caminho=v.arquivo) }}">v{{ v.versao }}</a> {% endfor %}</p>{% endif %}
+    <details><summary>Detalhes</summary>{% if resultado %}<div class="markdown">{{ resultado|md|safe }}</div>{% endif %}<p class="meta">Arquivo: <code>{{ j.saida }}</code></p></details>
+  </section>
+  <section class="painel ficou-bom">
+    <h2>Ficou bom?</h2>
+    <p class="meta">Assista ao vídeo ao lado. Gostou? Aprove. Não gostou? "Quero alterar" e diga o que mudar: o que você escrever vira regra pros próximos vídeos do {{ j.cliente }}.</p>
+    {% if j.rodando %}<div class="aviso">● Refazendo com o seu pedido… aguarde terminar antes de mandar outro.</div>{% endif %}
+    <form method="post" action="{{ url_for('job_feedback', cli=j.cliente, slug=j.slug) }}" class="form" {{ 'style="opacity:.5;pointer-events:none"' if j.rodando }}>
+      <div class="acoes" id="jb-escolha">
+        <button class="btn primario grande" name="decisao" value="aprovado">✓ Aprovar</button>
+        <button type="button" class="btn grande" id="jb-quero">Quero alterar</button>
+        {% if tem_cenas(j.sandbox) %}<a class="btn grande" href="{{ url_for('editor_video', pasta=j.sandbox) }}">✦ Editar por cena</a>{% endif %}
+      </div>
+      <div id="jb-alterar" hidden>
+        <label for="jb-texto"><b>O que você quer mudar?</b> Pode citar o segundo.</label>
+        <textarea id="jb-texto" name="texto" rows="4" placeholder="Ex.: a legenda tá cobrindo o queixo; a cena do trecho 3 não casa com a fala; a música tá alta…"></textarea>
+        {% set nome_cat = {'legenda':'Legenda','broll':'Cenas de apoio','beats':'Ritmo dos trechos','layout':'Layout','enquadramento':'Enquadramento','audio':'Som','cards':'Frases na tela','copy':'Texto','qa':'Conferência','processo':'Processo'} %}
+        <label>Sobre o quê? <small class="meta">opcional</small> <select name="categoria"><option value="">O Estúdio descobre</option>{% for c in categorias %}<option value="{{ c }}">{{ nome_cat.get(c, c) }}</option>{% endfor %}</select></label>
+        <div class="acoes">
+          <button class="btn primario grande" name="decisao" value="ajustar" {{ '' if ia_ok else 'disabled' }}>↻ Refazer com o meu pedido</button>
+          <button type="button" class="btn fantasma" id="jb-volta">Cancelar</button>
+        </div>
+      </div>
+    </form>
+    {% set nome_cat = {'legenda':'Legenda','broll':'Cenas de apoio','beats':'Ritmo dos trechos','layout':'Layout','enquadramento':'Enquadramento','audio':'Som','cards':'Frases na tela','copy':'Texto','qa':'Conferência','processo':'Processo'} %}
+    <script>(()=>{const e=document.getElementById('jb-escolha'),a=document.getElementById('jb-alterar'),t=document.getElementById('jb-texto');
+    document.getElementById('jb-quero').addEventListener('click',()=>{e.hidden=true;a.hidden=false;t.focus()});
+    document.getElementById('jb-volta').addEventListener('click',()=>{a.hidden=true;e.hidden=false});
+    t.form.addEventListener('submit',ev=>{if(ev.submitter&&ev.submitter.value==='ajustar'&&!t.value.trim()){ev.preventDefault();t.focus();t.placeholder='Conte o que ajustar.'}})})()</script>
+    {% if j.feedbacks %}<h3>Correções já dadas</h3>{% for f in j.feedbacks|reverse %}<div class="hist"><span class="meta">{{ f.em }} · {{ f.decisao }} · {{ nome_cat.get(f.categoria, f.categoria) }}</span><p>{{ f.texto or '(sem texto)' }}</p></div>{% endfor %}{% endif %}
+  </section>
+</div>
+{% endif %}
+
+
+{# ───────────── ETAPA 0: corte do bruto ───────────── #}
+{% if (j.cortar_bruto or corte) and not j.corte_aplicado %}
+<section class="painel" id="bruto">
+  <p class="eyebrow">COMECE AQUI</p><h2>Prepare a fala antes de editar</h2><p><a class="btn" href="{{ url_for('corte_manual', tipo='video', a=j.cliente, b=j.slug) }}">✂︎ Cortar na mão (marcar daqui até aqui)</a> <span class="meta">Use quando o corte automático errar.</span></p>
+  {% if not corte %}
+    <p class="meta">Você gravou corrido. O Estúdio transcreve o bruto, acha take repetido, erro assumido e silêncio longo, e propõe o que fica. Você confere na tela antes de qualquer edição.</p>
+    {% if corte_rodando %}<div class="aviso rodando-aviso" data-poll>● <b>{{ corte_etapa or 'Transcrevendo e montando o corte…' }}</b> A tela se atualiza sozinha.</div>
+    {% else %}<form method="post" action="{{ url_for('job_corte', cli=j.cliente, slug=j.slug) }}"><button class="btn primario" name="acao" value="auto">Preparar corte →</button>
+      <button class="btn" name="acao" value="ia" {{ '' if ia_ok else 'disabled' }}>Preparar corte com revisão de IA →</button></form>{% endif %}
+  {% else %}
+    {% if corte_rodando %}<div class="aviso rodando-aviso" data-poll>● <b>{{ corte_etapa or 'A IA está revisando o corte…' }}</b> Espere terminar antes de aplicar: a lista abaixo ainda pode mudar. A tela se atualiza sozinha.</div>{% endif %}
+    {% if corte.resumo %}<p class="resumo">{{ corte.resumo }}</p>{% endif %}
+    {% if corte.observacoes %}<div class="aviso">{{ corte.observacoes }}</div>{% endif %}
+    {% if checagem_corte and checagem_corte.duplicatas_restantes %}
+    <div class="aviso erro"><b>{{ checagem_corte.n }} repetição(ões) ainda nos trechos mantidos.</b>
+      <ul class="dup-lista">{% for r in checagem_corte.duplicatas_restantes[:5] %}<li>“{{ r.texto }}” em <b>{{ r.primeira_vez[0] }}s</b> e <b>{{ r.segunda_vez[0] }}s</b></li>{% endfor %}</ul></div>
+    {% endif %}
+    {% set revisao_fala = checagem_corte or {} %}{% include '_roteiro_corte.html' %}
+  {% set mantidos = corte.segmentos|selectattr('manter')|list %}
+    <p class="meta">{{ mantidos|length }} de {{ corte.segmentos|length }} trechos ficam{% if corte.duracao_estimada_s %} · ~{{ corte.duracao_estimada_s }}s{% endif %}. Desmarque o que quiser tirar, marque o que quiser trazer de volta.</p>
+    <form method="post" action="{{ url_for('job_corte_salvar', cli=j.cliente, slug=j.slug) }}" {{ 'style="opacity:.5;pointer-events:none" aria-disabled="true"'|safe if corte_rodando }}>
+      <div class="corte-lista">
+        {% for s in corte.segmentos %}
+        <label class="corte-seg {{ '' if s.manter else 'fora' }}">
+          <input type="checkbox" name="manter" value="{{ s.i }}" data-fala="{{ s.texto }}" {{ 'checked' if s.manter }}>
+          <span class="corte-t">{{ '%.1f'|format(s.t0) }}s</span>
+          <span class="corte-txt">{{ s.texto }}</span>
+          <span class="corte-motivo">{{ s.motivo }}</span>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="corte-ritmo">
+        <label class="meta">Fôlego dentro da fala — pausa morta acima disso é encurtada (é o que faz fluir)
+          <select name="aperto">
+            <option value="0.55" selected>Fluido (0,55s) — recomendado</option>
+            <option value="0.9">Natural (0,9s)</option>
+            <option value="0">Manter as pausas</option>
+          </select></label>
+        <label class="meta">Respiro nos cortes (segundos) — pausa total entre as falas, sem somar sobra dos dois lados
+          <input type="number" name="respiro" value="0.16" min="0" max="1" step="0.01" style="max-width:110px"></label>
+      </div>
+      <label class="meta">Observações <textarea name="obs" rows="2">{{ corte.observacoes_joao or '' }}</textarea></label>
+      <div class="acoes">
+        <button class="btn" name="acao" value="salvar">Salvar escolhas</button>
+        <button class="btn primario" name="acao" value="aplicar">✂︎ Aplicar o corte e seguir</button>
+      </div>
+    </form>
+    <form method="post" action="{{ url_for('job_corte_revisar', cli=j.cliente, slug=j.slug) }}" class="form" {{ 'style="opacity:.5;pointer-events:none" aria-disabled="true"'|safe if corte_rodando }}>
+      <label class="meta">Ficou errado? Diga onde (pode citar o segundo) — a IA confere lá, corrige e aprende
+        <textarea name="feedback" rows="2" placeholder="ex.: em 12s a mesma frase ficou duas vezes"></textarea></label>
+      <button class="btn" {{ '' if ia_ok else 'disabled' }}>↻ Revisar o corte e aprender</button>
+    </form>
+  {% endif %}
+</section>
+{% elif j.corte_aplicado %}
+<details class="painel recolhido" id="bruto"><summary>✔ Corte do bruto aprovado <span class="meta">· {{ j.corte_aplicado.segmentos_mantidos }} de {{ j.corte_aplicado.segmentos_total }} trechos · {{ tempo(j.corte_aplicado.duracao_s) }}</span></summary>
+<p class="meta">Aplicado {{ j.corte_aplicado.em }}. O vídeo cortado é a base da edição; o original ficou guardado. <a class="btn mini" href="{{ url_for('corte_manual', tipo='video', a=j.cliente, b=j.slug) }}">✂︎ Ajustar na mão</a></p>
+<video controls preload="metadata" class="player pequeno" src="{{ url_for('arquivo', caminho=j.corte_aplicado.arquivo) }}"></video></details>
+{% endif %}
+
+{# ───────────── ETAPA 1: análise ───────────── #}
+{% if not plano and j.status!='arquivado' and not corte_pendente %}
+<section class="painel">
+  <h2 id="editar">Storyboard</h2>
+  {% if not j.cortar_bruto %}<span id="bruto"></span>{% endif %}
+  <div class="duas alinhado-topo">
+    <div>
+      {% if j.entrada == 'roteiro' %}<h3>Roteiro</h3><div class="corte-roteiro" style="margin:8px 0;white-space:pre-wrap">{{ roteiro_txt }}</div>{% elif j.bruto %}<video controls preload="metadata" class="player pequeno" src="{{ url_for('arquivo', caminho=j.bruto) }}"></video>{% endif %}
+      {% if j.briefing %}<h3>Briefing</h3><p>{{ j.briefing }}</p>{% endif %}
+      {% if j.materiais %}<h3>Material próprio</h3><div class="chips">{% for m in j.materiais %}<span class="chip">{{ m.split('/')[-1] }}</span>{% endfor %}</div>{% endif %}
+      <form method="post" action="{{ url_for('job_material', cli=j.cliente, slug=j.slug) }}" enctype="multipart/form-data" class="form-inline"><input type="file" name="materiais" multiple accept="image/*,video/*,audio/*,application/pdf,.pdf"><button class="btn mini">⬆ Anexar material próprio</button></form>
+      {% if j.brolls %}<h3>B-rolls que você separou</h3><div class="chips">{% for b in j.brolls %}<span class="chip">{{ b.titulo }}</span>{% endfor %}</div>{% endif %}
+    </div>
+    <div>
+      {% if esteira is defined and esteira %}<p>O Estúdio segue os passos deste formato e monta o storyboard: um quadro por trecho, com o tempo e a fala. Você olha, escolhe a música e aprova antes de fazer o vídeo.</p>
+      {% else %}<p>O Estúdio lê a fala, divide em trechos e propõe o que entra em cada um: cena de apoio, frase na tela, música. Você olha o storyboard e aprova antes de fazer o vídeo.</p>{% endif %}
+      {% if j.status == 'cortando' %}<p class="meta">● Cortando sozinho (silêncio, take refeito, erro). Pode clicar em Montar o storyboard: ele começa assim que o corte terminar.</p>
+      {% elif j.corte_aplicado %}<p><a class="btn mini" href="{{ url_for('corte_manual', tipo='video', a=j.cliente, b=j.slug) }}">✂︎ Ajustar o corte</a> <small class="meta">Já cortado sozinho. Errou algo? Ajuste aqui.</small></p>
+      {% elif j.entrada != 'roteiro' %}<p><a class="btn mini" href="{{ url_for('corte_manual', tipo='video', a=j.cliente, b=j.slug) }}">✂︎ Cortar na mão antes</a></p>{% endif %}
+      {% if j.rodando %}<p class="meta">Montando o storyboard. Os detalhes ficam no fim da página.</p>
+      {% else %}<form method="post" class="form" action="{{ url_for('job_analisar', cli=j.cliente, slug=j.slug) }}">
+        {% if not (esteira is defined and esteira) %}{% include '_broll_preferences.html' %}{% endif %}
+        <button class="btn primario" {{ '' if ia_ok else 'disabled' }}>Montar o storyboard →</button>
+      </form>{% endif %}
+      {% if st == 'erro' %}<div class="aviso erro">{{ j.erro or 'A última execução terminou com erro.' }} <small><a href="#execucoes">Ver detalhes</a></small><form method="post" action="{{ url_for('job_tentar', cli=j.cliente, slug=j.slug) }}" style="margin-top:8px"><button class="btn primario mini">Tentar de novo</button></form></div>{% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ───────────── ETAPA 2/3: plano com opções ───────────── #}
+{% if plano %}
+{% set esteira_on = esteira is defined and esteira %}
+{% set esteira_velho = esteira_on and cenas_ok is defined and not cenas_ok %}{# vídeo feito antes da esteira: sem cenas.json pra renderizar #}
+{% set tipo_nome = {'broll':'Cena de apoio','citacao':'Cena de apoio','card':'Frase na tela','impacto':'Frase na tela','punch':'Zoom no rosto','insert':'Imagem inserida'} %}
+{% set ia_cenas = j.broll_config and j.broll_config.origem in ('ia','misto') %}
+{% if not esteira_on %}<details class="painel" id="preferencias-edicao"><summary>Preferências da edição · {{ 'sem cenas de apoio' if j.broll_config and j.broll_config.origem=='nenhum' else (((cenas_qtd or j.broll_config.quantidade)|string ~ ' cenas no máximo') if j.broll_config else 'cenas do plano atual') }}</summary><form method="post" action="{{ url_for('job_preferencias',cli=j.cliente,slug=j.slug) }}" class="form">{% include '_broll_preferences.html' %}<button class="btn">Salvar preferências · sem gerar</button></form></details>
+{% elif cenas_qtd %}<form method="post" action="{{ url_for('job_preferencias',cli=j.cliente,slug=j.slug) }}" class="painel" id="preferencias-edicao" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><input type="hidden" name="usar_broll" value="1"><input type="hidden" name="na_tela" value="1"><input type="hidden" name="origem_broll" value="{{ j.broll_config.origem }}"><span>Cenas de apoio no vídeo:</span><input type="number" name="quantidade_broll" min="1" max="200" value="{{ cenas_qtd }}" style="width:5em"><button class="btn mini">Salvar</button><small class="sub">Vale pro próximo storyboard.</small></form>{% endif %}
+{% if j.saida %}<details class="painel" {{ 'open' if j.edicao_alterada }}><summary>Consultar plano e escolhas da edição</summary>{% endif %}
+{% if st == 'erro' %}<div class="aviso erro">{{ j.erro or 'A última execução terminou com erro.' }} <small><a href="#execucoes">Ver detalhes</a></small><form method="post" action="{{ url_for('job_tentar', cli=j.cliente, slug=j.slug) }}" style="margin-top:8px"><button class="btn primario mini">Tentar de novo</button></form></div>{% endif %}
+<section class="painel">
+  <h2 id="editar">{% if esteira_velho %}Monte o storyboard de novo{% elif st in ('plano_aprovado','renderizando') %}Storyboard aprovado · fazendo o vídeo{% elif previas_md and not esteira_on %}Revise as prévias{% else %}Aprove o storyboard{% endif %}</h2>
+  {% if plano.resumo %}<p class="resumo">{{ plano.resumo }}</p>{% endif %}
+  {% set rs = referencia_storyboard(j.cliente, j.slug) if storyboard else '' %}
+  {% if rs %}<p class="{{ 'meta' if rs == 'Referência: usada' or rs.startswith('Referência: usada (') else 'aviso' }} and-ref-uso"><b>{{ rs }}</b></p>{% endif %}
+  {% if storyboard %}<a class="storyboard-grande{{ ' cheio' if esteira_on }}" href="{{ url_for('arquivo', caminho=storyboard) }}" target="_blank" rel="noopener" title="Abrir o storyboard em tamanho real"><img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=storyboard) }}" alt="Storyboard: um quadro por trecho, com o tempo e a fala"></a>
+  <p class="meta">Um quadro por trecho, na ordem do vídeo, com o tempo e a fala.{{ ' Role dentro da caixa pra ver todos;' if esteira_on }} clique pra ver em tamanho real.</p>
+  {% if previa_som %}<p class="meta previa-som">Ouça como vai soar (voz, música e efeitos): <audio controls preload="none" src="{{ url_for('arquivo', caminho=previa_som) }}"></audio></p>{% endif %}
+  {% elif esteira_on %}<div class="aviso">O storyboard ainda não saiu. Ele aparece aqui assim que o Estúdio terminar os passos do formato.</div>{% endif %}
+  {% set folhas = folhas_de_previa(j.cliente, j.slug) %}{% if folhas %}<details class="painel" id="folhas-previa" open><summary>Prévia das opções de b-roll</summary>
+  <p class="meta">Cada faixa é uma opção, com a fonte, o link, o tempo e o tamanho. Escolha a cena de cada trecho aqui embaixo.</p>
+  {% for f in folhas %}<p><b>Cena {{ f.cena }}</b></p><img loading="lazy" alt="Folha de prévia da cena {{ f.cena }}" style="max-width:100%;border-radius:8px" src="{{ url_for('arquivo', caminho=f.caminho) }}">{% endfor %}</details>{% endif %}
+
+  <form method="post" action="{{ url_for('job_plano', cli=j.cliente, slug=j.slug) }}" id="fplano">
+  {% if not esteira_velho %}{{ bloco_audio() }}{% endif %}
+  {% if esteira_velho %}
+    <div class="aviso">Este vídeo foi feito antes dos passos do formato. O storyboard acima é o antigo e não dá pra aprovar. Monte de novo: a música e os efeitos vêm junto.</div>
+    {% if j.rodando %}<p class="meta">Montando o storyboard novo. Ele aparece aqui quando ficar pronto.</p>
+    {% else %}<div class="acoes"><button class="btn primario" formaction="{{ url_for('job_analisar', cli=j.cliente, slug=j.slug) }}" {{ '' if ia_ok else 'disabled' }}>Montar o storyboard →</button></div>{% endif %}
+  {% elif esteira_on %}
+    {% for b in plano.beats %}{% set ops = (b.opcoes or [])|rejectattr('registro_busca')|list %}
+    <input type="hidden" name="escolha_{{ b.id }}" value="{{ b.escolha or ((ops[0].id if ops else 'nenhum') if b.tipo in ('broll','citacao') else b.id) }}">{% endfor %}
+    <label class="meta">Quer mudar alguma coisa antes? Escreva aqui (opcional) <textarea name="obs" rows="2" placeholder="Ex.: troca a cena 7 por algo de escritório; a frase do card 13 em duas linhas">{{ plano.observacoes_joao or '' }}</textarea></label>
+    <div class="acoes"><button class="btn primario" name="acao" value="render" {{ '' if ia_ok else 'disabled' }}>Aprovar e fazer o vídeo</button></div>
+  {% else %}
+  <h3 class="beats-titulo">Trecho por trecho</h3>
+  <div class="beats">
+    {% for b in plano.beats %}
+    <div class="beat" id="{{ b.id }}">
+      <div class="beat-cab">
+        <span class="chip">{{ tipo_nome.get(b.tipo, b.tipo) }}{% if b.camada %} · {{ b.camada }}{% endif %}</span> <span class="meta">{{ tempo(b.inicio) }} → {{ tempo(b.fim) }}</span>
+        {% if b.previa %}<span class="chip ativo">prévia pronta</span>{% endif %}
+      </div>
+      <p class="fala">“{{ b.fala }}”</p>
+      {% if b.intencao %}<p class="meta">{{ b.intencao }}</p>{% endif %}
+      {% if b.texto_card %}<p class="card-txt">Na tela: <span class="card-frase">{{ destaque(b.texto_card) }}</span></p>{% endif %}
+      {% if b.geracao_sugerida and b.geracao_sugerida.prompt %}<div class="ia-sugestao"><b>Ideia de cena feita por IA</b><p>{{ b.geracao_sugerida.prompt }}</p></div>{% endif %}
+      {% if b.tipo in ('broll','citacao') and ia_cenas %}<a class="btn mini" href="{{ url_for('broll_studio',cli=j.cliente,slug=j.slug,beat=b.id) }}">Criar cena com IA (paga, você vê o custo antes)</a>{% endif %}
+      {% if b.previa %}
+        <video controls preload="metadata" class="previa-beat" src="{{ url_for('arquivo', caminho=j.sandbox ~ '/' ~ b.previa) }}"></video>
+      {% endif %}
+      {% if b.opcoes %}
+      <div class="opcoes">
+        {% for o in b.opcoes if not o.registro_busca %}
+        <div class="take-card"><label class="opcao {{ 'escolhida' if b.escolha == o.id }}">
+          <input type="radio" name="escolha_{{ b.id }}" value="{{ o.id }}" {{ 'checked' if b.escolha == o.id }} {{ 'disabled' if (not o.disponivel or o.pendente_visual) and b.escolha != o.id }}>
+          {% if o.capa %}<img class="gif-op" src="{{ url_for('arquivo', caminho=o.capa) }}" alt="" loading="lazy">
+          {% elif o.capa_frame %}<img class="gif-op" src="{{ url_for('frame_rota', caminho=o.capa_frame.caminho, t=o.capa_frame.t) }}" alt="" loading="lazy">
+          {% else %}<div class="gif-op sem-previa">Prévia indisponível</div>{% endif %}
+          <b>{{ o.titulo }}</b>
+          <small>{{ o.fonte }}{% if o.trecho %} · {{ o.trecho }}s{% endif %}{% if o.url %} · <a href="{{ o.url }}" target="_blank">fonte ↗</a>{% endif %}</small>
+          <small>{{ o.motivo }}</small>
+          {% if not o.disponivel %}<small class="take-pending">Ainda sem prévia: não deu pra conferir esta opção.</small>{% endif %}
+          {% if o.verificado %}<details class="take-notes"><summary>Observações da análise</summary><small>{{ o.verificado }}</small></details>{% endif %}
+          {% if o.sheet and existe(j.sandbox ~ '/' ~ o.sheet) %}<details><summary>frames</summary><img class="sheet" src="{{ url_for('arquivo', caminho=j.sandbox ~ '/' ~ o.sheet) }}" alt="" loading="lazy"></details>{% endif %}
+        </label>
+        {% if o.acervo %}<span class="meta acervo-ok">✓ no acervo ({{ o.acervo }})</span>
+        {% elif (o.arquivo and existe(j.sandbox ~ '/' ~ o.arquivo)) or (b.escolha == o.id and existe(j.sandbox ~ '/brolls/clips/' ~ b.id ~ '-clean.mp4')) %}
+        <button class="btn mini" type="submit" form="acervo-{{ b.id }}-{{ o.id }}">Guardar no acervo</button>
+        {% endif %}
+        </div>
+        {% endfor %}
+        <label class="opcao nenhum {{ 'escolhida' if not b.escolha }}"><input type="radio" name="escolha_{{ b.id }}" value="nenhum" {{ 'checked' if not b.escolha }}><b>Nenhuma</b><small>sem cena aqui, ou escreva embaixo o que buscar</small></label>
+      </div>
+      {% if b.opcoes|selectattr('registro_busca')|list %}<details class="optional-tool"><summary>Buscas sem opção aproveitável</summary>{% for o in b.opcoes if o.registro_busca %}<p><b>{{ o.titulo }}</b><br><span class="meta">{{ o.motivo }}</span></p>{% endfor %}</details>{% endif %}
+      {% else %}
+        <input type="hidden" name="escolha_{{ b.id }}" value="{{ (b.escolha or 'nenhum') if b.tipo in ('broll','citacao') else (b.escolha or b.id) }}">
+      {% endif %}
+      {% if b.tipo in ('broll','citacao','insert') %}
+      <div class="take-actions">
+      <button class="btn mini" name="acao" value="buscar:{{ b.id }}" {{ '' if ia_ok else 'disabled' }}>Não gostei · buscar outras</button>
+      <button class="btn mini" name="acao" value="recuperar:{{ b.id }}" {{ '' if ia_ok else 'disabled' }}>Preparar prévias deste trecho</button>
+      </div>
+      <details class="optional-tool"><summary>Tenho uma cena minha · opcional</summary><p class="meta">Anexe do celular ou computador. O Estúdio confere se combina com a fala antes de recomendar.</p>
+      <input type="file" name="take" form="take-{{ b.id }}" accept="video/*,image/*"><button class="btn mini" type="submit" form="take-{{ b.id }}">Anexar · sem analisar ainda</button>
+      {% for t in j.takes_proprios or [] if t.beat==b.id %}<div class="asset-review"><b>{{ t.nome }}</b><p class="meta">{% if t.avaliacao %}{{ 'Adequado' if t.avaliacao.adequado else 'Não recomendado' }} · {{ t.avaliacao.motivo }}{% else %}Aguardando análise visual{% endif %}</p></div>{% endfor %}
+      {% if j.takes_proprios %}<button class="btn" name="acao" value="avaliar:{{ b.id }}" {{ '' if ia_ok else 'disabled' }}>Analisar minha cena →</button>{% endif %}</details>
+      {% endif %}
+      <input name="coment_{{ b.id }}" value="{{ b.comentario or '' }}" placeholder="quer mudar? escreva a direção: 'procura no sentido de…' / 'esse mas mais no fim' / 'sem cena aqui'">
+    </div>
+    {% endfor %}
+  </div>
+  <label class="meta">Observações gerais <textarea name="obs" rows="2">{{ plano.observacoes_joao or '' }}</textarea></label>
+  <div class="acoes">
+    <button class="btn primario" name="acao" value="render" {{ '' if ia_ok else 'disabled' }}>Aprovar e fazer o vídeo</button>
+    <button class="btn" name="acao" value="salvar">Salvar escolhas</button>
+  </div>
+  <details class="optional-tool"><summary>Mais ações</summary><div class="acoes">
+    <button class="btn" name="acao" value="buscar" {{ '' if ia_ok else 'disabled' }}>Buscar outras cenas pros trechos sem escolha</button>
+    <button class="btn" name="acao" value="previas" {{ '' if ia_ok else 'disabled' }}>Gerar prévias dos trechos</button>
+  </div></details>
+  <p class="meta">Marque a cena que gostou em cada trecho. Não gostou? Deixe "Nenhuma" e escreva a direção, ou clique em "Não gostei · buscar outras" só naquele trecho. Tudo certo? "Aprovar e fazer o vídeo". "Nenhuma" sem texto = sem cena ali.</p>
+  {% endif %}
+  </form>
+  {% for b in plano.beats %}<form id="take-{{ b.id }}" method="post" enctype="multipart/form-data" action="{{ url_for('job_take',cli=j.cliente,slug=j.slug) }}"><input name="beat" value="{{ b.id }}" type="hidden"></form>{% endfor %}
+  {% for b in plano.beats %}{% for o in b.opcoes or [] %}<form id="acervo-{{ b.id }}-{{ o.id }}" method="post" action="{{ url_for('job_acervo_opcao',cli=j.cliente,slug=j.slug) }}"><input type="hidden" name="beat" value="{{ b.id }}"><input type="hidden" name="op" value="{{ o.id }}"></form>{% endfor %}{% endfor %}
+  <details class="optional-tool detalhes-plano"><summary>Detalhes</summary>
+    {% if plano.observacoes %}<h3>O que a IA quer que você confira</h3><div class="aviso">{{ plano.observacoes }}</div>{% endif %}
+    {% if analise %}<details><summary>Análise da IA</summary><div class="markdown">{{ analise|md|safe }}</div></details>{% endif %}
+    {% if plano.transcricao %}<details><summary>Transcrição ({{ plano.transcricao|length }} trechos)</summary><div class="transcricao">{% for tr in plano.transcricao %}<p><span class="meta">{{ tempo(tr.t0) }}</span> {{ tr.texto }}</p>{% endfor %}</div></details>{% endif %}
+    {% if previas_md %}<details><summary>Notas das prévias</summary><div class="markdown">{{ previas_md|md|safe }}</div></details>{% endif %}
+    {% if j.camadas %}<p class="meta">Camadas extras: {{ j.camadas|join(', ') }}</p>{% endif %}
+    {% if not esteira_on %}<form method="post" action="{{ url_for('job_material', cli=j.cliente, slug=j.slug) }}" enctype="multipart/form-data" class="form-inline"><span class="meta">Tem imagem, vídeo, música ou PDF seu pra algum trecho?</span><input type="file" name="materiais" multiple accept="image/*,video/*,audio/*,application/pdf,.pdf"><button class="btn mini">⬆ Anexar e usar na próxima busca</button></form>{% endif %}
+  </details>
+</section>
+{% if j.saida %}</details>{% endif %}
+{% endif %}
+
+{% if j.status in ('aprovado','exportado') and not j.rodando %}
+<section class="painel finalizar" id="finalizar"><p class="eyebrow">APROVADO. AGORA, CUIDAR DO QUE FICA.</p><h2>Exportar o vídeo aprovado</h2>
+{% if j.status=='aprovado' %}
+{% if para_acervo %}<details open><summary><b>1. Escolha o que guardar no acervo</b><br><span class="meta">Tudo começa desmarcado. Guarde apenas o que você quer reutilizar.</span></summary>
+<form method="post" action="{{ url_for('job_acervo',cli=j.cliente,slug=j.slug) }}" class="form">
+{% for tipo, items in para_acervo|groupby('tipo') %}<h3>{{ {'audio':'Músicas e efeitos','video':'Vídeos','imagem':'Fotos e cards'}.get(tipo,tipo) }}</h3>
+{% for it in items %}<div class="asset-review"><label class="check"><input type="checkbox" name="guardar" value="{{ it.id }}" {{ 'disabled' if j.acervo_mapa and it.id in j.acervo_mapa }}> <b>{{ it.titulo }}</b>{% if j.acervo_mapa and it.id in j.acervo_mapa %}<span class="chip">Já está no acervo</span>{% endif %}</label>
+{% if tipo=='audio' %}<audio controls preload="none" src="{{ url_for('arquivo',caminho=it.arquivo) }}"></audio>{% elif it.thumb %}<img class="mini" loading="lazy" src="{{ url_for('arquivo',caminho=it.thumb) }}" alt="Prévia de {{ it.titulo }}">{% endif %}
+<p class="meta">{{ it.beat }} · {{ it.fala or it.motivo }}</p><div class="duas"><label>Título<input name="titulo_{{ it.id }}" value="{{ it.titulo }}"></label><label>Tags<input name="tags_{{ it.id }}" value="{{ it.tags|join(', ') }}" placeholder="Tema, sensação, tipo de cena"></label></div><label>Descrição para encontrar depois<textarea name="descricao_{{ it.id }}" rows="2">{{ it.descricao }}</textarea></label></div>{% endfor %}{% endfor %}
+<button class="btn">Guardar marcados no acervo</button></form></details>{% endif %}
+<h3>2. Salvar no meu Mac</h3><p>O vídeo, o bruto, os materiais usados e os documentos vão juntos. Cada arquivo será conferido depois da cópia.</p>
+<form method="post" action="{{ url_for('job_finalizar',cli=j.cliente,slug=j.slug) }}" class="form"><label>Pasta de destino deste cliente<input name="destino" value="{{ destino_padrao }}" required></label><p class="meta">Pasta prevista: {{ pasta_prevista }}</p>
+<details><summary>3. Comando de referência do próximo vídeo</summary>{% if comando_final %}<p class="meta">Este comando aprovado será salvo na ficha e no aprendizado do modelo.</p><pre>{{ comando_final }}</pre>{% else %}<p class="meta">O render não registrou um comando final. A referência atual do modelo será preservada.</p>{% endif %}</details><label class="check"><input name="exemplo" type="checkbox" value="1"> Virar o exemplo principal do formato (o próximo vídeo copia este)</label><button class="btn primario">Exportar e verificar cópia →</button></form>
+{% else %}<div class="aviso ok">Cópia verificada em {{ j.pasta_mac }}.</div><p>Os hashes serão conferidos novamente antes de apagar os arquivos temporários. O registro deste vídeo fica no Arquivo.</p><div class="acoes"><form method="post" action="{{ url_for('abrir_finder',cli=j.cliente,slug=j.slug) }}"><button class="btn">Conferir no Finder ↗</button></form><form method="post" action="{{ url_for('job_apagar_tudo',cli=j.cliente,slug=j.slug) }}" data-confirm="Finalizar este vídeo e apagar seus temporários e renders locais? A cópia exportada será preservada e verificada novamente."><button class="btn primario">4. Fechar e liberar espaço</button></form></div>{% endif %}</section>
+{% elif j.status=='arquivado' %}<section class="painel"><span class="chip">✓ Produção concluída</span><h2>Uma história pronta para publicar.</h2><p>Exportado em {{ j.fechado_em }} para {{ j.pasta_mac }}.</p><form method="post" action="{{ url_for('abrir_finder',cli=j.cliente,slug=j.slug) }}"><button class="btn primario">Abrir no Finder ↗</button></form>{% if j.takes_resumo %}<details><summary>Resumo dos takes aprovados</summary>{% for t in j.takes_resumo %}<p><b>{{ t.beat }}</b> · {{ t.fala }}</p>{% endfor %}</details>{% endif %}</section>{% endif %}
+{% if j.status!='arquivado' %}
+<details class="painel execution-details" id="execucoes"><summary>Detalhes técnicos</summary>
+  <h2>Execução <span class="meta" id="rodando-flag">{{ '● rodando' if j.rodando else '' }} · modelo {{ modelo_claude }}</span></h2>
+  <pre class="log" id="log">{{ log or '(nenhuma execução ainda)' }}</pre>
+  <p class="meta">"US$ x" no fim do log é o custo estimado daquela execução (o que a API cobraria pelos tokens). Com assinatura é só informativo.</p>
+  <details><summary>Prompt desta etapa (pra rodar na mão numa sessão da IA Code, se preferir)</summary>
+    <pre class="log" id="prompt">{{ prompt }}</pre>
+    <button class="btn mini" onclick="navigator.clipboard.writeText(document.getElementById('prompt').textContent)">Copiar prompt</button>
+  </details>
+  <p class="meta">Pasta de trabalho: <code>{{ j.sandbox }}</code> · execuções: {{ j.execucoes|length }}</p>
+</details>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+const rodando = {{ 'true' if j.rodando else 'false' }};
+if (rodando) {
+  const log = document.getElementById('log');
+  const tick = async () => {
+    try {
+      const r = await fetch('{{ url_for('api_job_log', cli=j.cliente, slug=j.slug) }}');
+      const d = await r.json();
+      log.textContent = d.log || '…'; log.scrollTop = log.scrollHeight;
+      document.getElementById('status').textContent = d.rodando ? 'rodando…' : d.status;
+      window.studioUpdatePipeline?.(d.pipeline);
+      (d.pipeline || []).forEach(st => {   // quem age em cada etapa ("Estúdio faz" / "Sua vez: aprovar")
+        const el = document.querySelector('[data-process-step="' + st.id + '"]'); if (!el) return;
+        el.classList.toggle('atual', !!st.atual);
+        const q = el.querySelector('.process-quem');
+        if (q) { q.classList.toggle('sua-vez', !!st.sua_vez); q.textContent = st.sua_vez ? 'Sua vez: ' + (st.estado === 'revisar' ? 'aprovar' : 'olhar') : (st.quem || ''); }
+      });
+      if (d.andamento) { const t = document.getElementById('and-faixa-txt'); if (t) { t.textContent = d.andamento.texto; document.getElementById('and-faixa-ha').textContent = '· ' + d.andamento.ha; } }
+      if (!d.rodando && d.status !== 'na_fila') { window.studioReload ? window.studioReload() : location.reload(); return; }
+    } catch (e) {}
+    setTimeout(tick, 3000);
+  };
+  tick();
+}
+const abrirAlvo = () => { const el = location.hash && document.getElementById(location.hash.slice(1)); const d = el && (el.tagName === 'DETAILS' ? el : el.closest('details')); if (d && !d.open) { d.open = true; el.scrollIntoView(); } };
+window.addEventListener('hashchange', abrirAlvo); abrirAlvo();
+document.querySelectorAll('.opcao input[type=radio]').forEach(r => r.addEventListener('change', () => {
+  r.closest('.opcoes').querySelectorAll('.opcao').forEach(o => o.classList.remove('escolhida'));
+  r.closest('.opcao').classList.add('escolhida');
+}));
+document.querySelectorAll('.musica-op input[type=radio]').forEach(r => r.addEventListener('change', () => {
+  r.closest('.musica-lista').querySelectorAll('.musica-op').forEach(o => o.classList.remove('escolhida'));
+  r.closest('.musica-op').classList.add('escolhida');
+}));
+let somAtual = null, somBotao = null;   // mini player dos efeitos: um ▶ que toca e para
+document.querySelectorAll('.tocar').forEach(b => b.addEventListener('click', ev => {
+  ev.preventDefault();
+  const mesmo = somBotao === b && somAtual && !somAtual.paused;
+  if (somAtual) somAtual.pause();
+  document.querySelectorAll('.tocar').forEach(x => x.textContent = '▶');
+  if (mesmo) return;
+  somAtual = new Audio(b.dataset.src); somBotao = b; somAtual.play(); b.textContent = '■';
+  somAtual.onended = () => { b.textContent = '▶'; };
+}));
+const sfxGeral = document.querySelector('#efeitos input[name=sfx_ligado]');
+if (sfxGeral) { const f = () => document.querySelectorAll('#efeitos .sfx-chip').forEach(c => c.classList.toggle('desligado', !sfxGeral.checked)); sfxGeral.addEventListener('change', f); f(); }
+</script>
+{% endblock %}

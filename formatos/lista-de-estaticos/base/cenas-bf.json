@@ -1,0 +1,80 @@
+{
+ "titulo": [
+  [
+   [
+    "10 estáticos fáceis pra",
+    "normal"
+   ]
+  ],
+  [
+   [
+    "vender mais",
+    "forte"
+   ],
+   [
+    " na Black Friday",
+    "normal"
+   ]
+  ]
+ ],
+ "lado": "direita",
+ "fim": 22.4,
+ "itens": [
+  {
+   "nome": "print de DM",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/01-print-de-dm.png",
+   "t": 8.78
+  },
+  {
+   "nome": "print de e-mail",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/02-print-de-email.png",
+   "t": 9.76
+  },
+  {
+   "nome": "estilo jornal",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/03-estilo-jornal.png",
+   "t": 10.38
+  },
+  {
+   "nome": "raio-x",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/04-raio-x.png",
+   "t": 11.3
+  },
+  {
+   "nome": "antes e depois feio",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/05-antes-e-depois-feio.png",
+   "t": 12.18
+  },
+  {
+   "nome": "desenho",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/06-desenho.png",
+   "t": 13.3
+  },
+  {
+   "nome": "imagem térmica",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/07-imagem-termica.png",
+   "t": 13.9
+  },
+  {
+   "nome": "conteúdo sensível",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/08-tela-conteudo-sensivel.png",
+   "t": 15.06
+  },
+  {
+   "nome": "post-it",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/09-post-it.png",
+   "t": 16.4
+  },
+  {
+   "nome": "garantia no topo",
+   "imagem": "~/Downloads/10-estaticos-swipe-file/10-garantia-no-topo.png",
+   "t": 17.6
+  }
+ ],
+ "cortes": [
+  [
+   6.65,
+   8.6
+  ]
+ ]
+}

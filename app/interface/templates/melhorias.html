@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titulo %}Melhorias{% endblock %}
+{% block conteudo %}
+<div class="cabecalho"><div><h1>Melhorias do Estúdio</h1><p class="sub">O que o Estúdio propôs consertar nele mesmo depois de revisar os vídeos, e o que você respondeu.</p></div></div>
+{% if itens %}<div class="rev-lista">{% for m in itens %}<div class="rev-item" style="grid-template-columns:1fr">
+<div><b>{{ ('Melhoria no estilo ' ~ (m.formato_titulo or 'do Estúdio') ~ ': ' ~ (m.achados[0].o_que[:140])) if (m.tipo == 'motor' and m.achados and m.achados[0].o_que) else m.titulo }}</b><p>{{ {'proposta':'Esperando você','pronta':'Pronta pra aplicar','preparando':'Preparando','aplicando':'Aplicando','aplicada':'Aplicada','falhou':'Não passou na prova','recusada':'Deixada pra depois','desfeita':'Desfeita'}.get(m.estado, m.estado) }} · {{ m.criado_em[8:10] }}/{{ m.criado_em[5:7] }} às {{ m.criado_em[11:16] }}{% if m.estado == 'falhou' %} · {{ m.motivo }}{% endif %}</p>
+<p><a class="btn mini" href="{{ url_for('melhoria_ver', id_=m.id) }}">Abrir</a></p></div></div>{% endfor %}</div>
+{% else %}<div class="vazio"><p>Nenhuma ainda. Depois de cada vídeo o Estúdio se revisa; quando achar um erro do motor que se repete, ele aparece aqui.</p></div>{% endif %}
+{% endblock %}

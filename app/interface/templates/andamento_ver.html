@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% block titulo %}{{ d.titulo }} · Em andamento{% endblock %}
+{% block conteudo %}
+{% set pasta = d.pasta or pasta_do_video(d.cliente, d.slug) %}
+<p class="migalha"><a href="{{ url_for('andamento_lista') }}">Em andamento</a></p>
+<div class="topo-pagina">
+  <div><h1>{{ d.titulo }}</h1><p class="sub">{{ d.cliente }}{% if d.formato_titulo %} · {{ d.formato_titulo }}{% endif %} · {{ 'feito pelo chat' if d.origem=='chat' else 'feito pela tela' }}</p></div>
+  <div class="acoes">
+    {% if pasta and tem_camada(pasta) %}<a class="btn mini" href="{{ url_for('camada_editor', pasta=pasta, voltar=url_for('andamento_ver', cli=d.cliente, slug=d.slug)) }}">Editar o texto</a>{% endif %}
+    {% if d.tem_job and d.estado=='erro' %}<form method="post" action="{{ url_for('job_tentar', cli=d.cliente, slug=d.slug) }}"><input type="hidden" name="volta" value="{{ url_for('andamento_ver', cli=d.cliente, slug=d.slug) }}"><button class="btn primario mini">Tentar de novo</button></form>{% endif %}
+    {% if d.tem_job %}<a class="btn mini" href="{{ url_for('job', cli=d.cliente, slug=d.slug) }}{{ '#render-final' if d.estado=='pronto' }}">Mais detalhes</a>{% endif %}
+    {% if d.tem_job and tem_bruto_video(d.cliente, d.slug) and tem_corte(d.cliente, d.slug) %}<a class="btn mini" href="{{ url_for('corte_manual', tipo='video', a=d.cliente, b=d.slug) }}">Corrigir o corte</a>{% endif %}
+    <form method="post" action="{{ url_for('andamento_esconder', cli=d.cliente, slug=d.slug) }}"><button class="btn mini">Tirar da lista</button></form>
+  </div>
+</div>
+{% if d.tem_job and tem_bruto_video(d.cliente, d.slug) and tem_corte(d.cliente, d.slug) and corte_mexido(d.cliente, d.slug) %}<p class="meta">Corte mexido: peça "Quero alterar" pra refazer o vídeo com o corte novo.</p>{% endif %}
+{% from '_aprendi.html' import aprendi_card %}<div id="and-aprendi-box">{% set aprs = aprendi_pendentes(d.cliente, d.slug) %}{% if aprs %}<section class="cartao-config" id="and-aprendi"><h3>O que aprendi com seu pedido</h3><p class="meta">A regra só vale depois do seu OK.</p>{% for a in aprs %}{{ aprendi_card(a, url_for('andamento_ver', cli=d.cliente, slug=d.slug)) }}{% endfor %}</section>{% endif %}</div>
+{% if pv.modo == 'motivo' %}<p class="aviso">Este vídeo não abre no editor por cena: {{ pv.motivo }}</p>{% endif %}
+{% if pv.aprovado %}
+<section class="cartao-config pv-aprovado" id="pv-aprovado">
+  <h3>Aprovado ✓ — e agora?</h3>
+  <p class="meta">{% if pv.aprovado != 'sim' %}Aprovado em {{ pv.aprovado[8:10] }}/{{ pv.aprovado[5:7] }} às {{ pv.aprovado[11:16] }}. {% endif %}O vídeo saiu de Esperando você e está em Meus vídeos. Escolha o que fazer com ele:</p>
+  <ul class="pv-acoes">
+    <li><a class="btn" download href="{{ url_for('arquivo', caminho=d.video) }}">Baixar o vídeo</a><span>Salva o arquivo .mp4 no seu Mac (pasta Downloads).</span></li>
+    <li><button type="button" class="btn" id="pv-finder" data-caminho="{{ d.video }}">Mostrar no Finder</button><span>Abre o Finder com o arquivo já marcado.</span></li>
+    <li>{% if pv.job.status in ('exportado', 'arquivado') %}<button class="btn" disabled>✓ Já está no iCloud</button><span>Guardado em {{ pv.job.pasta_mac or 'a pasta do cliente' }}.</span>
+      {% else %}<form method="post" action="{{ url_for('job_finalizar', cli=d.cliente, slug=d.slug) }}"><input type="hidden" name="volta" value="{{ url_for('andamento_ver', cli=d.cliente, slug=d.slug) }}"><button class="btn">Guardar no iCloud</button></form><span>Copia o vídeo e o material pra pasta do cliente no iCloud e confere cada arquivo. Não apaga nada daqui.</span>{% endif %}</li>
+    <li>{% if pv.referencia %}<button class="btn" disabled>✓ Já é referência do estilo</button><span>Está em formatos/{{ d.formato }}/estudos/{{ pv.referencia }}.</span>
+      {% elif pv.pode_referencia %}<form method="post" action="{{ url_for('job_virar_referencia', cli=d.cliente, slug=d.slug) }}"><input type="hidden" name="confirmar" value="1"><input type="hidden" name="volta" value="{{ url_for('andamento_ver', cli=d.cliente, slug=d.slug) }}"><button class="btn primario">Usar como referência do estilo</button></form><span>Gostou muito? Ele vira mais uma referência de “{{ d.formato_titulo or d.formato }}”: aparece no Criar, em “Qual referência seguir”. O próximo vídeo pega o jeito dele, nunca o conteúdo.</span>
+      {% else %}<button class="btn" disabled>Usar como referência do estilo</button><span>Este vídeo não tem o arquivo final ou o estilo registrado.</span>{% endif %}</li>
+    <li><form method="post" action="{{ url_for('andamento_saida', cli=d.cliente, slug=d.slug) }}" data-apagar="video={{ (d.cliente ~ '/' ~ d.slug)|urlencode }}" data-titulo="{{ d.titulo or d.slug }}"><input type="hidden" name="acao" value="apagar"><input type="hidden" name="confirmar" value="1"><button class="btn perigo">Liberar espaço deste vídeo</button></form><span>Mostra quanto libera e manda o vídeo e os temporários pra Lixeira do Mac. Dá pra desfazer.</span></li>
+    {% if pv.pode_desfazer %}<li><form method="post" action="{{ url_for('andamento_desfazer_aprovacao', cli=d.cliente, slug=d.slug) }}"><button class="btn fantasma">Desfazer aprovação</button></form><span>Volta pro “O vídeo ficou bom?”, pra você mudar mais alguma coisa.</span></li>{% endif %}
+  </ul>
+</section>
+{% endif %}
+{% if pv.modo == 'editor' %}
+{% if not pv.aprovado %}
+<section class="cartao-config pv-decisao" id="pv-decisao">
+  <div class="pv-decisao-txt"><h3>O vídeo ficou bom?</h3>
+    <p class="meta">Assista. Gostou? Aprove. Quer mexer? Clique numa cena embaixo do vídeo e conte ao Claude o que mudar (ou peça pro vídeo todo).</p></div>
+  <p class="aviso" id="pv-bloqueio"{% if not (d.aplicando or estado.rodando) %} hidden{% endif %}>Tem um pedido sendo aplicado. Espere terminar pra aprovar.</p>
+  <div class="acoes">
+    <form method="post" action="{{ url_for('andamento_responder', cli=d.cliente, slug=d.slug) }}"><button class="btn primario grande" id="pv-aprovar" name="decisao" value="aprovar"{% if d.aplicando or estado.rodando %} disabled{% endif %}>✓ Aprovar</button></form>
+    <button type="button" class="btn grande" id="pv-quero">Quero alterar</button>
+  </div>
+  {% set saida = saida_do_andamento(d) %}{% if saida %}
+  <details class="mais-opcional"><summary>Mais opções</summary>
+    <div class="acoes">
+    {% if saida.video %}<a class="btn" href="{{ url_for('reusar', caminho=saida.caminho, titulo=d.titulo or d.slug) }}">Usar em outro formato</a>{% endif %}
+    <form method="post" action="{{ url_for('andamento_saida', cli=d.cliente, slug=d.slug) }}" data-apagar="video={{ (d.cliente ~ '/' ~ d.slug)|urlencode }}" data-titulo="{{ d.titulo or d.slug }}">
+      <input type="hidden" name="acao" value="apagar"><input type="hidden" name="confirmar" value="1"><button class="btn perigo">Apagar</button></form>
+    </div>
+  </details>{% endif %}
+</section>
+{% endif %}
+<div class="pv-editor">{% include "_editor_miolo.html" %}</div>
+{% endif %}
+{% if pv.modo != 'editor' and not pv.aprovado %}
+<section class="cartao-config and-resp" id="and-resp"{% if d.estado not in ('esperando','pronto') %} hidden{% endif %}>
+  <h3 id="and-resp-titulo">{{ 'O storyboard ficou bom?' if d.estado=='esperando' else 'O vídeo ficou bom?' }}</h3>
+  <p class="aviso" id="and-resp-bloqueio"{% if not d.aplicando %} hidden{% endif %}>Estou aplicando seu pedido anterior. Espere terminar pra responder de novo.</p>
+  <form method="post" action="{{ url_for('andamento_responder', cli=d.cliente, slug=d.slug) }}" id="and-resp-form">
+    <input type="hidden" name="ref"><input type="hidden" name="segundo">
+    <p class="meta" id="and-resp-dica">{{ 'Olhe o storyboard logo abaixo.' if d.estado=='esperando' else 'Assista ao vídeo logo abaixo.' }} Gostou? Aprove. Não gostou? "Quero alterar" e diga o que mudar: eu aprendo com o seu pedido.</p>
+    <div class="acoes" id="and-escolha">
+      <a class="btn grande" href="#and-vivo">▶ {{ 'Ver o storyboard' if d.estado=='esperando' else 'Assistir' }}</a>
+      <button class="btn primario grande" name="decisao" value="aprovar">✓ Aprovar</button>
+      <button type="button" class="btn grande" id="and-quero">Quero alterar</button>
+    </div>
+    <div id="and-alterar" hidden>
+      {% if pasta and tem_cenas(pasta) %}<p class="meta">Quer mexer numa cena só (trocar imagem, texto ou trecho)? <a class="btn mini" href="{{ url_for('editor_video', pasta=pasta) }}">✦ Editar por cena</a> Ou conte aqui, em palavras, o que mudar:</p>{% endif %}
+      <div class="campo"><label for="and-texto"><b>1. O que você quer mudar?</b> Pode citar o segundo.</label>
+        <textarea id="and-texto" name="texto" rows="3" placeholder="Ex.: no segundo 12 a legenda cobre o rosto"></textarea></div>
+      {% if refs %}
+      <div class="campo"><label><b>2. Tem uma referência que mostra o que você quer?</b> Opcional. Escolha o vídeo, pause no momento e clique em "Marcar este momento". A IA usa o estilo daquele trecho, sem copiar.</label>
+        <p class="and-ref-dica meta">Passe o mouse em cima pra ver o vídeo (no celular, toque uma vez). Clique pra abrir grande.</p>
+        <div class="and-refs-fila">
+        {% for r in refs %}<button type="button" class="and-ref" data-video="{{ url_for('arquivo', caminho=r.video) }}" data-rel="{{ r.video }}" data-nome="{{ r.nome }}" title="{{ r.nome }}">
+          <img loading="lazy" alt="" src="{{ url_for('arquivo', caminho=r.poster) if r.poster else url_for('thumb_rota', caminho=r.video) }}"><span>{{ r.nome }}{% if r.principal %} · principal{% endif %}</span></button>{% endfor %}
+        </div>
+        <div class="and-ref-player" hidden>
+          <video controls playsinline preload="metadata"></video>
+          <button type="button" class="btn mini" id="and-marcar">Marcar este momento</button>
+        </div>
+        <p class="and-ref-marca" id="and-ref-marca" hidden>Referência: <b></b> <button type="button" class="btn mini" id="and-ref-limpa" aria-label="Tirar a referência">×</button></p>
+      </div>
+      {% else %}<p class="and-ref-marca" id="and-ref-marca" hidden><b></b> <button type="button" class="btn mini" id="and-ref-limpa">×</button></p>{% endif %}
+      <div class="acoes">
+        <button class="btn primario grande" name="decisao" value="ajustar">Enviar ajuste</button>
+        <button type="button" class="btn fantasma" id="and-volta">Cancelar</button>
+      </div>
+    </div>
+  </form>
+  {% set saida = saida_do_andamento(d) %}{% if saida %}
+  <details class="mais-opcional" id="and-saida"{% if d.estado != 'pronto' %} hidden{% endif %}>
+    <summary>Mais opções</summary>
+    <div class="acoes">
+    {% if saida.video %}<a class="btn" href="{{ url_for('reusar', caminho=saida.caminho, titulo=d.titulo or d.slug) }}">Usar em outro formato</a>{% endif %}
+    {% if saida.referencia is none %}<a class="btn" href="{{ url_for('job_virar_referencia', cli=d.cliente, slug=d.slug) }}">Guardar como referência…</a>{% else %}<button class="btn" disabled title="Já é referência">Guardar como referência</button>{% endif %}
+    <form method="post" action="{{ url_for('andamento_saida', cli=d.cliente, slug=d.slug) }}"><input type="hidden" name="acao" value="deixar">
+      <button class="btn">Deixar por enquanto</button></form>
+    <form method="post" action="{{ url_for('andamento_saida', cli=d.cliente, slug=d.slug) }}" data-apagar="video={{ (d.cliente ~ '/' ~ d.slug)|urlencode }}{% if saida.referencia is not none %}&aviso={{ 'Esse vídeo é REFERÊNCIA (o exemplo do formato). Apagar mesmo assim vai pra Lixeira do Mac, não some de vez.'|urlencode }}{% endif %}" data-titulo="{{ d.titulo or d.slug }}">
+      <input type="hidden" name="acao" value="apagar"><input type="hidden" name="confirmar" value="1"><button class="btn perigo">Apagar</button></form>
+    </div>
+  </details>{% endif %}
+</section>{% endif %}
+{% set folhas = folhas_de_previa(d.cliente, d.slug) %}{% if folhas and pv.modo != 'editor' %}
+<section class="cartao-config" id="and-folhas">
+  <h3>Prévia das cenas de apoio</h3>
+  <p class="meta">Cada faixa é uma opção, com a fonte, o link, o tempo e o tamanho. Escolha embaixo em “Cenas de apoio”.</p>
+  {% for f in folhas %}<p><b>Cena {{ f.cena }}</b></p><img loading="lazy" alt="Folha de prévia da cena {{ f.cena }}" style="max-width:100%;border-radius:8px" src="{{ url_for('arquivo', caminho=f.caminho) }}">{% endfor %}
+</section>{% endif %}
+{% set cenas = cenas_do_storyboard(d.cliente, d.slug) if d.estado == 'esperando' else [] %}{% if cenas %}
+<section class="cartao-config" id="and-cenas">
+  <h3>Cenas de apoio</h3>
+  <p class="meta">A marcada é a que está no storyboard. Clique em outra pra trocar: o storyboard é refeito na hora, sem aprovar nada.</p>
+  {% for b in cenas %}
+  <div class="and-cena">
+    <p><b>{{ loop.index }}. {{ '%d:%02d'|format((b.inicio or 0)//60, (b.inicio or 0)%60) }}–{{ '%d:%02d'|format((b.fim or 0)//60, (b.fim or 0)%60) }}</b> <span class="meta">{{ b.fala }}</span></p>
+    <div class="and-cena-ops">
+    {% for o in b.opcoes %}
+      <form method="post" action="{{ url_for('andamento_cena', cli=d.cliente, slug=d.slug) }}">
+        <input type="hidden" name="beat" value="{{ b.id }}"><input type="hidden" name="opcao" value="{{ o.id }}">
+        <button class="and-cena-op{{ ' escolhida' if b._escolha == o.id }}" {{ 'disabled' if b._escolha == o.id }} title="{{ o.motivo }}">
+          {% if o._capa %}<img loading="lazy" alt="" src="{{ url_for('arquivo', caminho=o._capa) }}">{% else %}<span class="and-cena-sem">Sem prévia</span>{% endif %}
+          <span>{{ '✓ ' if b._escolha == o.id }}{{ o.titulo }}</span><small>{{ o.fonte }}{% if o.url %} · <a href="{{ o.url }}" target="_blank" rel="noopener">fonte ↗</a>{% endif %}</small>
+        </button>
+      </form>
+    {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</section>
+<style>
+#and-cenas .and-cena{margin:14px 0}
+#and-cenas .and-cena-ops{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+#and-cenas .and-cena-op{display:flex;flex-direction:column;gap:4px;width:150px;padding:6px;border:2px solid var(--linha);border-radius:12px;background:none;text-align:left;cursor:pointer;font:inherit}
+#and-cenas .and-cena-op.escolhida{border-color:var(--acento,#d33);cursor:default}
+#and-cenas .and-cena-op img,#and-cenas .and-cena-sem{width:100%;aspect-ratio:9/12;object-fit:cover;border-radius:8px;background:#ddd;display:flex;align-items:center;justify-content:center;font-size:12px}
+#and-cenas .and-cena-op small{color:var(--txt3);font-size:11px}
+</style>
+{% endif %}
+{% if pv.modo == 'editor' %}<details class="cartao-config pv-como" id="pv-como"><summary><b>Como foi feito</b> <small class="meta">linha de produção, passo a passo e o storyboard da produção</small></summary>
+{% set folhas = folhas_de_previa(d.cliente, d.slug) %}{% for f in folhas %}<p><b>Prévia da cena {{ f.cena }}</b></p><img loading="lazy" alt="Folha de prévia da cena {{ f.cena }}" style="max-width:100%;border-radius:8px" src="{{ url_for('arquivo', caminho=f.caminho) }}">{% endfor %}
+<div id="and-vivo" data-and-poll="{{ url_for('andamento_ver', cli=d.cliente, slug=d.slug, parcial=1) }}" aria-live="polite">
+{% set modo = 'detalhe' %}{% set sem_player = True %}{% include '_andamento.html' %}
+</div></details>
+{% else %}<div id="and-vivo" data-and-poll="{{ url_for('andamento_ver', cli=d.cliente, slug=d.slug, parcial=1) }}" aria-live="polite">
+{% set modo = 'detalhe' %}{% include '_andamento.html' %}
+</div>{% endif %}
+{% from '_revisao.html' import revisao_card %}{% set rv = revisao_do_video(d.cliente, d.slug) if d.tem_job else none %}{% if rv or (d.tem_job and d.estado == 'pronto') %}{{ revisao_card(rv, d.cliente, d.slug) }}{% endif %}
+{% endblock %}
+{% block scripts %}{% include '_andamento_poll.html' %}
+<script src="{{ url_for('static', filename='previa-ref.js') }}?v={{ vstatic }}"></script>
+<script>
+// Página do vídeo pronto: Quero alterar abre o painel do editor · Aprovar espera o pedido terminar · Mostrar no Finder · "Aprendi" atualiza.
+(() => {
+  const q = document.getElementById('pv-quero'), ap = document.getElementById('pv-aprovar'), bl = document.getElementById('pv-bloqueio');
+  if (q) q.addEventListener('click', () => window.editorFocar && window.editorFocar());
+  const bloquear = on => { if (ap) ap.disabled = on; if (bl) bl.hidden = !on; };
+  async function atualizaAprendi() {   // o pedido por cena pode ter proposto uma regra: mostra o "Aprendi" com OK / Não é isso
+    try {
+      const r = await fetch(location.pathname, {cache: 'no-store'}); if (!r.ok) return;
+      const novo = new DOMParser().parseFromString(await r.text(), 'text/html').getElementById('and-aprendi-box');
+      const box = document.getElementById('and-aprendi-box'); if (novo && box) box.innerHTML = novo.innerHTML;
+    } catch (e) {}
+  }
+  document.addEventListener('ev:pediu', () => { bloquear(true); atualizaAprendi(); });
+  document.addEventListener('ev:terminou', () => {
+    bloquear(false); atualizaAprendi();
+    if (document.getElementById('pv-aprovado')) location.reload();   // editou um vídeo aprovado: ele volta pro "Ficou bom?"
+  });
+  const fi = document.getElementById('pv-finder');
+  if (fi) fi.addEventListener('click', async () => {
+    const fd = new FormData(); fd.append('caminho', fi.dataset.caminho);
+    try { const r = await fetch('/espaco/finder', {method: 'POST', body: fd}); const j = await r.json(); fi.textContent = j.ok ? 'Aberto no Finder ✓' : 'Não consegui abrir'; }
+    catch (e) { fi.textContent = 'Não consegui abrir'; }
+    setTimeout(() => { fi.textContent = 'Mostrar no Finder'; }, 3000);
+  });
+})();
+</script>
+<script>
+// Guardar · Apagar · Deixar: só quando o vídeo final está pronto.
+document.addEventListener('and:atualizou', () => {
+  const el = document.getElementById('and-saida'), m = document.querySelector('#and-vivo #and-estado');
+  if (el && m) el.hidden = m.dataset.estado !== 'pronto';
+});
+</script>
+<script>
+// Cartão "Sua resposta": fica fora do bloco que se atualiza, então o que o João digita nunca é apagado.
+(() => {
+  const cx = document.getElementById('and-resp'), box = document.getElementById('and-vivo');
+  if (!cx) return;
+  const form = document.getElementById('and-resp-form'), txt = document.getElementById('and-texto');
+  const ref = form.elements.ref, seg = form.elements.segundo, marca = document.getElementById('and-ref-marca');
+  const player = cx.querySelector('.and-ref-player'), video = player && player.querySelector('video');
+  let atual = null;
+  const fmt = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+  function sincroniza() {
+    const m = box.querySelector('#and-estado'); if (!m) return;
+    const ok = ['esperando', 'pronto'].includes(m.dataset.estado);
+    cx.hidden = !ok;
+    document.getElementById('and-resp-titulo').textContent = m.dataset.estado === 'esperando' ? 'O storyboard ficou bom?' : 'O vídeo ficou bom?';
+    const bloq = !!m.dataset.aplicando;
+    document.getElementById('and-resp-bloqueio').hidden = !bloq;
+    form.querySelectorAll('button[name=decisao]').forEach(b => b.disabled = bloq);
+  }
+  document.addEventListener('and:atualizou', sincroniza); sincroniza();
+  // Linha recolhida que o João abriu continua aberta quando o bloco se atualiza sozinho.
+  const abertos = new Set();
+  box.addEventListener('toggle', e => { if (e.target.id) e.target.open ? abertos.add(e.target.id) : abertos.delete(e.target.id); }, true);
+  document.addEventListener('and:atualizou', () => abertos.forEach(id => { const el = document.getElementById(id); if (el) el.open = true; }));
+  cx.querySelectorAll('.and-ref').forEach(b => b.addEventListener('click', () => {
+    atual = b; player.hidden = false; video.src = b.dataset.video; video.play().catch(() => {});
+    cx.querySelectorAll('.and-ref').forEach(x => x.classList.toggle('ativo', x === b));
+  }));
+  const marcar = document.getElementById('and-marcar');
+  if (marcar) marcar.addEventListener('click', () => {
+    if (!atual) return;
+    ref.value = atual.dataset.rel; seg.value = video.currentTime.toFixed(1);
+    marca.querySelector('b').textContent = atual.dataset.nome + ', ' + fmt(video.currentTime); marca.hidden = false;
+  });
+  const escolha = document.getElementById('and-escolha'), alterar = document.getElementById('and-alterar');
+  document.getElementById('and-quero').addEventListener('click', () => { escolha.hidden = true; alterar.hidden = false; txt.focus(); });
+  document.getElementById('and-volta').addEventListener('click', () => { alterar.hidden = true; escolha.hidden = false; });
+  document.getElementById('and-ref-limpa').addEventListener('click', () => { ref.value = ''; seg.value = ''; marca.hidden = true; });
+  form.addEventListener('submit', e => {
+    if (e.submitter && e.submitter.value === 'ajustar' && !txt.value.trim()) { e.preventDefault(); txt.focus(); txt.placeholder = 'Conte o que ajustar.'; }
+  });
+})();
+</script>{% endblock %}

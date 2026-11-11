@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block titulo %}O que aprendemos · {{ cli }}{% endblock %}
+{% block conteudo %}
+<style>
+  .apr-regra{align-items:flex-start!important}
+  .apr-texto{white-space:pre-line}
+  .apr-texto small{margin-top:4px;font-size:12.5px}
+  .apr-acoes{display:flex;gap:6px;flex:none}
+  .apr-nota{font-size:13px;margin-top:10px}
+</style>
+
+<p class="sobre"><a href="{{ url_for('clientes_lista') }}">Clientes</a> / <a href="{{ url_for('cliente', nome=cli) }}">{{ cli }}</a> / O que aprendemos</p>
+<div class="topo-pagina">
+  <div><h1>O que aprendemos</h1><p class="sub">{{ titulo }} · {{ cli }}</p></div>
+  <a class="btn" href="{{ url_for('cliente', nome=cli) }}">← Voltar pro {{ cli }}</a>
+</div>
+
+<h2 style="margin-top:0">Vale pra todos os clientes <span class="etiqueta">{{ do_formato|length }}</span></h2>
+{% if do_formato %}
+<div class="cartao-config">
+  {% for r in do_formato %}
+  <div class="linha-status apr-regra">
+    <span class="apr-texto">{{ r.texto }}{% if r.evitar %}<small>Evitar: {{ r.evitar }}</small>{% endif %}</span>
+    {% if r.apagavel %}
+    <div class="apr-acoes">
+      <form method="post" action="{{ url_for('aprendizado_apagar', cli=cli, mod=mod) }}" data-confirm="Apagar essa regra pra todos os clientes de {{ titulo }}? Guardamos uma cópia.">
+        <input type="hidden" name="id" value="{{ r.id }}"><input type="hidden" name="camada" value="formato">
+        <button class="btn mini perigo">Apagar</button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% elif tem_formato %}
+<div class="vazio-bonito"><p>Ainda nenhuma regra geral. Quando uma correção servir pra qualquer cliente desse formato, ela aparece aqui.</p></div>
+{% else %}
+<div class="vazio-bonito"><p>Este modelo ainda não está no catálogo de formatos, então tudo o que aprendemos fica só no {{ cli }}.</p></div>
+{% endif %}
+
+<h2>Só do {{ cli }} <span class="etiqueta">{{ do_cliente|length }}</span></h2>
+<p class="sub" style="font-size:13px;margin:-6px 0 12px">O gosto e a identidade dele.{% if tem_formato %} Se alguma servir pra qualquer cliente, clique em "Vale pra todos".{% endif %}</p>
+{% if do_cliente %}
+<div class="cartao-config">
+  {% for r in do_cliente %}
+  <div class="linha-status apr-regra">
+    <span class="apr-texto">{{ r.texto }}{% if r.evitar %}<small>Evitar: {{ r.evitar }}</small>{% endif %}</span>
+    <div class="apr-acoes">
+      {% if tem_formato %}
+      <form method="post" action="{{ url_for('aprendizado_subir', cli=cli, mod=mod) }}">
+        <input type="hidden" name="id" value="{{ r.id }}">
+        <button class="btn mini">Vale pra todos</button>
+      </form>
+      {% endif %}
+      <form method="post" action="{{ url_for('aprendizado_apagar', cli=cli, mod=mod) }}" data-confirm="Apagar essa regra do {{ cli }}? Guardamos uma cópia.">
+        <input type="hidden" name="id" value="{{ r.id }}"><input type="hidden" name="camada" value="cliente">
+        <button class="btn mini perigo">Apagar</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="vazio-bonito"><p>Nenhuma regra só dele ainda. As correções que você fizer nos vídeos do {{ cli }} aparecem aqui.</p></div>
+{% endif %}
+{% if n_subidas %}<p class="sub apr-nota">{{ n_subidas }} {{ 'já está' if n_subidas == 1 else 'já estão' }} em "Vale pra todos".</p>{% endif %}
+
+<details class="cartao-config" style="margin-top:34px">
+  <summary><b>Últimas correções</b> <span class="etiqueta">{{ historico|length }}</span></summary>
+  {% for h in historico %}
+  <div class="linha-status"><span class="apr-texto">{% if h.data %}<small>{{ h.data }}</small>{% endif %}{{ h.texto }}</span></div>
+  {% else %}
+  <p class="sub" style="font-size:13px;margin-top:10px">Nenhuma correção ainda.</p>
+  {% endfor %}
+</details>
+
+<p class="sub" style="margin-top:34px;font-size:13px"><a href="{{ url_for('modelo', nome=cli, mod=mod) }}">Ficha técnica (avançado)</a></p>
+{% endblock %}

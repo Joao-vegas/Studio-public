@@ -1,0 +1,7 @@
+<details class="corte-roteiro" open>
+  <summary>Leia como a fala vai ficar</summary>
+  <p class="meta">{{ revisao_fala.nota }}</p>
+  <p class="roteiro-texto" aria-live="polite">{{ revisao_fala.roteiro or 'Marque os trechos que devem ficar.' }}</p>
+  {% for alerta in revisao_fala.alertas %}<p class="aviso">{{ alerta }}</p>{% endfor %}
+  <p class="meta">O texto acompanha as escolhas abaixo. Ouça as emendas para conferir pronúncia, intenção e pausas.</p>
+</details>

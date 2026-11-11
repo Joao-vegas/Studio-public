@@ -1,0 +1,50 @@
+# SFX Credits
+
+All sound effects in this directory are sourced from [Pixabay](https://pixabay.com/sound-effects/) and used under the [Pixabay Content License](https://pixabay.com/service/license-summary/).
+
+The Pixabay license allows free use for commercial and non-commercial purposes without attribution, but attribution is appreciated and given here for transparency.
+
+## Files
+
+The following `.mp3` files are bundled with this skill:
+
+- `chime.mp3`
+- `click.mp3` / `click-soft.mp3`
+- `error.mp3`
+- `glitch-1.mp3` / `glitch-2.mp3` / `glitch-3.mp3`
+- `impact-bass-1.mp3` / `impact-bass-2.mp3`
+- `key-press.mp3`
+- `notification.mp3`
+- `ping.mp3`
+- `pop.mp3`
+- `riser.mp3`
+- `sparkle.mp3`
+- `typing.mp3`
+- `whoosh.mp3` / `whoosh-short.mp3` / `whoosh-cinematic.mp3`
+
+See `manifest.json` for per-file metadata (duration, energy character, recommended use).
+
+## License
+
+All files are distributed under the [Pixabay Content License](https://pixabay.com/service/license-summary/), which permits:
+
+- Commercial and non-commercial use
+- Modification and remixing
+- Redistribution as part of derivative works (such as videos rendered with HyperFrames)
+
+without any attribution requirement.
+
+- `tique.mp3`: cópia de `key-press.mp3` (é o som que o motor toca no relógio; o arquivo existe pra tela tocar a prévia de "Tique do relógio").
+
+
+## Variantes do rodízio (Mixkit, 22-out-2026)
+- pop/mixkit-2358.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/pop/
+- pop/mixkit-2364.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/pop/
+- pop/mixkit-2354.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/pop/
+- click-soft/mixkit-1133.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/click/
+- click-soft/mixkit-275.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/click/
+- click-soft/mixkit-1109.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/click/
+- click-soft/mixkit-900.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/click/
+- whoosh-short/mixkit-1492.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/whoosh/
+- whoosh-short/mixkit-1491.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/whoosh/
+- whoosh-short/mixkit-1490.mp3 · Mixkit (licença grátis, uso comercial) · https://mixkit.co/free-sound-effects/discover/whoosh/

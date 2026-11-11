@@ -1,0 +1,28 @@
+{# Voz: busca + etiquetas que filtram, cartões com ▶ e "Ver todas" (5 por vez). Usado no Criar (escolher) e na tela Vozes (usar). JS: static/vozes-ui.js #}
+{% macro barra(rotulos, ph="Buscar voz pelo nome…") %}
+<div class="fv-barra">
+  <input type="search" class="fv-busca" placeholder="{{ ph }}" aria-label="{{ ph }}" autocomplete="off">
+  <div class="fv-tags" role="group" aria-label="Filtrar por etiqueta" data-rotulos='{{ rotulos|tojson }}'></div>
+</div>
+{% endmacro %}
+
+{% macro ouvir(v) %}<button type="button" class="vz-play" data-url="{{ v.previa_url }}" data-pronta="{{ 1 if v.previa_pronta else 0 }}" aria-label="Ouvir {{ v.nome }} em português"><span class="vz-ico" aria-hidden="true">▶</span><span class="vz-rot">Ouvir</span></button>{% endmacro %}
+
+{% macro erro_voz() %}<p class="vz-erro" role="alert" hidden><span class="vz-erro-txt">Não deu agora.</span> <button type="button" class="vz-retry">Tentar de novo</button></p>{% endmacro %}
+
+{# cartão da tela Vozes: nome + descrição + ▶ Ouvir + Usar (vira a voz padrão) #}
+{% macro cartao_voz(v) %}
+<div class="vz-card fv-item{{ ' vz-padrao' if v.padrao }}" data-busca="{{ v.nome }} {{ v.descricao }}" data-tags="{{ v.tags|join(' ') }}">
+  <div class="vz-topo"><b>{{ v.nome }}</b>{% if v.padrao %}<span class="selo ok">voz padrão</span>{% endif %}{% if v.selo %}<span class="selo espera">{{ v.selo }}</span>{% endif %}</div>
+  <p class="vz-desc">{{ v.descricao }}</p>
+  <div class="vz-acoes">{{ ouvir(v) }}{% if not v.padrao %}<button type="button" class="btn mini primario vz-usar" data-id="{{ v.id }}">Usar</button>{% endif %}</div>
+  {{ erro_voz() }}
+</div>
+{% endmacro %}
+
+{# cartão do Criar: rádio (mesmo name="voz") com o ▶ do lado #}
+{% macro cartao_escolha(v) %}
+<label class="nv-voz-card fv-item" data-busca="{{ v.nome }} {{ v.descricao }}" data-tags="{{ v.tags|join(' ') }}"><input type="radio" name="voz" value="{{ v.id }}">
+  <span class="nv-voz-txt"><b>{{ v.nome }}{% if v.selo %} <i class="nv-selo">{{ v.selo }}</i>{% endif %}</b><small>{{ v.descricao }}</small></span>
+  {{ ouvir(v) }}{{ erro_voz() }}</label>
+{% endmacro %}

@@ -1,0 +1,199 @@
+{
+  "grupo": "animacao",
+  "ordem": 4,
+  "titulo": "Editorial",
+  "frase": "Análise de caso real narrada: foto e print da internet, rajada em P&B, colagem, cartão, pílulas, círculo com ícone, grupo de conversa e texto que acende palavra por palavra. Câmera que nunca para, imagem nova a cada ~0,7 s, e o caso vira lição de posicionamento. Com roteiro, a narração sai na voz clonada; com o seu vídeo gravado, a fala é a sua e você aparece nos momentos fortes (ou só a voz).",
+  "entrada": "video-ou-roteiro",
+  "proporcao": "9:16",
+  "tipo": "motor",
+  "motor": "HTML próprio (base/render.py genérico + base/index.html com a biblioteca de 13 cenas)",
+  "status": "pronto",
+  "modelos": [
+    "editorial"
+  ],
+  "base": "formatos/editorial/base",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Ref. 1 · Ovelha negra (skin de cada lado): chips, Venn, texto grande sobre foto, cartão arredondado",
+      "origem": "/private/tmp/claude-501/-Users-joaomarcospiki-Projetos-Skill-Est-dio/4b47b012-c0c2-4bb6-9a2b-0fbc2365ae0d/scratchpad/refs/De2EsGkNuMZ.mp4",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-10-29"
+    },
+    {
+      "arquivo": "exemplo-2.mp4",
+      "poster": "exemplo-2.jpg",
+      "legenda": "Ref. 2 · Guerra de narrativas: arquivo P&B, recortes de jornal, colagem, linha do tempo, manchete em itálico",
+      "origem": "/private/tmp/claude-501/-Users-joaomarcospiki-Projetos-Skill-Est-dio/4b47b012-c0c2-4bb6-9a2b-0fbc2365ae0d/scratchpad/refs/DeS7yVRNyuG.mp4",
+      "folha": "exemplo-2-folha.jpg"
+    },
+    {
+      "arquivo": "exemplo-3.mp4",
+      "poster": "exemplo-3.jpg",
+      "legenda": "Ref. 3 · Engenharia do Marçal: narrador no cantinho, prints de perfil e Social Blade, ícone em círculo tracejado",
+      "origem": "/private/tmp/claude-501/-Users-joaomarcospiki-Projetos-Skill-Est-dio/4b47b012-c0c2-4bb6-9a2b-0fbc2365ae0d/scratchpad/refs/DcY0R--B25a.mp4",
+      "folha": "exemplo-3-folha.jpg"
+    },
+    {
+      "arquivo": "exemplo-4.mp4",
+      "poster": "exemplo-4.jpg",
+      "legenda": "Ref. 4 · Cópia × original: contagem, quadro marcando o rosto, comparação em cima e embaixo, texto que acende",
+      "origem": "/private/tmp/claude-501/-Users-joaomarcospiki-Projetos-Skill-Est-dio/4b47b012-c0c2-4bb6-9a2b-0fbc2365ae0d/scratchpad/refs/Dafd6TnOlOI.mp4",
+      "folha": "exemplo-4-folha.jpg"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": true,
+      "viral": true,
+      "de_onde": "VIRAIS DO MOMENTO (app/ferramentas/musica_viral.py): o que está bombando hoje no Brasil e no mundo (Shazam BR e Mundo, Spotify BR e Global, Apple Music BR e EUA, Deezer), áudio oficial pelo yt-dlp, só o refrão/drop, 3 opções que casam com o clima da fala e do estilo (com o motivo), conferidas contra marca d'água (voz de produtor, bip, silêncio); rodízio pelo acervo/usos.jsonl e 'Não usar mais' em acervo/musicas-reprovadas.jsonl. Banco de trilha (base/audio/musicas/, Mixkit, o catálogo do Documentário) é só o PLANO B sem internet, nunca o padrão",
+      "clima": "o que casa com o beat sombrio de investigação (tensa, sombria); viral de verdade, nunca clichê de banco",
+      "opcao_na_tela": "Novo vídeo: Música de fundo = Sem música · Viral do momento (3 opções com prévia de 10 s; padrão) · Procurar. Editar vídeo: elemento 'Música (vale pro vídeo todo)' troca faixa, ponto de entrada e volume e refaz o vídeo",
+      "aviso": "música famosa: o Instagram pode silenciar se não for a do app",
+      "volume": "~13 dB abaixo da voz nas pausas (medido nas 4 referências: 13,4 dB); \"volume\": 0.10 no cenas.json",
+      "quando": "do 1º ao último quadro, fade de 1,5 s no fim; a viral entra no refrão/drop (o arquivo da sandbox já começa 0,15 s antes dele)",
+      "quando_nao": "nunca drone/pad parado, nunca subindo por cima da fala",
+      "troca": "1 faixa por vídeo"
+    },
+    "efeitos": {
+      "usa": true,
+      "de_onde": "base/audio/sfx/ (whoosh-short, pop, tique, notificacao, click-soft; créditos em CREDITS.md)",
+      "quais": [
+        "whoosh-short",
+        "pop",
+        "tique",
+        "notificacao",
+        "click-soft"
+      ],
+      "momentos": "só na ação que aparece no quadro: whoosh na transição especial (negativo, flash, zoom), pop em cada peça da colagem e em cada pílula, tique no número que assenta, notificação na mensagem do grupo, clique no ícone",
+      "volume": "0,14 a 0,25; 20 a 26 por minuto (ref.: ~26/min)",
+      "quando_nao": "nunca em corte seco comum, nunca sem ação na tela"
+    }
+  },
+  "legenda": {
+    "desligavel": true,
+    "como": "\"legenda\": false no topo do cenas.json (ou na cena)",
+    "motivo": "Legenda curta da fala (2-3 palavras, Inter 700 44 px, centro a 62%) só nas cenas de imagem sem texto próprio."
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [
+    "foto-pessoa",
+    "print",
+    "cena-produto",
+    "musica"
+  ],
+  "usa": [
+    {
+      "oque": "Montagem e render",
+      "quem": "Motor do formato no seu Mac (Playwright + ffmpeg)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Narração",
+      "quem": "Voz configurada (VoiceStudio, grátis no seu Mac; reserva ElevenLabs só com chave e voz)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Sua fala gravada (entrada por vídeo)",
+      "quem": "Corte automático + Groq (transcrição); a voz é a sua, nada é gerado",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Tempo das palavras",
+      "quem": "Groq (transcrição)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Fotos e prints reais",
+      "quem": "Wikimedia Commons, Openverse, NASA e Internet Archive (licença livre, app/ferramentas/fontes_gratis.py e base/exemplos/commons.py) e o que você liberar; nada de banco com ator posando",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "motor": "render.py",
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar a narração (ou a sua fala)",
+        "andamento": "preparar",
+        "faz": "UM comando faz tudo (voz fixa, número por extenso, cada bloco conferido pelo Groq, pausas apertadas, tempo por palavra): `python3 formatos/editorial/base/exemplos/preparar-narracao.py <sandbox> --voz <a voz do pedido> --cliente <Cliente>` (roda de dentro da raiz do Estúdio; leva alguns minutos, avise no Em andamento). Sai work/voz.wav, work/words.json e work/narracao.json. Exit 1 = leia 'problemas' no narracao.json e corrija (última palavra faltando: transcreva o resto à parte e junte). VoiceStudio fora do ar: espere 2-3 min e rode de novo; nunca troque de voz nem use voz paga sozinho. Confira nome próprio no words.json.",
+        "faz_video": "ENTRADA POR VÍDEO (o João gravado é a narração; nunca gere voz nem use VoiceStudio). UM comando faz tudo, de dentro da raiz do Estúdio: `python3 formatos/editorial/base/exemplos/preparar-fala.py <sandbox> --cliente <Cliente>` (usa o work/joao.mp4 do corte automático; leva ~1 min). Sai work/fala/fala.mp4 (o vídeo dele, 1080x1920 a 30 fps), voz.wav (a voz dele: é a narração), words.json (tempo por palavra, Groq grátis) e momentos.json (as frases e a SUGESTÃO de gancho, virada e fecho). Com roteiro junto (work/roteiro.txt, entrada c: ele lendo o roteiro) o roteiro é o gabarito: o comando corrige a grafia de nome próprio pelo roteiro e lista o que faltou e o que sobrou em momentos.json → conferencia_roteiro; faltou frase importante, avise no Em andamento. Nunca mexa em work/words.json (é do bruto e do corte). Confira nome próprio no work/fala/words.json."
+      },
+      {
+        "id": "cenas",
+        "titulo": "Montar os planos",
+        "andamento": "storyboard",
+        "faz": "(1) PESQUISE o caso e a fonte de cada ideia da fala e anote em ANALISE.md. (2) IMAGENS, sempre reais e exatas do que a oração diz (30-40 por minuto), tudo na sandbox: fotos do Commons `python3 formatos/editorial/base/exemplos/commons.py <sandbox>/fotos <consultas.json>` ({\"chave\": \"consulta em inglês\"}; guarda origem e licença) e, pra ter mais de onde tirar (Openverse, NASA, Internet Archive; só licença livre, folha de contato com fonte e tamanho), `python3 app/ferramentas/fontes_gratis.py imagem \"<consulta>\" --saida <sandbox>/fotos`; print de matéria/estudo de fonte confiável (nunca Wikipédia) `python3 formatos/editorial/base/exemplos/print_fonte.py <sandbox> <nome> \"<url>\"` sempre que a fala citar estudo, dado ou termo (a cena print leva \"grifos\" com o trecho exato); clipe real com som quando houver gente de verdade fazendo a coisa `python3 formatos/editorial/base/exemplos/clipe.py busca \"<consulta>\"` (get-brolls no YouTube + Internet Archive, NASA e Commons; o `baixa` grava clipes/folha-<nome>.jpg: OLHE) e `clipe.py baixa <sandbox> <nome> \"<url>\" <ini> <dur>` (1-2,5 s, cada clipe UMA vez); pessoa recortada `python3 formatos/editorial/base/exemplos/recorte.py <foto> <sandbox>/recortes/<nome>.png`. ÍCONE (peça `icone`) NUNCA leva emoji: `imagem` com a logo real da marca citada (site oficial, press kit, Wikimedia Commons ou `fontes_gratis.py`; PNG com transparência entra colorido sobre um disco) ou a foto real da coisa; o render.py --conferir reprova ícone sem imagem. Peça sem foto própria (texto, ícone, Venn, contador, pílulas, linha, conversa, colagem) ganha sozinha FUNDO VIVO: a imagem da cena vizinha, desfocada e escurecida, andando devagar; fundo liso só com `\"fundo\": \"liso\"` na cena (e a conferência reprova se o vídeo não tem imagem nenhuma por perto). Foto de tela cheia precisa de lado maior >= 1100 px (o render.py reprova < 800: `python3 formatos/editorial/base/exemplos/trocar_pequenas.py <sandbox>` troca pela mesma chave). No cenas.json, foto pequena (< 1000 px) sobe sozinha pelo Real-ESRGAN, `\"parallax\": true` numa foto dá a câmera 3D dentro dela (profundidade) e `\"so_voz\": true` no efeito de um clipe tira a música de fundo dele (Demucs). Olhe a folha de contato (app/ferramentas/folha.py) e descarte o que não casa. IMAGEM QUE CASA COM A FALA (REGRAS.md G6, medido): pra cada ideia da fala, ACHE o quadro certo com `app/.venv/bin/python app/ferramentas/casar_imagem.py melhores <vídeo> \"<a frase>\" -n 5 --saida <pasta>` (procura dentro de um vídeo real, como o oficial da empresa, o quadro do OBJETO, da AÇÃO ou do LUGAR citado; use a descrição visual, ex. \"protótipo da primeira câmera digital\", não só o nome) e CONFIRA com `casar_imagem.py pontuar <imagem> \"<a frase>\" --outras \"<outra frase do roteiro>\"` (casa = nota ao lado das outras falas; sem --outras só vale o piso 0,19) antes de fechar a cena. A mesma pessoa nunca em 2 cenas vizinhas e no máximo 2 vezes no vídeo (a não ser que a fala seja sobre ela ali): se a fala descreve o que ela fez, mostre o que ela fez. Rode `casar_imagem.py conferir <sandbox>` ao montar as cenas e conserte o que ele apontar. Ação = vídeo da ação (REGRAS.md G6): se a fala descreve uma ação (mandar dinheiro, pagar, digitar, correr, cair, ligar, assinar, rir...), a cena usa um CLIPE real de quem faz aquilo (`clipe.py busca` ou get-brolls no YouTube/TikTok/Instagram, Pexels vídeo, Commons; o trecho certo sai de `casar_imagem.py melhores <vídeo> \"<a ação>\"`), nunca foto parada. Real e viral, nunca clichê, nesta ordem: o momento real do caso (notícia, vídeo oficial, foto da pessoa ou do lugar de verdade); clipe viral ou famoso que todo mundo reconhece; só então banco. Banco com ator posando (aperto de mão, gente sorrindo pra câmera, executivo apontando gráfico, pilha de dinheiro genérica) é clichê: `casar_imagem.py cliche <imagem>` tem de ficar abaixo de 0,05 e o `conferir` não pode acusar `cliche`. Nada repetido: nem a mesma foto nem outra quase igual (outro quadro do mesmo clipe ou do mesmo protótipo) perto no tempo (`quase_igual`); outro ângulo ou outro contexto do mesmo assunto passa. URL sempre entre aspas. (3) MÚSICA = VIRAL DO MOMENTO, nunca banco de trilha: o g.fechar escolhe sozinho (musica=\"auto\"; `app/.venv/bin/python app/ferramentas/musica_viral.py opcoes --formato editorial --cliente <C> --texto \"<fala>\"` mostra as 3 com o motivo) e, se o João escolheu uma no Criar, `musica_viral.py escolher <sandbox> --faixa <id> --dur <s>` antes do gera.py; ela corta o refrão/drop, confere marca d'água e grava work/batida.json (o corte na batida do gera_lib segue valendo). Sem música no Criar: crie work/musica/sem. Banco só sem internet (plano B). (4) GERA: copie formatos/editorial/base/exemplos/gera-modelo.py pra <sandbox>/gera.py, liste as cenas (a peça vem do que a oração diz; README.md do motor) e rode `python3 gera.py` de dentro da sandbox: ele divide plano longo, corta na batida, põe os efeitos e grava o cenas.json. DINAMISMO é regra do João (\"as pessoas querem dopamina\"): nada parado, plano de 0,5-0,8 s de mediana, câmera sempre andando, entrada com corte/flash/chicote, 7+ tipos de peça, 60+ trocas por minuto; o render.py reprova plano de imagem acima de 2,5 s. Régua: o ESTUDO.md e os estudos quadro a quadro, nunca molde.",
+        "faz_video": "(1) PESQUISE o caso e a fonte de cada ideia da fala dele e anote em ANALISE.md. (2) IMAGENS, MÚSICA e GERA como na entrada por roteiro (imagens reais e exatas, 30-40 por minuto, clipe, print com grifo, recorte, música famosa na batida), mas o tempo vem de work/fala/words.json e a voz é a dele: o gera.py usa `g.fala(...)` e o g.fechar já aponta pra work/fala/voz.wav. DECISÃO DO JOÃO no Criar (job `aparecer`, está no pedido): SIM → ele aparece só nos momentos fortes: `g.fala(0.0, \"cheia\", forte=[...])` no gancho (início, 3-6 s), `g.fala(<virada>, \"cheia\")` na virada e `g.fala(<fecho>, \"cheia\")` no fecho (até o fim), de work/fala/momentos.json (ajuste pro começo da frase), e 1 ou 2 vezes `g.fala(<t>, \"canto\", imagem=\"prints/<print do caso>.png\", lado=\"dir\")` no meio, ele no cantinho em cima de um print ou foto real do caso (ref. 3). Momento forte em tela cheia: até ~6 s (acima de 7 avisa, 10 reprova); a legenda forte já vem na peça (`forte` = as palavras-chave em vermelho). NÃO → nenhuma cena `fala`: as cenas do Editorial cobrem o vídeo todo por cima da voz dele (a narração é a dele, ele não aparece). Em qualquer dos dois: nunca 2 trocas seguidas iguais, câmera sempre andando, plano de imagem até ~0,8 s de mediana, nada parado."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "Gerar o storyboard pelo comando do formato (um quadro por cena, com o tempo e a fala), comparar com a folha do exemplo principal e parar pro João aprovar."
+      },
+      {
+        "id": "video",
+        "titulo": "Vídeo",
+        "andamento": "video",
+        "faz": "Renderizar pelo comando do formato, com a música e os efeitos aprovados no storyboard."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Conferir o vídeo: `python3 app/ferramentas/estudo_quadros.py comparar formatos/editorial/estudo-quadros <mp4> --words <sandbox>/work/words.json` (o que sair FORA e for estilo se corrige: maior trecho parado, trocas por minuto, música abaixo da voz) + `python3 app/ferramentas/conferir_video.py <mp4> --sandbox <sandbox>` (cauda, tela preta, LUFS) + a folha de quadros ao lado da do exemplo principal. Só entrega se ficou igual ou melhor. Mais: `app/.venv/bin/python app/ferramentas/casar_imagem.py conferir <sandbox>` (nota de cada cena com imagem contra a fala; \"não casa\" e pessoa repetida se consertam trocando a imagem, nunca deixando).",
+        "faz_video": "Conferir o vídeo: `python3 app/ferramentas/estudo_quadros.py comparar formatos/editorial/estudo-quadros <mp4> --words <sandbox>/work/fala/words.json` (o que sair FORA e for estilo se corrige: maior trecho parado, trocas por minuto, música abaixo da voz DELE) + `python3 app/ferramentas/conferir_video.py <mp4> --sandbox <sandbox>` (cauda, tela preta, LUFS) + a folha de quadros ao lado da do exemplo principal: ele aparece nos momentos fortes (ou em nenhum, se o João escolheu Não), as cenas do Editorial cobrem o resto, nada parado."
+      }
+    ],
+    "motor_arquivos": [
+      "render.py",
+      "index.html",
+      "README.md",
+      "cenas-modelo.json"
+    ]
+  },
+  "apoio": {
+    "usa": true,
+    "tipo": "foto e print reais do caso (pessoa, lugar, manchete, gráfico, obra)",
+    "fontes": [
+      "Wikimedia Commons (base/exemplos/commons.py)",
+      "Openverse, NASA, Internet Archive (app/ferramentas/fontes_gratis.py; licença livre registrada no origem.json)",
+      "material liberado pelo João (print, foto)",
+      "acervo/"
+    ],
+    "duracao_s": "0,3 a 1,3 por plano",
+    "quantidade": "30 a 40 imagens por minuto de vídeo (a mesma foto pode voltar com outro enquadramento)",
+    "quando_nao": "nunca banco de imagem com ator posando, nunca foto com marca d'água ou que não casa com a fala",
+    "previa": "folha de contato das candidatas antes de montar"
+  },
+  "pede": [
+    {
+      "campo": "roteiro",
+      "rotulo": "Roteiro narrado",
+      "tipo": "texto",
+      "obrigatorio": true,
+      "principal": true,
+      "dica": "Caso real com nome conhecido → mecanismo (com a base: estudo, livro) → vira pra você/seu negócio → fecho seco. Uma oração por linha. Com o seu vídeo gravado, o roteiro é opcional: se vier, é o gabarito do corte (tira tropeço e repetição)."
+    },
+    {
+      "campo": "voz",
+      "rotulo": "Voz da narração",
+      "tipo": "voz",
+      "obrigatorio": false,
+      "dica": "Já vem a do cliente ou a de Configurações."
+    }
+  ],
+  "aparecer": true
+}

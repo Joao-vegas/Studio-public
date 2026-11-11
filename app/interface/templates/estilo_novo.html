@@ -1,0 +1,38 @@
+{% extends 'base.html' %}{% block titulo %}Estilo em teste{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="/formatos">Estilos</a> / {{ e.titulo }} (em teste)</p>
+<div class="topo-pagina"><div><h1>{{ e.titulo }} <span class="selo espera">em teste</span></h1>
+<p class="sub">Este estilo ainda não está no Criar. Ele só vira pronto quando você aprovar o 1º vídeo de teste.</p></div></div>
+<ol class="passos-teste">
+  {% for k, n in [('a_propor','1. Propor o 1º vídeo de teste'),('proposta','2. Você aprova a proposta'),('proposta_aprovada','3. Montar o vídeo de teste'),('esperando','4. Você aprova o vídeo'),('aprovado','5. Estilo pronto')] %}
+  <li class="{{ 'atual' if pv.estado == k or (k == 'a_propor' and pv.estado == 'ajustar') }}{{ ' feito' if ordem.index(k) < ordem.index(pv.estado) }}">{{ n }}</li>{% endfor %}
+</ol>
+<p><span class="selo espera">{{ e.rotulo }}</span></p>
+{% if pv.estado in ('a_propor','ajustar') %}
+<section class="painel"><h2>Propor o 1º vídeo de teste</h2><p class="passo-dica">Eu escrevo a ideia, o gancho e o roteiro curto na pegada da referência (sem copiar a fala). Você aprova antes de montar.</p>
+<form method="post" action="{{ url_for('estilo_novo_acao', slug=e.slug, acao='propor') }}"><button class="btn grande primario">Propor o 1º vídeo de teste</button></form></section>
+{% endif %}
+{% if prop %}<section class="painel"><h2>Proposta do 1º vídeo</h2>
+  {% if prop.estado == 'analisando' %}<p class="passo-dica">Pensando… a página atualiza sozinha.</p>
+  {% elif prop.estado == 'erro' %}<p>{{ prop.erro }}</p><form method="post" action="{{ url_for('estilo_novo_acao', slug=e.slug, acao='propor') }}"><button class="btn">Tentar de novo</button></form>
+  {% else %}{% for v in prop.variacoes %}<p><b>{{ v.titulo }}</b><br>{{ v.ideia }}</p><p><b>Gancho:</b> {{ v.gancho }}</p>
+  {% if v.roteiro_curto %}<pre class="roteiro-curto">{{ v.roteiro_curto }}</pre>{% endif %}{% if v.plano_corte %}<pre class="roteiro-curto">{{ v.plano_corte }}</pre>{% endif %}
+  <p class="meta"><b>Mantém:</b> {{ v.mantem }}<br><b>Novo:</b> {{ v.muda }}</p>{% endfor %}
+  {% if pv.estado == 'proposta' %}<div class="acoes"><form method="post" action="{{ url_for('estilo_novo_acao', slug=e.slug, acao='aprovar-proposta') }}"><button class="btn primario">Aprovar a proposta</button></form>
+  <form method="post" action="{{ url_for('estilo_novo_acao', slug=e.slug, acao='propor') }}"><button class="btn">Outra proposta</button></form></div>{% endif %}{% endif %}</section>{% endif %}
+{% if pv.estado in ('proposta_aprovada','ajustar','esperando') %}
+<section class="painel"><h2>{{ 'Mandar o 1º vídeo de teste' if pv.estado != 'esperando' else 'Mandar outro vídeo de teste' }}</h2>
+<p class="passo-dica">Monte o vídeo seguindo a proposta (pelo chat com o Claude ou à mão) e mande o mp4 aqui. Também dá pelo terminal: <code>python3 app/ferramentas/estilo_novo.py video {{ e.slug }} &lt;arquivo.mp4&gt;</code>.</p>
+{% if pv.ajuste %}<p class="meta">Último pedido de ajuste: {{ pv.ajuste }}</p>{% endif %}
+<form method="post" enctype="multipart/form-data" action="{{ url_for('estilo_novo_acao', slug=e.slug, acao='video') }}"><input type="file" name="video" accept="video/*" required> <button class="btn primario">Enviar o vídeo de teste</button></form></section>{% endif %}
+{% if pv.estado == 'esperando' and pv.video %}
+<section class="painel aprovou" id="aprovou"><h2>Aprovou o 1º vídeo?</h2>
+<video poster="{{ url_for('thumb_rota', caminho=pv.video) }}" class="ref-video" controls preload="none" src="{{ url_for('arquivo', caminho=pv.video) }}"></video>
+{% if pv.faltas %}<p class="aviso">O vídeo foi aprovado mas o estilo ainda não fecha o contrato: {{ pv.faltas|join(' · ') }}</p>{% endif %}
+<p class="passo-dica">Se aprovar, este vídeo vira o exemplo principal e o estilo passa a pronto (se cumprir o contrato).</p>
+<div class="acoes"><form method="post" action="{{ url_for('estilo_novo_acao', slug=e.slug, acao='aprovar') }}"><button class="btn grande primario">Sim, aprovei: o estilo está pronto</button></form></div>
+<form method="post" action="{{ url_for('estilo_novo_acao', slug=e.slug, acao='ajustar') }}"><label>Quero alterar<textarea name="texto" rows="2" placeholder="o que mudar no vídeo"></textarea></label><button class="btn">Pedir ajuste</button></form></section>{% endif %}
+<h2>Referências deste estilo</h2>
+<div class="grade-cards">{% for r in refs %}<div class="card-video">{% if r.videos %}<video poster="{{ url_for('thumb_rota', caminho=r.videos[0]) }}" muted playsinline preload="none" src="{{ url_for('arquivo', caminho=r.videos[0]) }}#t=1"></video>{% endif %}<b>{{ r.titulo }}</b>{% if r.principal %}<small class="meta">principal</small>{% endif %}</div>{% endfor %}</div>
+{% endblock %}
+{% block scripts %}{% if prop and prop.estado == 'analisando' %}<script>setTimeout(function(){location.reload()},5000)</script>{% endif %}{% endblock %}

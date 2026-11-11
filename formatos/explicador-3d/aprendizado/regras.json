@@ -1,0 +1,153 @@
+{
+ "formato": "explicador-3d",
+ "regras": [
+  {
+   "id": "gente-jogo-antigo-realista",
+   "titulo": "Gente de jogo antigo realista e feio (Loaded Dice), nunca boneco liso",
+   "categoria": "estilo",
+   "peso": "5",
+   "desde": "2026-10-15",
+   "cobre": [
+    "gente-gta-nao-dialogo"
+   ],
+   "origem": "joao",
+   "texto": "Pessoas do base/gente.js: proporção humana (cabeça ~1/6,5), corpo low-poly de 8 lados, roupa com textura de pano, ROSTO pintado como foto colada (pele com poro, olho com íris e brilho, dente, ruga) e expressão exagerada (olho arregalado, sorrisão, grito). Cenário denso com luz de cinema (entardecer, neon, abajur), sombra, profundidade de campo e glow. Nunca o boneco liso 'GTA 2000' de cabeça-caixa (29-out: 'mais feinho, mais esquisito' como o Loaded Dice) nem o cabeção de desenho."
+  },
+  {
+   "id": "fala-vira-imagem",
+   "titulo": "Cada oração mostra literalmente o que diz, no quadro da palavra",
+   "categoria": "roteiro",
+   "peso": "5",
+   "desde": "2026-10-29",
+   "origem": "joao",
+   "texto": "Uma oração = um plano com o objeto, a ação, a pessoa ou o número que ela fala, no quadro da palavra (Loaded Dice: 88% das orações conferidas no olho; a imagem muda junto da 1ª palavra, ±1 quadro). Nada de plano genérico de cenário. Conferência: tabela fala · tempo · o que aparece · bate (estudo_quadros.py, fala-imagem/<vídeo>.md) e corrigir o que não bater antes de entregar."
+  },
+  {
+   "id": "gancho-crime-cotidiano",
+   "titulo": "Gancho: cena que todo mundo já viveu + 'você pode estar cometendo X'",
+   "categoria": "roteiro",
+   "peso": "5",
+   "desde": "2026-10-15",
+   "texto": "Nos primeiros 5 s: situação comum reconhecível + aviso exagerado ('não faça isso, você pode estar cometendo...') + palavra-choque vermelha com grito/sirene, e ação física na tela (polícia chegando, alguém sendo pego). Igual ao 'influencer na rua / illegal act of gambling' da referência. Gancho morno (só um post e um comentário) é reprovado."
+  },
+  {
+   "id": "varios-casos-nao-um-personagem",
+   "titulo": "Vários casos do dia a dia, não um profissional só",
+   "categoria": "roteiro",
+   "peso": "4",
+   "desde": "2026-10-15",
+   "texto": "Cada caso numa pessoa e num cenário diferentes (3+ personagens/profissões), como coin flip no jantar e roleta do cartão na referência. Nada de girar o vídeo em volta de um só (o 1º vídeo ficou 'focado demais no dentista'). A regra em 3 itens precisa ser memorável e cada item aparecer num caso."
+  },
+  {
+   "id": "gente-faz-a-acao",
+   "titulo": "Em toda cena alguém FAZ a ação da fala",
+   "categoria": "movimento",
+   "peso": "5",
+   "desde": "2026-10-15",
+   "texto": "Nada de boneco parado com câmera andando. A ação dita na fala é feita por alguém na tela e ACERTA o objeto: o martelo fica na mão do juiz e bate na mesa (no v2 ele levantou o braço e não bateu em nada), a mão gira a garrafa, a algema fecha no pulso. Pose muda com transição (não pula). Mínimo 1 ação física por cena e figurantes andando ao fundo."
+  },
+  {
+   "id": "efeito-som-da-acao",
+   "titulo": "Efeito sonoro = o som da ação que aparece",
+   "categoria": "som",
+   "peso": "5",
+   "desde": "2026-10-15",
+   "texto": "Cada efeito é o barulho real do que acontece na tela, no quadro em que acontece: sirene da viatura, clique da algema, martelo batendo, obturador da foto, garrafa girando na mesa, notificação do comentário, grito no gancho, burburinho da rua. Nada de whoosh/pop genérico em todo corte (no máx. 1 whoosh na troca grande de cenário)."
+  },
+  {
+   "id": "fecho-volta-ao-gancho",
+   "titulo": "Fecho: entrevista de rua que prova um caso do vídeo",
+   "categoria": "roteiro",
+   "peso": "4",
+   "desde": "2026-10-15",
+   "texto": "O João gostou da entrevista de rua no fim (como a da referência), desde que a pergunta prove um caso do próprio vídeo: 'Qual foi o último contador que você seguiu?' / 'Não lembro, só pesquisar que aparece um monte' (prova a roleta do feed). Entra com um gancho do narrador ('Duvida? Pergunta na rua.'). Personagem solto sem ligação nenhuma corta. Virada só se fizer sentido: 'ou pelo menos era o que eu pensava' sem motivo real o João reprovou."
+  },
+  {
+   "id": "boca-mexe-com-a-voz",
+   "titulo": "Quem fala mexe a boca, no tempo da voz",
+   "categoria": "movimento",
+   "peso": "5",
+   "desde": "2026-10-15",
+   "texto": "Personagem que fala com a voz dele (não o narrador) abre a boca só enquanto a voz dele soa: no motor novo, acoes com rosto 'falando' nas palavras dele e o rosto de antes no fim da fala (troca na piscada), boca grande o bastante pra ver no plano, nunca tampada. No v1 o entrevistador falava de boca parada: o João reprovou. Conferir num quadro no meio da fala antes de entregar."
+  },
+  {
+   "id": "continuidade-e-variedade",
+   "titulo": "Quem fala com quem se olha; não repetir o mesmo personagem",
+   "categoria": "camera",
+   "peso": "5",
+   "desde": "2026-10-15",
+   "texto": "Quem fala com alguém fica virado pra ele (no v2 o Lucas estava de costas pro gordão). Fala de personagem: começa até 0,2 s depois da deixa do narrador, voz limpa (sem 'Ih…' ofegante nem acelerar o áudio: no v3 ficou estranho e atrasou); o comentário aparece no instante da fala. Protagonista em no máx. ~1/3 das cenas e sem close longo do rosto; o resto vai pra outros personagens e cenários (no v2 'sempre voltando no mesmo cara'). Resposta de diálogo entra colada na pergunta (≤0,1 s). Quem segura alguém fica do lado, com espaço, nunca dentro do corpo do outro; ao sair, contorna."
+  },
+  {
+   "id": "ritmo-de-gente",
+   "titulo": "Movimento no ritmo de gente, som baixo no fim",
+   "categoria": "movimento",
+   "peso": "5",
+   "desde": "2026-10-15",
+   "texto": "Andar 1,35 m/s, correr 3 m/s (o motor limita; 'dura' corta o começo do caminho pra chegar na hora). Virar o corpo ~0,4 s. Nada de ir e voltar de um lado pro outro (o dentista do v3 ficou estranho): desespero = parado, mãos na cabeça. Música a 0,07 e fade de 2,5 s no fim; ambiente de rua no máx. 0,12. Antes de entregar, /watch com a narração do lado e conferir ritmo e volume do fim."
+  },
+  {
+   "id": "gramatica-desenho",
+   "titulo": "Parado é parado; pop de reação na 1ª palavra; rosto troca na piscada",
+   "categoria": "movimento",
+   "peso": "5",
+   "desde": "2026-10-29",
+   "origem": "joao",
+   "texto": "Ninguém respira nem balança. Toda ação com rosto faz a pessoa subir ~20% da altura do rosto em 3-4 quadros e voltar com quique (KxEs8tTORWM q1657), na 1ª palavra; comemoração = pop grande (8 q). Gesto termina 4 quadros antes da palavra; rosto troca atrás de uma piscada, nunca morfa."
+  },
+  {
+   "id": "camera-e-troca",
+   "titulo": "Ritmo Loaded Dice: plano ~2,2 s, corte seco ~90%, câmera trabalha dentro do plano",
+   "categoria": "camera",
+   "peso": "5",
+   "desde": "2026-10-29",
+   "origem": "joao",
+   "texto": "Plano de ~2,2 s na mediana (1 a 3 orações; só ~42% das orações trocam de plano): a imagem nova vem pela câmera que desliza pro enquadramento da oração (cam.passos), objeto ou ação, na palavra. Troca = corte seco 1 quadro antes da palavra em ~90%; dissolve raro. Câmera andando em ~93% dos quadros. 29-out: o João achou que a v3 (1 oração = 1 plano, dissolve) 'não ficou a mesma pegada'."
+  },
+  {
+   "id": "fato-e-objeto",
+   "titulo": "Todo número falado é objeto no quadro da palavra, com brilho de borda",
+   "categoria": "estilo",
+   "peso": "5",
+   "desde": "2026-10-29",
+   "origem": "joao",
+   "texto": "Contador que rola e para, pilha que cresce, folha de calendário, placa que acende, cartão/ficha: o evento assenta NO quadro da palavra (Loaded Dice: ~1 quadro da palavra) e o brilho amarelo de borda (cena.brilho) acende junto por ~0,5 s. Nunca número em texto solto."
+  },
+  {
+   "id": "legenda-e-som-medidos",
+   "titulo": "Legenda pequena a 72%; voz 186 ppm com pausa 0,11 s; música ~10 dB abaixo",
+   "categoria": "som",
+   "peso": "4",
+   "desde": "2026-10-29",
+   "origem": "joao",
+   "texto": "Legenda branca com sombra, 2 palavras por vez, centro a ~72% da altura, letra de ~44-48 px. Pausa pós-frase ~0,1-0,2 s (nunca > 0,36 s). Música constante ~10-12 dB abaixo da voz nas pausas, sem ducking. Efeito só na ação visível. Master -14 LUFS (Loaded Dice: -13,7)."
+  },
+  {
+   "id": "transicao-com-objeto",
+   "titulo": "Transição especial com objeto nos números e viradas (~5 por vídeo)",
+   "categoria": "camera",
+   "peso": "4",
+   "desde": "2026-10-29",
+   "origem": "joao",
+   "texto": "Medido: chicote de câmera 10-15 q, objeto passando na frente 8-9 q, papel deslizando 8-16 q, flash 5-15 q (TRANSICOES-E-POP.md). Nos números de dinheiro: moedas_caem / notas_sobem / wipe (ficha gigante), 14 q, a troca atrás do objeto no meio. Nunca mais que ~5 por vídeo; o resto é corte."
+  },
+  {
+   "id": "elenco-pelo-roteiro",
+   "titulo": "Elenco e cenário saem do roteiro, nunca só o protagonista",
+   "categoria": "roteiro",
+   "peso": "5",
+   "desde": "2026-10-29",
+   "origem": "joao",
+   "texto": "Etapa Narrativa visual: a IA lê o roteiro e escolhe o elenco na biblioteca (elenco.js: profissões, idades, corpos) e os cenários (casa, rua, praça, escritório, loja, restaurante, consultório, banco, cassino). Onde o roteiro fala de gente (vizinhos, clientes, moradores), aparecem pessoas diferentes; o protagonista não está em todo plano. 'O formato não pode ser do dentista.'"
+  },
+  {
+   "id": "zona-feia",
+   "titulo": "Zona feia: rosto cru, assimétrico e arregalado; corpo desengonçado",
+   "categoria": "estilo",
+   "peso": "5",
+   "desde": "2026-10-29",
+   "origem": "joao",
+   "texto": "Rosto em código (canvas), nunca IA: pele crua com mancha e poro, olho arregalado (íris pequena), um olho maior e mais baixo, sorriso torto, cabeça de proporção estranha; corpo com braço comprido, ombro torto e cabeça inclinada fixos (não balança). Textura de cenário em pixel de jogo antigo. 29-out: 'dava pra replicar mais aquela zona feia'."
+  }
+ ]
+}

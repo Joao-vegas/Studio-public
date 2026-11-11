@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block titulo %}Recortar vídeo{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <div><h1>Recortar vídeo</h1>
+  <p class="sub">Tira erro, take repetido e enrolação. Você baixa o vídeo limpo.</p></div>
+</div>
+
+<form method="post" action="{{ url_for('cortes_finder') }}" id="ffinder"></form>
+<form method="post" action="{{ url_for('cortes_novo') }}" enctype="multipart/form-data" class="form" id="fcorte">
+  <div class="cortes-grade">
+    <div class="cortes-esq">
+      <label class="soltar alta" id="drop">
+        <span class="soltar-icone"><svg class="icon"><use href="#i-video"/></svg></span>
+        <b class="soltar-titulo"><span class="so-desktop">Arraste o vídeo aqui</span><span class="so-celular">Toque pra escolher o vídeo</span></b>
+        <span class="soltar-ajuda"><span class="so-desktop">ou clique pra escolher · </span><span class="tam">.mov .mp4 até 4 GB</span></span>
+        <span class="soltar-linha"><video class="soltar-mini" muted playsinline preload="metadata"></video><span class="soltar-txt"><b class="soltar-nome"></b><small class="soltar-info"></small></span><span class="btn mini fantasma">Trocar</span></span>
+        <input type="file" name="video" id="video" class="sr-only" accept="video/*,.mov,.mp4,.mkv,.webm" required>
+      </label>
+      <p class="soltar-atalho so-desktop">Arquivo grande? <button type="submit" form="ffinder" formnovalidate class="link-botao">Abrir pelo Finder</button></p>
+
+      <div class="campo">
+        <label for="roteiro-corte">Roteiro <small class="opcional">opcional</small></label>
+        <small>O que está escrito fica; o resto é tropeço.</small>
+        <textarea name="roteiro" id="roteiro-corte" rows="4" placeholder="Cole aqui o roteiro, do jeito que você escreveu pra gravar"></textarea>
+      </div>
+      <details class="mais-detalhes"><summary>Mais (opcional)</summary>
+        <div class="campo"><label for="titulo-corte">Título</label><small>Deixe vazio pra usar o nome do arquivo.</small><input name="titulo" id="titulo-corte"></div>
+        <div class="campo"><label for="briefing-corte">Do que é o vídeo</label><small>Ajuda a IA a saber o que é enrolação.</small><input name="briefing" id="briefing-corte" placeholder="ex.: anúncio de dentista falando de full face"></div>
+      </details>
+      <div class="passo-acoes solta">
+        <button class="btn primario grande" {{ '' if ia_ok else 'disabled' }}>Recortar</button>
+        <span class="passo-custo">Leva 1 a 3 minutos</span>
+      </div>
+    </div>
+    <aside class="como-funciona cartao-grande">
+      <h2>Como funciona</h2>
+      <ol class="passos-num">
+        <li><span class="num">1</span><div><b>Sobe o vídeo</b><small>Aqui do lado, ou pelo Finder.</small></div></li>
+        <li><span class="num">2</span><div><b>A IA marca o que sai</b><small>Erro, repetição e enrolação.</small></div></li>
+        <li><span class="num">3</span><div><b>Você confere e baixa</b><small>Dá pra ajustar na mão.</small></div></li>
+      </ol>
+    </aside>
+  </div>
+</form>
+
+{% if cortes %}
+<h2 class="titulo-grupo">Recortes anteriores <span class="chip">{{ cortes|length }}</span></h2>
+<div class="grade-cards">
+  {% for c in cortes %}
+  <a class="card-video" href="{{ url_for('corte_detalhe', slug=c.slug) }}">
+    {% if c.thumb %}<img class="midia" loading="lazy" src="{{ url_for('arquivo', caminho=c.thumb) }}" alt="">{% else %}<span class="midia video-placeholder">▷</span>{% endif %}
+    <b class="titulo">{{ c.titulo }}</b>
+    <small>{% if c.media and c.media.duracao %}{{ c.media.duracao|round|int }} s{% endif %}{% if c.duracao_final %} → {{ c.duracao_final|round|int }} s{% endif %}</small>
+    <span><span class="selo {{ 'ok' if c.status=='cortado' else ('erro' if c.status=='erro' else 'espera') }}">{{ 'rodando…' if c.rodando else ({'novo':'a montar','analisando':'montando','proposto':'confira o corte','cortado':'pronto','erro':'falhou'}.get(c.status, c.status)) }}</span></span>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+(function(){
+  var f=document.getElementById('fcorte');
+  if(f) f.addEventListener('submit',function(){
+    f.querySelectorAll('button:not([form])').forEach(function(b){b.disabled=true;b.textContent='Enviando…';});
+  });
+})();
+</script>
+{% endblock %}

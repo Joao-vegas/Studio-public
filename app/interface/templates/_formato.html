@@ -1,0 +1,36 @@
+{% macro cartao(f, link=True, escolher=False, usado=False) %}
+{% set ex = f.exemplos[0] if f.exemplos else None %}
+{% if link %}<a class="formato card-video" href="{{ url_for('formato_detalhe', slug=f.slug) }}"{% else %}<button type="button" class="formato card-video"{% endif %}
+  data-formato="{{ f.slug }}" data-entrada="{{ f.entrada }}" data-titulo="{{ f.titulo }}" data-na-tela="{{ 0 if f.na_tela is defined and not f.na_tela else 1 }}" {% if escolher %}data-escolher{% endif %}>
+  <div class="f-tela">
+    {% if ex %}
+      <video muted loop playsinline preload="none"{% if ex.poster_rel %} poster="{{ url_for('arquivo', caminho=ex.poster_rel) }}"{% endif %} data-src="{{ url_for('arquivo', caminho=ex.video) }}"></video>
+      <span class="play" aria-hidden="true"><svg class="icon"><use href="#i-play"/></svg></span>
+    {% else %}
+      <div class="sem-exemplo"><div><svg class="icon"><use href="#i-video"/></svg>Sem exemplo ainda.<br>O primeiro vídeo aprovado vira o exemplo.</div></div>
+    {% endif %}
+  </div>
+  <div class="corpo">
+    <b>{{ f.titulo }}</b>
+    <p>{{ f.frase }}</p>
+    <div class="marcas">
+      <span class="etiqueta">{{ f.entrada_label }}</span>{% if usado %}<span class="etiqueta ok selo ok">já usado por este cliente</span>{% endif %}
+      {% if f.na_tela is defined and not f.na_tela %}<span class="etiqueta receita" title="Ainda não roda pela tela: peça pelo chat">só pelo chat</span>
+      {% elif f.status == 'receita' %}<span class="etiqueta receita" title="Ainda sem motor fixo: o Estúdio monta seguindo o exemplo e as regras">novo</span>{% endif %}
+    </div>
+  </div>
+{% if link %}</a>{% else %}</button>{% endif %}
+{% endmacro %}
+
+{% macro script_play() %}
+<script>
+document.querySelectorAll('.formato').forEach(function(card){
+  var v=card.querySelector('video'); if(!v) return;
+  function liga(){ if(!v.src) v.src=v.dataset.src; v.play().catch(function(){}); card.classList.add('tocando'); }
+  function desliga(){ v.pause(); card.classList.remove('tocando'); }
+  card.addEventListener('mouseenter', liga); card.addEventListener('mouseleave', desliga);
+  card.addEventListener('focus', liga); card.addEventListener('blur', desliga);
+});
+</script>
+{% endmacro %}
+

@@ -1,0 +1,15 @@
+.cache/
+.uploads/
+servico/logs/
+jobs/**/*.jsonl
+jobs/**/*.log
+
+.venv/
+.deps/
+__pycache__/
+**/__pycache__/
+.fila*
+fila.json
+lotes/
+estudos/
+modelos-locais/

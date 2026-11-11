@@ -1,0 +1,50 @@
+{
+  "formato": "caixinha-de-perguntas",
+  "regras": [
+    {
+      "id": "igual-ao-print-do-instagram",
+      "titulo": "Igual ao print do Instagram: fonte, tamanho e margem fixos",
+      "categoria": "visual",
+      "peso": 10,
+      "desde": "2026-10-22",
+      "texto": "A caixa tem que parecer o print real do Instagram: SF Pro (/System/Library/Fonts/SFNS.ttf), título em peso 700 com 35,6 px #FAFAFA na faixa #262626, pergunta em peso 680 com 47,2 px #262626 centralizada no branco, caixa de 708 px centrada, cantos de 24 px. O tamanho da fonte NUNCA muda pra caber: texto longo (pergunta ou título) ganha linha e a caixa cresce pra baixo com as mesmas margens (título 58/45/45, pergunta 98/64/59 px). Tudo fixo no app/ferramentas/caixinha.py: só o texto e a altura mudam.",
+      "evitar": "Fonte fina (peso regular), letra pequena, trocar a fonte, encolher o texto, caixa colorida, sombra."
+    },
+    {
+      "id": "pergunta-como-o-joao-escreveu",
+      "titulo": "Pergunta escrita como o João mandou",
+      "categoria": "texto",
+      "peso": 9,
+      "desde": "2026-10-22",
+      "texto": "A pergunta vai EXATAMENTE como o João escreveu, com abreviação de internet (q, vc, pq) e sem corrigir maiúscula: é isso que dá cara de pergunta real de seguidor. Sem pergunta no briefing, propor 3 a partir da resposta e esperar ele escolher. Título padrão \"O que você quer saber?\"; outro só se ele pedir (--titulo).",
+      "evitar": "Corrigir a gramática da pergunta, inventar pergunta sem ele ver."
+    },
+    {
+      "id": "so-a-pessoa-e-a-caixa",
+      "titulo": "Só a pessoa e a caixa",
+      "categoria": "geral",
+      "peso": 9,
+      "desde": "2026-10-22",
+      "texto": "Pessoa em tela cheia com a caixa fixa do 1º ao último quadro, em cima da cabeça (topo y=255). Sem legenda da fala, b-roll, música nem efeito. Bruto cortado antes (sem silêncio, gaguejo nem erro de começo). Se a cabeça encosta na caixa, usar --posicao peito ou ajustar a altura na tela Editar o texto.",
+      "evitar": "Caixa em cima do rosto, legenda corrida."
+    },
+    {
+      "id": "editar-depois-de-pronto",
+      "titulo": "Pergunta e título editáveis depois do vídeo pronto",
+      "categoria": "fluxo",
+      "peso": 9,
+      "desde": "2026-10-22",
+      "texto": "O gerar.sh grava <sandbox>/camada.json com \"tipo\": \"caixinha\". No Em andamento, o botão Editar o texto abre a tela onde o João troca a pergunta, o texto de cima (faixa escura) e a altura, vê a prévia e gera o vídeo de novo. Fonte e medidas não aparecem lá: ficam as do Instagram.",
+      "evitar": "Render que não grava camada.json (some o botão Editar o texto)."
+    },
+    {
+      "id": "punch-suave-nas-pausas",
+      "titulo": "Punch suave a cada 3 a 6 s, nas pausas da fala",
+      "categoria": "ritmo",
+      "peso": 8,
+      "desde": "2026-10-29",
+      "texto": "O quadro da pessoa aproxima 8% e volta, em rampa de 0,28 s, sempre numa pausa da fala (silêncio de 0,18 s ou mais), de 3 em 3 a 6 s: nunca passa de 6 s com o mesmo enquadramento. A caixa NÃO mexe (fica fixa em y=255) e o cabelo não encosta nela (o recorte ancora embaixo). Feito no app/ferramentas/camada.py (pontos_punch, filtro_punch); camada.json grava punch_s com os instantes. Regra do João: tem coisa muito parada, as pessoas querem dopamina.",
+      "evitar": "Vídeo de 20 s sem nenhuma troca visual; zoom brusco no meio da palavra; mexer na caixa."
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}{% from '_regua.html' import regua_bloco %}{% from '_aprovou.html' import uso_e_nao_copia %}{% block titulo %}Entendi o estilo{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="/referencias">Referências</a> / {{ nome_curto }}</p>
+{% if st.estado == 'analisando' %}
+<div class="vazio"><h2>Estou olhando o vídeo…</h2><p class="passo-dica">{{ st.passo or 'Um instante.' }} A página atualiza sozinha.</p></div>
+{% elif st.estado == 'erro' %}
+<div class="vazio"><h2>Não deu certo</h2><p>{{ st.erro }}</p>
+<form method="post" action="{{ url_for('referencia_rapida_refazer', id_=st.id) }}"><button class="btn grande primario">Tentar de novo</button></form>
+<p><a href="/referencias#jogar">Jogar outro vídeo</a></p></div>
+{% else %}
+<div class="topo-pagina"><div><h1>Entendi assim</h1>
+{% if st.aviso %}<p><span class="selo espera">{{ st.aviso }}</span></p>{% endif %}</div>
+<span class="selo {{ 'ok' if st.estado == 'confirmado' else 'espera' }}">{{ 'guardado em ' ~ titulos.get(st.formato, st.formato) if st.estado == 'confirmado' else 'Aprovou? Falta confirmar' }}</span></div>
+{% if tem_video %}<video class="ref-video" controls playsinline preload="metadata" src="{{ url_for('referencia_rapida_video', id_=st.id) }}"></video>{% endif %}
+<img loading="lazy" decoding="async" src="{{ url_for('referencia_rapida_folha', id_=st.id) }}" alt="Quadros do vídeo, com o segundo marcado" class="folha-ref">
+{% if frase_ensinou %}<p class="rfc-ensinou"><b>O que este vídeo ensina:</b> {{ frase_ensinou }}</p>{% endif %}
+<details class="painel rfc-detalhes"><summary>Ver detalhes <small class="meta">régua, números, quadros e cores</small></summary>
+{{ regua_bloco(regua, aberta=False) }}
+<section class="painel painel-topo">
+  <p><b>Layout:</b> {% for f in e.layout %}{{ f.nome or 'faixa' }}{{ ', ' if not loop.last }}{% endfor %}{% if e.layout|length == 1 %} (tela cheia){% else %} (dividida em {{ e.layout|length }}){% endif %}</p>
+  <p><b>Ritmo:</b> troca de cena a cada ~{{ '%.0f'|format(e.ritmo.corte_a_cada_s) }} s.</p>
+  <p><b>Legenda:</b> {% if e.legenda.palavras_por_vez %}{{ e.legenda.palavras_por_vez }} palavra(s) por vez, a {{ e.legenda.posicao_y_pct }}% da altura, {{ e.legenda.fonte_aprox }}, <span class="selo selo-cor" style="background:{{ e.legenda.cor_hex }}">{{ e.legenda.cor_hex }}</span>{% else %}sem legenda{% endif %}.</p>
+  <p><b>Som:</b> {{ 'com música' if e.som.musica else 'sem música' }}, {{ e.som.clima }}{% if e.som.efeitos %}; efeitos: {{ e.som.efeitos|join(', ') }}{% endif %}.</p>
+  <p><b>Cores:</b> {% for c in e.cores %}<span title="{{ c }}" class="bolinha-cor" style="background:{{ c }}"></span>{% endfor %}</p>
+  <p><b>Gancho (até {{ e.gancho.ate_s }} s):</b> {{ e.gancho.mecanismo }}</p>
+  {% if serve %}<p><b>Serve no formato</b> {{ titulos.get(e.formato_sugerido.slug, e.formato_sugerido.slug) }} (nota {{ e.formato_sugerido.nota }}). {{ e.formato_sugerido.porque }}</p>
+  {% else %}<p><b>Nenhum formato serve bem.</b>{% if perto %} O mais perto: {{ titulos[perto] }} (nota {{ e.formato_sugerido.nota }}).{% endif %} {{ e.formato_sugerido.porque }}</p>{% endif %}
+</section>
+</details>
+{% if st.estado == 'pronto' %}
+<section class="painel aprovou" id="aprovou"><h2>Aprovou?</h2>
+<p class="passo-dica">Nada foi guardado ainda. Só entra no estilo depois do seu clique.</p>
+{{ uso_e_nao_copia() }}
+</section>
+{% set pede_novo = st.guardado_para_novo or not serve %}
+<form method="post" action="{{ url_for('referencia_rapida_criar_estilo', id_=st.id) }}" class="form"><section class="painel">
+  {% if pede_novo %}<p class="passo-dica">Nenhum estilo parecido. Quer criar um estilo novo com esta referência?</p>{% else %}<details><summary>Prefiro criar um estilo novo mesmo assim</summary>{% endif %}
+  <p class="meta">O estilo novo nasce <b>em teste</b> (fora do Criar) e só vira pronto quando você aprovar o 1º vídeo de teste.</p>
+  <label>Nome do estilo novo<input name="nome" placeholder="ex.: legenda amarela"></label>
+  <button class="btn grande primario">Criar este estilo novo</button>
+  {% if not pede_novo %}</details>{% endif %}
+</section></form>
+<form method="post" action="{{ url_for('referencia_rapida_confirmar', id_=st.id) }}" class="form"><section class="painel">
+  <label>Guardar em qual formato?<select name="formato">{% for f in formatos %}<option value="{{ f.slug }}" {{ 'selected' if serve and f.slug == e.formato_sugerido.slug }}>{{ f.titulo }}</option>{% endfor %}<option value="novo" {{ 'selected' if not serve }}>Nenhum: pede formato novo</option></select></label>
+  <label>Nome deste estilo<input name="nome" placeholder="ex.: legenda amarela"></label>
+  <label class="check"><input type="checkbox" name="principal" value="1"> Usar como o estilo principal do formato</label>
+  <p class="meta">Vai pra <code>formatos/&lt;formato&gt;/estudos/NN-nome/</code> (vídeo, folha, estilo e a régua). Nada é apagado.</p>
+  <button class="btn grande primario">Sim, confirmar e guardar</button>
+</section></form>
+
+<form method="post" action="{{ url_for('referencia_rapida_refazer', id_=st.id) }}" class="form"><section class="painel">
+  <label>Ajustar: não era isso? Diga o que errei<textarea name="observacao" rows="2" placeholder="ex.: a legenda é branca, não amarela"></textarea></label>
+  <button class="btn">Ajustar e entender de novo</button></section></form>
+<form method="post" action="{{ url_for('referencia_rapida_descartar', id_=st.id) }}" class="form" onsubmit="return confirm('Descartar esta referência? Ela vai pra lixeira e volta em Configurações.')"><button class="btn fantasma perigo">Descartar</button></form>
+{% endif %}
+{% if st.estado in ('pronto','confirmado') %}
+<section class="painel" id="variacoes-bloco"><h2>Ideias de vídeo nesse estilo</h2>
+{% if variacoes %}{% for v in variacoes %}<p><a href="{{ url_for('variacoes_ver', vid=v.id) }}">{{ {'analisando':'Pensando…','proposta':'Ideias esperando você','erro':'Deu erro'}.get(v.estado, v.estado) }} · {{ v.criado_em[:16] }}</a></p>{% endfor %}{% endif %}
+<form method="post" action="{{ url_for('variacoes_propor') }}"><input type="hidden" name="ref" value="{{ st.id }}"><input type="hidden" name="cliente" value="{{ st.cliente }}">
+<button class="btn grande">Quero 3 ideias de vídeo nesse estilo</button> <small class="meta">eu escrevo 3 ideias (gancho + roteiro curto) sem copiar a fala. Nenhuma vira vídeo sem o seu clique.</small></form></section>
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}{% if st.estado == 'analisando' %}<script>setTimeout(function(){location.reload()},5000)</script>{% endif %}{% endblock %}

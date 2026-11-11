@@ -1,0 +1,262 @@
+{
+  "formato": "fala-com-cenas",
+  "descricao": "Regras que valem pra este formato em qualquer cliente. Consolidadas em 2026-10-09 a partir das variantes dos clientes.",
+  "regras": [
+    {
+      "id": "beats-ritmo-e-abertura",
+      "titulo": "Um beat a cada 6 a 10 segundos",
+      "categoria": "beats",
+      "texto": "Base = pessoa em tela cheia + legenda; b-roll NÃO o tempo todo. Um beat (b-roll, card, impacto ou punch) a cada ~6-10s é o PADRÃO, não o teto: se pedirem mais, até ~15 beats em 60s (um a cada ~4s), com 1-2s de respiro. Beat dura ~2-5s. Abertura (~3-4s) já coberta: primeiro beat em t≈0.4s com o PLANO MAIS FORTE. Faltou janela: candidato não usado do PLANO.json ou beat de ~1,5-2s da ponta de punch/card, em corte de frase; sem candidato, declarar no RESULTADO.md. Punch = push-in suave, --punch-zoom ~1.15-1.18, ~2,5-3s, legenda visível, 1-2s de folga de card. Card para números e punchlines.",
+      "evitar": "B-roll embaixo o vídeo inteiro. Beats colados sem respiro ou parados tempo demais. Abrir só com talking head havendo candidato, ou guardar o plano icônico pro segundo beat. Reusar a mesma janela de um clipe já escalado. Punch fechado no rosto, longo ou colado num card.",
+      "peso": 10,
+      "origem": [
+        "Joao/ritmo-dos-beats-e-punch",
+        "Cliente3/beats-casando-com-a-fala",
+        "Cliente2/abertura-com-impacto-mais-broll"
+      ]
+    },
+    {
+      "id": "broll-casa-com-a-palavra",
+      "titulo": "B-roll ilustra a palavra dita",
+      "categoria": "broll",
+      "texto": "Cada beat ilustra A PALAVRA dita naquele segundo, não o tema: reler a frase da janela no words.json e tirar os tempos de lá. Mostrar a PESSOA na situação da fala, não símbolo genérico; 'todo mundo faz igual' = duplicação no mesmo quadro. Sensação ruim (pressão, branco, vergonha) pede a sensação filmada (olho em close, relógio de thriller). Fala que LISTA itens = uma cena por item, cortes no tempo de cada palavra. Insert de produto/oferta entra NA palavra que o cita (t0 = start da 1ª palavra), como produto (mockup, preço). B-roll é da fala DESTE vídeo, sem reciclar o pacote do anterior.",
+      "evitar": "Beat escolhido pelo tema do vídeo. Antecipar imagem que a fala só justifica depois. Card de texto no lugar da lista de cenas. Stock corporativo confortável quando a fala descreve sensação ruim. Insert de produto atrasado ou estimado sem abrir o words.json. Repetir os b-rolls do vídeo anterior.",
+      "peso": 10,
+      "origem": [
+        "Joao/broll-casa-com-a-palavra-da-janela",
+        "Cliente7/broll-de-pessoa-sozinha",
+        "Cliente7/broll-desconfortavel-e-nao-repetir",
+        "Cliente7/broll-de-produto-no-tempo-da-fala"
+      ]
+    },
+    {
+      "id": "broll-material-real",
+      "titulo": "B-roll real e identificável",
+      "categoria": "broll",
+      "texto": "Material REAL e identificável: cena de filme/série, comercial ou institucional real, canal oficial da marca, gravação de tela real (Facebook Ads, CRM, checkout) ou print da matéria real quando a fala cita um fato. Conceito abstrato pede o FENÔMENO real filmado (lava de vulcão), não motion graphics. Página citada = a página real rolando lenta, fundo escuro. Print de notícia: só manchete + linha fina numa tela 1080x540 com zoompan. Busca: listar candidatos com buscar-broll.sh e escolher o link na mão (ytsearch de 'stock footage' devolve lixo). O mundo do b-roll (filme, 3D) é decisão do cliente.",
+      "evitar": "ytsearch1 de stock genérico. Dashboard/laptop/boutique de banco de imagem. Loop de fogo ou wallpaper 4K no lugar da imagem real. Página inteira jogada na faixa. thum.io em página que carrega por JS (sai vazia).",
+      "peso": 10,
+      "origem": [
+        "Joao/broll-material-real-nunca-stock-generico"
+      ]
+    },
+    {
+      "id": "broll-variar-fontes",
+      "titulo": "Variar as fontes do b-roll",
+      "categoria": "broll",
+      "texto": "No vídeo fechado: no máximo 2 beats da mesma obra/clipe, sempre em cenas diferentes; nenhuma fonte com mais da metade dos beats de b-roll; stock (Pexels/Pixabay) nunca é a fonte da maioria. Buscar FORA e em várias fontes — YouTube primeiro, depois Pexels/Pixabay/Commons/canal oficial; o acervo é atalho, não limite. Anotar a contagem de beats por fonte no RESULTADO.md.",
+      "evitar": "Reel montado com uma obra só ou só com Pexels/stock. Três opções vindas da mesma fonte. Dois beats da mesma obra na mesma cena.",
+      "peso": 10,
+      "origem": [
+        "Cliente3/variar-os-filmes",
+        "Cliente2/broll-varejo-optico-nao-cena-de-filme"
+      ]
+    },
+    {
+      "id": "broll-limpar-o-clipe",
+      "titulo": "Limpar o clipe antes da faixa",
+      "categoria": "broll",
+      "texto": "Todo clipe vira versão -clean antes da faixa. Conferir, em ordem: (1) letterbox queimado (cropdetect); (2) watermark/bug/logo: canal oficial do YouTube costuma ter bug, usar crop=iw*0.94:ih*0.80:iw*0.03:ih*0.02,scale=1920:-2; Motion Array, Stock Pilots, StockVideos.org e VideoKot sempre saem com marca; (3) facecam, seta, abas/URL e nome real de terceiros; (4) select='gt(scene,0.3)': só cena mais longa que o beat; (5) varrer a janela a 2fps olhando mãos; (6) 'trecho' do PLANO.json é do vídeo ORIGINAL e .getbrolls-sources/ é recorte: subtrair local_start_s (brolls/candidates/<hash>.json).",
+      "evitar": "Usar o arquivo direto do download. Usar o 'trecho' direto como -ss no arquivo local (sai preto ou congelado). Montar o beat sem olhar um frame do meio do clipe. Resolução <=720p ou bug 'FX' no canto. Expressão em t no w/h do crop (só x/y são dinâmicos — usar zoompan).",
+      "peso": 10,
+      "origem": [
+        "Joao/broll-limpar-o-clipe-antes-de-entrar-na-faixa",
+        "Cliente3/broll-sem-watermark",
+        "Cliente7/watermark-nos-canais-de-stock"
+      ]
+    },
+    {
+      "id": "broll-janela-medida-e-pre-cortada",
+      "titulo": "Janela do b-roll medida e pré-cortada",
+      "categoria": "broll",
+      "texto": "Nunca escolher o trecho no olho: rodar escolher-janela-broll.py <clipe> (movimento médio entre frames a 5fps, janelas de 4.5s, pico >28 = corte de cena) e usar janela com mov<5 e sem pico; sem janela estável, descartar. Toda janela passa por limpa-broll.py --h <band-h>: amostra frames DA janela, corta barras pretas, faz cover 1080x<band-h> e centraliza o assunto com --zoom/--cx/--cy; brilho médio <30 = escuro demais. O beat entra no --beats como cuts/bN.mp4, sem @ss. Antes de aceitar --cx/--cy 0.5/0.5, extrair 3-4 frames, achar o elemento ilustrado e conferir no .mp4 cortado.",
+      "evitar": "Janela tremida ou escolhida por contact sheet. Aceitar o crop central sem olhar se o elemento-chave entrou. Validar só no preview da fonte, sem checar o clipe já cortado.",
+      "peso": 10,
+      "origem": [
+        "Cliente4/janela-de-broll-medida",
+        "Cliente3/broll-janela-medida-nao-tremida",
+        "Cliente4/broll-pre-cortado-e-centralizado",
+        "Cliente3/limpa-broll-py",
+        "Cliente2/broll-ancora-conferida-nao-so-centralizada"
+      ]
+    },
+    {
+      "id": "broll-nada-ilicito",
+      "titulo": "Nada de b-roll ilícito",
+      "categoria": "broll",
+      "texto": "PROIBIDO b-roll com droga, injeção, pílula, álcool em contexto de vício ou qualquer coisa que leia como ilícito — mesmo como metáfora e mesmo de filme mainstream (Requiem for a Dream, Flight). Tema vício/dependência se ilustra com gráfico próprio, texto ou cena neutra.",
+      "evitar": "Cena com agulha, pílula ou pessoa bebendo escondido. Qualquer clipe que precise de contexto pra não parecer ilícito.",
+      "peso": 10,
+      "origem": [
+        "Joao/broll-nada-de-conteudo-ilicito"
+      ]
+    },
+    {
+      "id": "card-animado-no-tempo-da-fala",
+      "titulo": "Card animado no tempo da fala",
+      "categoria": "cards",
+      "texto": "Card entra ANIMADO palavra a palavra, no tempo da fala, e sai curto. Copy = fala LITERAL do beat (words.json); *asteriscos* = cor de destaque da ficha. Montar com build-card-timed.py (tempos ABSOLUTOS, conferir com --listar; mp4 + sidecar .clicks), entrando como card:s-e:@brolls/cards/bN.mp4. Pontuação final DENTRO do asterisco ('PERGUNTA *IGUAL?*'), senão o '?' vira token vazio, ~1s depois. Card claro leva click por palavra (volume 0.55). Produto/bônus: build-cardkit.py --texto --mockup (--times + --t0, até 2 mockups, --realce gold). Logo + rosto: build-logorosto.py.",
+      "evitar": "Card estático que adianta a fala. Copy que reformula ou resume a fala. Card só de texto quando existe mockup do produto. Card de oferta com o texto inteiro pronto na entrada. Click em card escuro ou de imagem.",
+      "peso": 9,
+      "origem": [
+        "Joao/card-branco-animado-palavra-a-palavra",
+        "Cliente2/cards-copy-literal-e-cronometrada",
+        "Cliente4/cards-copy-literal"
+      ]
+    },
+    {
+      "id": "beat-de-impacto-tela-cheia",
+      "titulo": "Impacto em tela cheia",
+      "categoria": "beats",
+      "texto": "Impacto = build-impacto.py: b-roll em TELA INTEIRA (1080x1920), dark (contrast 1.18, brightness -0.07, saturation 0.7, vinheta, zoom lento), texto embaixo, entra como card:s-e:@brolls/<nome>.mp4 (sidecar .clicks vazio = mudo). Só conceito forte; 2.2-2.8s (até 3.6s só no impacto principal); O texto É a fala do trecho, em blocos (--bloco 'OFFSET:TEXTO'): legível sem som. --leg-hide cobre o card E o rabicho. B-roll horizontal: pré-compor 1080x1920 (blur escurecido + clipe contido, ex crop=860:1080:580:0 → scale=1080:1357 em y=40) e --texty ~1470 (scale=-2:1920,crop=1080:1920 guarda só 607px).",
+      "evitar": "Impacto em todo beat ou em b-roll fraco. Passar de ~2.8s fora do impacto principal. Texto decorativo curto ou card sem texto. Confiar no corte central do 16:9. Texto abaixo de y~1550 (botões do IG). Karaokê reaparecendo e repetindo a frase ao sair do impacto.",
+      "peso": 10,
+      "origem": [
+        "Joao/beat-de-impacto-em-tela-cheia",
+        "Cliente7/beat-de-impacto-fullscreen"
+      ]
+    },
+    {
+      "id": "legenda-abaixo-do-queixo",
+      "titulo": "Legenda abaixo do queixo",
+      "categoria": "legenda",
+      "texto": "Legenda SEMPRE abaixo do queixo, nunca no rosto nem na boca, centralizada, branca com traçado preto, em blocos de 3 palavras (--leg-maxwords 3). A altura exata (--legy) e o tamanho (--leg-fontsize) se calibram por cliente e por bruto — gravação fechada pede fonte maior — e os valores aprovados ficam na regra do cliente. Espaçamento no build-legenda.py: largura da palavra = draw.textlength + espaço natural × SPACE_SCALE 0.95, WORD_GAP ~3, entrelinha 1.14.",
+      "evitar": "Legenda na boca ou solta no meio da tela. Palavra sozinha (maxwords 1 fica rápido demais). textbbox(stroke_width) como medida (soma 2*STROKE_W e solta as palavras). SPACE_SCALE 0.5 com textlength (cola). WORD_GAP 26/12/5.",
+      "peso": 10,
+      "origem": [
+        "Joao/legenda-posicao-e-tipografia",
+        "Cliente3/legenda-espacamento-justo"
+      ]
+    },
+    {
+      "id": "legenda-sem-drift",
+      "titulo": "Legenda sem atraso, quadro a quadro",
+      "categoria": "legenda",
+      "texto": "Cada chunk da legenda em CONTAGEM DE FRAMES EXATA do tempo absoluto: sf=round(start*30), ef=round(end*30), clipe de ef-sf frames, transparente nos gaps (é o que o gerar.sh faz, zero drift). Usar os tempos CRUS do Groq; hold = min(início do próximo chunk, fim da fala + 0.3s); --leg-lead entre 0 e 0.12 (valor do cliente). Conferir com SEEK PRECISO (-ss DEPOIS do -i; offset = duração total - duração do bruto) em ~8 pontos, incluindo o FIM.",
+      "evitar": "Concatenar clipes de duração independente (arredonda por clipe e acumula ~1s de atraso em ~90 chunks). Redistribuir ou reescalar tempos por segmento. Seek rápido na verificação. Assumir duração fixa de gancho.",
+      "peso": 10,
+      "origem": [
+        "Joao/legenda-timing-sem-drift"
+      ]
+    },
+    {
+      "id": "transcricao-limpa-antes-de-montar",
+      "titulo": "Transcrição limpa antes de montar",
+      "categoria": "processo",
+      "texto": "Antes de transcrever: procurar take refeito (whisper funde as duas). Rodar a etapa 0 do Estúdio (app/ferramentas/corte.py), que remonta pelas pausas e marca take refeito; na mão, achar palavra com duração >1.5s ou silêncio no meio da fala (silencedetect -32dB d=0.18), cortar o take errado e RETRANSCREVER o vídeo inteiro. Antes do gerar.sh: normaliza-words.py <words.json> --dur <duração> (corta alucinação de cauda tipo 'Legenda por...' e minusculiza maiúscula no meio da frase que não seja sigla nem venha após ./?/!). Por fim, ler o texto atrás de palavra trocada e corrigir no words.json.",
+      "evitar": "Confiar na transcrição corrida. Remendar timestamps em vez de retranscrever depois do corte. Gerar a legenda direto do words.json sem normalizar. Corrigir só a palavra que chamou atenção.",
+      "peso": 9,
+      "origem": [
+        "Joao/transcricao-normalizada-antes-da-legenda",
+        "Joao/cortar-o-bruto-antes-de-produzir"
+      ]
+    },
+    {
+      "id": "bruto-com-texto-queimado",
+      "titulo": "Bruto com texto queimado",
+      "categoria": "legenda",
+      "texto": "Bruto com texto queimado (cartela, gancho escrito, card de notícia, manchete no topo): a camada do modelo se afasta. (1) Medir início/fim do texto frame a frame (signalstats YAVG pra cartela preta; pixels escuros do contorno pra texto sobre vídeo) e passar --leg-hide 's-e' com ~0.5s de folga. (2) Nenhum beat dentro de cartela preta/fade (vence o beat em 0.4s), salvo pedido. (3) Sem build-manchete.py sobre manchete queimada. (4) Manchete no topo: sem punch, --video-zoom 1.0 --video-offset-y 0. (5) Texto na altura da legenda só numa fase: --legy-win 's-e:y' (ex '0-7.95:1500'; portar se faltar).",
+      "evitar": "Karaokê por cima da tipografia queimada (texto duplicado). Beat dentro do fundo preto. Punch em bruto com manchete queimada. Duas camadas de manchete. legy único quando o bruto muda de fase.",
+      "peso": 10,
+      "origem": [
+        "Joao/bruto-que-ja-vem-com-tipografia-queimada",
+        "Cliente4/bruto-abre-com-texto-queimado",
+        "Cliente3/bruto-com-card-de-noticia-queimado",
+        "Cliente7/sem-manchete-neste-bruto",
+        "Cliente7/bruto-em-duas-fases"
+      ]
+    },
+    {
+      "id": "enquadramento-por-bruto",
+      "titulo": "Enquadramento calibrado a cada bruto",
+      "categoria": "enquadramento",
+      "texto": "Enquadramento se calibra a CADA bruto: a distância muda até entre brutos da mesma gravação (rosto de 709px num e 531px noutro). Medir cabeça e queixo com /watch e drawgrid antes de escolher --video-zoom, --video-offset-y e --legy; plano fechado pede menos zoom e offset-y baixo, plano com folga aceita mais zoom. Conferir o frame t=0 com preview ANTES de renderizar tudo: rosto e testa inteiros, sem sobra acima do cabelo. Bruto 4K vertical (2160x3840) desce pra 1080x1920. Valores aprovados de cada câmera ficam na regra do cliente.",
+      "evitar": "Copiar parâmetro de um bruto pro outro porque foi a mesma gravação. Renderizar direto sem validar o t=0. Cortar a testa ou a cabeça. Auto-detecção de rosto por opencv (não instala, PEP 668).",
+      "peso": 10,
+      "origem": [
+        "Joao/calibrar-enquadramento-a-cada-bruto",
+        "Cliente3/enquadramento-por-video",
+        "Cliente2/primeiro-frame-sem-cortar-a-testa"
+      ]
+    },
+    {
+      "id": "faixa-esfumada",
+      "titulo": "Faixa esfumada para o b-roll",
+      "categoria": "layout",
+      "texto": "O b-roll entra numa faixa com BORDA ESFUMADA (alphamerge) + sombra, flutuando sobre o vídeo como máscara do CapCut; b-roll sempre mudo. band-h e band-feather se calibram pelo enquadramento do bruto: o feather não pode começar na altura do peito (o corpo vira fantasma), então enquadramento mais aberto pede feather menor. Os valores aprovados ficam na regra do cliente.",
+      "evitar": "Linha dura de split. Faixa vermelha (isso é o formato Tela dividida). Feather comendo o torso.",
+      "peso": 9,
+      "origem": [
+        "Joao/faixa-mesclada-nunca-split-duro",
+        "Cliente3/band-nao-comer-o-torso"
+      ]
+    },
+    {
+      "id": "audio-cama-baixa-sem-sfx",
+      "titulo": "Música constante e baixa, sem efeitos",
+      "categoria": "audio",
+      "texto": "Toda peça tem cama musical constante e BAIXA sob a fala, fade in/out ~1.5s; seco é erro; reprovar faixa não é pedir 'sem música'. Voz em loudnorm -16. Trilha a -20 LUFS (loudnorm I=-20:TP=-2) com --music-vol ~0.11 (= -13 LUFS a 0.05; crua, -11/-12 LUFS come a voz). Na fala: pico ~-22/-25 dB, média ~-36/-40 dB. ZERO SFX de transição; só o click por palavra do card claro (--sem-sfx --click-cards). Mix com várias entradas fecha em alimiter=limit=0.71:level=0 (level=1 auto-level sobe a loudness; 0.89 dá +0,0 dBTP (overshoot do AAC 128k); 0.71 = -15,6 LUFS, -2,1 dBTP). Faixa/entrada: do cliente.",
+      "evitar": "Entregar a peça seca. Trilha sem normalizar. Cama acima de ~0.08 sobre trilha de -13 LUFS. --sem-sfx sem --click-cards. Sonorizar todo beat. alimiter em level=1 ou teto 0.89. Música desenhada em janelas (--music-expr) sem pedido.",
+      "peso": 10,
+      "origem": [
+        "Joao/musica-cama-constante-e-baixa",
+        "Cliente7/faixa-mais-alta-e-volume-de-musica",
+        "Cliente4/faixa-e-musica",
+        "Joao/sem-sfx-de-transicao-mas-com-o-click-do-card"
+      ]
+    },
+    {
+      "id": "musica-sem-cliche",
+      "titulo": "Música sem clichê",
+      "categoria": "audio",
+      "texto": "Faixa e gênero: do cliente; método: do formato. Crivo: 'soa trilha de criador de conteúdo/vídeo motivacional de internet?' → descarta, mesmo com BPM certo (lo-fi chill hip-hop e corporate upbeat são clichê). Escolher pelo tom da fala DESTE vídeo. Faixa reprovada nunca volta. Clichê pela 2ª vez após trocar de artista → trocar de GÊNERO (synth com caráter, groove com guitarra e baixo reais, boombap cru, orquestral com tensão). Só INTENSIDADE → mesma família, trecho com mais BPM/percussão na virada/pico. Entregar 2-3 direções distintas voz e SFX iguais; registrar no RESULTADO.md; CC BY avisa.",
+      "evitar": "Trocar só de faixa/artista dentro da família já reprovada por clichê. Trocar de artista quando a queixa foi só intensidade. Usar a cama fraca do início havendo pico melhor. Reabrir faixa ou banco já reprovado. Faixa com crédito obrigatório sem avisar.",
+      "peso": 10,
+      "origem": [
+        "Cliente2/musica-nao-pode-soar-clichê",
+        "Cliente4/musica-primeiras-opcoes-reprovadas"
+      ]
+    },
+    {
+      "id": "qa-frames-e-cor-no-pixel",
+      "titulo": "Conferir quadros e cor no pixel",
+      "categoria": "qa",
+      "texto": "Antes de entregar, /watch e frames por seek preciso: (a) legenda casando com a fala em vários pontos, inclusive no fim (e nas duas alturas, do --legy-win); (b) legenda abaixo do queixo e escondida nas janelas de texto queimado; (c) faixa sem split duro; (d) cards e inserts no tempo da palavra; (e) cabeça e testa sem corte; (f) zonas proibidas do IG: topo, direita e base; (g) um frame de CADA card no pixel: a cor bate com a ficha.json. Cor de destaque SÓ da ficha (paleta.py → destaque(); portar onde build-*.py tiver RGB fixo); mudou paleta/motor → regenerar os cards (build-card-timed.py).",
+      "evitar": "Entregar sem verificar frame a frame. Cor hardcoded nos build-*.py. Reaproveitar mp4 de card renderizado antes da troca de paleta.",
+      "peso": 10,
+      "origem": [
+        "Joao/qa-com-frames-antes-de-entregar",
+        "Cliente7/qa-watch-obrigatorio",
+        "Cliente4/qa-frames-obrigatorio",
+        "Cliente3/qa-watch-obrigatorio",
+        "Cliente2/cor-provada-no-pixel",
+        "Cliente4/paleta-da-ficha-no-render"
+      ]
+    },
+    {
+      "id": "briefing-e-correcao-cirurgica",
+      "titulo": "Briefing do João vale como ordem",
+      "categoria": "processo",
+      "texto": "O briefing do João no Estúdio é ORDEM e ganha do default do modelo. Antes de buscar clipe, quebrar em pedidos numerados em <sandbox>/PEDIDOS.md com o plano de cada um; no RESULTADO.md, apontar beat e segundo de cada pedido e declarar o não atendido com motivo. Na correção, mexer SÓ no que foi citado: listar os elementos da categoria na peça e marcar item a item o que ele nomeou; o resto CONTINUA. Ambíguo → manter e avisar ('mantive X, era pra sair?'). Pedido tentativo ('talvez', 'alguns', 'tenta') = dose mínima e reversível: 1-2 pontos, ou entregar sem o recurso + uma variação com ele.",
+      "evitar": "Tratar pedido curto do briefing como sugestão. Ler 'não gostei dessa música/desse efeito' como 'sem música/nenhum efeito'. Tirar na correção o que ele nunca citou. Aplicar recurso novo em todos os beats já na primeira entrega.",
+      "peso": 10,
+      "origem": [
+        "Cliente2/briefing-do-joao-e-ordem",
+        "Joao/correcao-cirurgica-nao-zera-a-categoria",
+        "Joao/pedido-vago-e-dose-minima"
+      ]
+    },
+    {
+      "id": "variante-autocontida-saida-unica",
+      "titulo": "Variante autocontida, saída única",
+      "categoria": "processo",
+      "texto": "Cada variante é autocontida na pasta do cliente (<Cliente>/<x>Content/modelos/<modelo>/): scripts, sandbox e output. Música e b-roll vêm do acervo (acervo/itens/) ou busca nova, nunca do banco de outro cliente. Script ou flag que falta (normaliza-words.py, build-card-timed.py, limpa-broll.py, paleta.py, --legy-win) se porta de outra variante, não se refaz. Ao fechar a rodada, output/<modelo>/ fica com UM arquivo e os TIMESTAMP.mp4 somem; com o job em feedback as versões anteriores FICAM (job.json guarda o histórico por caminho em saida e versoes[].arquivo; apagar quebra a interface).",
+      "evitar": "Copiar bed-*.mp3 ou b-roll de outro cliente. Vários TIMESTAMP.mp4 na pasta de saída. Apagar versões com o job ainda em feedback.",
+      "peso": 8,
+      "origem": [
+        "Cliente2/assets-nao-se-misturam",
+        "Joao/output-so-a-versao-final-depois-de-aprovar"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+<details class="cartao-config bloco-cfg" id="cobranca"><summary><b>Onde cada coisa é cobrada</b> <span class="sub">de onde sai o gasto de cada serviço</span></summary>
+  <p class="sub" style="margin-bottom:14px">Cada serviço tem 4 linhas: o que usa, de onde sai o gasto, quanto custa por uso e como mudar. Os valores são a média do que já aconteceu de verdade.</p>
+  <div class="cartoes-cobranca">
+  {% for c in cartoes_cobranca %}
+    <div class="cartao-cobranca">
+      <h4>{{ c.nome }}</h4>
+      <dl>
+        <dt>Usa</dt><dd>{{ c.usa }}</dd>
+        <dt>Cobrado de</dt><dd>{{ c.cobrado }}</dd>
+        <dt>Custa por uso</dt><dd>{% for l in c.custa %}<span class="{{ 'sem-medida' if not c.medido }}">{{ l }}</span>{% if not loop.last %}<br>{% endif %}{% endfor %}</dd>
+        <dt>Como mudar</dt><dd>{{ c.mudar }}</dd>
+      </dl>
+    </div>
+  {% endfor %}
+  </div>
+</details>
+<style>
+.cartoes-cobranca{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px}
+.cartao-cobranca{border:1px solid var(--linha);border-radius:14px;padding:14px 16px}
+.cartao-cobranca h4{margin:0 0 8px;font-size:15px}
+.cartao-cobranca dl{margin:0;display:grid;grid-template-columns:104px 1fr;gap:6px 10px;font-size:13px;line-height:1.45}
+.cartao-cobranca dt{color:var(--txt3);font-size:12px;padding-top:1px}
+.cartao-cobranca dd{margin:0}
+.cartao-cobranca .sem-medida{color:var(--txt3);font-style:italic}
+</style>

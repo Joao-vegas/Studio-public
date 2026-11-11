@@ -1,0 +1,12 @@
+{
+  "linhas": [
+    {
+      "texto": "Uma frase.",
+      "emocao": "firme"
+    },
+    {
+      "texto": "Outra frase.",
+      "emocao": "calmo"
+    }
+  ]
+}

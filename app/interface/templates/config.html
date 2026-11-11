@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block titulo %}Configurações{% endblock %}
+{% block conteudo %}
+<div class="cabecalho"><div><h1>Configurações</h1><p class="sub">Em uso agora: <b>{{ agora }}</b> · voz: <b>{{ voz.padroes[voz.padrao] }}</b></p></div></div>
+<div class="config-pagina">
+
+<section class="cartao-config conexoes" id="conexoes">
+  <h3>Conexões</h3>
+  <p class="sub cx-intro">Tudo que o Estúdio usa, num lugar só. A bolinha mostra se está funcionando agora: <b>● ligado</b> · <b>○ falta chave</b> · <b>✖ fora do ar</b>. O botão Testar só consulta a chave ou o saldo: não gera nada e não cobra.</p>
+  <div class="cx-lista">
+  {% for a in conexoes %}
+  <div class="cx-linha cx-{{ a.estado }}" id="{{ 'kie' if a.id=='kie' else 'cx-' ~ a.id }}">
+    <span class="cx-icone" aria-hidden="true">{{ a.icone }}</span>
+    <div class="cx-corpo">
+      <div class="cx-topo"><b class="cx-nome">{{ a.nome }}</b>{% if a.em_uso %}<span class="etiqueta ok">em uso</span>{% endif %}<span class="etiqueta cx-custo cx-custo-{{ 'pago' if a.custo.startswith('Pago') else 'gratis' if a.custo=='Grátis' else 'assin' }}">{{ a.custo }}</span></div>
+      <p class="cx-serve">{{ a.serve }}</p>
+      <p class="cx-estado"><span class="cx-situacao"><span class="cx-bola" aria-hidden="true">{{ a.bola }}</span> {{ a.rotulo }}</span> <span class="cx-texto">{{ a.texto }}</span></p>
+      {% if a.atualizacao %}<p class="cx-atu"><span class="etiqueta destaque">Atualização disponível</span> {{ a.atualizacao.versao }} → {{ a.atualizacao.nova }} <a class="cx-link" href="#atualizacoes">ver em Atualizações</a></p>{% endif %}
+      {% if a.id in ('claude','codex') %}
+      {% set quem = 'anthropic' if a.id=='claude' else 'openai' %}
+      {% set ligada = cob[quem].ligada %}
+      <form method="post" class="cx-troca">
+        <input type="hidden" name="secao" value="ia"><input type="hidden" name="esforco" value="{{ 'max' if cfg.ultra_mode else (cfg.esforco or 'medium') }}">
+        <input type="hidden" name="{{ 'cobranca_enviada' if a.id=='claude' else 'cobranca_gpt_enviada' }}" value="1">
+        <span class="cx-troca-txt">Cobrança agora: <b>{{ 'crédito da API' if ligada else 'assinatura' }}</b></span>
+        {% if ligada %}<button class="btn mini">Voltar para a assinatura</button>
+        {% elif cob[quem].tem_chave %}<input type="hidden" name="{{ 'cobrar_api' if a.id=='claude' else 'cobrar_api_gpt' }}" value="1"><button class="btn mini">Trocar para o crédito da API</button>
+        {% else %}<button class="btn mini" type="button" disabled title="Cole a chave da API em “Trocar chave” primeiro">Trocar para o crédito da API</button><small>precisa da chave da API</small>{% endif %}
+      </form>
+      {% endif %}
+      <div class="cx-acoes">
+        <form method="post" action="{{ url_for('conexao_testar', app_id=a.id) }}"><button class="btn mini">Testar</button></form>
+        {% if a.link %}<a class="cx-link" href="{{ a.link }}" target="_blank" rel="noopener noreferrer">Onde pego a chave <span aria-hidden="true">↗</span></a>{% endif %}
+        {% if a.id=='elevenlabs' %}<a class="cx-link" href="#voz">Escolher a voz</a>{% endif %}
+        {% if a.id=='voicestudio' %}<a class="cx-link" href="#voz">Escolher a voz</a>{% endif %}
+      </div>
+      {% if a.link %}
+      <details class="cx-trocar" id="trocar-{{ a.id }}"><summary>Trocar chave{% if a.tem_chave and a.final %} <small>(atual termina em {{ a.final }})</small>{% endif %}</summary>
+        <form method="post" action="{{ url_for('conexao_chave', app_id=a.id) }}" class="cx-chave">
+          <p class="cx-como"><b>Como pegar:</b> {{ a.como }} <a href="{{ a.link }}" target="_blank" rel="noopener noreferrer">{{ a.link.replace('https://','') }} ↗</a></p>
+          <div class="cx-campo"><input type="password" name="chave" autocomplete="new-password" placeholder="Cole a chave aqui" aria-label="Chave do {{ a.nome }}"><button class="btn mini primario">Salvar e testar</button></div>
+          <small>Fica só neste Mac (app/.env) e nunca aparece de volta. O teste não gasta nada.</small>
+        </form>
+      </details>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+  <p class="sub cx-rodape"><b>Não precisam de chave:</b> {{ sem_chave }}.</p>
+</section>
+
+<p class="cfg-mais-titulo">Mais configurações</p>
+
+<details class="cartao-config bloco-cfg" id="modelo"><summary><b>Modelo e cobrança</b> <span class="sub">qual IA edita os vídeos, quanto ela pensa e de onde sai o gasto</span></summary>
+  <p class="agora">Agora: <b>{{ agora }}</b></p>
+  <p class="sub" style="margin:8px 0 14px">É a IA que planeja, monta e confere cada vídeo. Escolha o modelo: o provedor vem junto. Custo é só uma comparação entre eles; o valor real de cada vídeo aparece em Custos.</p>
+  <form method="post"><input type="hidden" name="secao" value="ia">
+    {% macro modelo_item(m) %}
+      <label class="modelo {{ 'escolhido' if m.atual }}"><input type="radio" name="modelo" value="{{ m.valor }}" {{ 'checked' if m.atual }}>
+        <span class="m-nome"><span><b>{{ m.nome }}</b>{% if m.id %} <code>{{ m.id }}</code>{% endif %}</span><small>{{ m.serve }}</small></span>
+        {% if m.custo %}<span class="m-custo c-{{ m.custo|replace('é','e') }}">{{ m.custo }}</span>{% endif %}</label>
+    {% endmacro %}
+    {% for g in grupos_modelo %}
+    <div class="grupo-modelo"><h4>{{ g.grupo }} <small>{% if g.provedor=='claude' %}{{ 'Conectado neste Mac' if claude else 'Claude Code não encontrado' }}{% else %}{{ 'Codex disponível' if codex else 'Instale e entre no Codex' }}{% endif %}</small></h4>
+      {% for m in g.itens %}{{ modelo_item(m) }}{% endfor %}
+      {% if g.antigas %}<details class="modelos-antigos"><summary>Ver versões antigas <small>({{ g.antigas|length }})</small></summary>{% for m in g.antigas %}{{ modelo_item(m) }}{% endfor %}</details>{% endif %}
+    </div>
+    {% endfor %}
+    <div class="nv-forca cfg-forca" id="cfg-forca" data-faixas='{{ forcas|tojson|forceescape }}'>
+      <b>Força do Claude</b> <small class="meta">— quanto ele pensa antes de agir (o mesmo controle do Criar)</small>
+      <div class="nv-forca-topo"><strong id="cfg-forca-nome">Forte</strong><span id="cfg-forca-det"></span></div>
+      <input type="range" id="cfg-forca-r" min="0" max="100" step="1" value="{{ forca_valor }}" aria-label="Força do Claude, de 0 a 100">
+      <p class="sub" id="cfg-forca-d" style="margin:6px 0 0"></p>
+    </div>
+    <div class="ficha-simples" style="margin:12px 0 0"><div><small>Quanto ele pensa</small><select name="esforco" id="cfg-esforco" style="width:100%;border:0;background:none;font:inherit;color:inherit;font-weight:600">{% for v, r in esforcos %}<option value="{{ v }}" {{ 'selected' if ('max' if cfg.ultra_mode else (cfg.esforco or 'medium'))==v }}>{{ r }}</option>{% endfor %}</select></div></div>
+    <script>(function () {
+      var box = document.getElementById('cfg-forca'); if (!box) return;
+      var F = JSON.parse(box.getAttribute('data-faixas')), r = document.getElementById('cfg-forca-r'), sel = document.getElementById('cfg-esforco');
+      function pinta() {
+        var v = +r.value, f = F.filter(function (x) { return v >= x.de && v < x.ate; })[0] || F[F.length - 1];
+        box.style.setProperty('--f', (v / 100).toFixed(2));
+        document.getElementById('cfg-forca-nome').textContent = f.nome; document.getElementById('cfg-forca-det').textContent = f.rotulo; document.getElementById('cfg-forca-d').textContent = f.desc;
+        return f;
+      }
+      r.addEventListener('input', function () {
+        var f = pinta(), rd = document.querySelector('input[name=modelo][value="claude:' + f.modelo + '"]');
+        if (rd) rd.checked = true; sel.value = f.esforco;   // os mesmos campos que "Salvar modelo" já grava
+      });
+      pinta();
+    })();</script>
+    <div style="margin-top:14px"><button class="btn primario">Salvar modelo</button></div>
+  </form>
+
+  <form method="post" style="margin-top:14px"><input type="hidden" name="secao" value="ia">
+    {% for prov, classe, hid, caixa in (('anthropic','cob-claude','cobranca_enviada','cobrar_api'), ('openai','cob-gpt','cobranca_gpt_enviada','cobrar_api_gpt')) %}
+    <div class="{{ classe }}"><label class="toggle-linha" style="margin:0"><input type="checkbox" name="{{ caixa }}" value="1" {{ 'checked' if cob[prov].ligada }} {{ 'disabled' if not cob[prov].tem_chave }}>
+      {% if cob[prov].tem_chave %}<input type="hidden" name="{{ hid }}" value="1">{% endif %}
+      <span><b>Cobrar da API (crédito)</b><small>{{ cob[prov].texto }}</small>
+      {% if prov=='openai' %}<small>O Codex lê a chave pela variável CODEX_API_KEY. Ainda não rodei um vídeo inteiro por ela: confira em Custos depois do primeiro.</small>{% endif %}</span></label></div>
+    {% endfor %}
+    <label class="toggle-linha" style="margin:10px 0 0"><input type="checkbox" name="fila_cobrar_api" value="1" {{ 'checked' if cfg.fila_cobranca!='assinatura' }}>
+      <span><b>Cobrar a fila de construção da API (crédito)</b><small>Ligado: a fila do sistema (via_api.py) gasta o crédito e para se a chave falhar. Desligado: vai gastar seu limite da semana.</small></span></label>
+    <input type="hidden" name="fila_cobranca_enviada" value="1">
+    <div style="margin-top:14px"><button class="btn primario">Salvar cobrança</button></div>
+  </form>
+</details>
+<style>
+#modelo .agora{margin:6px 0 0;padding:10px 14px;border-radius:12px;background:var(--painel2);font-size:15px}
+#modelo .grupo-modelo{margin-top:12px}
+#modelo .grupo-modelo h4{margin:0 0 6px;font-size:14px}
+#modelo .grupo-modelo h4 small{font-weight:400;color:var(--txt3);margin-left:6px}
+#modelo .modelo{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--linha);border-radius:12px;margin-bottom:6px;cursor:pointer}
+#modelo .modelo:has(input:checked){border-color:var(--ac);box-shadow:0 0 0 1px var(--ac)}
+#modelo .m-nome{flex:1;display:flex;flex-direction:column;gap:2px;font-size:14px}
+#modelo .m-nome code{font-size:11px;color:var(--txt3);margin-left:4px}
+#modelo .m-nome small{color:var(--txt3);font-size:12.5px}
+#modelo .m-custo{font-size:12px;padding:2px 9px;border-radius:999px;border:1px solid var(--linha);white-space:nowrap}
+#modelo .c-caro{background:var(--erro-suave)}#modelo .c-medio{background:var(--alerta-suave)}#modelo .c-barato{background:var(--ok-suave)}
+#modelo .sub-titulo{margin:22px 0 6px;font-size:14px}#modelo .sub-titulo small{font-weight:400;color:var(--txt3)}
+#modelo:has(input[name=modelo][value^="gpt:"]:checked) .cob-claude,#modelo:has(input[name=modelo][value^="claude:"]:checked) .cob-gpt{display:none}
+</style>
+
+{% include "_config_cobranca.html" %}
+
+<details class="cartao-config bloco-cfg" id="voz"><summary><b>Voz dos vídeos por roteiro</b> <span class="sub">quem narra quando você manda um roteiro em vez de um vídeo gravado</span></summary>
+  <form method="post"><input type="hidden" name="secao" value="voz">
+    {% for k, rotulo in voz.padroes.items() %}
+    <label class="toggle-linha" style="margin:8px 0"><input type="radio" name="voz_padrao" value="{{ k }}" {{ 'checked' if voz.padrao==k }}>
+      <span><b>{{ rotulo }}</b>
+      <small>{% if k=='voicestudio' %}<span class="etiqueta {{ 'ok' if vs_no_ar else '' }}">{{ 'no ar' if vs_no_ar else 'fora do ar' }}</span> Grátis, roda no seu Mac (lento: leva uns minutos por vídeo). Se estiver fechado, usa a ElevenLabs só quando ela tem chave e voz; senão o Estúdio avisa “VoiceStudio fechado: abra ele”.
+      {% elif k=='elevenlabs' %}{% if voz.elevenlabs.chave and voz.elevenlabs.voice_id %}Pronta: {{ voz.elevenlabs.nome_voz or 'voz escolhida' }}{% elif voz.elevenlabs.chave %}Chave ok. Falta escolher ou clonar a voz.{% else %}Falta a chave (abaixo){% endif %}
+      {% else %}Você sobe o áudio da narração junto com o roteiro{% endif %}</small></span></label>
+    {% endfor %}
+    <div class="campo" style="margin-top:14px"><label>Voz do VoiceStudio</label>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <select name="voz_voicestudio" id="vs-voz">{% for v in vs_vozes %}<option value="{{ v.id }}" {{ 'selected' if v.id==voz.voicestudio.voz }}>{{ v.rotulo }}{% if v.idioma %} ({{ v.idioma }}){% endif %}</option>{% else %}<option value="default">Voz padrão (VoiceStudio fora do ar)</option>{% endfor %}</select>
+        <button type="button" class="btn mini" onclick="var a=document.getElementById('vs-amostra');a.src='{{ url_for('voz_amostra') }}?voz='+encodeURIComponent(document.getElementById('vs-voz').value);a.hidden=false;a.play()">▶ ouvir</button>
+        <audio id="vs-amostra" controls hidden></audio></div></div>
+    <details style="margin-top:14px"><summary><b>ElevenLabs</b> <span class="sub">(voz reserva: a chave fica em Conexões)</span></summary>
+      <div class="campo"><label>Chave da API <a class="cx-link" href="https://elevenlabs.io/app/settings/api-keys" target="_blank" rel="noopener noreferrer">Onde pego a chave ↗</a></label><input type="password" name="eleven_chave" autocomplete="new-password" placeholder="{{ 'Chave salva. Cole outra pra trocar' if voz.elevenlabs.chave else 'Cole a chave aqui' }}"></div>
+      <div class="campo"><label>ID da voz <small>(opcional se for clonar abaixo)</small></label><input name="eleven_voice_id" value="{{ voz.elevenlabs.voice_id }}" placeholder="Ex.: uma voz da biblioteca da ElevenLabs"></div>
+    </details>
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primario">Salvar voz</button></div>
+  </form>
+  <form method="post" action="{{ url_for('voz_verificar') }}" style="margin-top:8px"><button class="btn mini" {{ 'disabled' if not voz.elevenlabs.chave }}>Testar conexão com a ElevenLabs</button></form>
+  <form method="post" action="{{ url_for('voz_clonar') }}" enctype="multipart/form-data" class="campo" style="border-top:1px solid var(--linha);padding-top:16px;margin-top:16px">
+    <label>Clonar a sua voz</label>
+    <small>Suba 1 a 3 minutos de você falando, sem música e sem barulho. A ElevenLabs cria a voz e o Estúdio passa a usar.</small>
+    <input name="nome" placeholder="Nome da voz (ex.: João)" style="margin-top:6px">
+    <label class="soltar baixa"><b class="soltar-titulo">Solte os áudios aqui ou clique</b><span class="soltar-ajuda" data-nomes>Nenhum áudio escolhido</span><input type="file" name="audios" multiple class="sr-only" accept="audio/*,.m4a,.mp3,.wav,.mov,.mp4" onchange="this.parentNode.querySelector('[data-nomes]').textContent=this.files.length?Array.from(this.files).map(function(f){return f.name}).join(', '):'Nenhum áudio escolhido'"></label>
+    <div><button class="btn" {{ 'disabled' if not voz.elevenlabs.chave }}>Clonar minha voz</button>{% if not voz.elevenlabs.chave %} <small>Precisa da chave primeiro.</small>{% endif %}</div>
+  </form>
+</details>
+
+{% include "_config_musica.html" %}
+
+<details class="cartao-config bloco-cfg" id="cenas"><summary><b>Banco de cenas (b-roll)</b> <span class="sub">a busca de cenas reais; as chaves do Pexels e do Pixabay ficam em Conexões</span></summary>
+  <div class="linha-status"><span><b>Busca de cenas reais</b><small>YouTube, Commons e NASA funcionam sem chave</small></span><span class="etiqueta {{ 'ok' if gb_ok else '' }}">{{ 'instalada' if gb_ok else 'não instalada' }}</span></div>
+  <p class="sub" style="margin-top:10px">Pexels {{ '· configurada' if env.PEXELS_API_KEY else '· sem chave' }} · Pixabay {{ '· configurada' if env.PIXABAY_API_KEY else '· sem chave' }} — <a class="cx-link" href="#cx-pexels">trocar a chave nas Conexões</a></p>
+</details>
+
+<details class="cartao-config bloco-cfg" id="chaves-onde"><summary><b>Chaves e onde estão</b> <span class="sub">em quais arquivos cada chave mora (sem mostrar o valor)</span></summary>
+  <p class="sub" style="margin-bottom:12px">Só mostra se existe e o caminho do arquivo. O valor da chave nunca aparece aqui.</p>
+  {% for l in inventario.linhas %}
+  <div class="linha-chave-info">
+    <span class="ci-topo"><b>{{ l.nome }}</b>
+      <span class="etiqueta {{ 'ok' if l.configurada=='sim' else '' }}">{{ 'configurada' if l.configurada=='sim' else 'vazia' if l.configurada=='vazia' else 'não configurada' }}</span>
+      <span class="etiqueta">{{ l.custo }}</span>{% for av in l.avisos %}<span class="etiqueta destaque">{{ av }}</span>{% endfor %}</span>
+    <small>{{ l.serve }}{% if link_servico.get(l.nome) %} · <a href="{{ link_servico[l.nome] }}" target="_blank" rel="noopener noreferrer">Onde pego a chave ↗</a>{% endif %}</small>
+    <small class="ci-onde">{% for o in l.onde %}<code>{{ o }}</code>{% if not loop.last %} · {% endif %}{% endfor %}</small>
+  </div>
+  {% endfor %}
+  <p class="sub" style="margin-top:14px">Pra conectar ou trocar uma chave, use a lista <a href="#conexoes">Conexões</a> lá em cima: cada aplicativo tem “Trocar chave” e o link de onde pegar.</p>
+  <p class="sub" style="margin-top:12px"><b>Não precisam de chave:</b> {{ inventario.sem_chave }}.</p>
+</details>
+<style>
+.linha-chave-info{padding:10px 0;border-top:1px solid var(--linha);display:flex;flex-direction:column;gap:3px;font-size:14px}
+.linha-chave-info:first-of-type{border-top:0}
+.linha-chave-info small{color:var(--txt3);font-size:12.5px}
+.linha-chave-info .ci-topo{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.linha-chave-info code{font-size:12px}
+</style>
+
+{% if atualizacoes %}
+{% if repositorios %}
+<details class="cartao-config bloco-cfg" id="repositorios"><summary><b>Repositórios e motores</b> <span class="sub">cada ferramenta: pra que serve, quem usa, de onde vem, versão</span></summary>
+  <div class="regra-motor">
+    <b>Quando o Estúdio usa cada motor</b>
+    {% for m in regra_motor %}<div class="linha-status"><span><b>{{ m[0] }}</b><small>{{ m[2] }}</small></span><span class="etiqueta">{{ m[1] }}</span></div>{% endfor %}
+    <p class="sub" style="margin-top:8px">“Skills do HyperFrames” é a documentação oficial do fabricante, copiada pra cá pra a IA consultar; não é código nosso.</p>
+  </div>
+  <div class="grade-repos">
+  {% for r in repositorios %}
+    <div class="cartao-repo">
+      <div class="cr-topo"><b>{{ r.nome }}</b><span class="etiqueta {{ 'ok' if r.situacao in ('em dia', 'atualizada', 'seu repositório') else 'destaque' if r.situacao in ('segurada', 'falhou') else '' }}">{{ r.situacao }}</span></div>
+      <small>{{ r.serve }}</small>
+      <small><b>Usado por:</b> {{ r.usado }}</small>
+      <small><b>Versão:</b> {{ r.versao or '—' }}{% if r.nova %} → {{ r.nova }}{% endif %}{% if r.tamanho %} · {{ r.tamanho }} em disco{% endif %} · <b>Dono:</b> {{ r.dono }}</small>
+      {% if r.onde_txt %}<small class="cr-onde"><code>{{ r.onde_txt }}</code></small>{% endif %}
+      {% if r.nota %}<small>{{ r.nota }}</small>{% endif %}
+      <small><a href="{{ r.origem }}" target="_blank" rel="noopener noreferrer">{{ r.origem.replace('https://', '') }} ↗</a></small>
+    </div>
+  {% endfor %}
+  </div>
+</details>
+{% endif %}
+
+<details class="cartao-config bloco-cfg" id="atualizacoes"{% if atualizacoes.itens|selectattr('estado','in',['disponível','segurada','na fila','atualizando'])|list %} open{% endif %}><summary><b>Atualizações</b>{% set pend = atualizacoes.itens|selectattr('estado','in',['disponível','segurada','na fila'])|list|length %}{% if pend %} <span class="etiqueta destaque">{{ pend }} disponível{{ 'is' if pend > 1 }}</span>{% endif %}</summary>
+  <p class="sub" style="margin-bottom:10px">O Estúdio procura versão nova de cada ferramenta toda segunda às 4h, uma vez por dia quando abre e a cada 30 min enquanto algo espera. Versão pequena ele instala sozinho quando não tem vídeo sendo feito (testa e volta pra anterior se falhar); versão grande espera o seu clique em <b>Atualizar</b>. {% if atualizacoes.quando %}Última conferência: {{ atualizacoes.quando }}.{% endif %}</p>
+  {% set ns = namespace(atualizando=false) %}
+  {% for x in atualizacoes.itens %}{% if x.estado == 'atualizando' %}{% set ns.atualizando = true %}{% endif %}<div class="linha-status"><span><b>{{ x.nome }}</b><small>{{ x.versao }}{% if x.nova %} → {{ x.nova }}{% endif %} · {{ x.pra }}{% if x.nota and x.estado not in ('em dia', 'disponível') %}<br>{{ x.nota }}{% endif %}</small></span><span style="display:flex;gap:8px;align-items:center;flex-shrink:0">{% if x.estado in ('disponível', 'segurada', 'na fila') and x.tipo != 'git' %}{% set bloqueado = atualizacoes.motivo_ocupado if x.tipo != 'app' else '' %}{% if bloqueado %}<button class="btn mini" type="button" disabled data-fixo title="{{ bloqueado }}{{ ': tente de novo daqui a pouco' if bloqueado != 'Atualizando…' }}">{{ bloqueado }}</button>{% else %}<form method="post" action="{{ url_for('atualizar_item') }}" style="margin:0"{% if x.sem_volta %} onsubmit="return confirm('Atualizar {{ x.nome }} pra {{ x.nova }}? O Estúdio testa depois, mas se a versão nova falhar ela não volta sozinha.')"{% endif %}><input type="hidden" name="nome" value="{{ x.nome }}"><button class="btn mini">{{ 'Abrir o aplicativo' if x.tipo == 'app' else 'Atualizar' }}</button></form>{% endif %}{% endif %}<span class="etiqueta {{ 'ok' if x.estado in ('em dia', 'atualizada') else 'destaque' if x.estado in ('segurada', 'falhou', 'atualizando', 'na fila') else '' }}"{% if x.nota %} title="{{ x.nota }}"{% endif %}>{{ x.estado }}</span></span></div>{% endfor %}
+  {% if ns.atualizando or atualizacoes.motivo_ocupado == 'Atualizando…' %}<script>setTimeout(function () { location.reload(); }, 8000);</script>{% endif %}
+  <form method="post" action="{{ url_for('atualizar_agora') }}" style="margin-top:12px"><button class="btn mini">Conferir agora</button></form>
+</details>
+{% endif %}
+
+<details class="cartao-config bloco-cfg" id="avancado"><summary><b>Avançado</b> <span class="sub">fila, pasta de exportação, lixeira e diagnóstico</span></summary>
+  <form method="post" style="margin-top:14px"><input type="hidden" name="secao" value="ia"><input type="hidden" name="provedor" value="{{ cfg.provedor }}"><input type="hidden" name="modelo_claude" value="{{ cfg.modelo_claude }}"><input type="hidden" name="modelo_gpt" value="{{ cfg.modelo_gpt }}"><input type="hidden" name="esforco" value="{{ 'max' if cfg.ultra_mode else cfg.esforco }}">
+    <div class="ficha-simples" style="margin:0">
+      <div><small>Análises ao mesmo tempo</small><input name="analises_simultaneas" type="number" min="1" max="8" value="{{ cfg.analises_simultaneas }}" style="width:100%;border:0;background:none;font:inherit;color:inherit;font-weight:600"></div>
+      <div><small>Renders ao mesmo tempo</small><input name="renders_simultaneos" type="number" min="1" max="4" value="{{ cfg.renders_simultaneos }}" style="width:100%;border:0;background:none;font:inherit;color:inherit;font-weight:600"></div>
+    </div>
+    <div class="campo"><label>Teto do storyboard (US$)</label><input name="teto_storyboard" type="number" min="0" step="0.5" value="{{ (cfg.teto_usd_etapa or {}).get('analise', 2) }}"><small class="sub">Cada rodada de storyboard para sozinha ao chegar nesse valor. 0 = sem teto.</small></div>
+    <div class="campo"><label>Pasta onde os vídeos finalizados vão no Mac</label><input name="destino_mac" value="{{ cfg.destino_mac }}"></div>
+    <button class="btn mini">Salvar</button>
+  </form>
+  <h3 style="margin-top:22px">Lixeira</h3>
+  {% if lixeira %}
+    {% for x in lixeira %}<div class="linha-status"><span><b>{{ x.cliente }} · {{ x.asset or x.item or x.titulo or x.modelo or 'projeto' }}</b><small>removido em {{ x.em[:16] }} · {{ x.mb }} MB</small></span>
+      <span style="display:flex;gap:6px">{% if x.pode_voltar %}<form method="post" action="{{ url_for('lixeira_restaurar', ident=x.id) }}"><button class="btn mini">Restaurar</button></form>{% endif %}
+      <form method="post" action="{{ url_for('lixeira_apagar', ident=x.id) }}" data-confirm="Apagar de vez? Não tem volta."><button class="btn mini perigo">Apagar</button></form></span></div>{% endfor %}
+    <form method="post" action="{{ url_for('lixeira_esvaziar') }}" data-confirm="Apagar DE VEZ tudo da lixeira?"><button class="btn mini perigo" style="margin-top:8px">Esvaziar lixeira</button></form>
+  {% else %}<p class="sub">Vazia.</p>{% endif %}
+  <h3 style="margin-top:22px">Diagnóstico</h3>
+  <p class="sub">Busca de cenas: {{ 'ok' if gb_ok else 'não instalada' }} · Claude: {{ 'ok' if claude else 'ausente' }} · Codex: {{ 'ok' if codex else 'ausente' }}</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn mini" href="{{ url_for('config', doctor=1) }}">Verificar busca de cenas</a><form method="post" action="{{ url_for('config_limpar') }}" data-confirm="Limpar os caches? Vídeos em andamento ficam."><button class="btn mini">Limpar caches</button></form></div>
+  {% if doc %}<pre class="log">{{ doc|tojson(indent=2) }}</pre>{% endif %}
+</details>
+</div>
+<script>
+(function () {   // link com # (ex.: Configurações#voz) abre o bloco recolhido que guarda o alvo
+  function abrir() {
+    var id = decodeURIComponent((location.hash || '').slice(1)); if (!id) return;
+    var el = document.getElementById(id); if (!el) return;
+    for (var d = el; d; d = d.parentElement) if (d.tagName === 'DETAILS') d.open = true;
+    el.scrollIntoView({block: 'start'});
+  }
+  window.addEventListener('hashchange', abrir); abrir();
+})();
+</script>
+{% endblock %}

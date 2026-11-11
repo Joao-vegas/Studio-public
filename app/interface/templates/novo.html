@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+{% from "_vozes_ui.html" import barra, cartao_escolha with context %}
+{% from "_modelo_forca.html" import modelo_forca %}
+{% block titulo %}Novo vídeo{% endblock %}
+{% block conteudo %}
+<form method="post" action="{{ url_for('criar') }}" enctype="multipart/form-data" id="nv" class="nv nv2">
+  <input type="hidden" name="formato" id="nv-formato">
+  <input type="hidden" name="briefing" id="nv-briefing">
+  <input type="hidden" name="direto_campo" value="1">
+  <input type="hidden" name="cortar" value="1">
+  <input type="hidden" name="personagem" id="nv-personagem">
+  {% if pre_conv %}<input type="hidden" name="conversa" value="{{ pre_conv.id }}">{% if pre_conv.descartavel %}<input type="hidden" name="descartavel" value="1">{% endif %}
+  {% if pre_conv.ref %}<input type="hidden" name="ref" value="{{ pre_conv.ref.rel or '' }}"><input type="hidden" name="ref_pasta" value="{{ pre_conv.ref.pasta or '' }}"><input type="hidden" name="ref_copiar" value="{{ pre_conv.ref.copiar or '' }}"><input type="hidden" name="segundo" value="{{ pre_conv.ref.segundo if pre_conv.ref.segundo is not none else '' }}"><input type="hidden" name="referencia_link" value="{{ pre_conv.ref.link or '' }}">{% endif %}
+  {% for m in pre_conv.material if m.ok %}<input type="hidden" name="mat_conversa" value="{{ m.i }}">{% endfor %}{% endif %}
+  <div class="nv-topo"><div><h1>Novo vídeo</h1><p class="nv-sub">{% if pre_conv %}Já preenchi com o que vocês combinaram na conversa{% if pre_conv.material %} (vai junto: {{ pre_conv.material|selectattr('ok')|map(attribute='nome')|join(', ') or 'nenhum material' }}){% endif %}. Confira e crie. <a href="{{ url_for('conversar', id=pre_conv.id) }}">Ver a conversa</a>{% else %}Cinco escolhas, de cima pra baixo. A prévia ao lado vai ficando pronta com o que você escolhe.{% endif %}</p></div></div>
+  <div class="nv-grade">
+  <div class="nv-passos">
+
+  <section class="nv-sec">
+    <h2><span>01</span> O vídeo</h2>
+    <label class="nv-campo nv-quem"><b>Pra quem</b>
+      <select name="cliente" id="nv-cliente"><option value="">Avulso (sem cliente)</option>{% for c in clientes %}<option {{ 'selected' if c == (pre_cliente or 'Joao') }}>{{ c }}</option>{% endfor %}</select></label>
+    <b class="nv-rot">Nome do vídeo</b>
+    <textarea class="nv-titulo" name="titulo" id="nv-titulo" rows="1" maxlength="160" placeholder="Ex.: Ninguém entra num grupo por fato" autocomplete="off" aria-label="Nome do vídeo">{{ pre_titulo }}</textarea>
+    <div class="nv-campo"><b class="nv-rot">O que você tem</b>
+      <div class="nv-seg" id="nv-tenho">
+        <button type="button" data-tenho="video"><svg class="icon" aria-hidden="true"><use href="#i-video"/></svg><span><b>Vídeo gravado (MP4)</b><small>a voz vem dele</small><em class="nv-tenho-motivo" hidden></em></span></button>
+        <button type="button" data-tenho="audio"><svg class="icon" aria-hidden="true"><use href="#i-voz"/></svg><span><b>Só a minha voz (MP3)</b><small>o áudio vira a narração</small><em class="nv-tenho-motivo" hidden></em></span></button>
+        <button type="button" data-tenho="roteiro" class="ativo"><svg class="icon" aria-hidden="true"><use href="#i-film"/></svg><span><b>Só o roteiro</b><small>você escolhe a voz pronta</small><em class="nv-tenho-motivo" hidden></em></span></button>
+      </div></div>
+    <div class="nv-audio" id="nv-audio-box" hidden>
+      <div class="nv-drop">
+        <input type="file" name="audio_narracao" id="nv-meu-audio" accept="audio/*,.mp3,.m4a,.wav,.aac,.ogg,.flac" disabled>
+        <p><b>Escolha o seu áudio</b> · .mp3 .m4a .wav</p>
+        <p class="meta" id="nv-meu-audio-arq"></p>
+      </div>
+      <input type="hidden" name="voz" value="meu-audio" id="nv-voz-audio" disabled>
+      <div class="nv-transc" id="nv-transc" hidden>
+        <b class="nv-rot">Transcrição <small class="meta">— confira se o Groq entendeu certo; o que você falou vira as palavras do vídeo</small></b>
+        <p class="meta" id="nv-transc-msg" role="status"></p>
+        <textarea id="nv-transc-txt" rows="8" readonly aria-label="Transcrição do áudio"></textarea>
+        <button type="button" class="btn mini" id="nv-transc-baixar" hidden>Baixar a transcrição (.txt)</button>
+      </div>
+    </div>
+    <div class="nv-drop" id="nv-drop" hidden>
+      <input type="file" name="videos" id="nv-videos" accept="video/*,.mov,.mp4" multiple>
+      <p><b>Arraste o vídeo aqui</b> ou clique pra escolher · .mov .mp4 até 4 GB</p>
+      <p class="meta" id="nv-arq"></p>
+    </div>
+  </section>
+
+  <section class="nv-sec">
+    <h2><span>02</span> Estilo <small>como o vídeo fica: escolha um</small></h2>
+    <div class="fv" id="nv-estilos-box">
+      {{ barra(rotulos_estilo, "Buscar estilo pelo nome…") }}
+      <section class="fv-grupo">
+        <div class="nv-estilos fv-lista" id="nv-estilos">
+          {% for e in estilos %}
+          <button type="button" class="nv-estilo fv-item" data-slug="{{ e.slug }}" data-entrada="{{ e.entrada }}" data-busca="{{ e.titulo }} {{ e.frase }}" data-tags="{{ e.tags|join(' ') }}">
+            {% if e.poster %}<img src="{{ url_for('arquivo', caminho=e.poster) }}" alt="" loading="lazy">{% else %}<span class="nv-sem"></span>{% endif %}
+            <b>{{ e.titulo }}</b><small class="nv-estilo-aviso" hidden></small>
+          </button>
+          {% endfor %}
+        </div>
+        <p class="meta fv-vazio" hidden>Nenhum estilo com essa busca. Tire uma etiqueta.</p>
+        <button type="button" class="btn mini fantasma fv-mais" hidden>Ver todas</button>
+      </section>
+    </div>
+    <div class="nv-como" id="nv-como" hidden>
+      <div class="nv-abas"><button type="button" data-aba="como" class="ativo">Como funciona</button><button type="button" data-aba="refs">Referências e peso</button><button type="button" data-aba="usa">O que usa</button></div>
+      <div data-painel="como"><p id="nv-frase"></p>
+        <h3 class="sbt-titulo">O que acontece até ficar pronto</h3><ol id="nv-etapas"></ol><a class="meta" id="nv-ver" href="#">ver tudo do estilo →</a></div>
+      <div data-painel="refs" hidden><p class="meta">Tudo em zero = a IA mistura as referências. Ponha o peso (ex.: 50 · 30 · 20) ou clique em "Só esta". Ela pega o fundamento (~70%) e tenta melhorar com o que aprendeu (~30%), sem copiar.</p><div id="nv-refs" class="ref-pesos"></div>
+        <div class="nv-mix"><b class="nv-rot">Misturar com outro estilo <small class="meta">— traz as referências dele, com peso; a produção pega o fundamento das duas</small></b>
+          <select id="nv-mix" name="mix_estilo" aria-label="Misturar com outro estilo"><option value="">Nenhum</option></select>
+          <div id="nv-mix-refs" class="ref-pesos"></div><p class="meta" id="nv-mix-nota" hidden>Sem peso nas referências do seu estilo, a principal dele entra com 70% e o outro estilo com 30%.</p></div></div>
+      <div data-painel="usa" hidden><ul id="nv-usa"></ul></div>
+    </div>
+    <div class="nv-pers" id="nv-pers" hidden>
+      <b class="nv-rot">Personagem <small class="meta">— quem protagoniza o vídeo · elenco do Explicador 3D · <a href="{{ url_for('elenco_estilo', slug='explicador-3d') }}" id="nv-pers-ed">editar o elenco</a></small></b>
+      <div class="el-fila" id="nv-pers-fila"></div>
+    </div>
+    <div class="nv-pede" id="nv-pede" hidden>
+      <b class="nv-rot">O que este estilo pede <small class="meta">— além do vídeo</small></b>
+      <div id="nv-pede-campos"></div>
+    </div>
+  </section>
+
+  <section class="nv-sec" id="nv-historia">
+    <h2><span>03</span> <b class="nv-h-t">O que o vídeo fala</b></h2>
+    <div class="nv-campo" id="nv-aparece" hidden><b class="nv-rot">Você aparece no vídeo?</b>
+      <div class="nv-seg" id="nv-ap-seg">
+        <button type="button" data-ap="sim" class="ativo"><svg class="icon" aria-hidden="true"><use href="#i-video"/></svg><span><b>Sim, nos momentos fortes</b><small>gancho, virada e fecho em tela cheia; às vezes no cantinho, em cima do print</small></span></button>
+        <button type="button" data-ap="nao"><svg class="icon" aria-hidden="true"><use href="#i-voz"/></svg><span><b>Não, só a minha voz</b><small>a sua fala vira a narração e as cenas cobrem o vídeo inteiro</small></span></button>
+      </div><input type="hidden" name="aparecer" id="nv-aparecer" value="sim" disabled></div>
+    <p class="nv-ajuda"><b>O roteiro</b> são as palavras que a voz vai dizer, uma frase por linha. Não tem? O Claude escreve 3 pra você escolher.</p>
+    <div class="nv-seg" id="nv-modo">
+      <button type="button" data-modo="escreve"><svg class="icon" aria-hidden="true"><use href="#i-spark"/></svg><span><b>Claude escreve</b><small>você dá a ideia</small></span></button>
+      <button type="button" data-modo="tenho" class="ativo"><svg class="icon" aria-hidden="true"><use href="#i-film"/></svg><span><b>Eu tenho o roteiro</b><small>cole abaixo</small></span></button>
+    </div>
+    <div id="nv-escreve" hidden>
+      <textarea id="nv-ideia" rows="3" placeholder="A ideia em uma ou duas frases. Ex.: todo grupo que você entra, você entra por uma crença e não por um fato."></textarea>
+      <button type="button" class="btn" id="nv-escrever">Escrever 3 roteiros</button> <span class="meta" id="nv-esc-msg"></span>
+      <div class="nv-sugs" id="nv-sugs"></div>
+    </div>
+    <textarea name="roteiro" id="nv-roteiro" rows="9" placeholder="Cole o roteiro. Uma frase por linha. Sem ponto de exclamação.">{{ pre_roteiro }}</textarea>
+    <div class="nv-vozbox fv" id="nv-voz-box">
+      <b class="nv-rot">Voz da narração <small class="meta">— clique no ▶ pra ouvir em português · <a href="{{ url_for('vozes_lista') }}">tela das vozes</a></small></b>
+      {{ barra(rotulos_tags) }}
+      <div role="radiogroup" aria-label="Voz da narração">
+        <section class="fv-grupo">
+          <h3 class="fv-titulo">Prontas pra usar</h3>
+          <div class="nv-vozes fv-lista">
+            <label class="nv-voz-card ativo fv-item" data-fixo="1"><input type="radio" name="voz" value="" checked>
+              <span class="nv-voz-txt"><b>Automática</b><small>A voz do cliente; se ele não tem, a padrão</small></span></label>
+            {% for v in vozes %}{{ cartao_escolha(v) }}{% endfor %}
+          </div>
+          <p class="meta fv-vazio" hidden>Nenhuma voz com essa busca. Tire uma etiqueta.</p>
+          <button type="button" class="btn mini fantasma fv-mais" hidden>Ver todas</button>
+        </section>
+        {% if arquetipos %}
+        <section class="fv-grupo">
+          <h3 class="fv-titulo">Mais vozes do VoiceStudio <small class="meta">grátis · na 1ª vez vira uma voz fixa em português</small></h3>
+          <div class="nv-vozes fv-lista">{% for v in arquetipos %}{{ cartao_escolha(v) }}{% endfor %}</div>
+          <p class="meta fv-vazio" hidden>Nenhuma voz com essa busca. Tire uma etiqueta.</p>
+          <button type="button" class="btn mini fantasma fv-mais" hidden>Ver todas</button>
+        </section>
+        {% endif %}
+      </div>
+      <p class="meta" id="nv-voz-msg" role="status"></p>
+      <div id="nv-emo-box">
+        <b class="nv-rot">Emoção de cada frase <small class="meta">— o Claude marca lendo o roteiro; troque o que quiser antes de criar. Vale com as variações aprovadas da voz (tela Vozes)</small></b>
+        <button type="button" class="btn mini" id="nv-emo-marcar">Marcar as emoções</button> <span class="meta" id="nv-emo-msg" role="status"></span>
+        <div class="emo-frases" id="nv-emo-frases"></div><input type="hidden" name="emocoes" id="nv-emo-json">
+      </div>
+      {% if not vozes %}<p class="meta">O VoiceStudio não respondeu, então só a voz automática está disponível. Abra o VoiceStudio pra escolher outra.</p>{% endif %}
+    </div>
+  </section>
+
+  <section class="nv-sec">
+    <h2><span>04</span> <b class="nv-h-t">Como ele aparece</b> <small>opcional</small></h2>
+    <div class="nv-campo" id="nv-musica" hidden><b class="nv-rot">Música de fundo <small class="meta">— diga o clima em palavras, o Estúdio procura e traz 3 opções sem voz cantada</small></b>
+      <div id="nv-musica-w"></div></div>
+    <div class="nv-campo" id="nv-efeitos" hidden><b class="nv-rot">Efeitos sonoros <small class="meta">— os do estilo, no momento da ação na tela</small></b>
+      <div class="nv-seg" id="nv-efeitos-seg">
+        <button type="button" data-ef="ligados" class="ativo"><span><b>Ligados</b><small>como o estilo faz</small></span></button>
+        <button type="button" data-ef="desligados"><span><b>Desligados</b><small>só a voz e a música</small></span></button>
+      </div><input type="hidden" name="efeitos_modo" id="nv-efeitos-modo" value="ligados"></div>
+    <p class="nv-ajuda"><b>A direção</b> é o que você quer ver na tela: o que mostrar, o clima, o lugar. Deixe em branco e o Claude decide pelo estilo. Clique num exemplo pra começar:</p>
+    <div class="nv-exemplos" id="nv-exemplos">
+      <button type="button" data-ex="Prints de matéria grifados, torcida e comício reais, fecho seco.">Prints e imagens reais</button>
+      <button type="button" data-ex="Clima sombrio e tenso, luz baixa, ritmo lento, música grave no fundo.">Clima sombrio</button>
+      <button type="button" data-ex="Tudo num consultório moderno e limpo, luz de dia, gente comum de jaleco.">Um lugar só</button>
+      <button type="button" data-ex="Rápido e energético, corte a cada frase, números grandes na tela, sem enrolar.">Rápido e direto</button>
+    </div>
+    <textarea id="nv-direcao" rows="3" placeholder="Ex.: prints de matéria grifados, torcida e comício reais, fecho seco."></textarea>
+  </section>
+
+  <section class="nv-sec">
+    <h2><span>05</span> <b class="nv-h-t">Como o Claude trabalha</b></h2>
+    <b class="nv-rot">Qualidade <small class="meta">— quanto o Claude confere o próprio trabalho</small></b>
+    <div class="nv-qual" id="nv-qual">{% for v, r, d in qualidades %}<button type="button" data-q="{{ v }}" class="{{ 'ativo' if loop.first }}"><b>{{ r }}</b><small>{{ d }}</small></button>{% endfor %}</div>
+    <b class="nv-rot">Modelo e esforço</b>
+    {{ modelo_forca('ia_modelo', 'ia_esforco', gpt=True, id='nv-mf') }}
+    <label class="toggle-linha"><span class="txt"><b>Seguir direto até o vídeo final</b><small>Faz o vídeo inteiro; você aprova no final e ajusta cena por cena no Editar vídeo. Desligado, ele para no storyboard esperando você.</small></span><input type="checkbox" name="direto" value="1" class="interruptor" checked></label>
+  </section>
+
+  <div class="nv-rodape"><span class="meta" id="nv-falta"></span><button class="btn primario grande" id="nv-criar">Criar o vídeo</button></div>
+  </div>
+  <aside class="nv-previa" aria-label="Prévia do que vai sair">
+    <div class="nv-pv-cab"><b>Prévia</b><small>vai se montando com o que você escolhe</small></div>
+    <div class="nv-pv-topo">
+      <div class="nv-pv-tela" id="nv-pv-tela">
+        <div class="nv-pv-vazio" id="nv-pv-vazio"><svg class="icon" aria-hidden="true"><use href="#i-film"/></svg><span>Escolha um estilo e o vídeo de referência toca aqui</span></div>
+        <video id="nv-pv-video" muted loop playsinline preload="metadata" hidden></video>
+      </div>
+      <div class="nv-pv-info">
+        <h3 id="nv-pv-titulo">Nenhum estilo ainda</h3>
+        <p id="nv-pv-frase" class="meta">Passo 02: o estilo define como o vídeo fica.</p>
+      </div>
+    </div>
+    <div class="sbt-box nv-pv-sb" id="nv-sb" hidden><h4 class="nv-pv-sub">Momento a momento <small>no vídeo de referência</small></h4><div class="tira-resumo" id="nv-sb-resumo"></div><p class="tira-conta" id="nv-sb-conta" aria-live="polite"></p><ol class="sbt tira-linha" id="nv-sb-lista"></ol></div>
+    <ul class="nv-pv-lista" id="nv-pv-lista"></ul>
+  </aside>
+  </div>
+</form>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='elenco.css') }}">
+<script id="nv-elencos" type="application/json">{{ {'elenco': elenco, 'rotulos': rotulos, 'previa': previa}|tojson }}</script>
+<script src="{{ url_for('static', filename='elenco-previa.js') }}"></script>
+<script src="{{ url_for('static', filename='elenco-criar.js') }}"></script>
+<script src="{{ url_for('static', filename='vozes-ui.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='tira.css') }}">
+<script src="{{ url_for('static', filename='tira.js') }}"></script>
+<script src="{{ url_for('static', filename='modelo-forca.js') }}"></script>
+<script src="{{ url_for('static', filename='emocao-ui.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='musica-viral.css') }}">
+<script src="{{ url_for('static', filename='musica-viral.js') }}"></script>
+<script>
+(function () {
+  var E = {{ estilos|tojson }}, PRE = {{ ({'estilo': pre_estilo, 'direcao': pre_direcao} if pre_direcao else {'estilo': pre_estilo})|tojson }}, est = { tenho: 'roteiro', slug: '', modo: 'tenho', q: 'padrao', transc: '' }, quadros = {}, estFiltro = null;
+  var arq = function (c) { return {{ url_for('arquivo', caminho='X')|tojson }}.replace(/X$/, encodeURI(c)); };
+  var $ = function (id) { return document.getElementById(id); };
+  function seg(box, attr, cb) { [].forEach.call(box.querySelectorAll('button'), function (b) { b.onclick = function () {
+    [].forEach.call(box.querySelectorAll('button'), function (x) { x.classList.toggle('ativo', x === b); }); cb(b.dataset[attr], b); }; }); }
+  // As 3 escolhas de "O que você tem": cada uma diz quais estilos aceitam (e o porquê quando não)
+  function serveEm(t, e) { return t === 'roteiro' ? (e.entrada === 'roteiro' || e.entrada === 'video-ou-roteiro') : t === 'video' ? e.entrada !== 'roteiro' : (e.entrada === 'video-ou-roteiro' || !!e.aparecer); }
+  function serve(e) { return serveEm(est.tenho, e); }
+  function motivo(t, e) { return t === 'roteiro' ? 'precisa do seu vídeo gravado' : (t === 'video' ? 'é feito a partir de um roteiro' : (e.entrada === 'roteiro' ? 'é feito a partir de um roteiro' : 'precisa do seu rosto no vídeo')); }
+  function aviso(e) { return motivo(est.tenho, e); }
+  function cartoes() {   // com um estilo escolhido, o cartão de entrada que ele não aceita fica apagado com o motivo numa linha
+    var e = E.find(function (x) { return x.slug === est.slug; });
+    [].forEach.call($('nv-tenho').querySelectorAll('button'), function (b) { var ok = !e || serveEm(b.dataset.tenho, e), m = b.querySelector('.nv-tenho-motivo');
+      b.disabled = !ok; b.classList.toggle('apagado', !ok); m.hidden = ok; m.textContent = ok ? '' : motivo(b.dataset.tenho, e); }); }
+  function entradaPara(e) { return ['roteiro', 'video', 'audio'].filter(function (t) { return serveEm(t, e); })[0] || 'roteiro'; }
+  function marcaTenho(t) { var b = $('nv-tenho').querySelector('[data-tenho=' + t + ']'); if (b && !b.disabled) b.click(); }
+  function filtrar() {
+    // todos os estilos ficam à vista; os que não servem pra entrada escolhida ficam apagados com o porquê (clicar troca a entrada)
+    var caixa = $('nv-estilos'), bts = [].slice.call(caixa.querySelectorAll('.nv-estilo'));
+    bts.forEach(function (b) { var e = E.find(function (x) { return x.slug === b.dataset.slug; }), ok = serve(e);
+      b.classList.toggle('apagado', !ok); var a = b.querySelector('.nv-estilo-aviso'); a.hidden = ok; a.textContent = ok ? '' : aviso(e); });
+    bts.filter(function (b) { return !b.classList.contains('apagado'); }).concat(bts.filter(function (b) { return b.classList.contains('apagado'); }))
+      .forEach(function (b) { caixa.appendChild(b); });
+    var atual = E.find(function (x) { return x.slug === est.slug; }); if (atual && !serve(atual)) escolher('');
+    var t = est.tenho, gravado = t === 'video', so_voz = t === 'audio';
+    $('nv-drop').hidden = !gravado; $('nv-videos').disabled = !gravado; $('nv-audio-box').hidden = !so_voz; $('nv-meu-audio').disabled = !so_voz; $('nv-voz-audio').disabled = !so_voz;
+    $('nv-historia').hidden = so_voz; $('nv-historia').querySelector('.nv-h-t').textContent = gravado ? 'O que o vídeo fala (opcional: o que está escrito fica, o resto é tropeço)' : 'O que o vídeo fala';
+    $('nv-modo').hidden = gravado; $('nv-escreve').hidden = gravado || est.modo !== 'escreve';
+    // a voz pronta só faz sentido no "Só o roteiro": nos outros a voz vem do arquivo e os cartões nem são enviados
+    $('nv-voz-box').hidden = t !== 'roteiro'; [].forEach.call($('nv-voz-box').querySelectorAll('input[name=voz]'), function (r) { r.disabled = t !== 'roteiro'; });
+    cartoes(); aparece(); if (estFiltro) estFiltro.aplica(); falta();
+  }
+  function escolher(slug) {
+    est.slug = slug; est.ref = ''; $('nv-formato').value = slug; cartoes();
+    [].forEach.call(document.querySelectorAll('.nv-estilo'), function (b) { b.classList.toggle('ativo', b.dataset.slug === slug); });
+    var e = E.find(function (x) { return x.slug === slug; }); $('nv-como').hidden = !e; $('nv-pede').hidden = true; if (!e) { aparece(); falta(); return; }
+    $('nv-frase').textContent = e.frase; $('nv-ver').href = '/formato/' + slug; tira(e); pedes(e); misturas(); aparece();
+    $('nv-etapas').innerHTML = e.etapas.map(function (t) { return '<li><b>' + t.titulo + '</b> ' + t.faz + '</li>'; }).join('');
+    $('nv-usa').innerHTML = e.usa.map(function (u) { return '<li><b>' + u.oque + '</b> <small class="selo ' + (u.tipo === 'gratis' ? 'ok' : 'espera') + '">' + (u.tipo === 'gratis' ? 'grátis' : u.tipo) + '</small><br><small class="meta">' + u.quem + '</small></li>'; }).join('');
+    var refs = $('nv-refs'); refs.innerHTML = '';
+    e.refs.forEach(function (r) { var d = document.createElement('div'); d.className = 'ref-peso';
+      d.innerHTML = (r.video ? '<a href="' + arq(r.video) + '" target="_blank"><video muted playsinline preload="metadata" src="' + arq(r.video) + '#t=0.5"></video></a>' : '<span></span>')
+        + '<b>' + r.titulo + (r.principal ? ' <small class="selo">principal do estilo</small>' : '') + ' <small class="selo ok ref-valendo" hidden>valendo na prévia</small></b><input type="range" min="0" max="100" step="10" value="0" name="ref_peso__' + r.nome + '"><output>0%</output><button type="button" class="btn mini">Só esta</button>';
+      refs.appendChild(d); });
+    if (!e.refs.length) refs.innerHTML = '<p class="meta">Este estilo ainda tem só o exemplo. Junte referências em Estudar um vídeo.</p>';
+    [].forEach.call(refs.querySelectorAll('input'), function (r) { r.oninput = pesos; });
+    [].forEach.call(refs.querySelectorAll('.ref-peso button'), function (b) { b.onclick = function () {
+      [].forEach.call(refs.querySelectorAll('input'), function (r) { r.value = r.closest('.ref-peso') === b.closest('.ref-peso') ? 100 : 0; }); pesos(); }; });
+    pesos();   // marca a que está valendo (a principal, até o João mexer nos pesos)
+    falta();
+  }
+  function pedes(e) {   // campos que o estilo pede além do vídeo (formato.json → pede / escolhas): mesmos nomes do /criar
+    var box = $('nv-pede'), lista = $('nv-pede-campos'), esc = function (t) { return String(t || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); };
+    var cs = (e.pede || []).filter(function (c) { return !c.principal && c.tipo !== 'voz' && c.campo !== 'roteiro'; });
+    var ecs = (e.escolhas || []).filter(function (x) { return x.tipo !== 'varios' && !cs.some(function (c) { return c.campo === x.campo; }); });
+    lista.innerHTML = cs.map(function (c) {
+      var campo = c.tipo === 'texto' && /por linha/i.test(c.dica || '') ? '<textarea rows="4" name="pede__' + esc(c.campo) + '" autocomplete="off"' + (c.obrigatorio ? ' data-obrigatorio="1"' : '') + '></textarea>'
+        : c.tipo === 'texto' || c.tipo === 'tempo' ? '<input name="pede__' + esc(c.campo) + '" value="' + esc(c.padrao || '') + '" placeholder="' + esc(c.tipo === 'tempo' ? (c.dica || 'ex.: 0:12') : (c.padrao || '')) + '" autocomplete="off"' + (c.obrigatorio ? ' data-obrigatorio="1"' : '') + '>'
+        : '<input type="file" name="pede__' + esc(c.campo) + '" accept="' + (c.tipo === 'foto' ? 'image/*' : 'video/*,image/*,audio/*,.mov,.mp4,.pdf') + '"' + (c.obrigatorio ? ' data-obrigatorio="1"' : '') + '>';
+      return '<label class="nv-pede-c"><span>' + esc(c.rotulo) + (c.obrigatorio ? '' : ' <small class="meta">(opcional)</small>') + '</span>' + (c.dica ? '<small class="meta">' + esc(c.dica) + '</small>' : '') + campo + '</label>'; }).join('')
+      + ecs.map(function (x) { return '<label class="nv-pede-c"><span>' + esc(x.rotulo) + '</span><select name="escolha__' + esc(x.campo) + '">'
+        + x.opcoes.map(function (o) { return '<option' + (o === x.padrao ? ' selected' : '') + '>' + esc(o) + '</option>'; }).join('') + '</select></label>'; }).join('');
+    [].forEach.call(lista.querySelectorAll('input, textarea'), function (i) { i.oninput = i.onchange = falta; });
+    box.hidden = !(cs.length || ecs.length);
+  }
+  function tira(e, ref) {
+    ref = ref || '';
+    TiraUI.montar({ url: e.quadros_url + (ref ? '?ref=' + encodeURIComponent(ref) : ''), caixa: $('nv-sb'), resumo: $('nv-sb-resumo'), conta: $('nv-sb-conta'), lista: $('nv-sb-lista'),
+      vale: function () { return est.slug === e.slug && (est.ref || '') === ref; } });
+  }
+  function pesos() { var rs = [].slice.call($('nv-refs').querySelectorAll('input')), ms = [].slice.call($('nv-mix-refs').querySelectorAll('input')),
+      t = rs.concat(ms).reduce(function (a, r) { return a + +r.value; }, 0);
+    rs.concat(ms).forEach(function (r) { r.nextElementSibling.textContent = t ? Math.round(100 * r.value / t) + '%' : '0%'; });
+    $('nv-mix-nota').hidden = !(ms.some(function (r) { return +r.value > 0; }) && !rs.some(function (r) { return +r.value > 0; }));
+    refAtiva(rs); }
+  // Misturar estilos: as referências de OUTRO estilo entram com peso (mix_peso__<nome>); o POST grava em job.estilo_refs com o estilo de cada uma
+  function misturas() {
+    var sel = $('nv-mix'), antes = sel.value;
+    sel.innerHTML = '<option value="">Nenhum</option>' + E.filter(function (x) { return x.slug !== est.slug && x.refs_mistura.length; })
+      .map(function (x) { return '<option value="' + x.slug + '">' + x.titulo + '</option>'; }).join('');
+    if ([].some.call(sel.options, function (o) { return o.value === antes; })) sel.value = antes; mixRefs(); }
+  function mixRefs() {
+    var box = $('nv-mix-refs'), e = E.find(function (x) { return x.slug === $('nv-mix').value; }); box.innerHTML = '';
+    if (e) e.refs_mistura.forEach(function (r, i) { var d = document.createElement('div'); d.className = 'ref-peso';
+      d.innerHTML = (r.video ? '<a href="' + arq(r.video) + '" target="_blank"><video muted playsinline preload="metadata" src="' + arq(r.video) + '#t=0.5"></video></a>' : '<span></span>')
+        + '<b>' + r.titulo + '</b><input type="range" min="0" max="100" step="10" value="' + (i === 0 ? 30 : 0) + '" name="mix_peso__' + r.nome + '"><output>0%</output><button type="button" class="btn mini">Só esta</button>';
+      box.appendChild(d); });
+    [].forEach.call(box.querySelectorAll('input'), function (r) { r.oninput = pesos; });
+    [].forEach.call(box.querySelectorAll('.ref-peso button'), function (b) { b.onclick = function () {
+      [].forEach.call(box.querySelectorAll('input'), function (r) { r.value = r.closest('.ref-peso') === b.closest('.ref-peso') ? 30 : 0; }); pesos(); }; });
+    pesos(); }
+  $('nv-mix').onchange = mixRefs;
+  // "Você aparece no vídeo?": só quando o estilo deixa (formato.json → aparecer) e a entrada é o vídeo gravado
+  function aparece() { musica(); var e = E.find(function (x) { return x.slug === est.slug; }), ver = !!(e && e.aparecer && est.tenho === 'video');
+    $('nv-aparece').hidden = !ver; var so_voz = est.tenho === 'audio';
+    $('nv-aparecer').disabled = !(ver || so_voz);
+    $('nv-aparecer').value = so_voz ? 'nao' : ((document.querySelector('#nv-ap-seg .ativo') || {}).dataset || {}).ap || 'sim'; }   // só a voz = ele não aparece
+  seg($('nv-ap-seg'), 'ap', function (v) { $('nv-aparecer').value = v; });
+  // "Música de fundo": Sem música · Viral do momento · Procurar. Só nos estilos que usam virais (formato.json → som.musica.viral); o padrão é viral
+  var mv = null;
+  function musica() { var e = E.find(function (x) { return x.slug === est.slug; }), ver = !!(e && e.musica);
+    $('nv-musica').hidden = !ver; $('nv-efeitos').hidden = !(e && e.efeitos); $('nv-efeitos-modo').disabled = !(e && e.efeitos);
+    if (!ver) { mv = null; $('nv-musica-w').innerHTML = ''; return; }
+    if (mv && mv.slug !== est.slug) $('nv-musica-w').innerHTML = '';
+    if (mv && mv.slug === est.slug) return;
+    mv = MusicaViral.criar({ raiz: $('nv-musica-w'), padrao: e.musica_padrao || 'viral', nome: 'musica', params: function () { var r = ($('nv-roteiro').value.trim() || est.transc || '').trim(), p = r.split(/\s+/).filter(Boolean).length;
+      return { formato: est.slug, cliente: $('nv-cliente').value || 'Avulso', texto: r, dur: p ? Math.max(30, Math.round(p / 2.4)) : 75 }; }, onMudou: function () { pv(); } });
+    mv.slug = est.slug; }
+  seg($('nv-efeitos-seg'), 'ef', function (v) { $('nv-efeitos-modo').value = v; });
+  // A prévia segue a escolha: "Só esta" (ou a de maior peso) manda; sem peso nenhum, vale a principal do estilo.
+  function refAtiva(rs) {
+    var e = E.find(function (x) { return x.slug === est.slug; }); if (!e || !e.refs.length) return;
+    var melhor = null; rs.forEach(function (r) { if (+r.value > 0 && (!melhor || +r.value > +melhor.value)) melhor = r; });
+    var nome = melhor ? melhor.name.replace('ref_peso__', '') : ((e.refs.find(function (r) { return r.principal; }) || e.refs[0]).nome);
+    rs.forEach(function (r) { var b = r.closest('.ref-peso').querySelector('.ref-valendo'); if (b) b.hidden = r.name.replace('ref_peso__', '') !== nome; });
+    if ((est.ref || '') === nome) return; est.ref = nome; tira(e, nome); pv(); }
+  [].forEach.call(document.querySelectorAll('.nv-estilo'), function (b) { b.onclick = function () {
+    var e = E.find(function (x) { return x.slug === b.dataset.slug; });
+    if (!serve(e)) { var b0 = $('nv-tenho').querySelector('[data-tenho=' + entradaPara(e) + ']'); b0.disabled = false; b0.click(); }   // estilo apagado: troca a entrada sozinho
+    escolher(b.dataset.slug); }; });
+  estFiltro = VozesUI.filtro($('nv-estilos-box'));
+  seg($('nv-tenho'), 'tenho', function (v) { est.tenho = v; filtrar(); });
+  seg($('nv-modo'), 'modo', function (v) { est.modo = v; filtrar(); });
+  seg($('nv-qual'), 'q', function (v) { est.q = v; });
+  [].forEach.call(document.querySelectorAll('.nv-abas button'), function (b) { b.onclick = function () {
+    [].forEach.call(document.querySelectorAll('.nv-abas button'), function (x) { x.classList.toggle('ativo', x === b); });
+    [].forEach.call(document.querySelectorAll('[data-painel]'), function (p) { p.hidden = p.dataset.painel !== b.dataset.aba; }); }; });
+  $('nv-videos').onchange = function () { $('nv-arq').textContent = [].map.call(this.files, function (f) { return f.name; }).join(', '); falta(); };
+  // título: quebra em linhas (nunca corta nas bordas) e cresce sozinho; Enter não pula linha
+  var tit = $('nv-titulo');
+  function cresce() { tit.style.height = 'auto'; tit.style.height = tit.scrollHeight + 'px'; }
+  tit.addEventListener('input', cresce); tit.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') ev.preventDefault(); });
+  window.addEventListener('resize', cresce); cresce();
+  if ($('nav-toggle')) $('nav-toggle').addEventListener('click', function () { setTimeout(cresce, 280); });   // o menu muda a largura da página
+  $('nv-roteiro').oninput = falta;
+  EmocaoUI.criar({ roteiro: $('nv-roteiro'), botao: $('nv-emo-marcar'), msg: $('nv-emo-msg'), lista: $('nv-emo-frases'), json: $('nv-emo-json'), url: '/api/emocoes/marcar' });
+  // "Só a minha voz (MP3)": o áudio sobe, o Groq transcreve (grátis) e ele confere o texto antes de criar; a transcrição baixa em .txt
+  $('nv-meu-audio').onchange = function () {
+    var f = this.files[0], msg = $('nv-transc-msg'), txt = $('nv-transc-txt'), bx = $('nv-transc-baixar'); est.transc = '';
+    $('nv-meu-audio-arq').textContent = f ? f.name : ''; bx.hidden = true; txt.value = ''; $('nv-transc').hidden = !f; falta();
+    if (!f) return;
+    var fd = new FormData(); fd.append('audio', f); fd.append('cliente', $('nv-cliente').value || 'Joao'); msg.textContent = 'Transcrevendo com o Groq (grátis)… uns segundos.'; est.transcrevendo = f;
+    fetch('/api/transcrever-audio', { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
+      if (est.transcrevendo !== f) return; est.transcrevendo = null;
+      if (!j.ok) { msg.textContent = '✖ ' + (j.erro || 'Não consegui transcrever.') + ' Dá pra criar assim mesmo: o Estúdio transcreve de novo na produção.'; return; }
+      est.transc = j.texto; txt.value = j.texto; msg.textContent = 'Confira o texto. ' + (j.palavras || 0) + ' palavras.'; bx.hidden = false; pv();
+      bx.onclick = function () { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([j.texto + '\n'], { type: 'text/plain;charset=utf-8' }));
+        a.download = f.name.replace(/\.[^.]+$/, '') + '-transcricao.txt'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000); };
+    }).catch(function () { if (est.transcrevendo === f) { est.transcrevendo = null; msg.textContent = '✖ A transcrição não respondeu. Dá pra criar assim mesmo.'; } });
+  };
+  // Voz: cartões de rádio com busca e etiquetas; o ▶ toca a prévia (vozes-ui.js). Arquétipo do VoiceStudio vira perfil fixo ao escolher.
+  VozesUI.filtro($('nv-voz-box'));
+  [].forEach.call(document.querySelectorAll('#nv-voz-box input[type=radio]'), function (r) { r.onchange = function () {
+    [].forEach.call(document.querySelectorAll('.nv-voz-card'), function (c) { c.classList.toggle('ativo', c.contains(r) && r.checked); });
+    var msg = $('nv-voz-msg'); msg.textContent = '';
+    if (!r.checked || r.value.indexOf('arq:') !== 0) { est.fixando = false; falta(); return; }
+    est.fixando = true; falta(); msg.textContent = 'Fixando essa voz em português… (na 1ª vez leva até 1 minuto)';
+    var fd = new FormData(); fd.append('id', r.value);
+    fetch('/vozes/arquetipo', { method: 'POST', body: fd }).then(function (x) { return x.json(); }).then(function (j) {
+      if (!r.checked) return; est.fixando = false;
+      if (j.ok) { r.value = j.id; msg.textContent = 'Voz fixa pronta.'; } else { r.checked = false; document.querySelector('#nv-voz-box input[value=""]').checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); msg.textContent = (j.erro || 'Não deu agora.') + ' Clique na voz outra vez.'; }
+      falta(); }).catch(function () { est.fixando = false; VozesUI.explicar(msg, 'Não deu agora. Tente de novo.'); falta(); }); }; });
+  // Direção: os exemplos clicáveis preenchem o campo (se já tem texto, o exemplo vai numa nova linha)
+  [].forEach.call($('nv-exemplos').querySelectorAll('button'), function (b) { b.onclick = function () {
+    var d = $('nv-direcao'); d.value = d.value.trim() ? d.value.trim() + '\n' + b.dataset.ex : b.dataset.ex; d.focus(); pv(); }; });
+  // Prévia viva (coluna da direita): estilo tocando mudo, storyboard (tira()) e a receita do que foi escolhido até agora
+  var MF = { nome: '', pt: '', en: '' };
+  function esc(t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+  function pv() {
+    var e = E.find(function (x) { return x.slug === est.slug; }), v = $('nv-pv-video'), vazio = $('nv-pv-vazio');
+    $('nv-pv-titulo').textContent = e ? e.titulo : 'Nenhum estilo ainda';
+    $('nv-pv-frase').textContent = e ? e.frase : 'Passo 02: o estilo define como o vídeo fica.';
+    var rv = e && est.ref ? (e.refs.find(function (r) { return r.nome === est.ref; }) || {}).video : '';   // vídeo da referência que está valendo
+    if (e && (rv || e.video || e.poster)) {
+      var src = rv ? arq(rv) : (e.video ? arq(e.video) : ''), chave = e.slug + '|' + (rv ? est.ref : '');
+      if (v.dataset.slug !== chave) { v.dataset.slug = chave; v.poster = !rv && e.poster ? arq(e.poster) : ''; if (src) { v.src = src; v.play().catch(function () {}); } else { v.removeAttribute('src'); } }
+      v.hidden = false; vazio.hidden = true;
+    } else { v.hidden = true; v.pause(); v.removeAttribute('src'); v.dataset.slug = ''; vazio.hidden = false; }
+    var cli = $('nv-cliente').value || 'Avulso', tit = $('nv-titulo').value.trim(), gravado = est.tenho !== 'roteiro', so_voz = est.tenho === 'audio';
+    var arqs = [].map.call($(so_voz ? 'nv-meu-audio' : 'nv-videos').files, function (f) { return f.name; });
+    var frases = $('nv-roteiro').value.split('\n').filter(function (l) { return l.trim(); }).length;
+    var voz = document.querySelector('#nv-voz-box input[name=voz]:checked'), vozNome = voz && voz.closest('label') && voz.closest('label').querySelector('.nv-voz-txt b');
+    var pers = document.querySelector('#nv-pers-fila .ativo b'), dir = $('nv-direcao').value.trim();
+    var qual = { padrao: 'Padrão', conferido: 'Conferido', ultra: 'Ultra' }[est.q];
+    var mf = $('nv-mf'), nomeMod = MF.nome || '', niv = MF.pt ? MF.pt + ' (' + MF.en + ')' : '';
+    var linhas = [
+      ['01', 'O vídeo', cli + ' · ' + (tit || 'sem nome ainda'), !!tit],
+      ['02', 'Estilo', e ? e.titulo : 'escolha um', !!e],
+      ['03', 'Fala', gravado ? (arqs.length ? arqs.join(', ') : (so_voz ? 'mande o MP3' : 'mande o vídeo gravado')) : (frases ? frases + (frases === 1 ? ' frase' : ' frases') + ' de narração' : 'escreva ou cole o roteiro'), gravado ? arqs.length > 0 : frases > 0]
+    ];
+    if (!gravado) linhas.push(['03', 'Voz', vozNome ? vozNome.textContent : 'Automática', true]);
+    if (!$('nv-efeitos').hidden) linhas.push(['04', 'Efeitos', $('nv-efeitos-modo').value === 'ligados' ? 'ligados' : 'desligados', true]);
+    if (!$('nv-musica').hidden && mv) { var vm = mv.valor(); linhas.push(['04', 'Música', vm.modo === 'sem' ? 'sem música' : (vm.titulo ? vm.titulo + ' (viral)' : 'viral do momento (a 1ª das 3)'), true]); }
+    if (!$('nv-aparece').hidden || so_voz) linhas.push(['03', 'Você aparece', $('nv-aparecer').value === 'sim' ? 'sim, nos momentos fortes' : 'não, só a sua voz', true]);
+    if ($('nv-mix').value) { var me = E.find(function (x) { return x.slug === $('nv-mix').value; }); linhas.push(['02', 'Mistura', 'com ' + (me ? me.titulo : ''), true]); }
+    if (!$('nv-pers').hidden) linhas.push(['02', 'Personagem', pers ? pers.textContent : 'a IA escolhe', true]);
+    linhas.push(['04', 'Aparece', dir ? dir.replace(/\s+/g, ' ').slice(0, 90) + (dir.length > 90 ? '…' : '') : 'o Claude decide pelo estilo', true, !dir]);
+    linhas.push(['05', 'Claude', nomeMod ? nomeMod.replace(/^Claude /, '') + ' · ' + niv + ' · qualidade ' + qual.toLowerCase() : '…', true, false, 'forte']);
+    $('nv-pv-lista').innerHTML = linhas.map(function (l, i) {
+      return '<li class="' + (l[3] ? 'feito' : 'falta') + (l[4] ? ' opc' : '') + (l[5] ? ' ' + l[5] : '') + '" data-passo="' + l[0] + '"><i aria-hidden="true">' + (l[3] ? '✓' : '') + '</i><span><small>' + l[1] + '</small><b>' + esc(l[2]) + '</b></span></li>'; }).join('');
+  }
+  document.addEventListener('mf:mudou', function (ev) { MF = { nome: ev.detail.nomeModelo, pt: ev.detail.nomePt, en: ev.detail.esforco }; pv(); });
+  $('nv-pv-lista').addEventListener('click', function (ev) { var li = ev.target.closest('li'); if (!li) return;
+    var sec = [].filter.call(document.querySelectorAll('.nv-sec'), function (x) { return x.querySelector('h2 span') && x.querySelector('h2 span').textContent === li.dataset.passo; })[0];
+    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  $('nv').addEventListener('input', pv); $('nv').addEventListener('change', pv); $('nv').addEventListener('click', function () { setTimeout(pv, 0); });
+  var mf0 = $('nv-mf'); MF = { nome: 'Claude Sonnet 5.5', pt: 'Forte', en: 'high' };
+  (function () { try { var d = JSON.parse(mf0.dataset.dados), m = d.modelos.filter(function (x) { return x.v === mf0.querySelector('[data-mf-modelo]').value; })[0], n = d.niveis.filter(function (x) { return x.v === mf0.querySelector('[data-mf-esforco]').value; })[0];
+    if (m && n) MF = { nome: m.nome, pt: n.pt, en: n.v }; } catch (e) {} })();
+  pv();
+  $('nv-escrever').onclick = function () {
+    if (!est.slug) { $('nv-esc-msg').textContent = 'Escolha o estilo primeiro.'; return; }
+    $('nv-esc-msg').textContent = 'Escrevendo… (uns 30 s)'; this.disabled = true; var me = this;
+    fetch('/api/briefing-ajuda', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ formato: est.slug, cliente: $('nv-cliente').value, ideia: $('nv-ideia').value, entrada: 'roteiro' }) })
+      .then(function (r) { return r.json(); }).then(function (j) { me.disabled = false;
+        if (!j.ok) { $('nv-esc-msg').textContent = '✖ ' + (j.erro || 'não deu'); return; } $('nv-esc-msg').textContent = 'Escolha um:';
+        $('nv-sugs').innerHTML = ''; (j.sugestoes || []).forEach(function (s) { var b = document.createElement('button'); b.type = 'button'; b.className = 'nv-sug';
+          b.innerHTML = '<b>' + (s.titulo || '') + '</b><span>' + (s.roteiro || s.texto || '').slice(0, 220) + '…</span>';
+          b.onclick = function () { $('nv-roteiro').value = s.roteiro || s.texto || ''; if (!document.querySelector('[name=titulo]').value) document.querySelector('[name=titulo]').value = s.titulo || '';
+            $('nv-roteiro').dispatchEvent(new Event('change')); seg_tenho(); falta(); $('nv-roteiro').focus(); }; $('nv-sugs').appendChild(b); }); })
+      .catch(function () { me.disabled = false; $('nv-esc-msg').textContent = '✖ A IA não respondeu.'; });
+  };
+  function seg_tenho() { var b = document.querySelector('[data-modo=tenho]'); b.click(); }
+  function falta() {
+    var f = !est.slug ? 'Escolha o estilo.' : (est.tenho === 'video' ? (!$('nv-videos').files.length ? 'Mande o vídeo.' : '') : est.tenho === 'audio' ? (!$('nv-meu-audio').files.length ? 'Escolha o seu áudio.' : '') : (!$('nv-roteiro').value.trim() ? 'Escreva ou cole o roteiro.' : ''));
+    if (!f && !$('nv-pede').hidden) { var v = [].filter.call($('nv-pede-campos').querySelectorAll('[data-obrigatorio]'), function (i) { return i.type === 'file' ? !i.files.length : !i.value.trim(); })[0];
+      if (v) f = 'Falta: ' + v.closest('label').querySelector('span').textContent.trim() + '.'; }
+    if (!f && est.fixando) f = 'Fixando a voz…';
+    $('nv-falta').textContent = f; $('nv-criar').disabled = !!f;
+  }
+  $('nv').addEventListener('submit', function () {
+    var q = { padrao: '', conferido: 'QUALIDADE CONFERIDO: depois de montar, renderize 2 quadros de cada cena e olhe como quem assiste; conserte texto ilegível, rosto cortado, imagem que não casa com a fala e cena vazia.',
+              ultra: 'QUALIDADE ULTRA: faça o CONFERIDO (2 quadros de cada cena, conserte o que estiver fora) e depois uma segunda rodada nas cenas mais fracas: troque a peça ou a imagem por uma mais forte e diga o que mudou.' }[est.q];
+    $('nv-briefing').value = [$('nv-direcao').value.trim(), q].filter(Boolean).join('\n\n');
+    $('nv-criar').disabled = true; $('nv-criar').textContent = 'Enviando…';
+  });
+  filtrar();
+  if (PRE.direcao) $('nv-direcao').value = PRE.direcao;   // veio da conversa: o pedido fechado já abre escrito
+  if (PRE.estilo) {   // veio de "Usar este estilo": já abre com o estilo escolhido
+    var pe = E.find(function (x) { return x.slug === PRE.estilo; });
+    if (pe && !serve(pe)) marcaTenho(pe.entrada === 'roteiro' ? 'roteiro' : 'video');
+    var pb = document.querySelector('.nv-estilo[data-slug="' + PRE.estilo + '"]'); if (pb) { pb.click(); estFiltro.aplica(); setTimeout(function () { pb.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 250); }
+  }
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,96 @@
+{
+  "formato": "editorial",
+  "regras": [
+    {
+      "id": "referencia-e-biblioteca",
+      "titulo": "Referência é biblioteca, o roteiro escolhe a peça",
+      "categoria": "estilo",
+      "peso": "6",
+      "desde": "2026-10-29",
+      "origem": "joao",
+      "texto": "As referências têm edições diferentes: nenhuma é molde. Se o João escolheu uma no Criar (job.estilo_ref), ela é a base do ritmo e das peças; sem escolha, mistura. A ordem das cenas é nossa, nunca a da referência. Cada oração pede a peça que mostra o que ela diz (base/README.md): nome → cartão/recorte, lista → pílulas, dois lados → dividido/recorte lado a lado, número → contador, gente de verdade → clipe, virada → texto que acende."
+    },
+    {
+      "id": "foto-real-do-caso",
+      "titulo": "Foto real do caso: mostra a fala, em vídeo se for ação, nunca clichê",
+      "categoria": "apoio",
+      "peso": "10",
+      "desde": "2026-10-29",
+      "origem": "joao",
+      "texto": "30-40 imagens por minuto, reais e EXATAS: mostram o objeto, a ação ou o lugar da fala (G6), nunca a pessoa quando a fala descreve o que ela fez (`casar_imagem.py melhores`, `pontuar`, `conferir`). Ação (mandar dinheiro, pagar, ligar, rir...) = CLIPE real de quem faz, nunca foto parada: vídeo da ação. Real e viral, nunca clichê: momento real do caso, depois clipe viral, só então banco (`cliche` abaixo de 0,05). Nada repetido nem quase igual; mesma pessoa até 2 vezes. Print de fonte confiável com origem.json (nunca Wikipédia), sem marca d'água. ÍCONE nunca leva emoji: logo real ou foto da coisa.",
+      "atualizada": "2026-10-30"
+    },
+    {
+      "id": "regua-quadro-a-quadro",
+      "titulo": "Régua medida a 30 fps",
+      "categoria": "movimento",
+      "peso": "4",
+      "desde": "2026-10-29",
+      "origem": "estudo",
+      "texto": "Plano na mediana dentro da faixa das 4 referências (0,5 a 1,8 s; a escolhida manda), câmera andando em ~95% dos quadros, maior trecho parado até 13 quadros, pausa pós-frase ~0,2 s, música ~13 dB abaixo da voz, -14 LUFS, efeitos 20-30/min. Confere com estudo_quadros.py comparar contra o estudo da referência escolhida."
+    },
+    {
+      "id": "roteiro-simples",
+      "titulo": "Roteiro na língua do povo, uma palavra por ideia",
+      "categoria": "copy",
+      "peso": "5",
+      "desde": "2026-10-29",
+      "origem": "joao",
+      "texto": "Frase curta, falada como gente fala. A ideia central usa sempre a MESMA palavra (fato × crença; nunca trocar por dado, número, gráfico no meio). Nome difícil (Tajfel, Klee, Kandinsky, Sapiens) não entra na fala: vira print ou etiqueta na tela. Um caso por vídeo, um mecanismo, vira pro cliente, fecho seco."
+    },
+    {
+      "id": "voz-fixa",
+      "titulo": "Uma voz só do começo ao fim",
+      "categoria": "audio",
+      "peso": "5",
+      "desde": "2026-10-29",
+      "origem": "joao",
+      "texto": "Voz sempre por perfil fixo do VoiceStudio, nunca a 'default' (sorteia uma pessoa por bloco). Perfil clonado de fala real e solta com pergunta (até 20 s). O OmniVoice engole a 1ª palavra do bloco e às vezes troca palavra: conferir cada bloco pela transcrição do Groq SEM dica e trocar a semente até o começo e o fim baterem (base/exemplos/refaz_blocos.py). Conferir o tom (F0) do começo ao fim."
+    },
+    {
+      "id": "musica-famosa-na-batida",
+      "titulo": "Música viral do momento no refrão, na batida",
+      "categoria": "som",
+      "peso": "8",
+      "desde": "2026-10-29",
+      "origem": "joao",
+      "texto": "A música de fundo é SEMPRE viral de hoje (Shazam, Spotify, Apple Music, Deezer; musica_viral.py), nunca banco de trilha nem clichê; banco só como plano B sem internet. Entram 3 opções que casam com o clima da fala e do estilo, cada uma com o motivo; o trecho é o refrão/drop (0,15 s antes do 1º quadro), tocando do 1º ao último quadro, constante 17 LU abaixo da voz (o render.py mede e acerta); corte na batida (work/batida.json nasce do refrão). Toda faixa passa por musica_viral.checar (voz falada que não é a letra, bip, silêncio) e a reprovada não vira opção. Rodízio: nada que o cliente usou nos últimos 8 vídeos; 'Não usar mais' = nunca volta. Som de clipe 10 LU abaixo da voz. Aviso no fim: música famosa, o Instagram pode silenciar se não for a do app. O João sempre pode trocar no Criar (Sem música · Viral · Procurar) e no Editar vídeo (Música: vale pro vídeo todo)."
+    },
+    {
+      "id": "dinamismo-sem-repetir",
+      "titulo": "Dinamismo: novidade o tempo todo, nada repetido",
+      "categoria": "ritmo",
+      "peso": "6",
+      "desde": "2026-10-29",
+      "origem": "joao",
+      "texto": "O Editorial entrega dopamina: novidade a cada plano. Cada clipe real entra UMA vez (busque outro), a mesma foto no máximo 2 vezes (a 2ª com outro enquadramento), nunca 3 cenas seguidas da mesma peça (fora foto), e pelo menos 7 tipos de peça num vídeo de 20+ cenas. A checagem do render.py (checar_repeticao) reprova clipe repetido."
+    },
+    {
+      "id": "grifar-a-fonte",
+      "titulo": "Termo, estudo ou dado: print com a linha grifada",
+      "categoria": "apoio",
+      "peso": "5",
+      "desde": "2026-10-29",
+      "origem": "joao",
+      "texto": "Quando a fala cita pesquisa, estudo, dado ou termo (\"viés de confirmação\"), mostre o print da matéria/estudo de fonte confiável com o trecho grifado no tempo da palavra: \"grifos\": [{\"frase\": \"<trecho exato do print>\", \"t\": <s>}] na cena print. O render.py acha a linha pelo OCR e a câmera chega perto (lupa)."
+    },
+    {
+      "id": "foto-grande",
+      "titulo": "Foto de tela cheia: grande e nítida",
+      "categoria": "apoio",
+      "peso": "5",
+      "desde": "2026-10-30",
+      "origem": "joao",
+      "texto": "Foto em tela cheia (1080x1920) precisa de lado maior >= 1100 px: abaixo de 800 vira borrão e o render.py reprova (checar_resolucao). O commons.py já só guarda foto grande; se o render reprovar, rode trocar_pequenas.py <sandbox> (troca pela mesma chave sem passar de 2 usos) e olhe a foto nova: tem que casar com a fala. Nunca esticar miniatura (30-out, Theranos: cérebro de 344 px, gancho de 200 px)."
+    },
+    {
+      "id": "fundo-vivo",
+      "titulo": "Nenhuma cena em fundo cinza liso",
+      "categoria": "apoio",
+      "peso": "8",
+      "desde": "2026-10-30",
+      "origem": "joao",
+      "texto": "Peça sem foto própria (texto, ícone, Venn, contador, pílulas, linha, conversa, colagem) leva fundo vivo: a imagem real da cena vizinha (a anterior no empate; foto antes de print) desfocada 22 px, com brilho médio ~0,27 e zoom 1,3-1,4 andando devagar; o render.py põe sozinho (`fundo_vivo`). Fundo liso só com `\"fundo\": \"liso\"` pedido na cena (a conferência avisa). Vídeo sem imagem por perto reprova: \"fundo liso sem imagem\". João, 30-out: \"quando eu só tenho o fundo cinza, essas coisas meio broxantes\"."
+    }
+  ]
+}

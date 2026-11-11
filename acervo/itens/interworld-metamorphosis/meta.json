@@ -1,0 +1,190 @@
+{
+  "titulo": "Interworld - Metamorphosis",
+  "tags": [
+    "musica",
+    "famosa",
+    "phonk",
+    "sombria",
+    "edit",
+    "87bpm"
+  ],
+  "fonte": "SoundCloud (yt-dlp scsearch)",
+  "autor": "Interworld",
+  "licenca": "direitos do autor: uso em Reels pela faixa do app se silenciar",
+  "observacao": "aprovada pelo João no Editorial grupo-por-crenca-v3 (29-out-2026); drop ~10,3 s no arquivo, período 0,6855 s",
+  "origem": "manual",
+  "arquivo_original": "metamorphosis-interworld.mp3",
+  "adicionado_em": "2026-10-29 19:54:49",
+  "media": {
+    "largura": null,
+    "altura": null,
+    "fps": 0.0,
+    "duracao": 142.89
+  },
+  "tipo": "musica",
+  "checklist": {},
+  "usos": [],
+  "analise": {
+    "duracao_s": 142.9,
+    "bpm": 86.1,
+    "bpm_confianca": 0.46,
+    "lufs": -9.7,
+    "faixa_dinamica_lu": 15.1,
+    "pico_true_db": 1.9,
+    "bandas_geral": {
+      "grave": 0.4,
+      "medio": 0.41,
+      "agudo": 0.19
+    },
+    "bandas_pico": {
+      "grave": 0.41,
+      "medio": 0.41,
+      "agudo": 0.19
+    },
+    "secoes": [
+      {
+        "t0": 0,
+        "t1": 10,
+        "nivel": "cama",
+        "energia": 0.09
+      },
+      {
+        "t0": 10,
+        "t1": 20,
+        "nivel": "alta",
+        "energia": 0.73
+      },
+      {
+        "t0": 20,
+        "t1": 31,
+        "nivel": "cama",
+        "energia": 0.38
+      },
+      {
+        "t0": 31,
+        "t1": 42,
+        "nivel": "alta",
+        "energia": 0.68
+      },
+      {
+        "t0": 42,
+        "t1": 55,
+        "nivel": "cama",
+        "energia": 0.26
+      },
+      {
+        "t0": 55,
+        "t1": 60,
+        "nivel": "alta",
+        "energia": 0.66
+      },
+      {
+        "t0": 60,
+        "t1": 67,
+        "nivel": "media",
+        "energia": 0.68
+      },
+      {
+        "t0": 67,
+        "t1": 86,
+        "nivel": "alta",
+        "energia": 0.75
+      },
+      {
+        "t0": 86,
+        "t1": 98,
+        "nivel": "cama",
+        "energia": 0.28
+      },
+      {
+        "t0": 98,
+        "t1": 104,
+        "nivel": "alta",
+        "energia": 0.65
+      },
+      {
+        "t0": 104,
+        "t1": 123,
+        "nivel": "media",
+        "energia": 0.61
+      },
+      {
+        "t0": 123,
+        "t1": 143,
+        "nivel": "cama",
+        "energia": 0.1
+      }
+    ],
+    "trechos_usaveis": [
+      {
+        "tipo": "virada",
+        "inicio_s": 9,
+        "fim_s": 17,
+        "duracao_s": 8,
+        "energia_media": 0.66,
+        "motivo": "a música sobe 0.53 em 4s — bom pra card, corte ou revelação",
+        "nota": 0.53
+      },
+      {
+        "tipo": "gancho",
+        "inicio_s": 11,
+        "fim_s": 19,
+        "duracao_s": 8,
+        "energia_media": 0.77,
+        "motivo": "entra forte — serve pros primeiros segundos do reel",
+        "nota": 0.58
+      },
+      {
+        "tipo": "pico",
+        "inicio_s": 12,
+        "fim_s": 20,
+        "duracao_s": 8,
+        "energia_media": 0.78,
+        "motivo": "maior energia sustentada — clímax, oferta, virada de argumento",
+        "nota": 0.78
+      },
+      {
+        "tipo": "virada",
+        "inicio_s": 53,
+        "fim_s": 61,
+        "duracao_s": 8,
+        "energia_media": 0.58,
+        "motivo": "a música sobe 0.46 em 4s — bom pra card, corte ou revelação",
+        "nota": 0.46
+      },
+      {
+        "tipo": "cama",
+        "inicio_s": 122,
+        "fim_s": 142,
+        "duracao_s": 20,
+        "energia_media": 0.12,
+        "motivo": "baixa energia e estável — não briga com a voz",
+        "nota": 0.64
+      },
+      {
+        "tipo": "final",
+        "inicio_s": 131,
+        "fim_s": 143,
+        "duracao_s": 12,
+        "energia_media": 0.03,
+        "motivo": "a música desce sozinha — fecho natural do reel",
+        "nota": 0.5
+      }
+    ],
+    "pico_energia_s": 11,
+    "melhor_trecho_cama": {
+      "inicio_s": 122,
+      "fim_s": 142,
+      "motivo": "20s mais estáveis e de menor energia"
+    },
+    "imagens": {
+      "waveform": "~/Projetos/Skill/Estúdio/acervo/itens/interworld-metamorphosis/waveform.png",
+      "espectro": "~/Projetos/Skill/Estúdio/acervo/itens/interworld-metamorphosis/espectro.png",
+      "curva": "~/Projetos/Skill/Estúdio/acervo/itens/interworld-metamorphosis/curva.png"
+    },
+    "youtube": {},
+    "arquivo": "~/Projetos/Skill/Estúdio/acervo/itens/interworld-metamorphosis/clip.mp3",
+    "analisado_em": "20261029-195451"
+  },
+  "resumo_audio": "142.9s · 86.1 BPM (confiança 0.46) · -9.7 LUFS · faixa dinâmica 15.1 LU\ntimbre: grave 0.4 · médio 0.41 · agudo 0.19\nTRECHOS USÁVEIS (corte aqui):\nestrutura: 0-10s cama → 10-20s alta → 20-31s cama → 31-42s alta → 42-55s cama → 55-60s alta → 60-67s media → 67-86s alta\n  [virada] 9–17s (8s) — a música sobe 0.53 em 4s — bom pra card, corte ou revelação\n  [gancho] 11–19s (8s) — entra forte — serve pros primeiros segundos do reel\n  [pico] 12–20s (8s) — maior energia sustentada — clímax, oferta, virada de argumento\n  [virada] 53–61s (8s) — a música sobe 0.46 em 4s — bom pra card, corte ou revelação\n  [cama] 122–142s (20s) — baixa energia e estável — não briga com a voz\n  [final] 131–143s (12s) — a música desce sozinha — fecho natural do reel"
+}

@@ -1,0 +1,158 @@
+{
+  "descricao": "Regras de COMO CORTAR o bruto (não são regras de modelo). Nascem das correções do João em cada corte.",
+  "regras": [
+    {
+      "id": "bloco-nao-carrega-silencio-do-respiro",
+      "categoria": "borda",
+      "peso": 8,
+      "texto": "O t1 de cada bloco é EXATAMENTE o t1 do último segmento mantido. Respiro é o espaço ENTRE blocos, nunca conteúdo somado dentro do próprio bloco. Hoje isso é garantido no código (_blocos só soma respiro quando houve corte de verdade depois do trecho), mas a conferência continua valendo pra qualquer t0/t1 editado à mão.",
+      "evitar": "Não estenda o t1 de um bloco além do fim real da fala 'pra dar respiro' — isso gruda 1s (ou o valor de respiro_s) de silêncio no final do trecho, que o ouvinte sente como trava/pausa estranha bem na troca de cena, mesmo sem repetição de texto nenhuma. Esse erro pode ser sistêmico (acontecer em quase todo bloco do corte, não só em um) — se achar um, varra todos os outros blocos.",
+      "desde": "2026-09-17"
+    },
+    {
+      "id": "segmento-vem-da-palavra-nunca-do-whisper",
+      "categoria": "processo",
+      "peso": 10,
+      "texto": "O segmento do corte é fala entre duas PAUSAS REAIS, remontado a partir de work/words.json (função _segmentar, pausa ≥0,45s ou 8s de duração). Os segmentos do whisper ficam só como referência em segmentos-whisper.json.",
+      "evitar": "Nunca decida o corte pelos segmentos do whisper: ele gruda dois takes num bloco só (num vídeo de 138s ele juntou 17s com a frase 'entre uma etapa e outra existe uma espera' dita DUAS vezes dentro do mesmo segmento). Quando isso acontece não existe decisão certa — ou mantém a repetição, ou joga fora a fala boa junto — e a IA acaba inventando índice ('9a','9b','9c'), que quebra o contrato da tela de aprovação.",
+      "desde": "2026-09-17"
+    },
+    {
+      "id": "folego-dentro-do-take-se-resolve-no-render",
+      "categoria": "pausa",
+      "peso": 9,
+      "texto": "Quando o João diz 'ele trava', 'muito fôlego', 'dá uma segurada' em tal segundo, o problema quase nunca é o segmento escolhido: é pausa morta DENTRO de um trecho mantido. Isso se resolve no parâmetro --aperto do render (pausa acima dele é encurtada pra 0,22s), não desmarcando trecho.",
+      "evitar": "Não responda a 'muito fôlego' desmarcando segmento (tira conteúdo bom e o buraco continua) nem deixando a hesitação de propósito. Escolher o take certo NÃO faz o vídeo fluir: num corte de 65,8s sobraram 10 buracos de ~1,2s e o João ouviu cada um (5s, 14s, 28s, 33s).",
+      "desde": "2026-09-17"
+    },
+    {
+      "id": "marcador-de-erro-so-vale-em-trecho-curto",
+      "categoria": "erro-assumido",
+      "peso": 8,
+      "texto": "Marcador de erro assumido casa com limite de palavra. Os fortes ('errei', 'começar de novo', 'corta isso') valem sempre; os fracos ('espera', 'pera', 'de novo', 'caraca') só num trecho de até 6 palavras, onde são interjeição.",
+      "evitar": "Não trate marcador fraco como erro dentro de frase de conteúdo: 'entre uma etapa e outra existe uma ESPERA' foi cortada como se ele tivesse pedido pra parar — e era justamente o take bom.",
+      "desde": "2026-09-17"
+    },
+    {
+      "id": "falso-comeco-atravessa-fronteira-de-segmento",
+      "categoria": "duplicata",
+      "peso": 8,
+      "texto": "Falso começo nem sempre é um segmento inteiro igual ao início do próximo (caso já coberto): também acontece (1) quando a palavra que ele retoma fica GRUDADA no fim do segmento anterior, porque a pausa antes dela é curta (<0,45s) e não separa — ex.: '...tá? Primeira' seguido de 'Primeira, se o serviço...'; e (2) quando a pausa antes da repetição é longa (2-3s+), o que não descarta ser falso começo — ex.: 'Quando é para a empresa...' pausa de 3,12s 'Quando é para a empresa a lei prevê consequências.'. Em ambos, compare o FIM do segmento com o INÍCIO do próximo kept, não só o início-com-início.",
+      "evitar": "Não assuma que pausa curta = mesma ideia grudada sem repetição, nem que pausa longa = são duas falas diferentes. Compare o texto: se a cauda de um bate com a cabeça do outro, é o mesmo falso começo do padrão do segmento marcado 'falso começo — ele para no meio e completa a frase depois', só que espalhado; desmarque o segmento (ou o trecho) que só repete, mantendo o que tem conteúdo novo.",
+      "desde": "2026-09-17"
+    },
+    {
+      "id": "ia-so-no-julgamento-que-a-maquina-nao-faz",
+      "categoria": "processo",
+      "peso": 9,
+      "texto": "Take refeito, falso começo, erro assumido e pausa são MEDIDOS (propor_auto, sem IA, sem cota). O Claude só entra pra enrolação/fuga de assunto ou pra um feedback do João — e revisando o corte pronto, não montando do zero.",
+      "evitar": "Não suba uma sessão agêntica pra decidir o que já é objetivo, e não deixe a revisão escrever relatório: numa noite isso deixou sessões abertas por mais de 10 minutos e a conta de nuvem estourou pra entregar exatamente o mesmo conjunto de trechos que a regra determinística dá em 2 segundos.",
+      "desde": "2026-09-17"
+    },
+    {
+      "id": "repeticao-comprovada-sai-mesmo-sem-marcador",
+      "categoria": "duplicata",
+      "peso": 10,
+      "texto": "Repetição comprovada SAI na proposta automática, sem esperar o João desmarcar: texto quase igual (similaridade >0,75), cobertura de palavras >=0,7 do trecho anterior dentro do posterior, ou prefixo exato (falso começo). Fica sempre a ÚLTIMA versão.",
+      "evitar": "Não condicione o corte a um marcador falado ('errei', 'de novo') nem à vizinhança dos trechos: ele refaz o take calado e a segunda versão vem 10-20s depois. Com essa exigência o corte devolveu 21 de 21 trechos mantidos e 7 repetições listadas como aviso — que é justamente o trabalho que ele pediu pra máquina fazer. A guarda que VALE é a de sentido: se a assinatura de negação/número difere entre os dois, não é repetição.",
+      "desde": "2026-09-17"
+    },
+    {
+      "id": "emenda-nao-pode-repetir-palavra",
+      "categoria": "duplicata",
+      "peso": 10,
+      "texto": "Além de comparar segmentos inteiros, conferir as PONTAS de cada emenda: se as últimas palavras de um trecho mantido são iguais às primeiras do trecho seguinte (até 5 palavras), apare a CAUDA do primeiro no tempo da palavra (novo t1 = fim da última palavra que fica + 0,06s). Se o trecho inteiro for só essa repetição, ele sai.",
+      "evitar": "Não jogue o trecho todo fora por causa da cauda: em '…olha as duas coisas, tá? Primeira' o conteúdo bom é tudo menos a última palavra. E não confie só na comparação de segmento inteiro — quando ele para no meio e recomeça, os textos inteiros são diferentes e a repetição só aparece na emenda.",
+      "desde": "2026-09-17"
+    },
+    {
+      "id": "espaco-morto-quem-mede-e-o-auto-editor",
+      "categoria": "processo",
+      "peso": 7,
+      "texto": "Quem mede o espaço morto do bruto é o auto-editor (github.com/WyattBlue/auto-editor), não heurística própria: `auto-editor <video> --edit audio:threshold=4% --margin 0s --export v1 -o x.json` devolve chunks [frame0, frame1, velocidade], velocidade 99999 = espaço morto (frames/fps = segundos). Sempre --margin 0s: quer-se o buraco CRU, porque a margem de cortesia quem dá é o `alvo` do aperto, já protegido pelos intervalos das palavras. Ele é SÓ cortador — não transcreve, não enxerga take repetido nem erro assumido; escolher o take, aparar gaguejo e emendar continua sendo do corte.py. Sem o binário instalado, cai no silencedetect -32dB e segue rodando.",
+      "evitar": "Não troque o auto-editor por gate fixo de -32dB (perde respiro baixo e parte um buraco em dois), não peça pra ele escolher take/repetição, e não use --margin >0 na MEDIÇÃO — a margem entra duas vezes e engole consoante.",
+      "cobre": [
+        "silencio",
+        "espaco morto",
+        "aperto",
+        "pausa",
+        "medir"
+      ],
+      "desde": "2026-09-21"
+    },
+    {
+      "id": "roteiro-e-o-gabarito-do-corte",
+      "categoria": "processo",
+      "peso": 9,
+      "texto": "Quando existe roteiro escrito (work/roteiro.txt, campo 'Roteiro' na tela do corte), ele é o GABARITO e são DUAS perguntas diferentes. (1) PROTEÇÃO — antes de derrubar por 'take refeito/falso começo', conte quantas vezes a frase aparece NO ROTEIRO (vezes_no_roteiro, semelhança>0.75): 2+ vezes significa que ele repetiu porque estava escrito (anáfora, 'você não precisa de X / você não precisa de Y') e a regra de repetição NÃO derruba; 1 vez significa que ele gravou duas vezes o que estava escrito uma, e sai. (2) LIXO — alinhe a fala com o roteiro (difflib por palavra, autojunk=False): trecho com cobertura <=0.20 (ou 0% se tiver 1-2 palavras) não estava escrito em lugar nenhum e é gaguejo/fragmento/enrolação. Trava: só manda se o roteiro cobrir >=60% do bruto (CONFIA_ROTEIRO); roteiro de outro vídeo é ignorado. O roteiro também vai no prompt da IA.",
+      "evitar": "NUNCA proteja por cobertura do alinhamento: num falso começo ('Primeira, se o serviço…' / 'Primeira, se o serviço que você fazia…') o alinhador casa a PRIMEIRA versão e deixa a cauda da segunda sem par — proteger por cobertura salvaria justamente o falso começo. Proteção é por CONTAGEM no roteiro. E sem roteiro (ou com roteiro não confiável) o corte tem que se comportar exatamente como antes.",
+      "cobre": [
+        "roteiro",
+        "gabarito",
+        "repeticao",
+        "take refeito",
+        "anafora",
+        "gaguejo"
+      ],
+      "desde": "2026-09-21"
+    },
+    {
+      "id": "transcricao-verbatim-e-inegociavel",
+      "categoria": "processo",
+      "peso": 9,
+      "texto": "Transcreva VERBATIM. O GROQ Whisper normaliza o gaguejo: no bruto do Cliente3 (IMG_9961, 138s) devolveu 209 palavras e ZERO vício de linguagem; o Scribe da ElevenLabs, no mesmo áudio, devolveu 231 COM os tropeços e ainda marca a palavra cortada no meio com '--' ('afas--', 'fu--'). Não dá pra cortar o que não aparece escrito. O corte usa o helper do video-use (~/Developer/video-use/helpers/transcribe.py, chave em .env) e cai no GROQ só se não houver chave. Custo medido: ~66 créditos por minuto de áudio.",
+      "evitar": "Não conclua que o bruto está limpo porque a transcrição está limpa — pode ser o transcritor escondendo. Confira contando vício de linguagem: zero em 200 palavras de fala espontânea é sinal de normalização, não de fala boa.",
+      "cobre": [
+        "transcricao",
+        "verbatim",
+        "scribe",
+        "whisper",
+        "gaguejo"
+      ],
+      "desde": "2026-09-21"
+    },
+    {
+      "id": "gaguejo-se-caca-na-palavra-nao-no-trecho",
+      "categoria": "processo",
+      "peso": 10,
+      "texto": "Tropeço se caça no nível da PALAVRA (corte.gaguejos), em duas passadas, porque são dois defeitos: (1) PERTO — recomeça na mesma respirada, janela de 5 palavras e 3,5s ('Com um profissional, com um profissional indicado'); (2) LONGE — refaz a passagem inteira até 75s depois, exigindo sequência de 5+ palavras e âncora de palavra EXATA ('Achar que parou quando está…' refeito 10s depois). Fica sempre a ÚLTIMA versão. Palavra terminada em '--' sai sozinha. O resultado sai dos blocos no `aplicar` (_tirar), partindo o bloco no meio quando precisa — não é o `manter` do trecho que muda.",
+      "evitar": "🔴 A âncora (mesma palavra inicial nas duas pontas) não é detalhe: sem ela o casamento escorrega e come a cauda da frase boa anterior (comeu 'de fato perdida.' inteiro). 🔴 A comparação tem que ser híbrida — palavra a palavra E letra a letra — senão 'históricos de afas--' não casa com 'histórico de afastamento' e sobra 'históricos de histórico de afastamento' no vídeo. 🔴 A regra de SEGMENTO sozinha é cega pra tudo isso: nunca confie só nela.",
+      "cobre": [
+        "gaguejo",
+        "tropeco",
+        "take refeito",
+        "falso comeco",
+        "palavra"
+      ],
+      "desde": "2026-09-21"
+    },
+    {
+      "id": "proteger-anafora-pelo-comeco-comum",
+      "categoria": "processo",
+      "peso": 9,
+      "texto": "Na janela larga o que separa 'ele refez' de 'o texto repete de propósito' é o roteiro — e a checagem é no COMEÇO COMUM das duas versões, não na frase inteira (_do_roteiro). Em 'Você não precisa de mais seguidor…' / 'Você não precisa de mais tráfego…' as frases inteiras aparecem UMA vez cada no roteiro; o que volta duas vezes é 'Você não precisa de mais'. Quando o começo comum aparece 2+ vezes no roteiro, PULA a região sem cortar.",
+      "evitar": "Não teste a frase inteira no roteiro (não protege anáfora nenhuma) nem o texto do trecho descartado (o começo abortado é sempre prefixo do texto bom, então protegeria todo gaguejo). E quando a proteção disparar, PULE a região: se só continuar procurando, o casamento gira uma palavra e reaparece deslocado descrevendo a mesma repetição.",
+      "cobre": [
+        "anafora",
+        "roteiro",
+        "protecao",
+        "janela larga"
+      ],
+      "desde": "2026-09-21"
+    },
+    {
+      "id": "a-tela-tem-que-mostrar-a-fala-que-vai-sair",
+      "categoria": "qa",
+      "peso": 7,
+      "texto": "O gaguejo sai no render, não no `manter` do trecho — então `verificar()` remonta o texto de 'Leia como a fala vai ficar' descontando gaguejos.json e avisa na nota quantos tropeços e quantos segundos saíram.",
+      "evitar": "Não deixe a tela montar o texto só pelos trechos mantidos: o João lê 'Com um profissional, com um profissional' e reprova um corte que no vídeo está limpo.",
+      "cobre": [
+        "tela",
+        "qa",
+        "revisao",
+        "roteiro do corte"
+      ],
+      "desde": "2026-09-21"
+    }
+  ]
+}

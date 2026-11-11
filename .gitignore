@@ -1,0 +1,174 @@
+# Sistema
+.DS_Store
+*.log
+
+# Dependências
+node_modules/
+
+# Ambiente / segredos
+.env
+.env.local
+*.env
+!.env.example
+
+# Vídeos brutos (acima do limite do GitHub)
+*.mov
+*.mp4
+*.mkv
+
+# Imagens grandes na raiz (raw)
+/IMG_*.jpg
+/IMG_*.jpeg
+/IMG_*.png
+/PHOTO-*.jpg
+/PHOTO-*.jpeg
+/PHOTO-*.png
+
+# Acervo: o CATÁLOGO é versionado (meta.json, analise.json), a mídia não.
+# Os arquivos originais continuam versionados na pasta de quem os trouxe (assets do modelo),
+# e `material.py --migrar --aplicar` reconstrói o acervo a partir deles. Cliente não tem banco próprio.
+# As imagens de onda/espectro são derivadas do áudio — o ffmpeg refaz.
+acervo/itens/**/clip.*
+acervo/itens/**/thumb.*
+acervo/itens/**/waveform.png
+acervo/itens/**/espectro.png
+acervo/itens/**/curva.png
+
+# Lixeira do Estúdio: modelo removido espera aqui até o João restaurar ou apagar de vez.
+# Fora do git de propósito — o conteúdo dele já está no histórico (era versionado antes de sair).
+app/.lixeira/
+
+# Cache de transcrição dos clientes (reel.sh)
+clientes/*/*Content/.cache/
+
+# Saídas e caches do pipeline Cliente2
+.tmp/
+**/.tmp/
+**/output/*.mp4
+**/transcricao/*.json
+**/remotion/public/source.mp4
+**/remotion/public/image.png
+**/remotion/out/
+**/remotion/.remotion/
+
+# Trilhas baixadas via yt-dlp (possivel copyright — nao commitar)
+**/remotion/public/trilhas-biblioteca/*.mp3
+**/remotion/public/trilhas-trending/
+**/remotion/public/trilha-*.mp3
+# mantem _outro-bg.mp3 (Mixkit, free for commercial use)
+!**/remotion/public/_outro-bg.mp3
+
+# Estúdio / acervo de b-roll
+app/.cache/
+app/.uploads/
+app/servico/logs/
+app/jobs/**/*.jsonl
+app/jobs/**/*.log
+acervo/busca/
+acervo/.tmp/
+
+# Cache/logs de navegador e testes
+.playwright-cli/
+output/playwright/
+
+# Arquivos de trabalho da IA dentro do acervo/cortes (prompt, trace, pid, log)
+**/.prompt-*.txt
+**/.raw.jsonl
+**/.runner.pid
+**/.log
+**/.indice.lock
+app/cortes/
+
+# Saída de render do Remotion (o vídeo final vai pra output/ do cliente)
+app/motores/remotion/out/
+
+# Rascunho de render e sandboxes de job (refeitos a cada produção)
+**/_sandbox-*/
+**/output/**/_render*/
+**/output/**/_music/
+**/output/**/_sb/
+**/output/**/*.wav
+.claude/worktrees/
+
+# Skills oficiais dos motores (clones atualizados pelo atualizar.py)
+app/motores/*/skills-oficiais/
+app/api/
+app/custos/api.jsonl
+
+# Cache, travas e logs de execução
+__pycache__/
+*.pyc
+app/andamento/.trava
+app/custos/.livro.lock
+app/custos/arquivo/.ultima
+app/jobs/**/runner.out
+
+# Quadros de render antigos do Diálogo 3D (a regra fica: ainda há pastas antigas)
+clientes/*/*Content/output/dialogo-3d/**/*.png
+
+# Biblioteca de músicas do Documentário (centenas de MB, baixada de novo pelo musica_busca.py)
+formatos/documentario/base/audio/musicas/
+clientes/*/*Content/modelos/documentario/audio/musicas/
+
+# Estado de execução: andamento ao vivo e marcas de custo por episódio (o livro-caixa execucoes.jsonl fica)
+app/andamento/
+app/custos/_marcas/
+
+# dados de uso e estado local (ficam só no Mac)
+app/custos/
+app/jobs/
+app/andamento/
+app/briefings/
+app/config.json
+app/config/pastas.json
+app/.lixeira/
+app/.venv/
+.venv/
+__pycache__/
+*.pyc
+
+# áudio e mídia pesada
+*.mp3
+*.wav
+*.m4a
+*.aac
+
+# vídeos prontos e entradas brutas (ficam só no Mac)
+clientes/*/*Content/output/*
+clientes/*/*Content/entrada/*
+clientes/*/*Content/transcricoes/*
+# o .gitkeep fica: é ele que faz o Git guardar as 5 pastas padrão de todo cliente (mesmo vazias)
+!clientes/*/*Content/output/.gitkeep
+!clientes/*/*Content/entrada/.gitkeep
+!clientes/*/*Content/transcricoes/.gitkeep
+
+# estado local do Claude Code
+.claude/worktrees/
+.claude/settings.local.json
+app/motores/atualizando.pid
+
+# Referência rápida: vídeo baixado e folha de cada estilo (trabalho local)
+app/.estilos/
+
+# Projeto fora do Estúdio (breaking-finds-editor, 300 MB): mover pra ~/Projetos se não for daqui
+app/motores/remotion-brink-finds/
+
+# Folhas a 30 fps do estudo quadro a quadro: o estudo_quadros.py refaz do vídeo (que já fica fora do git); estudo.json e os .md ficam
+**/estudo-quadros/folhas/
+**/estudo-quadros/fala-imagem/
+
+# Estudos quadro a quadro da tela Estudar um vídeo (vídeos baixados + folhas); o que vira referência é copiado pro formato
+app/.estudos/
+
+# Estado de execução da tela (30-out-2026): variações propostas e melhorias sugeridas ficam só nesta máquina
+app/.variacoes/
+app/melhorias/
+
+# Repositório público: só o cliente de exemplo (Avulso) sobe. Os seus clientes ficam só no seu Mac.
+clientes/*
+!clientes/README.md
+!clientes/Avulso/
+# Ditados de briefing e automações de cliente
+app/aprendi/
+app/automacao/*
+!app/automacao/joao/

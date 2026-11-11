@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block titulo %}Corte manual{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ voltar }}">← {{ titulo }}</a> <small class="meta">· sair sem mudar nada</small></p>
+<h1>Corrigir o corte</h1>
+<ol class="sub ed-passos">
+  <li><b>A IA corta primeiro.</b> O que ela tirou vem em <b class="ed-vermelho">vermelho</b>. Dê play: a prévia já pula o que sai.</li>
+  <li><b>Errou algo?</b> Aperte <b>✂ Cortar daqui</b> (tecla <b>C</b>) onde começa e aperte de novo onde termina. Ou arraste na linha do tempo.</li>
+  <li>A IA cortou o que não devia? Clique no vermelho e em <b>Devolver</b>.</li>
+  <li>Marcou tudo? <b>Aplicar o corte</b>, uma vez só.</li>
+</ol>
+{% if ia_rodando %}
+  <div class="aviso" data-poll>● A IA está fazendo o primeiro corte{% if ia_etapa %}: {{ ia_etapa }}{% endif %} A página atualiza sozinha.</div>
+{% elif ia_falhou %}
+  <div class="aviso erro">✗ O corte da IA falhou. Dá pra cortar na mão, ou <form method="post" style="display:inline"><input type="hidden" name="acao" value="ia"><button class="btn mini">tentar de novo</button></form></div>
+{% endif %}
+
+{% if estado.rodando %}
+  <div class="aviso" data-poll>● Cortando e comprimindo… pode sair da página, continua sozinho.</div>
+{% elif estado.ok %}
+  <div class="ed-resultado">
+    {% if pronto %}<video controls preload="auto" src="{{ url_for('arquivo', caminho=pronto) }}?v={{ estado.fim|replace(' ','') }}"></video>{% endif %}
+    <div>
+      <h2>{{ '✓ Corte aprovado' if estado.aprovado else 'Assista o corte. Ficou bom?' }}</h2>
+      <p>Ficou <b>{{ estado.ficou_s }} s</b> de {{ estado.original_s }} s ({{ estado.trechos_tirados }} trecho(s) tirado(s)).{% if tipo == 'video' %} Aqui é só a fala cortada; o texto e a edição entram quando você aprovar.{% endif %}</p>
+      {% if estado.aprovado %}<p class="sub">Aprovado em {{ estado.aprovado }}. Mudou de ideia? Corrija embaixo e aplique de novo.</p><a class="btn" href="{{ voltar }}">Voltar pro vídeo →</a>
+      {% else %}
+      <form method="post" class="acoes"><input type="hidden" name="acao" value="aprovar">
+        <button class="btn primario grande">✓ Aprovar o corte{{ ' e refazer o vídeo' if tipo == 'video' }}</button></form>
+      <p class="sub">Algo errado? Corrija no vídeo inteiro aqui embaixo e aplique de novo.</p>
+      {% endif %}
+    </div>
+  </div>
+{% elif estado.erro %}
+  <div class="aviso erro">✗ {{ estado.erro }}</div>
+{% endif %}
+
+<div class="editor">
+<div class="editor-grade">
+  <div>
+    <div class="editor-player"><video id="v" controls playsinline preload="auto" src="{{ url_for('arquivo', caminho=video) }}"></video></div>
+    <div class="editor-botoes">
+      <button type="button" class="btn primario grande" id="b-corte">✂ Cortar daqui <kbd>C</kbd></button>
+      <span class="sub">espaço = play/pausa · Esc desiste · Delete apaga a marca escolhida</span>
+    </div>
+    <p class="sub ed-marcando" id="marcando"></p>
+    <label class="toggle-linha"><input type="checkbox" id="pular" checked><span class="txt"><b>Prévia sem os trechos</b><small>Ao tocar, o vídeo pula o que vai sair.</small></span></label>
+  </div>
+  <div>
+    <form method="post" id="f" class="ed-aplicar">
+      <input type="hidden" name="remover" id="remover">
+      <button class="btn primario grande" id="aplicar" disabled {{ 'disabled' if estado.rodando }}>Aplicar o corte</button>
+    </form>
+    {% if estado.historico and not estado.rodando %}
+    <form method="post" class="ed-voltar" style="margin:12px 0"><input type="hidden" name="acao" value="voltar">
+      <button class="btn" id="voltar-corte">↶ Voltar ao corte anterior</button>
+      <small class="meta">Desfaz o último Aplicar ({{ estado.historico|length }} {{ 'versão guardada' if estado.historico|length == 1 else 'versões guardadas' }}). Nada é apagado.</small></form>
+    {% endif %}
+    <p class="sub ed-total" id="total"></p>
+    <h2>Trechos <span class="etiqueta" id="n">0</span></h2>
+    <div class="ed-lista" id="lista"></div>
+  </div>
+</div>
+
+<div class="c-tempo">
+  <div class="acoes ed-barra-tempo">
+    <b class="ed-titulo-tempo">✂︎ Linha do tempo</b>
+    <button type="button" class="btn mini" id="z-menos" aria-label="Menos zoom">−</button>
+    <span class="etiqueta" id="z-n">1×</span>
+    <button type="button" class="btn mini" id="z-mais" aria-label="Mais zoom">+</button>
+    <span class="sub ed-legenda">Vermelho sai · verde volta · <b>arraste</b> pra marcar · puxe as pontas pra ajustar</span>
+  </div>
+  <div id="c-rolagem">
+    <div id="c-caixa">
+      <canvas id="c-onda"></canvas>
+      <div id="c-marcas"></div>
+      <div id="c-cursor"></div>
+      <div id="c-hover"></div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script id="c-dados" type="application/json">{{ {"ia": (ia or []), "salvo": (estado.remover if estado and estado.remover else None), "video": video}|tojson }}</script>
+<script src="{{ url_for('static', filename='corte.js') }}?v={{ vstatic }}"></script>
+{% endblock %}

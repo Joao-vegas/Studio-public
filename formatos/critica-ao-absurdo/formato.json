@@ -1,0 +1,208 @@
+{
+  "ordem": 5,
+  "grupo": "falando",
+  "titulo": "Crítica ao absurdo",
+  "frase": "Em cima, o trecho de um vídeo com um comportamento que as pessoas normalizaram; embaixo, a sua foto fixa reagindo; no fim, se quiser, a sua resposta em tela cheia.",
+  "entrada": "video",
+  "corte_automatico": false,
+  "proporcao": "9:16",
+  "tipo": "gravado",
+  "motor": "ffmpeg + PIL (gerar.sh do modelo do cliente)",
+  "status": "pronto",
+  "modelos": [
+    "critica-ao-absurdo"
+  ],
+  "base": "clientes/Joao/vegasContent/modelos/critica-ao-absurdo",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Presidente ideal, ser menos útil · Vegas",
+      "origem": "https://www.instagram.com/reel/DdXnhWBPmza/ (@soujoaovegas)",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-10-22"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": false,
+      "de_onde": "Não usa: só o áudio do vídeo absurdo e a sua voz na resposta, os dois nivelados (loudnorm).",
+      "quando_nao": "sempre"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "Não usa: corte seco do trecho pra resposta (o gerar.sh não mixa efeito).",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": true,
+    "como": "--sem-legenda no gerar.sh (use quando o vídeo de cima já vem com legenda queimada)"
+  },
+  "layouts": [
+    "dividido",
+    "cheio"
+  ],
+  "material_aceito": [
+    "foto-pessoa",
+    "video-curto"
+  ],
+  "usa": [
+    {
+      "oque": "Trecho do vídeo",
+      "quem": "Você diz qual vídeo e de que segundo a que segundo (uns 20 a 30 s; o vídeo pode ter 3 min). Link: yt-dlp baixa",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Legenda do trecho",
+      "quem": "Groq (whisper-large-v3, cota grátis), 1 a 3 palavras por vez",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Foto de baixo",
+      "quem": "A sua foto reagindo (material/critica-ao-absurdo/foto-reacao-joao.png) ou a que você mandar",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "ffmpeg + PIL no seu Mac, h264_videotoolbox",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Trazer o vídeo e a foto",
+        "andamento": "preparar",
+        "faz": "Vídeo absurdo inteiro em work/absurdo.mp4 (link: yt-dlp na maior resolução). Foto: a do briefing em work/foto.<ext>, senão vale a padrão do modelo SÓ no cliente Joao; em outro cliente sem foto, peça a foto dele antes de produzir (a padrão é a do João e a prévia avisa). Resposta do João (se tiver): cortada sem silêncio, gaguejo nem erro de começo em work/joao.mp4."
+      },
+      {
+        "id": "trecho",
+        "titulo": "Escolher o trecho",
+        "andamento": "preparar",
+        "faz": "Usar EXATAMENTE o de/até que o João deu. Se ele não deu, transcrever o vídeo inteiro (corte.py transcrever), propor 2 ou 3 trechos de 20 a 30 s com o absurdo mais claro (com o texto de cada um) no PLANO.json e parar pro João escolher. O trecho começa na fala, sem respiro morto."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Prévia",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "comando": "zsh ../gerar.sh --dir . --de <DE> --ate <ATE> [--sem-legenda] [--foco-x 0..1] --previa",
+        "faz": "Gerar o storyboard.jpg (um quadro do trecho com a legenda e a foto embaixo), olhar ao lado da folha do exemplo: rosto de quem fala dentro da metade de cima (ajustar --foco-x/--foco-y), legenda sem cobrir boca, sem legenda dobrada (se o vídeo já tem, --sem-legenda). Parar pro João aprovar."
+      },
+      {
+        "id": "video",
+        "titulo": "Renderizar",
+        "andamento": "video",
+        "faz": "Rodar o gerar.sh com o trecho aprovado. Saída em output/critica-ao-absurdo/<slug>.mp4. Ao terminar: python3 app/ferramentas/andamento.py pronto <Cliente> <slug> \"Vídeo pronto\" --video <mp4> --pasta <sandbox>."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Rodar /watch no vídeo: foto parada no mesmo lugar o trecho todo, divisão em y=1046, legenda sincronizada, volume parelho entre o trecho e a resposta. Folha (formatos.py folha-video <mp4> <saida.jpg>) ao lado da do exemplo principal: pior não sai."
+      }
+    ],
+    "comandos": {
+      "storyboard": "zsh ../gerar.sh --dir . --de <DE> --ate <ATE> [--sem-legenda] [--foco-x 0..1] --previa",
+      "render": "zsh ../gerar.sh --dir . --de <DE> --ate <ATE> [--sem-legenda] [--sem-resposta] [--foco-x 0..1]"
+    }
+  },
+  "estimativa": "equivale a ~US$ 1 a 3 na API (Opus), incluso na assinatura",
+  "passos": [
+    "Mande o vídeo absurdo (arquivo ou link) e diga o trecho: de que segundo a que segundo.",
+    "Diga a foto de baixo (padrão: a sua foto reagindo) e, se quiser, mande a sua resposta gravada.",
+    "Você vê um quadro de prévia (vídeo em cima, legenda, foto embaixo), aprova, e ele renderiza."
+  ],
+  "escolhas": [
+    {
+      "campo": "foto-de-baixo",
+      "rotulo": "Foto de baixo",
+      "tipo": "um",
+      "opcoes": [
+        "A minha foto reagindo (padrão)",
+        "Vou mandar outra foto"
+      ],
+      "padrao": "A minha foto reagindo (padrão)",
+      "_sobre": "Padrão = assets/foto-padrao.png do modelo. Outra foto: copiar pra <sandbox>/work/foto.<ext> ou --foto <img>."
+    },
+    {
+      "campo": "legenda-de-cima",
+      "rotulo": "Legenda no vídeo de cima",
+      "tipo": "um",
+      "opcoes": [
+        "Pôr legenda",
+        "Sem legenda (o vídeo já tem)"
+      ],
+      "padrao": "Pôr legenda",
+      "_sobre": "Sem legenda = --sem-legenda."
+    },
+    {
+      "campo": "resposta",
+      "rotulo": "Sua resposta no fim",
+      "tipo": "um",
+      "opcoes": [
+        "Com a minha resposta gravada",
+        "Só o trecho com a foto"
+      ],
+      "padrao": "Com a minha resposta gravada",
+      "_sobre": "Com = work/joao.mp4 cortado; só o trecho = --sem-resposta."
+    }
+  ],
+  "apoio": {
+    "usa": false,
+    "tipo": "nenhum",
+    "fontes": [],
+    "duracao_s": "0",
+    "quantidade": "0",
+    "quando_nao": "sempre: o vídeo absurdo é o conteúdo; sem b-roll",
+    "previa": "não se aplica"
+  },
+  "pede": [
+    {
+      "campo": "video_absurdo",
+      "rotulo": "Vídeo absurdo",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "O vídeo que você vai criticar (arquivo na área de cima, ou o link aqui).",
+      "principal": true
+    },
+    {
+      "campo": "trecho_de",
+      "rotulo": "Trecho: de (segundo)",
+      "tipo": "tempo",
+      "obrigatorio": true,
+      "dica": "Ex.: 0:42"
+    },
+    {
+      "campo": "trecho_ate",
+      "rotulo": "Trecho: até (segundo)",
+      "tipo": "tempo",
+      "obrigatorio": true,
+      "dica": "Uns 20 a 30 s. Ex.: 1:08"
+    },
+    {
+      "campo": "foto_baixo",
+      "rotulo": "Foto de baixo (você reagindo)",
+      "tipo": "foto",
+      "obrigatorio": false,
+      "dica": "Sem foto, vale a foto do João do modelo dele.",
+      "padrao": "foto do modelo do cliente"
+    },
+    {
+      "campo": "resposta",
+      "rotulo": "Sua resposta gravada",
+      "tipo": "arquivo",
+      "obrigatorio": false,
+      "dica": "Entra em tela cheia no fim. Sem ela, o vídeo termina no trecho."
+    }
+  ]
+}

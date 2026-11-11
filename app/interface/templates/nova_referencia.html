@@ -1,0 +1,45 @@
+{% extends 'base.html' %}{% block titulo %}Nova referência{% endblock %}{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('referencias') }}">Referências & estilos</a> / Criar modelo</p><h1>Qual estilo inspira você?</h1><p class="sub">Um frame por segundo do vídeo inteiro, com os frames intermediários para conferir cortes rápidos. A análise mede cada b-roll, aponta problemas e propõe como reproduzir e melhorar o estilo.</p><form method="post" enctype="multipart/form-data" class="form"><section class="painel"><div class="duas"><label>Cliente<select name="cliente"><option value="">Escolha um cliente</option>{% for c in clientes %}<option>{{ c.nome }}</option>{% endfor %}</select></label><label>Ou criar um cliente<input name="novo_cliente" placeholder="Nome do novo cliente"></label></div><label class="drop multi"><b>Arraste os vídeos de referência</b><span>Pode escolher vários de uma vez. MP4, MOV ou outro formato de vídeo</span><input type="file" name="video" accept="video/*" multiple></label><p class="meta">Mande vários vídeos do mesmo estilo: o Estúdio entende o que se repete entre eles e isso vira o formato.</p><div id="lista-videos" aria-live="polite"></div><details><summary>Prefere usar links?</summary><label>Links dos vídeos (um por linha)<textarea name="urls" rows="3" placeholder="https://…&#10;https://…"></textarea></label><p class="meta">Se algum link não baixar, o Estúdio segue com os outros e avisa qual ficou de fora.</p></details><label>O que você quer trazer desse estilo?<textarea name="briefing" rows="4" placeholder="Ex.: o ritmo dos cortes, a posição da legenda, o card de abertura… Pode deixar em branco. Para criar só uma camada, descreva o elemento."></textarea></label>
+<details class="pontos"><summary>Direcionar a análise (opcional)</summary>
+  <b>Pontos de observação</b>
+  <p class="meta">Marque o que te chamou a atenção — é onde a análise vai olhar com lupa. O campo do lado é opcional: escreva com as suas palavras, não precisa de termo técnico.</p>
+  {% for chave, rotulo, dica in pontos %}
+  <div class="ponto">
+    <label class="check"><input type="checkbox" name="pontos" value="{{ chave }}"> <b>{{ rotulo }}</b> <span class="meta">{{ dica }}</span></label>
+    <input name="nota__{{ chave }}" placeholder="o que te chamou a atenção aqui (opcional)">
+  </div>
+  {% endfor %}
+  <label>Momentos pra ele olhar <span class="meta">(um por linha: o tempo e o que acontece)</span>
+    <textarea name="momentos" rows="3" placeholder="12s — a virada do texto&#10;30s — o card branco que entra palavra a palavra"></textarea></label>
+</details><label>Referências extras (opcional)<input type="file" name="anexos" multiple accept="video/*,image/*"></label><details><summary>Focar em um trecho específico</summary><p class="meta">Todos os frames do vídeo entram em mosaicos numerados. O trecho indicado recebe atenção especial; o restante continua sendo analisado.</p><div class="duas"><label>Início (segundos)<input name="inicio" type="number" min="0" step="0.1" placeholder="20"></label><label>Fim (segundos)<input name="fim" type="number" min="0" step="0.1" placeholder="90"></label></div></details></section><div class="sticky-actions"><span class="meta">Analisar → revisar proposta → construir → provar.</span><button class="btn primario" {{ 'disabled' if not ia_ok }}>Analisar referência →</button></div></form>{% endblock %}
+{% block scripts %}<style>.drop.multi .file-status{display:none}#lista-videos ol{list-style:none;margin:10px 0 18px;padding:0}#lista-videos li{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:8px 12px;border:1px solid var(--linha);border-radius:8px;margin-bottom:6px;background:var(--bg);font-size:12px}#lista-videos li span{overflow-wrap:anywhere}#lista-videos .ignorados{color:var(--erro)}</style><script>
+(function(){
+  var drop=document.querySelector('label.drop.multi'),input=drop&&drop.querySelector('input[type=file]'),lista=document.getElementById('lista-videos');
+  if(!input||!lista||typeof DataTransfer==='undefined')return;
+  var escolhidos=[],ignorados=[];
+  function chave(f){return f.name+'|'+f.size+'|'+f.lastModified}
+  function ehVideo(f){return /^video\//.test(f.type)||/\.(mp4|mov|mkv|webm|m4v|avi)$/i.test(f.name)}
+  function sincroniza(){var dt=new DataTransfer();escolhidos.forEach(function(f){dt.items.add(f)});input.files=dt.files}
+  function mostra(){
+    lista.textContent='';
+    if(escolhidos.length){
+      var t=document.createElement('p');t.className='meta';t.textContent=escolhidos.length===1?'1 vídeo escolhido':escolhidos.length+' vídeos escolhidos (do mesmo estilo)';lista.appendChild(t);
+      var ol=document.createElement('ol');
+      escolhidos.forEach(function(f,i){
+        var li=document.createElement('li'),nome=document.createElement('span'),b=document.createElement('button');
+        nome.textContent=(i+1)+'. '+f.name+' · '+(f.size/1048576).toFixed(1)+' MB';
+        b.type='button';b.className='btn mini';b.textContent='Tirar';b.setAttribute('aria-label','Tirar '+f.name);
+        b.addEventListener('click',function(){escolhidos.splice(i,1);sincroniza();mostra()});
+        li.appendChild(nome);li.appendChild(b);ol.appendChild(li)});
+      lista.appendChild(ol)}
+    if(ignorados.length){var m=document.createElement('p');m.className='meta ignorados';m.textContent='Ignorei, porque não é vídeo: '+ignorados.join(', ');lista.appendChild(m)}
+  }
+  input.addEventListener('change',function(){
+    ignorados=[];
+    Array.from(input.files).forEach(function(f){
+      if(!ehVideo(f)){ignorados.push(f.name);return}
+      if(!escolhidos.some(function(x){return chave(x)===chave(f)}))escolhidos.push(f)});
+    sincroniza();mostra();
+  });
+})();
+</script>{% endblock %}

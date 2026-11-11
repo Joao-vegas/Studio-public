@@ -1,0 +1,208 @@
+{
+  "ordem": 2,
+  "grupo": "animacao",
+  "titulo": "Explicador 3D",
+  "frase": "Narrador em off conta um caso, de qualquer assunto, com cara de jogo antigo realista e feio (Loaded Dice): elenco variado escolhido pelo roteiro (gente low-poly com rosto pintado esquisito e exagerado), cenários cheios com luz de cinema, plano de ~2 s com a câmera trabalhando dentro, corte seco, transição com objeto (moedas, notas, ficha) nos números e cada fala virando a imagem do que diz. 45-90 s.",
+  "entrada": "roteiro",
+  "proporcao": "9:16",
+  "tipo": "motor",
+  "motor": "Three.js + Playwright próprio (PBR, sombra suave, profundidade de campo, glow, grade de cinema; gramática do Desenho 3D)",
+  "status": "pronto",
+  "modelos": [
+    "explicador-3d"
+  ],
+  "base": "formatos/explicador-3d/base",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Referência do YouTube (lei de aposta nos EUA) · o estilo a perseguir",
+      "origem": "/var/folders/v3/6cqtxkwd791c3qnm0l_gxng00000gn/T/watch-2trl1rr4/download/video.mp4",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-10-15"
+    },
+    {
+      "arquivo": "exemplo-2.mp4",
+      "poster": "exemplo-2.jpg",
+      "legenda": "Ninguém discorda (1min16) · Vegas · 1º vídeo nosso, v5 aprovada",
+      "origem": "~/Projetos/Skill/Estúdio/clientes/Joao/vegasContent/output/explicador-3d/ninguem-discorda-v5.mp4",
+      "folha": "exemplo-2-folha.jpg",
+      "custo": {
+        "tokens": "na assinatura",
+        "pago": "voz Gemini, centavos",
+        "plano": "na assinatura"
+      }
+    },
+    {
+      "arquivo": "exemplo-3.mp4",
+      "poster": "exemplo-3.jpg",
+      "folha": "exemplo-3-folha.jpg",
+      "legenda": "Cidade de 12 mil v4 (49,4 s) · Vegas · ritmo Loaded Dice, elenco variado, transição de moedas/notas/ficha (exemplo secundário: abaixo da referência)",
+      "origem": "~/Projetos/Skill/Estúdio/clientes/Joao/vegasContent/output/explicador-3d/cidade-12-mil-loaded.mp4"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": true,
+      "de_onde": "base/audio/musicas/ (876, 872, 1167, 301, 260) ou acervo; uma faixa em rodízio",
+      "clima": "curiosidade/suspense leve, sem drop",
+      "volume": "~10-12 dB abaixo da voz nas pausas (medido no Loaded Dice), constante, sem ducking (o gerador mede)",
+      "quando": "do primeiro ao último quadro, fade de 2,5 s no fim",
+      "quando_nao": "nunca subindo nos números nem com ducking",
+      "troca": "1 faixa por vídeo"
+    },
+    "efeitos": {
+      "usa": true,
+      "de_onde": "base/audio/sfx/ e base/audio/sfx/extra/ (moedas, ding, baque, whoosh e pop Mixkit, porta, carimbo, notificação, urna, grilo, comemoração; créditos em CREDITS.md)",
+      "quais": [
+        "moedas",
+        "ding",
+        "baque",
+        "whoosh",
+        "pop",
+        "porta",
+        "carimbo",
+        "notificacao",
+        "urna",
+        "grilo",
+        "comemoracao",
+        "sirene"
+      ],
+      "momentos": "o som da ação que aparece, no quadro dela (número que assenta, gaveta, carimbo, notificação, transição especial)",
+      "volume": "impacto ~10 LU abaixo da voz, whoosh/pop ~15 (o gerador mede)",
+      "quando_nao": "nunca efeito sem ação na tela"
+    }
+  },
+  "legenda": {
+    "desligavel": true,
+    "como": "\"legenda\": false no topo do cenas.json (ou na cena)",
+    "motivo": "Legenda pequena, branca com sombra, 2 palavras por vez, centro a ~72% da altura (medido no Loaded Dice)."
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [
+    "print",
+    "cena-produto",
+    "musica"
+  ],
+  "usa": [
+    {
+      "oque": "Cenas 3D e render",
+      "quem": "Three.js + Playwright no seu Mac",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Narração",
+      "quem": "Voz configurada (VoiceStudio, grátis no seu Mac; reserva ElevenLabs só com chave e voz)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Tempo das palavras e régua",
+      "quem": "Groq (transcrição) + estudo_quadros.py",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "motor": "render.py",
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "narrativa",
+        "titulo": "Narrativa visual",
+        "andamento": "preparar",
+        "faz": "A IA lê o roteiro (de qualquer assunto) e escreve a decupagem.json: elenco escolhido pelo roteiro (base/elenco.js: profissões, idades, corpos), cenários (casa, rua, escritório, loja, restaurante, consultório, banco, cassino, praça), objetos dos números e os planos (1 a 3 orações por plano, ~2,2 s): oração · plano/cenário · quem · ação · rosto · objeto/número · transição. Regra: a imagem é o que a fala diz no quadro da palavra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar a narração",
+        "andamento": "preparar",
+        "faz": "Voz pela voz configurada (voz.falar: VoiceStudio grátis, reserva ElevenLabs só com chave e voz), número por extenso no texto falado; apertar pausas (>0,33 s vira 0,22 s, base/exemplos/apertar.py) e transcrever com tempo por palavra (corte.py transcrever --groq). Conferir cada número."
+      },
+      {
+        "id": "cenas",
+        "titulo": "Gerar as cenas",
+        "andamento": "storyboard",
+        "faz": "python3 <base>/gerar.py <sandbox>: casa a decupagem com o tempo das palavras, resolve @palavra e @marca, põe câmera, transições (corte ~90%, moedas_caem/notas_sobem/wipe/chicote/flash nos pontos de dinheiro e virada), pop de reação, brilho e som, e escreve cenas.json + DECUPAGEM.md."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "render.py --storyboard e olhar: cada plano é a imagem da sua oração, rosto legível acima de ~62% da altura, ninguém cortado, número visível, cenário cheio e com luz de cinema. Parar pro João aprovar (ou seguir direto se ele pediu)."
+      },
+      {
+        "id": "video",
+        "titulo": "Vídeo",
+        "andamento": "video",
+        "faz": "render.py --cenas cenas.json --processos 6 (≈1 min de render por 6 s de vídeo)."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "render.py --conferir + estudo_quadros.py comparar estudo-quadros <mp4> --words <words.json> (tabela ref × nosso) + a tabela fala × imagem oração por oração (fala · tempo · o que aparece · bate) corrigindo o que não bater; LUFS -14. Pior que o exemplo não sai."
+      }
+    ],
+    "motor_arquivos": [
+      "README.md",
+      "cenas-modelo.json",
+      "elenco.js",
+      "gente.js",
+      "gerar.py",
+      "index.html",
+      "marcas.json",
+      "motor.js",
+      "mundos.js",
+      "objetos.js",
+      "render.py"
+    ]
+  },
+  "apoio": {
+    "usa": false,
+    "tipo": "nenhum",
+    "fontes": [],
+    "duracao_s": "0",
+    "quantidade": "0",
+    "quando_nao": "sempre: cena 3D própria, sem b-roll",
+    "previa": "não se aplica"
+  },
+  "pede": [
+    {
+      "campo": "roteiro",
+      "rotulo": "Roteiro narrado",
+      "tipo": "texto",
+      "obrigatorio": false,
+      "principal": true,
+      "dica": "Uma oração por linha. Cada oração vira um plano que mostra o que ela diz; número em algarismo vira objeto na tela."
+    },
+    {
+      "campo": "voz",
+      "rotulo": "Voz da narração",
+      "tipo": "voz",
+      "obrigatorio": false,
+      "dica": "Já vem a do cliente ou a de Configurações."
+    },
+    {
+      "campo": "protagonista",
+      "rotulo": "Quem é o protagonista",
+      "tipo": "texto",
+      "obrigatorio": false,
+      "dica": "Ex.: você, o dentista. É o mesmo personagem do começo ao fim."
+    },
+    {
+      "campo": "referencia_produto",
+      "rotulo": "Print ou foto do produto",
+      "tipo": "foto",
+      "obrigatorio": false,
+      "dica": "Entra num quadro dentro da cena (objeto \"imagem\") quando a fala citar o produto."
+    }
+  ]
+}

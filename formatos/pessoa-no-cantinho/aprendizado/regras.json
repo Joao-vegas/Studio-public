@@ -1,0 +1,72 @@
+{
+  "formato": "pessoa-no-cantinho",
+  "descricao": "Regras que valem pra este formato em qualquer cliente. Trazidas em 2026-10-09 das regras de edição sobre vídeo gravado do motion-narrado (I11, que já cobria a M6; I12; S3; S4) e da correção do João no Concausa do Cliente3. Cor, fonte e nome na plaquinha são do cliente.",
+  "regras": [
+    {
+      "id": "storyboard-antes-de-animar",
+      "titulo": "Storyboard antes de animar, imagem literal da fala",
+      "categoria": "processo",
+      "peso": 9,
+      "cobre": ["motion-narrado I11", "motion-narrado I12"],
+      "texto": "Antes de escrever código: storyboard com o tempo de cada janela, quem fala e o que a tela mostra, aprovado pelo João. A imagem mostra literalmente o que a fala diz naquele segundo; produto citado na fala aparece por dentro (páginas reais do PDF folheando).",
+      "evitar": "Animar antes de aprovar o plano. Cena que não conta a frase sozinha ('alguns storyboards não fazem sentido', CPP16 30-set).",
+      "desde": "2026-09-29",
+      "origem": ["motion-narrado I11 (WSJ Vídeo 1, 29-set)", "motion-narrado I12 (Cartilha CPP16, 30-set: 'mostra a cartilha por dentro quando ela fala')"]
+    },
+    {
+      "id": "dose-3-a-5-janelas",
+      "titulo": "Motion só nos momentos-chave: 3 a 5 janelas",
+      "categoria": "ritmo",
+      "peso": 10,
+      "cobre": ["motion-narrado I11"],
+      "texto": "Motion só onde a fala tem conteúdo que vira imagem: de 3 a 5 janelas, somando perto de 30% do vídeo. O resto é a pessoa em tela cheia com legenda, título só nas frases fortes e o nome no terço de baixo na 1ª aparição.",
+      "evitar": "Motion no vídeo inteiro (Coaching véspera v1, 05-out: 'ficou muita edição... pode cortar pra pessoa, não precisa ser motion o vídeo inteiro').",
+      "desde": "2026-10-05",
+      "origem": ["motion-narrado I11 (Coaching Jurídico véspera, 05-out)"]
+    },
+    {
+      "id": "entra-encolhendo-sai-corte-seco",
+      "titulo": "Entra encolhendo pro quadradinho, sai em corte seco",
+      "categoria": "quadradinho",
+      "peso": 9,
+      "cobre": ["motion-narrado I11"],
+      "texto": "Na janela, o vídeo de quem fala encolhe pro quadradinho que segue o rosto (app/ferramentas/motion/quadradinho.py, aprovado: 'muito top'), com borda e plaquinha do nome nas cores do cliente. O rosto fica inteiro no quadradinho a janela toda, sem cortar testa nem queixo. A volta pra tela cheia é em corte seco.",
+      "evitar": "Testa ou queixo cortados, ou o rosto saindo do quadradinho em algum quadro da janela. Voltar pra tela cheia animando em vez do corte seco (o exemplo, de 29-set, ainda volta crescendo em 0,4 s).",
+      "desde": "2026-09-29",
+      "origem": ["motion-narrado I11 (WSJ Vídeo 1, 29-set: quadradinho 'muito top')", "motion-narrado furos.md (Coaching véspera, 05-out: I11 reescrita, volta em corte seco)"]
+    },
+    {
+      "id": "janela-limpa-uma-ideia",
+      "titulo": "Janela limpa: uma ideia por vez",
+      "categoria": "layout",
+      "peso": 10,
+      "cobre": ["motion-narrado I11"],
+      "texto": "Dentro da janela, cada fala vira uma cena própria, com forma diferente (celular recebendo mensagem, lista que empilha, palavra riscada, frase grande): uma ideia por vez, texto grande, fundo liso ou o próprio vídeo desfocado. No máximo 2 elementos além da legenda. Cada fala pede a solução dela: nada copiado das cenas de outro vídeo, e nenhuma função-molde de cena usada em mais de 2 cenas.",
+      "evitar": "Grade, diagrama de muitos cartões, pilha de cartões; a camada de motion de outro vídeo reaproveitada (Concausa do Cliente3, 29-set: 'muito poluída; pegou com base no outro, pense em outras coisas').",
+      "desde": "2026-09-29",
+      "origem": ["motion-narrado I11", "Cliente3 dividido-mascara, histórico c2-concausa (29-set)"]
+    },
+    {
+      "id": "quem-fala-nao-pula",
+      "titulo": "Quem fala não sai de quadro nem pula",
+      "categoria": "ritmo",
+      "peso": 9,
+      "cobre": ["motion-narrado M6", "motion-narrado I11"],
+      "texto": "Quem fala nunca sai de quadro e não pula: janelas a menos de 2 s uma da outra emendam, e a pessoa fica no quadradinho entre elas. Trocar o cartão final do original corta antes do clarão ou da transição dele. Sombra de logo nunca em retângulo (borrar com folga ou não usar).",
+      "evitar": "Vai-e-volta de menos de 2 s entre janela e tela cheia ('volta pro meio e já volta muito rápido', Dr. Antônio 05-out). Cortar a pessoa ao meio ('cortou ele na metade').",
+      "desde": "2026-10-05",
+      "origem": ["motion-narrado M6 (Dr. Antônio, 05-out)"]
+    },
+    {
+      "id": "musica-nova-baixa-medida",
+      "titulo": "Música nova pelo clima, baixa e medida",
+      "categoria": "som",
+      "peso": 8,
+      "cobre": ["motion-narrado S3", "motion-narrado S4"],
+      "texto": "Música escolhida pelo clima de cada vídeo, faixa nova do Mixkit, nunca a mesma do vídeo anterior; reel e convite pedem batida de Reels (funk, hip-hop, trap), nunca piano emocional. Volume medido, não no ouvido: trilha só-música depois do ducking em ~-40 dB enquanto falam e ~-35 dB nas pausas (voz em ~-14), ducking suave (sidechaincompress threshold .15, ratio 2,5).",
+      "evitar": "Música alta (WSJ Vídeo 1: 'a música ficou muito alta'). Repetir faixa ('você sempre está usando as mesmas músicas'). Faixa emocional demais ('tem que ser uma coisa que possa viralizar').",
+      "desde": "2026-09-29",
+      "origem": ["motion-narrado S3 e S4 (WSJ Vídeo 1, 29-set)", "Coaching véspera 05-out: 'gostei da música' (Mixkit 850, funk)"]
+    }
+  ]
+}

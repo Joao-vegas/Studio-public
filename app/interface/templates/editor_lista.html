@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titulo %}Editar vídeo{% endblock %}
+{% block conteudo %}
+{% from "_apagar_ui.html" import forms as ap_forms, card as ap_card, barra as ap_barra with context %}
+<div class="topo-pagina"><div><h1>Editar vídeo</h1>
+<p class="sub">Escolha um vídeo, clique numa cena e diga o que mudar. Cada mudança vira uma versão nova; nenhuma é apagada.</p></div></div>
+{% if videos %}
+{{ ap_forms(request.path) }}<div class="titulo-linha"><span></span>{{ ap_barra() }}</div>
+<div class="vc-grade">
+  {% for v in videos %}
+  {% if v.pode %}
+  <article class="vc">
+    <a class="vc-capa" href="{{ url_for('editor_video', pasta=v.pasta) }}">
+      {% if v.video %}<video muted playsinline preload="none" poster="{{ url_for('thumb_rota', caminho=v.video) }}?v={{ mtime(v.video) }}" src="{{ url_for('arquivo', caminho=v.video) }}?v={{ mtime(v.video) }}#t=1"></video>{% elif v.capa %}<img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=v.capa) }}" alt="">{% else %}<span class="vc-vazio">Sem vídeo ainda</span>{% endif %}
+      <span class="vc-selo">Editar</span>
+    </a>
+    <div class="vc-info"><b title="{{ v.titulo }}">{{ v.titulo }}</b><small>{{ v.cliente }} · {{ v.formato_titulo }} · {{ v.nome }}</small></div>
+    <form method="post" action="{{ url_for('editor_tirar') }}" class="tirar vc-tirar"><input type="hidden" name="pasta" value="{{ v.pasta }}"><input type="hidden" name="rotulo" value="{{ v.titulo }} ({{ v.nome }})"><button class="btn mini fantasma" data-confirma="Tirar este vídeo da lista? Ele vai pra lixeira e volta em Configurações.">Tirar da lista</button></form>
+    {{ ap_card('rascunho', v.pasta, v.titulo) }}
+  </article>
+  {% else %}
+  <article class="vc vc-sem">
+    <div class="vc-capa">
+      {% if v.video %}<video muted playsinline preload="none" poster="{{ url_for('thumb_rota', caminho=v.video) }}?v={{ mtime(v.video) }}" src="{{ url_for('arquivo', caminho=v.video) }}?v={{ mtime(v.video) }}#t=1"></video>{% elif v.capa %}<img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=v.capa) }}" alt="">{% else %}<span class="vc-vazio">Sem vídeo ainda</span>{% endif %}
+    </div>
+    <div class="vc-info"><b title="{{ v.titulo }}">{{ v.titulo }}</b><small>{{ v.cliente }} · {{ v.formato_titulo }} · {{ v.nome }}</small><small class="meta">Não edita por cena: {{ v.motivo }}</small></div>
+  </article>
+  {% endif %}
+  {% endfor %}
+</div>
+{% else %}<div class="vazio">Ainda não tem vídeo de cena por cena. Todo vídeo gravado ou de motor que o Estúdio sabe refazer aparece aqui.</div>{% endif %}
+{% if ainda_nao %}<p class="meta">Ainda não editam por aqui (vão chegando): {{ ainda_nao|join(', ') }}.</p>{% endif %}
+<script>document.querySelectorAll('[data-confirma]').forEach(function(b){b.addEventListener('click',function(e){if(!confirm(b.dataset.confirma))e.preventDefault()})})</script>
+{% endblock %}

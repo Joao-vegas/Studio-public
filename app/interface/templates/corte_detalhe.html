@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block titulo %}{{ c.titulo }}{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('cortes') }}">Recortar vídeo</a></p>
+<div class="cabecalho">
+  <div><h1>{{ c.titulo }}</h1>
+    <p class="sub">{{ c.criado_em[:16] }}{% if c.media and c.media.duracao %} · original {{ c.media.duracao|round|int }} s{% endif %}{% if c.duracao_final and c.mantidos is defined and c.total is defined %} · {{ c.mantidos }} de {{ c.total }} trechos ficam{% elif c.duracao_final %} · ficou com {{ c.duracao_final|round|int }} s{% endif %}</p></div>
+</div>
+
+{% if c.rodando or (c.etapa and not c.etapa.startswith('✖')) %}
+<div class="aviso" data-poll>● {{ c.etapa or 'Trabalhando no corte…' }} <span class="meta">pode fechar a página, ele continua.</span></div>
+{% elif c.etapa %}<div class="aviso erro">{{ c.etapa }}</div>{% endif %}
+{% if c.desatualizado %}<div class="aviso erro"><b>O vídeo abaixo é de antes das últimas mudanças.</b>
+  Há novas escolhas ou melhorias no motor de corte — clique em <b>Cortar de novo</b> para aplicar a versão atual.</div>{% endif %}
+
+{% if c.cortado %}
+<section class="resultado-corte">
+  <video controls preload="metadata" class="player resultado-player" src="{{ url_for('arquivo', caminho=c.cortado) }}"></video>
+  <div class="resultado-lado">
+    {% if c.duracao_final and c.media and c.media.duracao %}<p class="resultado-numero">Ficou {{ c.duracao_final|round|int }} s de {{ c.media.duracao|round|int }} s</p>{% else %}<p class="resultado-numero">Vídeo cortado</p>{% endif %}
+    <a class="btn primario grande" href="{{ url_for('arquivo', caminho=c.cortado) }}" download="{{ c.titulo }}.mp4">Baixar</a>
+    <form method="post" action="{{ url_for('corte_exportar', slug=c.slug) }}"><button class="btn">Salvar no Mac</button></form>
+    <a class="btn" href="{{ url_for('novo_video', corte=c.slug) }}">Usar num vídeo novo</a>
+    <a class="btn fantasma" href="{{ url_for('corte_manual', tipo='avulso', a=c.slug) }}">Cortar na mão</a>
+  </div>
+</section>
+{% else %}
+<p class="passo-link"><a class="btn" href="{{ url_for('corte_manual', tipo='avulso', a=c.slug) }}">Cortar na mão</a></p>
+{% endif %}
+
+{% if c.proposta %}
+<section class="painel">
+  <h2>{{ 'Refazer o corte' if c.cortado else 'Confira o corte' }}</h2>
+  {% if c.proposta.resumo %}<p class="resumo">{{ c.proposta.resumo }}</p>{% endif %}
+  {% if c.proposta.observacoes %}<div class="aviso">{{ c.proposta.observacoes }}</div>{% endif %}
+  {% if c.proposta.revisao %}<p class="meta">Revisão da IA ({{ c.proposta.revisao.em }}): {{ c.proposta.revisao.mudou }}</p>{% endif %}
+  {% if checagem and checagem.emendas %}
+  <div class="aviso erro"><b>{{ 'Uma emenda repete uma palavra' if checagem.emendas|length == 1 else checagem.emendas|length ~ ' emendas repetem uma palavra' }}.</b>
+    <ul class="dup-lista">{% for e in checagem.emendas %}
+      <li>Perto de <b>{{ e.t1 }} s</b> ele diz “{{ e.texto }}”, para e diz de novo no trecho seguinte.</li>
+    {% endfor %}</ul>
+    Tire o começo repetido de um dos dois trechos (ou junte os dois) pra emenda não ficar gaguejando.
+  </div>
+  {% endif %}
+  {% if checagem and checagem.duplicatas_restantes %}
+  <div class="aviso erro"><b>Atenção: {{ checagem.n }} repetição(ões) ainda nos trechos mantidos.</b>
+    <ul class="dup-lista">{% for r in checagem.duplicatas_restantes[:6] %}
+      <li>“{{ r.texto }}” aparece em <b>{{ r.primeira_vez[0] }}s</b> e de novo em <b>{{ r.segunda_vez[0] }}s</b></li>
+    {% endfor %}</ul>
+    Confira esses segundos: se for take refeito, desmarque a primeira vez. Se for ênfase de propósito, pode deixar.
+  </div>
+  {% endif %}
+  {% set revisao_fala = checagem or {} %}{% include '_roteiro_corte.html' %}
+  {% set mantidos = c.proposta.segmentos|selectattr('manter')|list %}
+  <p class="meta">{{ mantidos|length }} de {{ c.proposta.segmentos|length }} trechos ficam. Desmarque o que quiser tirar, marque o que quiser trazer de volta.</p>
+  <form method="post" action="{{ url_for('corte_salvar', slug=c.slug) }}">
+    <div class="corte-lista">
+      {% for s in c.proposta.segmentos %}
+      <label class="corte-seg {{ '' if s.manter else 'fora' }}">
+        <input type="checkbox" name="manter" value="{{ s.i }}" data-fala="{{ s.texto }}" {{ 'checked' if s.manter }}>
+        <span class="corte-t">{{ '%.1f'|format(s.t0) }}s</span>
+        <span class="corte-txt">{{ s.texto }}</span>
+        <span class="corte-motivo">{{ s.motivo }}</span>
+      </label>
+      {% endfor %}
+    </div>
+    <label class="meta">Observações <textarea name="obs" rows="2">{{ c.proposta.observacoes_joao or '' }}</textarea></label>
+    {% set ap = c.proposta.aplicado or {} %}
+    <div class="corte-ritmo">
+      <label class="meta">Fôlego dentro da fala
+        <select name="aperto">
+          <option value="0.55" {{ 'selected' if ap.get('aperto_s',0.55)==0.55 }}>Fluido — encurta pausas acima de 0,55s</option>
+          <option value="0.9" {{ 'selected' if ap.get('aperto_s')==0.9 }}>Natural — preserva pausas até 0,9s</option>
+          <option value="0" {{ 'selected' if ap.get('aperto_s')==0 }}>Manter as pausas originais</option>
+          {% if ap.get('aperto_s') not in (None,0,0.55,0.9) %}<option value="{{ ap.aperto_s }}" selected>Ajuste anterior ({{ ap.aperto_s }}s)</option>{% endif %}
+        </select>
+        <span class="meta">Encurta silêncio confirmado e preserva as palavras escolhidas.</span>
+      </label>
+      <label class="meta">Respiro na emenda
+        <select name="respiro">
+          <option value="0.16" {{ 'selected' if ap.get('respiro_s',0.16)==0.16 }}>Curto — até 0,16s no total</option>
+          <option value="0.3" {{ 'selected' if ap.get('respiro_s')==0.3 }}>Natural — até 0,3s no total</option>
+          <option value="0.5" {{ 'selected' if ap.get('respiro_s')==0.5 }}>Pausado — até 0,5s no total</option>
+          {% if ap.get('respiro_s') not in (None,0.16,0.3,0.5) %}<option value="{{ ap.respiro_s }}" selected>Ajuste anterior ({{ ap.respiro_s }}s)</option>{% endif %}
+        </select>
+      </label>
+    </div>
+    <div class="acoes">
+      <button class="btn" name="acao" value="salvar">Salvar escolhas</button>
+      <button class="btn primario grande" name="acao" value="aplicar">{{ 'Cortar de novo' if c.cortado else 'Aplicar o corte' }}</button>
+    </div>
+  </form>
+  {% if ap %}<p class="meta">Último render: {{ ap.blocos }} blocos · {{ ap.pausas_apertadas }} pausa(s) interna(s) apertada(s) · aperto {{ ap.aperto_s }}s · respiro {{ ap.respiro_s }}s</p>{% endif %}
+  <form method="post" action="{{ url_for('corte_propor', slug=c.slug) }}" class="acoes"
+        onsubmit="return confirm('Refazer a transcrição do zero? As marcações atuais se perdem.')">
+    <input type="hidden" name="refazer" value="1">
+    <input type="hidden" name="roteiro" value="{{ roteiro or '' }}">
+    <button class="btn">Refazer a transcrição (quando ele juntou duas falas)</button>
+  </form>
+  <form method="post" action="{{ url_for('corte_propor', slug=c.slug) }}" class="acoes">
+    <input type="hidden" name="briefing" value="{{ c.proposta.briefing or '' }}">
+    <input type="hidden" name="roteiro" value="{{ roteiro or '' }}">
+    <button class="btn" name="acao" value="ia" {{ '' if ia_ok else 'disabled' }}>Revisar sentido e repetições com IA</button>
+    <span class="meta">A revisão usa — {{ ia_rotulo }}</span>
+  </form>
+</section>
+{% elif not c.rodando %}
+<section class="painel">
+  <h2>Montar o corte</h2>
+  <p class="meta">Transcreve a fala (Scribe da ElevenLabs se estiver ligado, senão GROQ), separa em takes pelas pausas reais e
+    tira sozinho take refeito, falso começo e erro assumido. <b>A seleção automática é local.</b></p>
+  <form method="post" action="{{ url_for('corte_propor', slug=c.slug) }}" class="form">
+    <label>Do que é o vídeo <span class="meta">(opcional)</span> <input name="briefing" placeholder="ajuda a IA, se você pedir ajuda dela depois"></label>
+    <label>Roteiro <span class="meta">(o texto que você escreveu pra gravar — é o GABARITO: fala que está escrita aqui não sai, e o que não está é tropeço)</span>
+      <textarea name="roteiro" rows="6" placeholder="cole aqui o roteiro completo, do jeito que você escreveu">{{ roteiro or "" }}</textarea></label>
+    <div class="acoes">
+      <button class="btn primario" name="acao" value="auto">Transcrever e montar o corte</button>
+      <button class="btn" name="acao" value="ia" {{ '' if ia_ok else 'disabled' }}>…e já pedir ajuda da IA</button>
+    </div>
+  </form>
+</section>
+{% endif %}
+
+<section class="painel">
+  <h2>Ficou errado? Me diga onde</h2>
+  <p class="meta">Escreva o que saiu errado e, se souber, <b>em que segundo do vídeo cortado</b>. A IA vai exatamente lá,
+    confere palavra por palavra, corrige o corte — e registra por que errou, pra não repetir no próximo vídeo.
+    <b>Isso gasta cota</b> ({{ ia_rotulo }}); se for só fôlego/trava, é mais rápido mexer no seletor acima e cortar de novo.</p>
+  <form method="post" action="{{ url_for('corte_revisar', slug=c.slug) }}" class="form">
+    <textarea name="feedback" rows="3" placeholder="ex.: em 12s ele fala a mesma frase duas vezes e as duas ficaram; o corte em 34s cortou no meio da palavra; tirou a pausa de 50s que era ênfase" required></textarea>
+    <button class="btn primario" {{ '' if ia_ok else 'disabled' }}>Revisar o corte e aprender</button>
+  </form>
+  {% if c.proposta and c.proposta.revisao %}<p class="meta">Última revisão ({{ c.proposta.revisao.em }}): {{ c.proposta.revisao.mudou }}</p>{% endif %}
+  {% if regras_corte %}
+  <details><summary>{{ regras_corte|length }} regra(s) que o corte já aprendeu com você</summary>
+    {% for r in regras_corte|sort(attribute='peso', reverse=True) %}
+    <div class="regra"><div class="regra-cab"><span class="chip">{{ r.categoria or 'geral' }}</span> <b>{{ r.id }}</b> <span class="meta">peso {{ r.peso }}</span></div>
+      <p>{{ r.texto }}</p>{% if r.evitar %}<p class="evitar">Evitar: {{ r.evitar }}</p>{% endif %}</div>
+    {% endfor %}
+  </details>
+  {% endif %}
+  {% if hist_corte %}<details><summary>Histórico do corte ({{ hist_corte|length }})</summary>{% for h in hist_corte|reverse %}<div class="hist"><span class="meta">{{ h.createdAt }} · {{ h.tipo }} · {{ h.origem }}</span><p>{{ h.texto }}</p></div>{% endfor %}</details>{% endif %}
+</section>
+
+<section class="painel">
+  <h3>Vídeo original</h3>
+  <video controls preload="metadata" class="player pequeno" src="{{ url_for('arquivo', caminho=c.original) }}"></video>
+  {% if c.log %}<details><summary>Log</summary><pre class="log">{{ c.log }}</pre></details>{% endif %}
+</section>
+<details class="zona-perigo">
+  <summary>Zona de perigo</summary>
+  <p class="meta">Apaga este corte e o vídeo enviado. Não tem volta.</p>
+  <form method="post" action="{{ url_for('corte_remover', slug=c.slug) }}" data-apagar="corte={{ c.slug|urlencode }}" data-titulo="{{ c.titulo or c.slug }}"><button class="btn perigo">Apagar este corte</button></form>
+</details>
+{% endblock %}

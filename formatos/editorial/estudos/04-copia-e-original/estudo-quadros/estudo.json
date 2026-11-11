@@ -1,0 +1,2663 @@
+{
+  "versao": 1,
+  "nome": "Dafd6TnOlOI",
+  "criado_em": "2026-10-29",
+  "videos": [
+    {
+      "video": "/private/tmp/claude-501/-Users-joaomarcospiki-Projetos-Skill-Est-dio/4b47b012-c0c2-4bb6-9a2b-0fbc2365ae0d/scratchpad/refs/Dafd6TnOlOI.mp4",
+      "nome": "Dafd6TnOlOI",
+      "duracao": 141.93,
+      "fps": 30.0,
+      "quadros": 4258,
+      "largura": 720,
+      "altura": 1280,
+      "som_no_arquivo": true,
+      "planos": {
+        "n": 88,
+        "por_min": 37.2,
+        "media_s": 1.61,
+        "mediana_s": 0.83,
+        "min_s": 0.07,
+        "max_s": 8.57,
+        "lista": [
+          {
+            "q": 0,
+            "q_fim": 2,
+            "s": 0.0,
+            "dura_s": 0.1
+          },
+          {
+            "q": 3,
+            "q_fim": 7,
+            "s": 0.1,
+            "dura_s": 0.17
+          },
+          {
+            "q": 8,
+            "q_fim": 77,
+            "s": 0.27,
+            "dura_s": 2.33
+          },
+          {
+            "q": 78,
+            "q_fim": 120,
+            "s": 2.6,
+            "dura_s": 1.43
+          },
+          {
+            "q": 121,
+            "q_fim": 122,
+            "s": 4.03,
+            "dura_s": 0.07
+          },
+          {
+            "q": 123,
+            "q_fim": 126,
+            "s": 4.1,
+            "dura_s": 0.13
+          },
+          {
+            "q": 127,
+            "q_fim": 128,
+            "s": 4.23,
+            "dura_s": 0.07
+          },
+          {
+            "q": 129,
+            "q_fim": 197,
+            "s": 4.3,
+            "dura_s": 2.3
+          },
+          {
+            "q": 198,
+            "q_fim": 242,
+            "s": 6.6,
+            "dura_s": 1.5
+          },
+          {
+            "q": 243,
+            "q_fim": 244,
+            "s": 8.1,
+            "dura_s": 0.07
+          },
+          {
+            "q": 245,
+            "q_fim": 308,
+            "s": 8.17,
+            "dura_s": 2.13
+          },
+          {
+            "q": 309,
+            "q_fim": 381,
+            "s": 10.3,
+            "dura_s": 2.43
+          },
+          {
+            "q": 382,
+            "q_fim": 443,
+            "s": 12.73,
+            "dura_s": 2.07
+          },
+          {
+            "q": 444,
+            "q_fim": 446,
+            "s": 14.8,
+            "dura_s": 0.1
+          },
+          {
+            "q": 447,
+            "q_fim": 452,
+            "s": 14.9,
+            "dura_s": 0.2
+          },
+          {
+            "q": 453,
+            "q_fim": 455,
+            "s": 15.1,
+            "dura_s": 0.1
+          },
+          {
+            "q": 456,
+            "q_fim": 458,
+            "s": 15.2,
+            "dura_s": 0.1
+          },
+          {
+            "q": 459,
+            "q_fim": 461,
+            "s": 15.3,
+            "dura_s": 0.1
+          },
+          {
+            "q": 462,
+            "q_fim": 465,
+            "s": 15.4,
+            "dura_s": 0.13
+          },
+          {
+            "q": 466,
+            "q_fim": 471,
+            "s": 15.53,
+            "dura_s": 0.2
+          },
+          {
+            "q": 472,
+            "q_fim": 475,
+            "s": 15.73,
+            "dura_s": 0.13
+          },
+          {
+            "q": 476,
+            "q_fim": 480,
+            "s": 15.87,
+            "dura_s": 0.17
+          },
+          {
+            "q": 481,
+            "q_fim": 530,
+            "s": 16.03,
+            "dura_s": 1.67
+          },
+          {
+            "q": 531,
+            "q_fim": 575,
+            "s": 17.7,
+            "dura_s": 1.5
+          },
+          {
+            "q": 576,
+            "q_fim": 615,
+            "s": 19.2,
+            "dura_s": 1.33
+          },
+          {
+            "q": 616,
+            "q_fim": 712,
+            "s": 20.53,
+            "dura_s": 3.23
+          },
+          {
+            "q": 713,
+            "q_fim": 734,
+            "s": 23.77,
+            "dura_s": 0.73
+          },
+          {
+            "q": 735,
+            "q_fim": 892,
+            "s": 24.5,
+            "dura_s": 5.27
+          },
+          {
+            "q": 893,
+            "q_fim": 894,
+            "s": 29.77,
+            "dura_s": 0.07
+          },
+          {
+            "q": 895,
+            "q_fim": 991,
+            "s": 29.83,
+            "dura_s": 3.23
+          },
+          {
+            "q": 992,
+            "q_fim": 1028,
+            "s": 33.07,
+            "dura_s": 1.23
+          },
+          {
+            "q": 1029,
+            "q_fim": 1054,
+            "s": 34.3,
+            "dura_s": 0.87
+          },
+          {
+            "q": 1055,
+            "q_fim": 1057,
+            "s": 35.17,
+            "dura_s": 0.1
+          },
+          {
+            "q": 1058,
+            "q_fim": 1065,
+            "s": 35.27,
+            "dura_s": 0.27
+          },
+          {
+            "q": 1066,
+            "q_fim": 1155,
+            "s": 35.53,
+            "dura_s": 3.0
+          },
+          {
+            "q": 1156,
+            "q_fim": 1158,
+            "s": 38.53,
+            "dura_s": 0.1
+          },
+          {
+            "q": 1159,
+            "q_fim": 1170,
+            "s": 38.63,
+            "dura_s": 0.4
+          },
+          {
+            "q": 1171,
+            "q_fim": 1179,
+            "s": 39.03,
+            "dura_s": 0.3
+          },
+          {
+            "q": 1180,
+            "q_fim": 1182,
+            "s": 39.33,
+            "dura_s": 0.1
+          },
+          {
+            "q": 1183,
+            "q_fim": 1216,
+            "s": 39.43,
+            "dura_s": 1.13
+          },
+          {
+            "q": 1217,
+            "q_fim": 1284,
+            "s": 40.57,
+            "dura_s": 2.27
+          },
+          {
+            "q": 1285,
+            "q_fim": 1420,
+            "s": 42.83,
+            "dura_s": 4.53
+          },
+          {
+            "q": 1421,
+            "q_fim": 1584,
+            "s": 47.37,
+            "dura_s": 5.47
+          },
+          {
+            "q": 1585,
+            "q_fim": 1587,
+            "s": 52.83,
+            "dura_s": 0.1
+          },
+          {
+            "q": 1588,
+            "q_fim": 1813,
+            "s": 52.93,
+            "dura_s": 7.53
+          },
+          {
+            "q": 1814,
+            "q_fim": 2070,
+            "s": 60.47,
+            "dura_s": 8.57
+          },
+          {
+            "q": 2071,
+            "q_fim": 2092,
+            "s": 69.03,
+            "dura_s": 0.73
+          },
+          {
+            "q": 2093,
+            "q_fim": 2200,
+            "s": 69.77,
+            "dura_s": 3.6
+          },
+          {
+            "q": 2201,
+            "q_fim": 2205,
+            "s": 73.37,
+            "dura_s": 0.17
+          },
+          {
+            "q": 2206,
+            "q_fim": 2272,
+            "s": 73.53,
+            "dura_s": 2.23
+          },
+          {
+            "q": 2273,
+            "q_fim": 2324,
+            "s": 75.77,
+            "dura_s": 1.73
+          },
+          {
+            "q": 2325,
+            "q_fim": 2467,
+            "s": 77.5,
+            "dura_s": 4.77
+          },
+          {
+            "q": 2468,
+            "q_fim": 2623,
+            "s": 82.27,
+            "dura_s": 5.2
+          },
+          {
+            "q": 2624,
+            "q_fim": 2706,
+            "s": 87.47,
+            "dura_s": 2.77
+          },
+          {
+            "q": 2707,
+            "q_fim": 2718,
+            "s": 90.23,
+            "dura_s": 0.4
+          },
+          {
+            "q": 2719,
+            "q_fim": 2736,
+            "s": 90.63,
+            "dura_s": 0.6
+          },
+          {
+            "q": 2737,
+            "q_fim": 2750,
+            "s": 91.23,
+            "dura_s": 0.47
+          },
+          {
+            "q": 2751,
+            "q_fim": 2753,
+            "s": 91.7,
+            "dura_s": 0.1
+          },
+          {
+            "q": 2754,
+            "q_fim": 2792,
+            "s": 91.8,
+            "dura_s": 1.3
+          },
+          {
+            "q": 2793,
+            "q_fim": 2804,
+            "s": 93.1,
+            "dura_s": 0.4
+          },
+          {
+            "q": 2805,
+            "q_fim": 2808,
+            "s": 93.5,
+            "dura_s": 0.13
+          },
+          {
+            "q": 2809,
+            "q_fim": 2891,
+            "s": 93.63,
+            "dura_s": 2.77
+          },
+          {
+            "q": 2892,
+            "q_fim": 2936,
+            "s": 96.4,
+            "dura_s": 1.5
+          },
+          {
+            "q": 2937,
+            "q_fim": 2960,
+            "s": 97.9,
+            "dura_s": 0.8
+          },
+          {
+            "q": 2961,
+            "q_fim": 2964,
+            "s": 98.7,
+            "dura_s": 0.13
+          },
+          {
+            "q": 2965,
+            "q_fim": 3001,
+            "s": 98.83,
+            "dura_s": 1.23
+          },
+          {
+            "q": 3002,
+            "q_fim": 3059,
+            "s": 100.07,
+            "dura_s": 1.93
+          },
+          {
+            "q": 3060,
+            "q_fim": 3087,
+            "s": 102.0,
+            "dura_s": 0.93
+          },
+          {
+            "q": 3088,
+            "q_fim": 3160,
+            "s": 102.93,
+            "dura_s": 2.43
+          },
+          {
+            "q": 3161,
+            "q_fim": 3192,
+            "s": 105.37,
+            "dura_s": 1.07
+          },
+          {
+            "q": 3193,
+            "q_fim": 3332,
+            "s": 106.43,
+            "dura_s": 4.67
+          },
+          {
+            "q": 3333,
+            "q_fim": 3345,
+            "s": 111.1,
+            "dura_s": 0.43
+          },
+          {
+            "q": 3346,
+            "q_fim": 3348,
+            "s": 111.53,
+            "dura_s": 0.1
+          },
+          {
+            "q": 3349,
+            "q_fim": 3353,
+            "s": 111.63,
+            "dura_s": 0.17
+          },
+          {
+            "q": 3354,
+            "q_fim": 3355,
+            "s": 111.8,
+            "dura_s": 0.07
+          },
+          {
+            "q": 3356,
+            "q_fim": 3391,
+            "s": 111.87,
+            "dura_s": 1.2
+          },
+          {
+            "q": 3392,
+            "q_fim": 3434,
+            "s": 113.07,
+            "dura_s": 1.43
+          },
+          {
+            "q": 3435,
+            "q_fim": 3440,
+            "s": 114.5,
+            "dura_s": 0.2
+          },
+          {
+            "q": 3441,
+            "q_fim": 3448,
+            "s": 114.7,
+            "dura_s": 0.27
+          },
+          {
+            "q": 3449,
+            "q_fim": 3457,
+            "s": 114.97,
+            "dura_s": 0.3
+          },
+          {
+            "q": 3458,
+            "q_fim": 3473,
+            "s": 115.27,
+            "dura_s": 0.53
+          },
+          {
+            "q": 3474,
+            "q_fim": 3475,
+            "s": 115.8,
+            "dura_s": 0.07
+          },
+          {
+            "q": 3476,
+            "q_fim": 3542,
+            "s": 115.87,
+            "dura_s": 2.23
+          },
+          {
+            "q": 3543,
+            "q_fim": 3656,
+            "s": 118.1,
+            "dura_s": 3.8
+          },
+          {
+            "q": 3657,
+            "q_fim": 3854,
+            "s": 121.9,
+            "dura_s": 6.6
+          },
+          {
+            "q": 3855,
+            "q_fim": 3857,
+            "s": 128.5,
+            "dura_s": 0.1
+          },
+          {
+            "q": 3858,
+            "q_fim": 4049,
+            "s": 128.6,
+            "dura_s": 6.4
+          },
+          {
+            "q": 4050,
+            "q_fim": 4257,
+            "s": 135.0,
+            "dura_s": 6.93
+          }
+        ]
+      },
+      "transicoes": [
+        {
+          "q": 3,
+          "q_fim": 4,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 0.1,
+          "mudanca": 104.3,
+          "cor": 0.98
+        },
+        {
+          "q": 8,
+          "q_fim": 10,
+          "quadros": 3,
+          "tipo": "especial",
+          "s": 0.267,
+          "mudanca": 27.4,
+          "cor": 0.56
+        },
+        {
+          "q": 78,
+          "q_fim": 92,
+          "quadros": 15,
+          "tipo": "especial",
+          "s": 2.6,
+          "mudanca": 58.3,
+          "cor": 0.57
+        },
+        {
+          "q": 121,
+          "q_fim": 121,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 4.033,
+          "mudanca": 174.6,
+          "cor": 0.9
+        },
+        {
+          "q": 123,
+          "q_fim": 125,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 4.1,
+          "mudanca": 55.4,
+          "cor": 0.95
+        },
+        {
+          "q": 127,
+          "q_fim": 127,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 4.233,
+          "mudanca": 14.6,
+          "cor": 0.6
+        },
+        {
+          "q": 129,
+          "q_fim": 133,
+          "quadros": 5,
+          "tipo": "especial",
+          "s": 4.3,
+          "mudanca": 171.8,
+          "cor": 1.0
+        },
+        {
+          "q": 198,
+          "q_fim": 198,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 6.6,
+          "mudanca": 192.5,
+          "cor": 0.9
+        },
+        {
+          "q": 243,
+          "q_fim": 243,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 8.1,
+          "mudanca": 244.8,
+          "cor": 0.98
+        },
+        {
+          "q": 245,
+          "q_fim": 246,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 8.167,
+          "mudanca": 244.0,
+          "cor": 0.98
+        },
+        {
+          "q": 309,
+          "q_fim": 309,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 10.3,
+          "mudanca": 156.4,
+          "cor": 0.94
+        },
+        {
+          "q": 382,
+          "q_fim": 382,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 12.733,
+          "mudanca": 77.6,
+          "cor": 0.95
+        },
+        {
+          "q": 444,
+          "q_fim": 445,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 14.8,
+          "mudanca": 38.5,
+          "cor": 0.28
+        },
+        {
+          "q": 447,
+          "q_fim": 447,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 14.9,
+          "mudanca": 35.7,
+          "cor": 0.65
+        },
+        {
+          "q": 453,
+          "q_fim": 454,
+          "quadros": 2,
+          "tipo": "dissolve",
+          "s": 15.1,
+          "mudanca": 66.3,
+          "cor": 0.35
+        },
+        {
+          "q": 456,
+          "q_fim": 456,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 15.2,
+          "mudanca": 35.4,
+          "cor": 0.46
+        },
+        {
+          "q": 459,
+          "q_fim": 459,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 15.3,
+          "mudanca": 47.7,
+          "cor": 0.38
+        },
+        {
+          "q": 462,
+          "q_fim": 462,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 15.4,
+          "mudanca": 48.3,
+          "cor": 0.32
+        },
+        {
+          "q": 466,
+          "q_fim": 466,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 15.533,
+          "mudanca": 108.7,
+          "cor": 0.89
+        },
+        {
+          "q": 472,
+          "q_fim": 472,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 15.733,
+          "mudanca": 47.7,
+          "cor": 0.14
+        },
+        {
+          "q": 476,
+          "q_fim": 476,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 15.867,
+          "mudanca": 64.7,
+          "cor": 0.27
+        },
+        {
+          "q": 481,
+          "q_fim": 481,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 16.033,
+          "mudanca": 75.6,
+          "cor": 0.71
+        },
+        {
+          "q": 531,
+          "q_fim": 531,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 17.7,
+          "mudanca": 64.9,
+          "cor": 0.6
+        },
+        {
+          "q": 576,
+          "q_fim": 576,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 19.2,
+          "mudanca": 85.6,
+          "cor": 0.86
+        },
+        {
+          "q": 616,
+          "q_fim": 616,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 20.533,
+          "mudanca": 96.5,
+          "cor": 0.82
+        },
+        {
+          "q": 713,
+          "q_fim": 713,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 23.767,
+          "mudanca": 83.5,
+          "cor": 0.95
+        },
+        {
+          "q": 735,
+          "q_fim": 735,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 24.5,
+          "mudanca": 29.5,
+          "cor": 0.29
+        },
+        {
+          "q": 893,
+          "q_fim": 893,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 29.767,
+          "mudanca": 81.0,
+          "cor": 0.98
+        },
+        {
+          "q": 895,
+          "q_fim": 896,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 29.833,
+          "mudanca": 78.5,
+          "cor": 0.96
+        },
+        {
+          "q": 992,
+          "q_fim": 992,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 33.067,
+          "mudanca": 31.8,
+          "cor": 0.26
+        },
+        {
+          "q": 1029,
+          "q_fim": 1029,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 34.3,
+          "mudanca": 47.8,
+          "cor": 0.35
+        },
+        {
+          "q": 1055,
+          "q_fim": 1055,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 35.167,
+          "mudanca": 30.1,
+          "cor": 0.34
+        },
+        {
+          "q": 1058,
+          "q_fim": 1059,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 35.267,
+          "mudanca": 27.8,
+          "cor": 0.31
+        },
+        {
+          "q": 1066,
+          "q_fim": 1066,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 35.533,
+          "mudanca": 54.8,
+          "cor": 0.66
+        },
+        {
+          "q": 1156,
+          "q_fim": 1156,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 38.533,
+          "mudanca": 20.8,
+          "cor": 0.19
+        },
+        {
+          "q": 1159,
+          "q_fim": 1159,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 38.633,
+          "mudanca": 35.7,
+          "cor": 0.27
+        },
+        {
+          "q": 1171,
+          "q_fim": 1171,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 39.033,
+          "mudanca": 42.4,
+          "cor": 0.23
+        },
+        {
+          "q": 1180,
+          "q_fim": 1180,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 39.333,
+          "mudanca": 41.0,
+          "cor": 0.26
+        },
+        {
+          "q": 1183,
+          "q_fim": 1183,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 39.433,
+          "mudanca": 31.4,
+          "cor": 0.34
+        },
+        {
+          "q": 1217,
+          "q_fim": 1222,
+          "quadros": 6,
+          "tipo": "especial",
+          "s": 40.567,
+          "mudanca": 49.9,
+          "cor": 0.72
+        },
+        {
+          "q": 1285,
+          "q_fim": 1285,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 42.833,
+          "mudanca": 84.6,
+          "cor": 0.82
+        },
+        {
+          "q": 1421,
+          "q_fim": 1421,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 47.367,
+          "mudanca": 81.2,
+          "cor": 0.82
+        },
+        {
+          "q": 1585,
+          "q_fim": 1586,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 52.833,
+          "mudanca": 107.1,
+          "cor": 0.98
+        },
+        {
+          "q": 1588,
+          "q_fim": 1590,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 52.933,
+          "mudanca": 88.7,
+          "cor": 0.83
+        },
+        {
+          "q": 1814,
+          "q_fim": 1814,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 60.467,
+          "mudanca": 36.9,
+          "cor": 0.19
+        },
+        {
+          "q": 2071,
+          "q_fim": 2071,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 69.033,
+          "mudanca": 116.3,
+          "cor": 0.93
+        },
+        {
+          "q": 2093,
+          "q_fim": 2093,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 69.767,
+          "mudanca": 65.6,
+          "cor": 0.84
+        },
+        {
+          "q": 2201,
+          "q_fim": 2204,
+          "quadros": 4,
+          "tipo": "especial",
+          "s": 73.367,
+          "mudanca": 95.2,
+          "cor": 0.84
+        },
+        {
+          "q": 2206,
+          "q_fim": 2208,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 73.533,
+          "mudanca": 119.7,
+          "cor": 0.8
+        },
+        {
+          "q": 2273,
+          "q_fim": 2273,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 75.767,
+          "mudanca": 75.8,
+          "cor": 0.53
+        },
+        {
+          "q": 2325,
+          "q_fim": 2325,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 77.5,
+          "mudanca": 62.3,
+          "cor": 0.82
+        },
+        {
+          "q": 2468,
+          "q_fim": 2468,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 82.267,
+          "mudanca": 35.1,
+          "cor": 0.45
+        },
+        {
+          "q": 2624,
+          "q_fim": 2626,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 87.467,
+          "mudanca": 184.3,
+          "cor": 0.95
+        },
+        {
+          "q": 2707,
+          "q_fim": 2707,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 90.233,
+          "mudanca": 42.1,
+          "cor": 0.27
+        },
+        {
+          "q": 2719,
+          "q_fim": 2719,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 90.633,
+          "mudanca": 12.0,
+          "cor": 0.19
+        },
+        {
+          "q": 2737,
+          "q_fim": 2737,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 91.233,
+          "mudanca": 24.4,
+          "cor": 0.25
+        },
+        {
+          "q": 2751,
+          "q_fim": 2752,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 91.7,
+          "mudanca": 25.7,
+          "cor": 0.23
+        },
+        {
+          "q": 2754,
+          "q_fim": 2755,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 91.8,
+          "mudanca": 22.4,
+          "cor": 0.29
+        },
+        {
+          "q": 2793,
+          "q_fim": 2793,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 93.1,
+          "mudanca": 171.0,
+          "cor": 0.95
+        },
+        {
+          "q": 2805,
+          "q_fim": 2807,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 93.5,
+          "mudanca": 25.8,
+          "cor": 0.33
+        },
+        {
+          "q": 2809,
+          "q_fim": 2811,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 93.633,
+          "mudanca": 45.3,
+          "cor": 0.3
+        },
+        {
+          "q": 2892,
+          "q_fim": 2892,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 96.4,
+          "mudanca": 47.5,
+          "cor": 0.36
+        },
+        {
+          "q": 2937,
+          "q_fim": 2937,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 97.9,
+          "mudanca": 49.9,
+          "cor": 0.34
+        },
+        {
+          "q": 2961,
+          "q_fim": 2963,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 98.7,
+          "mudanca": 49.8,
+          "cor": 0.3
+        },
+        {
+          "q": 2965,
+          "q_fim": 2966,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 98.833,
+          "mudanca": 48.2,
+          "cor": 0.36
+        },
+        {
+          "q": 3002,
+          "q_fim": 3002,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 100.067,
+          "mudanca": 68.3,
+          "cor": 0.65
+        },
+        {
+          "q": 3060,
+          "q_fim": 3061,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 102.0,
+          "mudanca": 80.5,
+          "cor": 0.62
+        },
+        {
+          "q": 3088,
+          "q_fim": 3090,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 102.933,
+          "mudanca": 100.8,
+          "cor": 0.46
+        },
+        {
+          "q": 3161,
+          "q_fim": 3161,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 105.367,
+          "mudanca": 78.2,
+          "cor": 0.46
+        },
+        {
+          "q": 3193,
+          "q_fim": 3194,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 106.433,
+          "mudanca": 27.8,
+          "cor": 0.81
+        },
+        {
+          "q": 3333,
+          "q_fim": 3333,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 111.1,
+          "mudanca": 31.5,
+          "cor": 0.3
+        },
+        {
+          "q": 3346,
+          "q_fim": 3347,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 111.533,
+          "mudanca": 39.2,
+          "cor": 0.36
+        },
+        {
+          "q": 3349,
+          "q_fim": 3349,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 111.633,
+          "mudanca": 23.7,
+          "cor": 0.29
+        },
+        {
+          "q": 3354,
+          "q_fim": 3354,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 111.8,
+          "mudanca": 21.8,
+          "cor": 0.25
+        },
+        {
+          "q": 3356,
+          "q_fim": 3356,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 111.867,
+          "mudanca": 47.7,
+          "cor": 0.3
+        },
+        {
+          "q": 3392,
+          "q_fim": 3392,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 113.067,
+          "mudanca": 30.7,
+          "cor": 0.74
+        },
+        {
+          "q": 3435,
+          "q_fim": 3435,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 114.5,
+          "mudanca": 30.0,
+          "cor": 0.67
+        },
+        {
+          "q": 3441,
+          "q_fim": 3442,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 114.7,
+          "mudanca": 22.9,
+          "cor": 0.81
+        },
+        {
+          "q": 3449,
+          "q_fim": 3449,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 114.967,
+          "mudanca": 12.0,
+          "cor": 0.41
+        },
+        {
+          "q": 3458,
+          "q_fim": 3458,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 115.267,
+          "mudanca": 16.4,
+          "cor": 0.49
+        },
+        {
+          "q": 3474,
+          "q_fim": 3474,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 115.8,
+          "mudanca": 21.8,
+          "cor": 0.64
+        },
+        {
+          "q": 3476,
+          "q_fim": 3477,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 115.867,
+          "mudanca": 24.5,
+          "cor": 0.77
+        },
+        {
+          "q": 3543,
+          "q_fim": 3543,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 118.1,
+          "mudanca": 12.5,
+          "cor": 0.74
+        },
+        {
+          "q": 3657,
+          "q_fim": 3657,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 121.9,
+          "mudanca": 67.8,
+          "cor": 0.82
+        },
+        {
+          "q": 3855,
+          "q_fim": 3855,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 128.5,
+          "mudanca": 39.7,
+          "cor": 0.13
+        },
+        {
+          "q": 3858,
+          "q_fim": 3867,
+          "quadros": 10,
+          "tipo": "especial",
+          "s": 128.6,
+          "mudanca": 91.3,
+          "cor": 0.56
+        },
+        {
+          "q": 4050,
+          "q_fim": 4050,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 135.0,
+          "mudanca": 22.8,
+          "cor": 0.37
+        }
+      ],
+      "transicao_resumo": {
+        "corte": 80,
+        "dissolve": 1,
+        "especial": 6,
+        "dissolve_quadros_mediana": 2.0,
+        "dissolve_pct": 1.1
+      },
+      "camera": {
+        "pct_quadros_andando": 92.1,
+        "creep_pct_s": 7.75,
+        "zoom_pct_s_mediana": 3.06,
+        "entrada_x_resto": 1.48,
+        "parado_max_q": 23,
+        "parado_max_em_q": 3501,
+        "fortes_q": [
+          1481,
+          451,
+          2418,
+          3408,
+          1178
+        ],
+        "creep_tipico_q": 967
+      },
+      "acao": {
+        "picos": 95,
+        "casados": 85,
+        "quadros_antes_mediana": 0.0,
+        "padrao": false,
+        "frac_1a6": 0.35,
+        "frac_acaso": 0.27,
+        "exemplos": [
+          [
+            204,
+            205
+          ],
+          [
+            314,
+            313
+          ],
+          [
+            334,
+            331
+          ],
+          [
+            354,
+            358
+          ],
+          [
+            373,
+            377
+          ],
+          [
+            422,
+            423
+          ],
+          [
+            613,
+            609
+          ],
+          [
+            810,
+            818
+          ],
+          [
+            1001,
+            1004
+          ],
+          [
+            1063,
+            1069
+          ],
+          [
+            1080,
+            1091
+          ],
+          [
+            1092,
+            1091
+          ]
+        ],
+        "troca_palavra_q_mediana": 1.0,
+        "troca_casadas": 84
+      },
+      "fala": {
+        "palavras": 392,
+        "ppm": 165.7,
+        "ppm_falando": 175.8,
+        "voz_pct": 91.5,
+        "primeira_palavra_s": 0.02,
+        "pausa_frase_mediana_s": 0.0,
+        "pausa_frase_max_s": 0.3,
+        "pausa_tipica_q": 119,
+        "pausa_max_q": 2885,
+        "frases": 20,
+        "pausa_qualquer_mediana_s": 0.5,
+        "texto": "Esse cara simplesmente engoliu o Brasil inteiro em menos de 20 dias. O Lincoln Navas saiu da obscuridade com 30 mil seguidores para mais de 2 milhões de pessoas, surfando uma velocidade que pouquíssimas vezes se testemunhou no Instagram brasileiro. O que passa no teu telefone é um vírus, o diabo ri da tua cara e tu ri de volta, mas sabe você que você é sacrifício. E o pior de tudo é que essa engrenagem de crescimento era uma mentira armada do começo ao fim. O vídeo que fez esse cara explodir era 100% cópia, palavra por palavra, gesto por gesto. Ele simplesmente pegou um conteúdo viral que já existia, refilmou igualzinho e mandou para o ar como se fosse genialidade dele. Analisamos mais de 100 vídeos daquele perfil no Instagram e descobrimos o padrão. Antes da viralização acontecer, 25% de tudo era plágio descarado. Você pega 100 aqui, pega 200 aqui, já não tem mais nada. é um arroz é uma mistura um pedaço de carne ninguém tá aguentando comprar um pedaço de carne para comer sem reais do dia e quando eu cheguei em casa com produtora com umas paradas já acabou e uma estratégia que funcionou tanto que o Pablo Marçal, sem saber de nada, acabou virando padrinho e impulsionou o nome dele para todo o Brasil. Só que logo depois de viralizar, a máscara caiu e muitas coisas vieram à tona. O cara que explodiu criticando o atual momento econômico e social que o Brasil está vivendo, nos bastidores defende justamente as pautas e a ideologia de esquerda que geraram esse cenário. E isso revela a maior falta de coerência ética que existe. Posicionamento não é um personagem de internet para ganhar seguidores. Posicionamento é o que você defende, é o que você fala, são os seus princípios, os seus valores e o seu caráter. Se a sua vida pessoal não sustenta o seu discurso público, a sua autoridade é nula. A ciência explica essa manipulação pelo efeito da repetição. Seu cérebro é preguiçoso para caralho e prefere acreditar na mentira repetida do que investigar a verdade. Se você cansou de ser a plateia que consome esse castelo de areia, e está pronto para dominar o mercado com uma marca pessoal inabalável, comenta ao BG. Eu vou te entregar no direct as chaves do posicionamento de elite.",
+        "fonte_pausa": "audio"
+      },
+      "numeros": [
+        {
+          "texto": "20",
+          "s": 3.38,
+          "e": 3.56,
+          "q": 101,
+          "evento": true,
+          "evento_q": 92,
+          "evento_menos_palavra_q": -9,
+          "recorte": "folhas/Dafd6TnOlOI-numero-01-q92.jpg"
+        },
+        {
+          "texto": "30 mil",
+          "s": 6.84,
+          "e": 7.34,
+          "q": 205,
+          "evento": true,
+          "evento_q": 198,
+          "evento_menos_palavra_q": -7,
+          "recorte": "folhas/Dafd6TnOlOI-numero-02-q198.jpg"
+        },
+        {
+          "texto": "2 milhões",
+          "s": 8.9,
+          "e": 9.42,
+          "q": 267,
+          "evento": false,
+          "evento_q": 259,
+          "evento_menos_palavra_q": -8,
+          "recorte": "folhas/Dafd6TnOlOI-numero-03-q259.jpg"
+        },
+        {
+          "texto": "100%",
+          "s": 31.84,
+          "e": 32.52,
+          "q": 955,
+          "evento": false,
+          "evento_q": 961,
+          "evento_menos_palavra_q": 6,
+          "recorte": "folhas/Dafd6TnOlOI-numero-04-q961.jpg"
+        },
+        {
+          "texto": "100",
+          "s": 43.98,
+          "e": 44.14,
+          "q": 1319,
+          "evento": false,
+          "evento_q": 1310,
+          "evento_menos_palavra_q": -9,
+          "recorte": "folhas/Dafd6TnOlOI-numero-05-q1310.jpg"
+        },
+        {
+          "texto": "25%",
+          "s": 49.52,
+          "e": 50.5,
+          "q": 1486,
+          "evento": true,
+          "evento_q": 1481,
+          "evento_menos_palavra_q": -5,
+          "recorte": "folhas/Dafd6TnOlOI-numero-06-q1481.jpg"
+        },
+        {
+          "texto": "100",
+          "s": 53.3,
+          "e": 53.56,
+          "q": 1599,
+          "evento": true,
+          "evento_q": 1594,
+          "evento_menos_palavra_q": -5,
+          "recorte": "folhas/Dafd6TnOlOI-numero-07-q1594.jpg"
+        },
+        {
+          "texto": "200",
+          "s": 54.0,
+          "e": 54.38,
+          "q": 1620,
+          "evento": false,
+          "evento_q": 1612,
+          "evento_menos_palavra_q": -8,
+          "recorte": "folhas/Dafd6TnOlOI-numero-08-q1612.jpg"
+        }
+      ],
+      "numeros_resumo": {
+        "n": 8,
+        "por_min": 3.4,
+        "com_evento_pct": 50.0,
+        "evento_menos_palavra_q_mediana": -6.0
+      },
+      "som": {
+        "lufs": -14.2,
+        "voz_db": -14.3,
+        "pausa_db": -14.5,
+        "pausa_db_variacao": 13.4,
+        "pausa_janelas": 76,
+        "musica_abaixo_da_voz_db": 6.2,
+        "efeitos_s": [
+          0.08,
+          1.92,
+          3.31,
+          3.92,
+          5.04,
+          6.69,
+          7.08,
+          9.07,
+          9.78,
+          10.33,
+          11.25,
+          13.26,
+          15.26,
+          16.54,
+          17.96,
+          18.33,
+          19.18,
+          20.04,
+          21.29,
+          22.01,
+          22.7,
+          25.0,
+          25.81,
+          28.98,
+          29.81,
+          30.51,
+          31.06,
+          31.86,
+          34.64,
+          36.29,
+          36.84,
+          38.12,
+          41.08,
+          45.36,
+          46.2,
+          47.66,
+          48.4,
+          48.85,
+          49.7,
+          50.26,
+          50.65,
+          52.78,
+          70.32,
+          70.88,
+          71.29,
+          72.18,
+          72.67,
+          73.41,
+          75.22,
+          76.08,
+          77.11,
+          79.71,
+          80.89,
+          82.93,
+          83.62,
+          85.55,
+          87.92,
+          88.39,
+          89.5,
+          89.88,
+          92.25,
+          95.05,
+          96.06,
+          98.45,
+          98.81,
+          101.27,
+          102.41,
+          103.04,
+          103.75,
+          106.12,
+          106.61,
+          107.89,
+          111.3,
+          111.66,
+          112.4,
+          113.03,
+          114.49,
+          114.95,
+          116.17,
+          120.66,
+          122.08,
+          122.61,
+          123.98,
+          124.61,
+          125.79,
+          130.38,
+          133.18,
+          134.14,
+          134.62,
+          139.85
+        ],
+        "efeitos_por_min": 38.0,
+        "musica_db": -20.5,
+        "musica_variacao_db": 18.2
+      },
+      "legenda": {
+        "y_pct": 48.2,
+        "altura_texto_px_1920": 46.0,
+        "palavras_por_quadro": 3.0,
+        "quadros_com_legenda_pct": 34.7,
+        "prova_q": 1703
+      },
+      "cara": {
+        "lisura": 0.123,
+        "ruido": 5.0,
+        "saturacao": 57.2,
+        "rosto_pct": 32.7
+      },
+      "base_sugerida": {
+        "base": "formatos/explicador-3d/base",
+        "tipo": "animação 3D realista",
+        "porque": "render 3D com textura e sombra (lisura 0,12, ruído 5,0, saturação 57): jogo antigo/realista"
+      },
+      "fala_imagem": {
+        "oracoes": [
+          {
+            "texto": "Esse cara simplesmente engoliu o Brasil inteiro em menos de 20 dias.",
+            "s": 0.02,
+            "e": 4.26,
+            "q": 1,
+            "q_fim": 128,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -2,
+            "evento": true,
+            "lead_evento_q": -2,
+            "imagem_nova": true,
+            "quadro_palavra": 3
+          },
+          {
+            "texto": "O Lincoln Navas saiu da obscuridade com 30 mil seguidores para mais de 2 milhões de pessoas,",
+            "s": 4.22,
+            "e": 10.58,
+            "q": 127,
+            "q_fim": 317,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 6,
+            "evento": true,
+            "lead_evento_q": 6,
+            "imagem_nova": true,
+            "quadro_palavra": 129
+          },
+          {
+            "texto": "surfando uma velocidade que pouquíssimas vezes se testemunhou no Instagram brasileiro.",
+            "s": 10.44,
+            "e": 15.78,
+            "q": 313,
+            "q_fim": 473,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 4,
+            "evento": true,
+            "lead_evento_q": 4,
+            "imagem_nova": true,
+            "quadro_palavra": 315
+          },
+          {
+            "texto": "O que passa no teu telefone é um vírus,",
+            "s": 15.56,
+            "e": 18.18,
+            "q": 467,
+            "q_fim": 545,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 11,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 469
+          },
+          {
+            "texto": "o diabo ri da tua cara e tu ri de volta,",
+            "s": 18.18,
+            "e": 21.22,
+            "q": 545,
+            "q_fim": 637,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 547
+          },
+          {
+            "texto": "mas sabe você que você é sacrifício.",
+            "s": 21.22,
+            "e": 23.74,
+            "q": 637,
+            "q_fim": 712,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 639
+          },
+          {
+            "texto": "E o pior de tudo é que essa engrenagem de crescimento era uma mentira armada do começo ao fim.",
+            "s": 24.6,
+            "e": 29.98,
+            "q": 738,
+            "q_fim": 899,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 3,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 740
+          },
+          {
+            "texto": "O vídeo que fez esse cara explodir era 100% cópia,",
+            "s": 29.86,
+            "e": 33.1,
+            "q": 896,
+            "q_fim": 993,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 3,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 898
+          },
+          {
+            "texto": "palavra por palavra,",
+            "s": 33.1,
+            "e": 34.48,
+            "q": 993,
+            "q_fim": 1034,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 1,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 995
+          },
+          {
+            "texto": "gesto por gesto.",
+            "s": 34.48,
+            "e": 35.5,
+            "q": 1034,
+            "q_fim": 1065,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 5,
+            "evento": true,
+            "lead_evento_q": 5,
+            "imagem_nova": true,
+            "quadro_palavra": 1036
+          },
+          {
+            "texto": "Ele simplesmente pegou um conteúdo viral que já existia,",
+            "s": 35.64,
+            "e": 38.82,
+            "q": 1069,
+            "q_fim": 1165,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 11,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 1071
+          },
+          {
+            "texto": "refilmou igualzinho e mandou para o ar como se fosse genialidade dele.",
+            "s": 38.82,
+            "e": 43.14,
+            "q": 1165,
+            "q_fim": 1294,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 9,
+            "evento": true,
+            "lead_evento_q": -6,
+            "imagem_nova": true,
+            "quadro_palavra": 1167
+          },
+          {
+            "texto": "Analisamos mais de 100 vídeos daquele perfil no Instagram e descobrimos o padrão.",
+            "s": 43.02,
+            "e": 47.66,
+            "q": 1291,
+            "q_fim": 1430,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 6,
+            "evento": true,
+            "lead_evento_q": 6,
+            "imagem_nova": true,
+            "quadro_palavra": 1293
+          },
+          {
+            "texto": "Antes da viralização acontecer,",
+            "s": 47.58,
+            "e": 49.52,
+            "q": 1427,
+            "q_fim": 1486,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 6,
+            "evento": true,
+            "lead_evento_q": 6,
+            "imagem_nova": true,
+            "quadro_palavra": 1429
+          },
+          {
+            "texto": "25% de tudo era plágio descarado.",
+            "s": 49.52,
+            "e": 53.06,
+            "q": 1486,
+            "q_fim": 1592,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 5,
+            "imagem_nova": true,
+            "quadro_palavra": 1488
+          },
+          {
+            "texto": "Você pega 100 aqui,",
+            "s": 52.96,
+            "e": 53.82,
+            "q": 1589,
+            "q_fim": 1615,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 4,
+            "evento": true,
+            "lead_evento_q": 4,
+            "imagem_nova": true,
+            "quadro_palavra": 1591
+          },
+          {
+            "texto": "pega 200 aqui,",
+            "s": 53.82,
+            "e": 54.6,
+            "q": 1615,
+            "q_fim": 1638,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 1617
+          },
+          {
+            "texto": "já não tem mais nada.",
+            "s": 54.6,
+            "e": 55.74,
+            "q": 1638,
+            "q_fim": 1672,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -2,
+            "imagem_nova": true,
+            "quadro_palavra": 1640
+          },
+          {
+            "texto": "é um arroz é uma mistura um pedaço de carne ninguém tá aguentando comprar",
+            "s": 55.38,
+            "e": 58.98,
+            "q": 1661,
+            "q_fim": 1769,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 9,
+            "imagem_nova": true,
+            "quadro_palavra": 1663
+          },
+          {
+            "texto": "um pedaço de carne para comer sem reais do dia e quando eu cheguei em casa com produtora com umas paradas já acabou e uma estratégia que funcionou tanto que o Pablo Marçal,",
+            "s": 58.98,
+            "e": 72.59,
+            "q": 1769,
+            "q_fim": 2178,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 1771
+          },
+          {
+            "texto": "sem saber de nada,",
+            "s": 72.59,
+            "e": 73.67,
+            "q": 2178,
+            "q_fim": 2210,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2180
+          },
+          {
+            "texto": "acabou virando padrinho e impulsionou o nome dele para todo o Brasil.",
+            "s": 73.71,
+            "e": 77.79,
+            "q": 2211,
+            "q_fim": 2334,
+            "troca": true,
+            "troca_tipo": "especial",
+            "lead_troca_q": 10,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 2213
+          },
+          {
+            "texto": "Só que logo depois de viralizar,",
+            "s": 77.65,
+            "e": 79.47,
+            "q": 2329,
+            "q_fim": 2384,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 4,
+            "evento": true,
+            "lead_evento_q": 4,
+            "imagem_nova": true,
+            "quadro_palavra": 2331
+          },
+          {
+            "texto": "a máscara caiu e muitas coisas vieram à tona.",
+            "s": 79.47,
+            "e": 82.61,
+            "q": 2384,
+            "q_fim": 2478,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2386
+          },
+          {
+            "texto": "O cara que explodiu criticando o atual momento econômico e social que o Brasil está vivendo,",
+            "s": 82.39,
+            "e": 87.73,
+            "q": 2472,
+            "q_fim": 2632,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 4,
+            "evento": true,
+            "lead_evento_q": 4,
+            "imagem_nova": true,
+            "quadro_palavra": 2474
+          },
+          {
+            "texto": "nos bastidores defende justamente as pautas e a ideologia de esquerda que geraram esse cenário.",
+            "s": 86.81,
+            "e": 93.69,
+            "q": 2604,
+            "q_fim": 2811,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2606
+          },
+          {
+            "texto": "E isso revela a maior falta de coerência ética que existe.",
+            "s": 93.21,
+            "e": 96.47,
+            "q": 2796,
+            "q_fim": 2894,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 3,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 2798
+          },
+          {
+            "texto": "Posicionamento não é um personagem de internet para ganhar seguidores.",
+            "s": 96.27,
+            "e": 100.19,
+            "q": 2888,
+            "q_fim": 3006,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -4,
+            "evento": true,
+            "lead_evento_q": -4,
+            "imagem_nova": true,
+            "quadro_palavra": 2890
+          },
+          {
+            "texto": "Posicionamento é o que você defende,",
+            "s": 99.93,
+            "e": 102.09,
+            "q": 2998,
+            "q_fim": 3063,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -4,
+            "evento": true,
+            "lead_evento_q": -4,
+            "imagem_nova": true,
+            "quadro_palavra": 3000
+          },
+          {
+            "texto": "é o que você fala,",
+            "s": 102.09,
+            "e": 103.13,
+            "q": 3063,
+            "q_fim": 3094,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 3,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 3065
+          },
+          {
+            "texto": "são os seus princípios,",
+            "s": 103.13,
+            "e": 104.43,
+            "q": 3094,
+            "q_fim": 3133,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 6,
+            "evento": true,
+            "lead_evento_q": 4,
+            "imagem_nova": true,
+            "quadro_palavra": 3096
+          },
+          {
+            "texto": "os seus valores e o seu caráter.",
+            "s": 104.43,
+            "e": 106.71,
+            "q": 3133,
+            "q_fim": 3201,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 4,
+            "imagem_nova": true,
+            "quadro_palavra": 3135
+          },
+          {
+            "texto": "Se a sua vida pessoal não sustenta o seu discurso público,",
+            "s": 106.69,
+            "e": 109.55,
+            "q": 3201,
+            "q_fim": 3286,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 8,
+            "evento": true,
+            "lead_evento_q": 7,
+            "imagem_nova": true,
+            "quadro_palavra": 3203
+          },
+          {
+            "texto": "a sua autoridade é nula.",
+            "s": 109.55,
+            "e": 111.33,
+            "q": 3286,
+            "q_fim": 3340,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 8,
+            "imagem_nova": true,
+            "quadro_palavra": 3288
+          },
+          {
+            "texto": "A ciência explica essa manipulação pelo efeito da repetição.",
+            "s": 111.25,
+            "e": 115.15,
+            "q": 3337,
+            "q_fim": 3454,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 4,
+            "evento": true,
+            "lead_evento_q": 4,
+            "imagem_nova": true,
+            "quadro_palavra": 3339
+          },
+          {
+            "texto": "Seu cérebro é preguiçoso para caralho e prefere acreditar na mentira repetida do que investigar a verdade.",
+            "s": 115.07,
+            "e": 122.13,
+            "q": 3452,
+            "q_fim": 3664,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 11,
+            "evento": true,
+            "lead_evento_q": -6,
+            "imagem_nova": true,
+            "quadro_palavra": 3454
+          },
+          {
+            "texto": "Se você cansou de ser a plateia que consome esse castelo de areia,",
+            "s": 122.11,
+            "e": 125.67,
+            "q": 3663,
+            "q_fim": 3770,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 6,
+            "evento": true,
+            "lead_evento_q": 6,
+            "imagem_nova": true,
+            "quadro_palavra": 3665
+          },
+          {
+            "texto": "e está pronto para dominar o mercado com uma marca pessoal inabalável,",
+            "s": 125.67,
+            "e": 130.05,
+            "q": 3770,
+            "q_fim": 3901,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 9,
+            "imagem_nova": true,
+            "quadro_palavra": 3772
+          },
+          {
+            "texto": "comenta ao BG.",
+            "s": 130.05,
+            "e": 131.13,
+            "q": 3901,
+            "q_fim": 3934,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 3903
+          },
+          {
+            "texto": "Eu vou te entregar no direct as chaves do posicionamento de elite.",
+            "s": 131.13,
+            "e": 134.67,
+            "q": 3934,
+            "q_fim": 4040,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -9,
+            "imagem_nova": true,
+            "quadro_palavra": 3936
+          }
+        ],
+        "n": 40,
+        "com_troca_pct": 62.5,
+        "imagem_nova_pct": 82.5,
+        "lead_q_mediana": 4.0,
+        "oracao_s_mediana": 3.21
+      },
+      "loop_diferenca_inicio_fim": 162.3,
+      "brilho_medio": 59.2,
+      "d1_mediana": 1.9,
+      "folhas": [
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-geral.jpg",
+          "tipo": "geral"
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-01-numero-q101.jpg",
+          "tipo": "numero",
+          "q": 101
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-02-numero-q205.jpg",
+          "tipo": "numero",
+          "q": 205
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-03-numero-q267.jpg",
+          "tipo": "numero",
+          "q": 267
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-04-numero-q955.jpg",
+          "tipo": "numero",
+          "q": 955
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-05-numero-q1319.jpg",
+          "tipo": "numero",
+          "q": 1319
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-06-numero-q1486.jpg",
+          "tipo": "numero",
+          "q": 1486
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-07-numero-q1599.jpg",
+          "tipo": "numero",
+          "q": 1599
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-08-numero-q1620.jpg",
+          "tipo": "numero",
+          "q": 1620
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-09-transicao-q8.jpg",
+          "tipo": "transicao",
+          "q": 8
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-10-transicao-q78.jpg",
+          "tipo": "transicao",
+          "q": 78
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-11-transicao-q129.jpg",
+          "tipo": "transicao",
+          "q": 129
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-12-transicao-q1217.jpg",
+          "tipo": "transicao",
+          "q": 1217
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-13-transicao-q2201.jpg",
+          "tipo": "transicao",
+          "q": 2201
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-14-transicao-q3858.jpg",
+          "tipo": "transicao",
+          "q": 3858
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-15-transicao-q453.jpg",
+          "tipo": "transicao",
+          "q": 453
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-16-transicao-q3.jpg",
+          "tipo": "transicao",
+          "q": 3
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-17-transicao-q121.jpg",
+          "tipo": "transicao",
+          "q": 121
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-18-transicao-q123.jpg",
+          "tipo": "transicao",
+          "q": 123
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-19-transicao-q127.jpg",
+          "tipo": "transicao",
+          "q": 127
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-20-transicao-q198.jpg",
+          "tipo": "transicao",
+          "q": 198
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-21-transicao-q243.jpg",
+          "tipo": "transicao",
+          "q": 243
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-22-transicao-q245.jpg",
+          "tipo": "transicao",
+          "q": 245
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-23-transicao-q309.jpg",
+          "tipo": "transicao",
+          "q": 309
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-24-transicao-q382.jpg",
+          "tipo": "transicao",
+          "q": 382
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-25-movimento-q1481.jpg",
+          "tipo": "movimento",
+          "q": 1481
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-26-movimento-q451.jpg",
+          "tipo": "movimento",
+          "q": 451
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-27-movimento-q2418.jpg",
+          "tipo": "movimento",
+          "q": 2418
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-28-movimento-q3408.jpg",
+          "tipo": "movimento",
+          "q": 3408
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-29-movimento-q1178.jpg",
+          "tipo": "movimento",
+          "q": 1178
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-fala-imagem-1.jpg",
+          "tipo": "fala-imagem"
+        },
+        {
+          "arquivo": "folhas/Dafd6TnOlOI-fala-imagem-2.jpg",
+          "tipo": "fala-imagem"
+        }
+      ]
+    }
+  ],
+  "conjunto": {
+    "planos.mediana_s": {
+      "rotulo": "Plano: mediana",
+      "unidade": "s",
+      "mediana": 0.83,
+      "min": 0.83,
+      "max": 0.83,
+      "n": 1
+    },
+    "planos.media_s": {
+      "rotulo": "Plano: média",
+      "unidade": "s",
+      "mediana": 1.61,
+      "min": 1.61,
+      "max": 1.61,
+      "n": 1
+    },
+    "planos.por_min": {
+      "rotulo": "Planos por minuto",
+      "unidade": "/min",
+      "mediana": 37.2,
+      "min": 37.2,
+      "max": 37.2,
+      "n": 1
+    },
+    "transicao_resumo.dissolve_pct": {
+      "rotulo": "Transição dissolve",
+      "unidade": "% das trocas",
+      "mediana": 1.0,
+      "min": 1.1,
+      "max": 1.1,
+      "n": 1
+    },
+    "transicao_resumo.dissolve_quadros_mediana": {
+      "rotulo": "Dissolve: quadros",
+      "unidade": "quadros",
+      "mediana": 2.0,
+      "min": 2.0,
+      "max": 2.0,
+      "n": 1
+    },
+    "camera.pct_quadros_andando": {
+      "rotulo": "Câmera andando",
+      "unidade": "% dos quadros",
+      "mediana": 92.0,
+      "min": 92.1,
+      "max": 92.1,
+      "n": 1
+    },
+    "camera.creep_pct_s": {
+      "rotulo": "Creep típico",
+      "unidade": "% da largura/s",
+      "mediana": 7.75,
+      "min": 7.75,
+      "max": 7.75,
+      "n": 1
+    },
+    "camera.entrada_x_resto": {
+      "rotulo": "Entrada do plano × resto",
+      "unidade": "×",
+      "mediana": 1.48,
+      "min": 1.48,
+      "max": 1.48,
+      "n": 1
+    },
+    "camera.parado_max_q": {
+      "rotulo": "Maior trecho parado",
+      "unidade": "quadros",
+      "mediana": 23.0,
+      "min": 23,
+      "max": 23,
+      "n": 1
+    },
+    "fala.ppm": {
+      "rotulo": "Fala",
+      "unidade": "palavras/min",
+      "mediana": 166.0,
+      "min": 165.7,
+      "max": 165.7,
+      "n": 1
+    },
+    "fala.voz_pct": {
+      "rotulo": "Voz no tempo",
+      "unidade": "%",
+      "mediana": 92.0,
+      "min": 91.5,
+      "max": 91.5,
+      "n": 1
+    },
+    "fala.pausa_frase_mediana_s": {
+      "rotulo": "Pausa pós-frase: mediana",
+      "unidade": "s",
+      "mediana": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 1
+    },
+    "fala.pausa_frase_max_s": {
+      "rotulo": "Pausa pós-frase: máx",
+      "unidade": "s",
+      "mediana": 0.3,
+      "min": 0.3,
+      "max": 0.3,
+      "n": 1
+    },
+    "acao.troca_palavra_q_mediana": {
+      "rotulo": "Troca de plano × palavra",
+      "unidade": "quadros",
+      "mediana": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 1
+    },
+    "acao.quadros_antes_mediana": {
+      "rotulo": "Ação antes da palavra",
+      "unidade": "quadros",
+      "mediana": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 1
+    },
+    "fala_imagem.imagem_nova_pct": {
+      "rotulo": "Oração com imagem nova",
+      "unidade": "% das orações",
+      "mediana": 82.0,
+      "min": 82.5,
+      "max": 82.5,
+      "n": 1
+    },
+    "fala_imagem.com_troca_pct": {
+      "rotulo": "Oração com troca de plano",
+      "unidade": "% das orações",
+      "mediana": 62.0,
+      "min": 62.5,
+      "max": 62.5,
+      "n": 1
+    },
+    "fala_imagem.lead_q_mediana": {
+      "rotulo": "Imagem muda antes da palavra",
+      "unidade": "quadros",
+      "mediana": 4.0,
+      "min": 4.0,
+      "max": 4.0,
+      "n": 1
+    },
+    "numeros_resumo.por_min": {
+      "rotulo": "Números falados",
+      "unidade": "/min",
+      "mediana": 3.4,
+      "min": 3.4,
+      "max": 3.4,
+      "n": 1
+    },
+    "numeros_resumo.com_evento_pct": {
+      "rotulo": "Número com evento visual",
+      "unidade": "%",
+      "mediana": 50.0,
+      "min": 50.0,
+      "max": 50.0,
+      "n": 1
+    },
+    "som.lufs": {
+      "rotulo": "Volume (LUFS integrado)",
+      "unidade": "LUFS",
+      "mediana": -14.2,
+      "min": -14.2,
+      "max": -14.2,
+      "n": 1
+    },
+    "som.musica_abaixo_da_voz_db": {
+      "rotulo": "Música abaixo da voz",
+      "unidade": "dB",
+      "mediana": 6.2,
+      "min": 6.2,
+      "max": 6.2,
+      "n": 1
+    },
+    "som.efeitos_por_min": {
+      "rotulo": "Efeitos (estimativa)",
+      "unidade": "/min",
+      "mediana": 38.0,
+      "min": 38.0,
+      "max": 38.0,
+      "n": 1
+    },
+    "legenda.y_pct": {
+      "rotulo": "Legenda: altura do centro",
+      "unidade": "% da altura",
+      "mediana": 48.0,
+      "min": 48.2,
+      "max": 48.2,
+      "n": 1
+    },
+    "legenda.altura_texto_px_1920": {
+      "rotulo": "Legenda: altura do texto",
+      "unidade": "px em 1920",
+      "mediana": 46.0,
+      "min": 46.0,
+      "max": 46.0,
+      "n": 1
+    },
+    "legenda.palavras_por_quadro": {
+      "rotulo": "Legenda: palavras na tela",
+      "unidade": "palavras",
+      "mediana": 3.0,
+      "min": 3.0,
+      "max": 3.0,
+      "n": 1
+    },
+    "base_sugerida": "formatos/explicador-3d/base"
+  },
+  "regras": [
+    {
+      "id": "plano",
+      "titulo": "Duração do plano",
+      "texto": "Plano de 0,83 s na mediana (média 1,61 s; 37 planos por minuto). Imagem nova a cada ~0,8 s.",
+      "prova": "Dafd6TnOlOI q2937-q2960 (97,90 s, 0,80 s)"
+    },
+    {
+      "id": "transicao",
+      "titulo": "Tipo de transição",
+      "texto": "1% das trocas são dissolve de 2 quadros; o resto é corte seco. Especiais: 6 em 87 trocas (6,0 por vídeo).",
+      "prova": "Dafd6TnOlOI q453-q454 (dissolve, 15,10 s)"
+    },
+    {
+      "id": "camera",
+      "titulo": "Câmera nunca para",
+      "texto": "Câmera andando em 92% dos quadros; creep típico de 7,8% da largura por segundo; nos 10 primeiros quadros do plano ela anda 1,5× o resto (impulso na entrada). Maior trecho parado: 23 quadros.",
+      "prova": "Dafd6TnOlOI q967 (32,23 s)"
+    },
+    {
+      "id": "fala",
+      "titulo": "Ritmo da fala",
+      "texto": "166 palavras por minuto, voz em 92% do tempo; pausa depois de frase de 0,00 s na mediana (máx 0,30 s).",
+      "prova": "Dafd6TnOlOI pausa típica no fim de frase em q119 (3,97 s)"
+    },
+    {
+      "id": "troca_palavra",
+      "titulo": "Troca de plano presa à palavra",
+      "texto": "A troca de plano começa 1 quadro(s) ANTES do começo da palavra mais perto (mediana): imagem nova entra junto com a palavra nova.",
+      "prova": "Dafd6TnOlOI troca q3"
+    },
+    {
+      "id": "acao",
+      "titulo": "Ação × palavra",
+      "texto": "Sem padrão medível entre o gesto e a palavra seguinte (fala densa: uma palavra a cada ~8 quadros; o casamento não passa do acaso). Use a regra do formato (gesto termina ~4 quadros antes da palavra tônica).",
+      "prova": "Dafd6TnOlOI pico q204 → palavra q205"
+    },
+    {
+      "id": "fala_imagem",
+      "titulo": "A imagem é o que a fala diz, no quadro da palavra",
+      "texto": "82% das orações trazem imagem nova (troca de plano em 62%, o resto é ação/objeto dentro do plano); a imagem muda 4 quadro(s) antes da 1ª palavra da oração (mediana). Conferir oração por oração na folha fala-imagem e na tabela `fala-imagem/<vídeo>.md` (o que aparece × o que é dito).",
+      "prova": "Dafd6TnOlOI 'Esse cara simplesmente engoliu o Brasil ' troca q3 → palavra q1"
+    },
+    {
+      "id": "numero",
+      "titulo": "Fato vira objeto",
+      "texto": "3,4 números falados por minuto; 50% deles têm um evento visível (objeto que aparece, rola, acende ou plano novo) a ±0,3 s da palavra, em média -6 quadros da palavra.",
+      "prova": "Dafd6TnOlOI '20' palavra q101, evento q92"
+    },
+    {
+      "id": "som",
+      "titulo": "Som medido",
+      "texto": "Volume integrado -14,2 LUFS. Música (medida nas pausas da fala) 6 dB abaixo da voz. Picos de efeito: ~38 por minuto (estimativa: conferir no ouvido).",
+      "prova": "Dafd6TnOlOI (áudio inteiro)"
+    },
+    {
+      "id": "legenda",
+      "titulo": "Legenda",
+      "texto": "Legenda com o centro a 48% da altura, letra de ~46 px numa tela de 1920, ~3 palavras por vez.",
+      "prova": "Dafd6TnOlOI q1703 (56,77 s)"
+    },
+    {
+      "id": "loop",
+      "titulo": "Fim que emenda no começo",
+      "texto": "Diferença entre o 1º e o último quadro: 162,3 (0 = idêntico; abaixo de ~12 o fim emenda no começo). Mais parecido: Dafd6TnOlOI (162,3).",
+      "prova": "Dafd6TnOlOI q0 × q4257"
+    },
+    {
+      "id": "gancho",
+      "titulo": "Gancho",
+      "texto": "A 1ª troca de imagem vem em 0,10 s na mediana; a primeira palavra em 0,02 s.",
+      "prova": "Dafd6TnOlOI q3"
+    }
+  ]
+}

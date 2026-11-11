@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Estudar um vídeo{% endblock %}
+{% block conteudo %}
+<div class="topo-pagina"><div><h1>Estudar um vídeo</h1>
+<p class="sub">Cole o link de um ou mais vídeos do mesmo estilo (Instagram, YouTube, TikTok) ou suba os arquivos. O Estúdio estuda quadro a quadro, a 30 por segundo: planos, transições, câmera, ritmo da fala, som, legenda e cada regra com o quadro de prova. Depois você junta como referência de um estilo. A gente pega o fundamento, nunca copia o vídeo.</p></div></div>
+<form method="post" enctype="multipart/form-data" class="cartao-config es-form">
+  <label class="campo"><b>Nome</b> <small class="meta">opcional</small><input name="nome" placeholder="Ex.: análise de caso com prints"></label>
+  <label class="campo"><b>Links</b> <small class="meta">um por linha</small><textarea name="links" rows="3" placeholder="https://www.instagram.com/reel/..."></textarea></label>
+  <label class="campo"><b>Ou os vídeos</b><input type="file" name="videos" multiple accept="video/*,.mp4,.mov"></label>
+  <button class="btn primario grande">Estudar quadro a quadro</button> <small class="meta">grátis, roda no seu Mac; leva uns minutos por vídeo</small>
+</form>
+<h2>Estudos</h2>
+{% if estudos %}<div class="grade-cards">
+  {% for e in estudos %}<a class="card-video" href="{{ url_for('estudar_ver', sid=e.id) }}">
+    {% if e.videos %}<video poster="{{ url_for('thumb_rota', caminho=e.videos[0]) }}" muted playsinline preload="none" src="{{ url_for('arquivo', caminho=e.videos[0]) }}#t=1"></video>{% else %}<div class="midia vazio">baixando…</div>{% endif %}
+    <b>{{ e.nome }}</b>
+    <small class="meta">{{ e.quando }} · {% if e.estado.rodando %}<span class="selo espera">estudando</span>{% elif e.estado.erro %}<span class="selo erro">parou</span>{% else %}<span class="selo ok">pronto</span>{% endif %} · {{ e.videos|length }} vídeo(s)</small>
+  </a>{% endfor %}
+</div>{% else %}<div class="vazio">Nenhum estudo ainda.</div>{% endif %}
+{% endblock %}

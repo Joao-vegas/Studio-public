@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block titulo %}Guardar como referência{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('job', cli=j.cliente, slug=j.slug) }}">← {{ j.titulo }}</a></p>
+<div class="topo-pagina"><div><h1>Guardar como referência?</h1><p class="sub">Vídeo nosso que você gostou vira mais uma referência do estilo <b>{{ estilo }}</b>.</p></div></div>
+<video class="ref-video" controls preload="metadata" src="{{ url_for('arquivo', caminho=j.saida) }}?v={{ mtime(j.saida) }}"></video>
+<section class="painel aprovou" id="aprovou"><h2>Aprovou?</h2>
+<p>Vai pra <code>{{ destino }}</code> (o vídeo, uma folha de quadros e o ESTUDO.md). Aparece no Criar em “Qual referência seguir”. Nada é apagado e o vídeo original fica onde está.</p>
+<p class="meta">É base de estilo, não molde: os próximos vídeos pegam o jeito, nunca o conteúdo.</p>
+<form method="post" action="{{ url_for('job_virar_referencia', cli=j.cliente, slug=j.slug) }}" class="acoes"><input type="hidden" name="confirmar" value="1">
+<button class="btn grande primario">Sim, guardar como referência</button> <a class="btn" href="{{ url_for('job', cli=j.cliente, slug=j.slug) }}">Não</a></form></section>
+{% endblock %}

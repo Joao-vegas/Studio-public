@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% block titulo %}{{ c.nome }} · {{ f.titulo or m.nome }}{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('home') }}">Clientes</a> › <a href="{{ url_for('cliente', nome=c.nome) }}">{{ c.nome }}</a> › {{ m.nome }}</p>
+<div class="cabecalho">
+  <div>
+    <h1>{{ f.titulo or m.nome }} <span class="sub-inline">· {{ c.nome }}</span></h1>
+    {% if f.resumo %}<p class="resumo">{{ f.resumo }}</p>{% endif %}
+    <p class="sub">
+      {% if f.formato %}{{ f.formato.resolucao or '' }}{% if f.formato.proporcao %} · {{ f.formato.proporcao }}{% endif %}{% if f.formato.duracao_tipica %} · {{ f.formato.duracao_tipica }}{% endif %} · {% endif %}
+      {% if f.motor %}{{ f.motor }} · {% endif %}
+      {{ m.lista_regras|length }} regras aprendidas · {{ m.historico|length }} feedbacks · {{ m.outputs|length }} exemplos
+      · <code>{{ rel(m.pasta) }}</code>
+    </p>
+  </div>
+  <div class="acoes"><a class="btn" href="{{ url_for('ficha_editar', nome=c.nome, mod=m.nome) }}">✎ Editar ficha (cores, fontes, áudio…)</a><a class="btn primario" href="{{ url_for('novo_video', cliente=c.nome, modelo=m.nome) }}">＋ Novo vídeo com este modelo</a>
+    <a class="btn perigo" href="#remover" title="Remover este modelo">🗑</a></div>
+</div>
+{% if not f.tem_ficha %}<div class="aviso">Este modelo ainda não tem <code>ficha.json</code>. Mostrando o que dá pra extrair dos scripts + README.</div>
+{% elif f.faltando %}<div class="aviso">Ficha incompleta: faltam {{ f.faltando|join(', ') }}.</div>{% endif %}
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="side-grupo"><span class="side-lbl">Ficha</span>
+      <a class="side-item" href="#oque">O que faz</a>
+      <a class="side-item" href="#estrutura">Demonstrações <b>{{ demos|length }}</b></a>
+      <a class="side-item" href="#identidade">Identidade visual</a>
+      <a class="side-item" href="#como-usar">Como usar</a>
+      <a class="side-item" href="#qa">QA</a>
+    </div>
+    <div class="side-grupo"><span class="side-lbl">Aprendizado</span>
+      <a class="side-item" href="#regras">Regras <b>{{ m.lista_regras|length }}</b></a>
+      <a class="side-item" href="#historico">Histórico <b>{{ m.historico|length }}</b></a>
+    </div>
+    <div class="side-grupo"><span class="side-lbl">Material</span>
+      <a class="side-item" href="#exemplos">Exemplos <b>{{ m.outputs|length }}</b></a>
+      <a class="side-item" href="#templates">Arquivos do motor <b>{{ assets|length }}</b></a>
+      <a class="side-item" href="#readme">README técnico</a>
+      <a class="side-item" href="#remover">Remover modelo</a>
+    </div>
+  </aside>
+
+  <div>
+    <section id="oque" class="painel">
+      <h2>O que faz</h2>
+      <div class="duas alinhado-topo">
+        <div>
+          {% if f.quando_usar %}<h3>Quando usar</h3><p>{{ f.quando_usar }}</p>{% endif %}
+          {% if f.entrada %}<h3>O que o bruto precisa ter</h3><p>{{ f.entrada }}</p>{% endif %}
+          {% if f.broll %}<h3>Política de b-roll</h3><p>{{ f.broll }}</p>{% endif %}
+          {% if f.origem %}<p class="meta">Origem: {{ f.origem }}</p>{% endif %}
+          {% if f.tempo_producao %}<p class="meta">Tempo de produção: {{ f.tempo_producao }}</p>{% endif %}
+        </div>
+        <div>
+          {% if f.estrutura %}
+          {% include '_esquema_modelo.html' %}
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section id="estrutura" class="painel">
+      <h2>Demonstrações visuais {% if f.tipo == 'camada' %}<span class="chip">camada — aplicada por cima de outro modelo/bruto</span>{% endif %}</h2>
+      <p class="meta">Pra entender o que cada elemento é, sem precisar ler os scripts. Gerado com os próprios scripts do modelo, ou enviado por você.</p>
+      {% if demos %}
+      <div class="demos">
+        {% for d in demos %}
+        <figure class="demo">
+          {% if d.tipo == 'video' %}<video poster="{{ url_for('thumb_rota', caminho=d.rel) }}" controls muted loop preload="none" src="{{ url_for('arquivo', caminho=d.rel) }}"></video>{% else %}<img src="{{ url_for('arquivo', caminho=d.rel) }}" alt="" loading="lazy">{% endif %}
+          <figcaption><b>{{ d.titulo }}</b>{% if d.descricao %}<br>{{ d.descricao }}{% endif %}</figcaption>
+        </figure>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if frames %}<h3>Frames de vídeos reais deste modelo</h3><div class="demos pequenos">{% for fr in frames %}<figure class="demo"><img src="{{ url_for('arquivo', caminho=fr.rel) }}" alt="" loading="lazy"><figcaption>{{ fr.titulo }}</figcaption></figure>{% endfor %}</div>{% endif %}
+      {% if not demos and not frames %}<p class="meta">Ainda sem demonstração.</p>{% endif %}
+      <div class="acoes">
+        <form method="post" action="{{ url_for('demos_gerar', nome=c.nome, mod=m.nome) }}"><button class="btn" {{ 'disabled' if demos_rodando or not claude_ok }}>{{ '● gerando…' if demos_rodando else '✨ Gerar demonstrações com o Claude' }}</button></form>
+        <details><summary class="btn">⬆ Enviar imagem/vídeo de demonstração</summary>
+          <form method="post" action="{{ url_for('demos_upload', nome=c.nome, mod=m.nome) }}" enctype="multipart/form-data" class="form compacto">
+            <input type="file" name="arquivos" multiple accept="image/*,video/*"><input name="titulo" placeholder="título"><input name="descricao" placeholder="o que mostra"><button class="btn mini">Enviar</button>
+          </form>
+        </details>
+      </div>
+      {% if demos_log %}<details><summary>Log da geração</summary><pre class="log">{{ demos_log }}</pre></details>{% endif %}
+    </section>
+
+    <section id="identidade" class="painel">
+      <h2>Identidade visual e som</h2>
+      <div class="tres alinhado-topo">
+        <div>
+          <h3>Paleta</h3>
+          {% for p in f.paleta or [] %}<div class="swatch"><span class="cor" style="background:{{ p.cor }}"></span><div><code>{{ p.cor }}</code><br><small>{{ p.uso }}</small></div></div>{% endfor %}
+          {% if f.cores_extra %}<p class="meta">Outras cores nos scripts: {% for c in f.cores_extra %}<span class="mini-cor" style="background:{{ c }}" title="{{ c }}"></span>{% endfor %}</p>{% endif %}
+          {% if not f.paleta and not f.cores_extra %}<p class="meta">Sem cor fixa (usa o vídeo como vem).</p>{% endif %}
+        </div>
+        <div>
+          <h3>Fontes</h3>
+          {% for ft in f.fontes or [] %}<div class="fonte-item"><b>{{ ft.nome }}</b><br><small>{{ ft.uso }}</small></div>{% endfor %}
+          {% if f.fontes_extra %}<p class="meta">Também citadas nos scripts: {{ f.fontes_extra|join(', ') }}</p>{% endif %}
+          {% if not f.fontes and not f.fontes_extra %}<p class="meta">Sem tipografia própria.</p>{% endif %}
+        </div>
+        <div>
+          <h3>Áudio</h3>
+          {% if f.audio %}
+            {% if f.audio.voz %}<p><b>Voz:</b> {{ f.audio.voz }}</p>{% endif %}
+            {% if f.audio.musica %}<p><b>Música:</b> {{ f.audio.musica }}</p>{% endif %}
+            {% if f.audio.sfx %}<p><b>SFX:</b> {{ f.audio.sfx|join(', ') }}</p>{% endif %}
+          {% else %}<p class="meta">Só o áudio do bruto.</p>{% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section id="como-usar" class="painel">
+      <h2>Como usar</h2>
+      {% if f.como_usar %}<ol class="passos">{% for p in f.como_usar %}<li>{{ p }}</li>{% endfor %}</ol>{% endif %}
+      {% set cmd = f.comando or m.comando_referencia %}
+      {% if cmd %}<h3>Comando de referência (último resultado aprovado)</h3><pre><code>{{ cmd if cmd is string else cmd|tojson(indent=2) }}</code></pre>{% endif %}
+      {% if f._auto.flags %}<details><summary>Flags do gerar.sh ({{ f._auto.flags|length }})</summary><div class="chips">{% for fl in f._auto.flags %}<span class="chip cinza">{{ fl }}</span>{% endfor %}</div></details>{% endif %}
+      <p class="meta">Pelo Estúdio: <a href="{{ url_for('novo_video', cliente=c.nome, modelo=m.nome) }}">Novo vídeo</a> → sobe o bruto → o Claude executa estes passos lendo as regras abaixo.</p>
+    </section>
+
+    <section id="qa" class="painel">
+      <h2>QA antes de entregar</h2>
+      {% if f.qa %}<ul class="check-lista">{% for q in f.qa %}<li>{{ q }}</li>{% endfor %}</ul>{% else %}<p class="meta">Sem checklist na ficha.</p>{% endif %}
+    </section>
+
+    <section id="regras" class="painel">
+      <h2>Regras aprendidas ({{ m.lista_regras|length }})</h2>
+      <p class="meta">Vêm das suas correções e aprovações. O Claude lê todas antes de produzir. Cada feedback pelo Estúdio pode virar regra aqui.</p>
+      {% if m.regras.consolidacao %}<div class="aviso">{{ m.regras.consolidacao.antes }} regras originais organizadas em {{ m.lista_regras|length }} grupos. Instruções e histórico preservados.</div><form method="post" action="{{ url_for('regras_restaurar',nome=c.nome,mod=m.nome) }}" data-confirm="Restaurar as regras anteriores à consolidação? A versão atual também será salva."><button class="btn mini">Desfazer consolidação</button></form>{% endif %}
+      {% for r in m.lista_regras|sort(attribute='categoria') %}
+      <div class="regra">
+        <div class="regra-cab"><span class="chip">{{ r.categoria or 'geral' }}</span> <b>{{ r.id }}</b> <span class="meta">peso {{ r.peso }}</span></div>
+        <p>{{ r.texto }}</p>
+        {% if r.evitar %}<p class="evitar">🚫 Evitar: {{ r.evitar }}</p>{% endif %}
+      {% if r.antigas %}<details><summary>Ver as {{ r.antigas|length }} regras originais cobertas</summary>{% for a in r.antigas %}<div class="hist"><b>{{ a.id }}</b><p>{{ a.texto }}</p>{% if a.evitar %}<p class="meta">Evitar: {{ a.evitar }}</p>{% endif %}</div>{% endfor %}</details>{% endif %}
+      </div>
+      {% else %}<p class="meta">Nenhuma regra ainda — o modelo aprende com o seu primeiro feedback.</p>{% endfor %}
+    </section>
+
+    <section id="historico" class="painel">
+      <h2>Histórico de feedback</h2>
+      {% for h in historico %}
+      <div class="hist"><span class="meta">{{ h.createdAt or '' }} · {{ h.tipo or '' }} · {{ h.categoria or '' }}{% if h.decisao %} · {{ h.decisao }}{% endif %}</span><p>{{ h.texto }}</p></div>
+      {% else %}<p class="meta">Sem histórico.</p>{% endfor %}
+    </section>
+
+    <section id="exemplos" class="painel">
+      <h2>Exemplos produzidos</h2>
+      <div class="grade videos">
+        {% for o in m.outputs[:12] %}
+        <div class="card video"><video controls preload="none" poster="{{ url_for('thumb_rota', caminho=rel(o)) }}" src="{{ url_for('arquivo', caminho=rel(o)) }}"></video><div class="card-meta">{{ o.name }}</div></div>
+        {% else %}<p class="meta">Nenhum vídeo em output/{{ m.nome }}/ neste Mac (os aprovados vão pro iCloud).</p>{% endfor %}
+      </div>
+      {% if jobs %}<h3>Jobs deste modelo</h3><div class="lista">{% for j in jobs %}<a class="linha" href="{{ url_for('job', cli=j.cliente, slug=j.slug) }}"><div class="linha-txt"><b>{{ j.titulo }}</b><span class="meta">{{ j.criado_em }}</span></div><span class="status s-{{ j.status }}">{{ j.status }}</span></a>{% endfor %}</div>{% endif %}
+    </section>
+
+    <section id="templates" class="painel">
+      <h2 id="assets">Arquivos do motor</h2>
+      <p class="meta">Material que você organiza NÃO fica aqui: música e SFX ficam no
+        <a href="{{ url_for('acervo') }}">acervo</a> (compartilhado por todos os clientes) e imagem,
+        vídeo e template ficam em <a href="{{ url_for('cliente', nome=c.nome) }}#material">Templates do {{ c.nome }}</a>.
+        Esta lista é técnica: são os arquivos que os <b>scripts deste modelo</b> leem em
+        <code>{{ rel(m.pasta) }}/assets/</code> — trocar um deles muda o render. Mexa aqui só pra
+        substituir um arquivo que o script exige pelo nome.</p>
+      {% if f.templates %}<ul>{% for t in f.templates %}<li>{{ t }}</li>{% endfor %}</ul>{% endif %}
+      <div class="assets">
+        {% for a in assets %}
+        <div class="asset">
+          {% if a.tipo == 'imagem' %}<img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=a.rel) }}" alt="">
+          {% elif a.tipo == 'audio' %}<audio controls preload="none" src="{{ url_for('arquivo', caminho=a.rel) }}"></audio>
+          {% elif a.tipo == 'video' %}<video controls preload="none" src="{{ url_for('arquivo', caminho=a.rel) }}"></video>
+          {% else %}<span class="chip">Aa</span>{% endif %}
+          <small>{{ a.nome }}</small>
+          <small class="meta">{{ a.mb }} MB · {% if a.usado_por %}usado por {{ a.usado_por|join(', ') }}{% else %}<b>nenhum script usa</b>{% endif %}</small>
+          {% if a.no_acervo %}
+          <small class="meta ok">✓ já no <a href="{{ url_for('acervo') }}?q={{ a.no_acervo }}">acervo</a> como <b>{{ a.no_acervo }}</b></small>
+          {% else %}
+          <form method="post" action="{{ url_for('asset_pro_acervo', nome=c.nome, mod=m.nome) }}">
+            <input type="hidden" name="nome" value="{{ a.nome }}">
+            <button class="btn mini">→ Mandar pro acervo</button>
+          </form>
+          {% endif %}
+          <details class="asset-acoes">
+            <summary>Mexer neste arquivo</summary>
+            {% if not a.no_acervo %}
+            <form method="post" action="{{ url_for('asset_pro_acervo', nome=c.nome, mod=m.nome) }}">
+              <input type="hidden" name="nome" value="{{ a.nome }}">
+              <input name="titulo" placeholder="Nome no acervo (opcional)">
+              <input name="tags" placeholder="Tags (opcional)">
+              <button class="btn mini">→ Mandar pro acervo com nome meu</button>
+            </form>
+            {% endif %}
+            <form method="post" action="{{ url_for('asset_renomear', nome=c.nome, mod=m.nome) }}">
+              <input type="hidden" name="nome" value="{{ a.nome }}">
+              <input name="novo" placeholder="Novo nome (sem extensão)" required>
+              <button class="btn mini">Renomear</button>
+            </form>
+            <form method="post" action="{{ url_for('asset_remover', nome=c.nome, mod=m.nome) }}"
+                  data-confirm="Apagar {{ a.nome }} deste motor?{% if a.usado_por %} ATENÇÃO: {{ a.usado_por|join(', ') }} usa esse arquivo — o render vai quebrar.{% endif %}{% if a.no_acervo %} A cópia no acervo continua lá.{% endif %} Vai pra lixeira do Estúdio e dá pra restaurar.">
+              <input type="hidden" name="nome" value="{{ a.nome }}">
+              <input name="motivo" placeholder="Por quê? (opcional)">
+              <button class="btn mini perigo">🗑 Apagar do motor</button>
+            </form>
+          </details>
+        </div>
+        {% else %}<p class="meta">Sem assets/ neste modelo.</p>{% endfor %}
+      </div>
+      {% set fora = assets|rejectattr('no_acervo')|list %}
+      {% if fora %}
+      <form method="post" action="{{ url_for('assets_pro_acervo_lote', nome=c.nome, mod=m.nome) }}" class="acoes">
+        <button class="btn">→ Mandar pro acervo os {{ fora|length }} que ainda não estão</button>
+        <span class="meta">nome e tags automáticos; nada é duplicado</span>
+      </form>
+      {% else %}<p class="meta ok">✓ Todos os {{ assets|length }} arquivos deste motor já estão no acervo.</p>{% endif %}
+      <form method="post" action="{{ url_for('asset_subir', nome=c.nome, mod=m.nome) }}" enctype="multipart/form-data" class="form asset-upload">
+        <div class="duas">
+          <label>Adicionar ou trocar asset <input type="file" name="arquivos" multiple accept="audio/*,image/*,video/*,.ttf,.otf,.json"></label>
+          <label>Guardar em <span class="meta">(subpasta, opcional)</span> <input name="subpasta" placeholder="musica"></label>
+        </div>
+        <label>Renomear na subida <span class="meta">(opcional, só quando for um arquivo)</span> <input name="nome" placeholder="bed-noticia"></label>
+        <div class="acoes"><button class="btn">⤴ Subir asset</button>
+          <span class="meta">Subir com o mesmo nome de um que já existe substitui o antigo (o velho vai pra lixeira).</span></div>
+      </form>
+      <h3>Scripts</h3><div class="chips">{% for s in m.scripts %}<span class="chip">{{ s }}</span>{% endfor %}</div>
+      {% if m.sandboxes %}<h3>Sandboxes</h3><div class="chips">{% for s in m.sandboxes %}<span class="chip cinza">{{ s }}</span>{% endfor %}</div>{% endif %}
+    </section>
+
+    <section id="remover" class="painel">
+      <details>
+        <summary><b>Remover este modelo</b> — testei e não é o que eu quero</summary>
+        <p class="meta">O modelo sai da lista com os vídeos dele e a linha no mapa do CLAUDE.md, mas
+          <b>não é apagado</b>: vai pra lixeira do Estúdio e volta inteiro por Configurações, enquanto
+          você não mandar apagar de vez. Vídeo em aberto com este modelo bloqueia a remoção.</p>
+        <form method="post" action="{{ url_for('modelo_remover', nome=c.nome, mod=m.nome) }}" class="form"
+              data-confirm="Remover o modelo {{ m.nome }} de {{ c.nome }}? Ele vai pra lixeira do Estúdio — dá pra restaurar depois.">
+          <label>Por que está removendo? <span class="meta">(opcional, fica registrado)</span>
+            <input name="motivo" placeholder="ex.: portei pra testar e o formato não é do cliente"></label>
+          <div class="acoes"><button class="btn perigo">🗑 Remover modelo</button></div>
+        </form>
+      </details>
+    </section>
+
+    <section id="readme" class="painel">
+      <details><summary><b>README técnico do modelo</b> (escrito durante a produção)</summary>
+        {% for d in m.descricoes %}<blockquote><b>Mapa do CLAUDE.md:</b> {{ d.descricao|md|safe }}</blockquote>{% endfor %}
+        {% if m.regras and m.regras.descricao %}<blockquote><b>Descrição do aprendizado:</b> {{ m.regras.descricao }}</blockquote>{% endif %}
+        <div class="markdown">{{ m.readme|md|safe }}</div>
+      </details>
+    </section>
+  </div>
+</div>
+{% endblock %}

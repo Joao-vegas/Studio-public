@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Documentário</title>
+<!--
+  Motor do Documentário (1080x1920). O render.py injeta window.PLANO (cenas.json já planejado: tempos de cada
+  palavra, itens, marcas, mídia resolvida) e chama seek(t) quadro a quadro. Cada tipo de cena é uma construção do
+  exemplo-1.mp4: frase, pessoa, recorte, polaroid, caderno, relogio, traco, jornal, filme. Ver README.md.
+-->
+<style>
+  @font-face { font-family: 'Tinos'; src: url('fontes/Tinos-Bold.ttf'); font-weight: 700; }
+  @font-face { font-family: 'Tinos'; src: url('fontes/Tinos-Regular.ttf'); font-weight: 400; }
+  @font-face { font-family: 'Tinos'; src: url('fontes/Tinos-Italic.ttf'); font-weight: 400; font-style: italic; }
+  @font-face { font-family: 'Caveat'; src: url('fontes/Caveat.ttf'); font-weight: 400 700; }
+  :root { --marca: #D4AF37; --dor: #E23A3A; --fundo: #0c0c0e; --texto: #F4EFE6; --caneta: #2747b8; --ok: #2fa36b;
+          --etiqueta: #D4AF37; --etiqueta-txt: #111; --leg-y: 1250px;
+          --serif: 'Tinos', 'Times New Roman', Times, serif; --mao: 'Caveat', 'Bradley Hand', cursive; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+  #palco { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--fundo); color: var(--texto); }
+  .cena { position: absolute; inset: 0; overflow: hidden; display: none; }
+  .abs { position: absolute; }
+  /* fundos */
+  .f-escuro { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 42%, color-mix(in srgb, var(--fundo), #fff 7%) 0%, var(--fundo) 72%); }
+  .f-papel { position: absolute; inset: 0; background: #efece5; }
+  /* jornal (30-out-2026, João no Kodak: "acho muito feio visualmente falando"): o desenho antigo tinha cabeçalho inventado ("BALCÃO"), colunas de
+     linhas cinza de enfeite e bordas rasgadas. Agora é papel de jornal escuro e limpo: luz quente no centro, grão de papel e moldura de duas
+     réguas finas, sem texto nenhum. Página real de domínio público (Chronicling America) foi tentada: o loc.gov barra o download automático (Cloudflare). */
+  .f-jornal { position: absolute; inset: 0; background: radial-gradient(ellipse 92% 62% at 50% 36%, #46413a 0%, #2a2723 52%, #171614 100%); }
+  .f-jornal::before { content: ""; position: absolute; inset: 0; opacity: .55; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.1 -.1'/></filter><rect width='360' height='360' filter='url(%23n)'/></svg>"); }
+  /* fundo vivo (30-out-2026, João: a metade de baixo ficava um vazio marrom liso): a própria imagem da cena, desfocada e escurecida, atrás do papel */
+  .fv-img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; filter: blur(26px) brightness(.66) saturate(.8); transform: scale(1.3); }
+  .fv-sombra { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,.05), rgba(0,0,0,.25) 55%, rgba(0,0,0,.42)); }
+  .f-jornal::after { content: ""; position: absolute; inset: 34px; border: 1.5px solid rgba(244,239,230,.2); outline: 1px solid rgba(244,239,230,.13); outline-offset: -11px; }
+  .f-caderno { position: absolute; inset: 0; background-color: #f3f2ee;
+    background-image: linear-gradient(#d9dee6 2px, transparent 2px), linear-gradient(90deg, #d9dee6 2px, transparent 2px); background-size: 54px 54px; }
+  .f-caderno.escuro { background-color: color-mix(in srgb, var(--fundo), #fff 5%);
+    background-image: linear-gradient(rgba(255,255,255,.07) 2px, transparent 2px), linear-gradient(90deg, rgba(255,255,255,.07) 2px, transparent 2px); }
+  .vinheta { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 85% 75% at 50% 50%, transparent 55%, rgba(0,0,0,.55) 100%); }
+  /* texto: serifa com contorno escuro e sombra por baixo (cor clara sozinha não se lê) */
+  .txt { position: absolute; left: 110px; right: 110px; text-align: center; font: 700 74px/1.22 var(--serif); color: var(--texto);
+    -webkit-text-stroke: .09em rgba(0,0,0,.92); paint-order: stroke fill; text-shadow: 0 6px 16px rgba(0,0,0,.7); letter-spacing: -.3px; }
+  .txt.claro { color: #17171a; -webkit-text-stroke: 0; text-shadow: none; }
+  .txt .kwl { display: block; margin: .08em 0 .1em; }
+  .txt .kw { display: inline-block; font-size: 1.9em; line-height: 1.05; transform-origin: 50% 60%; white-space: nowrap; }
+  .marca { color: var(--marca); } .dor { color: var(--dor); } .empresa { color: var(--empresa, var(--marca)); }
+  /* no papel claro a cor clara do cliente (verde #7fe6a9, salmão) some: escurece */
+  .txt.claro .marca { color: color-mix(in srgb, var(--marca) 70%, #000); }
+  .txt.claro .dor { color: color-mix(in srgb, var(--dor) 80%, #000); }
+  .txt.claro .empresa { color: color-mix(in srgb, var(--empresa, var(--marca)) 75%, #000); }
+  .cur { display: inline-block; width: .46em; height: .92em; margin-left: .06em; vertical-align: -.12em; background: currentColor; -webkit-text-stroke: 0; }
+  .txt .kw .cur { height: .8em; }
+  .leg { position: absolute; left: 110px; right: 110px; top: var(--leg-y); text-align: center; font: 700 58px/1.2 var(--serif); color: #fff;
+    -webkit-text-stroke: .1em rgba(0,0,0,.9); paint-order: stroke fill; text-shadow: 0 4px 12px rgba(0,0,0,.75), 0 0 2px rgba(0,0,0,.8); }
+  .faixa { position: absolute; background: #f2efe7; filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)); border-radius: 6px; }   /* só no papel claro: tarja reta, sem borda rasgada */
+  /* mídia */
+  .bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; transform-origin: 50% 40%; }
+  .rec { position: absolute; left: 50%; transform-origin: 50% 100%; filter: drop-shadow(0 22px 28px rgba(0,0,0,.65)); }
+  .pol { position: absolute; left: 130px; width: 820px; padding: 24px 24px 92px; background: #f5f2ea; box-shadow: 0 30px 60px rgba(0,0,0,.55); transform-origin: 50% 0; }
+  .pol .janela { width: 772px; height: 620px; overflow: hidden; background: #222; }
+  .pol img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.08); }
+  .fita { position: absolute; left: 50%; top: -26px; width: 210px; height: 54px; margin-left: -105px; background: rgba(236,222,170,.78); transform: rotate(3deg); box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+  .tira { position: absolute; left: 0; right: 0; background: #f4f1ea; box-shadow: 0 26px 60px rgba(0,0,0,.6); }   /* faixa de foto reta, de ponta a ponta, com régua clara em cima e embaixo */
+  .tira .janela { position: absolute; overflow: hidden; background: #111; }
+  .tira img { width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
+  .relo { position: absolute; left: 0; right: 0; text-align: center; font: 700 190px/1 var(--serif); color: #fff; letter-spacing: 2px;
+    -webkit-text-stroke: .04em rgba(0,0,0,.9); paint-order: stroke fill; text-shadow: 0 8px 22px rgba(0,0,0,.7); font-variant-numeric: tabular-nums; }
+  .mao { font-family: var(--mao); font-weight: 700; color: var(--caneta); }
+  .cad-tit { position: absolute; left: 100px; right: 100px; top: 350px; text-align: center; font-size: 124px; line-height: 1; }
+  .cad-item { position: absolute; left: 240px; right: 60px; font-size: 96px; line-height: 1; white-space: nowrap; }
+  .cad-circ { position: absolute; left: 0; right: 0; text-align: center; font: 700 140px/1 var(--serif); color: #151515; }
+  .cad-sub { position: absolute; left: 0; right: 0; text-align: center; font: italic 400 62px/1 var(--serif); color: #2a2a2a; }
+  .escuro .cad-circ { color: #f4efe6; } .escuro .cad-sub { color: #cfc9be; }
+  svg.des { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+  svg.des path, svg.des ellipse, svg.des line, svg.des polyline { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .rot { position: absolute; text-align: center; font: 700 50px/1.12 var(--serif); color: #e9e4da; -webkit-text-stroke: .08em rgba(0,0,0,.9); paint-order: stroke fill; }
+  .rot small { display: block; font: italic 400 34px/1.2 var(--serif); color: #b8b2a7; -webkit-text-stroke: 0; }
+  .rot.grande { font-size: 118px; }
+  .etq { position: absolute; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; transform-origin: 0 50%; }
+  .etq b, .etq span { background: var(--etiqueta); color: var(--etiqueta-txt); padding: 10px 22px 8px; font: 700 54px/1.1 var(--serif); box-shadow: 0 6px 16px rgba(0,0,0,.45); white-space: nowrap; }
+  .etq span { font-weight: 400; font-size: 44px; }
+  .rasgo { position: absolute; background: #f2efe7; box-shadow: 0 18px 40px rgba(0,0,0,.5); border-radius: 4px; }
+</style>
+</head>
+<body>
+<div id="palco"></div>
+<script>
+'use strict';
+const P = window.PLANO;
+const W = 1080, H = 1920;
+const raiz = document.documentElement.style;
+for (const [k, v] of Object.entries(P.cores || {})) raiz.setProperty('--' + k, v);
+if (P.estilo && P.estilo.legenda_y) raiz.setProperty('--leg-y', P.estilo.legenda_y + 'px');
+
+// ───────────── utilidades ─────────────
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const eOut = p => 1 - Math.pow(1 - p, 3);
+const eBack = p => { const c = 1.6, c3 = c + 1; return 1 + c3 * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function div(cls, html = '', css = '') { const d = document.createElement('div'); d.className = cls; if (html) d.innerHTML = html; if (css) d.style.cssText = css; return d; }
+function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+// palavra-chave "acende": cresce 12% e assenta, sem som (M2: documentário não tem golpe)
+const acende = age => age <= 0 ? 1 : age < .14 ? 1 + .12 * eOut(age / .14) : 1 + .12 * (1 - eOut(clamp((age - .14) / .32)));
+async function trocaSrc(img, url) {
+  if (!url || img._u === url) return;
+  img._u = url; img.src = url;
+  try { await img.decode(); } catch (e) { /* quadro faltando: fica o anterior */ }
+}
+function quadro(m, t) {   // mídia de vídeo em quadros JPEG numerados pelo tempo
+  if (!m) return null;
+  if (m.img) return m.img;
+  const k = Math.max(m.n0, Math.min(m.n1, Math.round((t - (m.t0 || 0)) * m.fps) + (m.k0 || 0)));
+  return m.base + String(k).padStart(6, '0') + '.jpg';
+}
+
+// texto datilografado no tempo da fala, com cursor; centraliza conforme as palavras entram (só o que já foi digitado existe)
+function datilografa(tokens, t, grande, semCursor) {
+  const partes = [];
+  let digitando = false, ultimo = null;
+  for (const tk of tokens) {
+    if (t < tk.s) break;
+    const p = clamp((t - tk.s) / Math.max(.06, tk.e - tk.s));
+    const n = Math.max(1, Math.ceil(p * tk.txt.length));
+    digitando = p < 1; ultimo = tk;
+    partes.push({ tk, txt: esc(tk.txt.slice(0, n)) });
+  }
+  if (!partes.length) return '';
+  const fim = tokens[tokens.length - 1];
+  const pisca = digitando || (t < fim.e + .25) || Math.floor(t * 2.2) % 2 === 0;
+  const cur = pisca && !semCursor ? '<span class="cur"></span>' : '';
+  return partes.map((x, i) => {
+    const c = i === partes.length - 1 ? cur : '';
+    if (x.tk.k && grande) {   // palavra-chave grande, encolhida pra caber em 860 px junto com o cursor (~0,67 em por letra)
+      const fs = Math.min(1.9, 17.3 / (x.tk.txt.length + .6)).toFixed(3);
+      return `<span class="kwl"><span class="kw ${x.tk.k}" style="font-size:${fs}em;transform:scale(${acende(t - x.tk.s).toFixed(4)})">${x.txt}${c}</span></span>`;
+    }
+    if (x.tk.k) return `<span class="${x.tk.k}">${x.txt}</span>${c} `;
+    return x.txt + c + ' ';
+  }).join('');
+}
+function legenda(blocos, t) {   // pessoa: bloco curto, cada palavra entra quando é falada
+  const b = blocos.find(b => t >= b.s && t < b.fim);
+  if (!b) return '';
+  return b.tokens.filter(tk => tk.s <= t).map(tk => tk.k ? `<span class="${tk.k}">${esc(tk.txt)}</span>` : esc(tk.txt)).join(' ');
+}
+
+// fundo da cena: jornal (papel de jornal escuro e limpo, só CSS), papel claro ou escuro liso
+function fundo(el, tipo, seed) {
+  if (tipo === 'jornal') { const f = div('f-jornal'); el.appendChild(f); return f; }
+  if (tipo === 'papel') { const f = div('f-papel'); el.appendChild(f); return f; }
+  const f = div('f-escuro'); el.appendChild(f); el.appendChild(div('vinheta')); return f;
+}
+// fundo vivo: a imagem da cena (mesmo quadro) desfocada atrás de tudo; só no fundo jornal/escuro (papel claro é claro de propósito)
+function fundoVivo(el, tipo) {
+  if (tipo === 'papel') return null;
+  const im = document.createElement('img'); im.className = 'fv-img'; im.alt = '';
+  const f = el.querySelector('.f-jornal, .f-escuro'); if (f) f.after(im); else el.appendChild(im);
+  im.after(div('fv-sombra'));
+  return im;
+}
+// borda rasgada: polígono serrilhado em cima e embaixo de um retângulo
+function rasgado(r, w, h, amp = 14, passo = 22) {
+  const pts = [];
+  for (let x = 0; x <= w; x += passo) pts.push(`${x}px ${(r() * amp).toFixed(1)}px`);
+  pts.push(`${w}px ${(r() * amp).toFixed(1)}px`);
+  for (let x = w; x >= 0; x -= passo) pts.push(`${x}px ${(h - r() * amp).toFixed(1)}px`);
+  pts.push(`0px ${(h - r() * amp).toFixed(1)}px`);
+  return `polygon(${pts.join(',')})`;
+}
+function traco(svg, d, cor, larg) { const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', d); p.setAttribute('stroke', cor); p.setAttribute('stroke-width', larg); p.setAttribute('pathLength', '1'); p.setAttribute('stroke-dasharray', '1'); p.setAttribute('stroke-dashoffset', '1'); svg.appendChild(p); return p; }
+const desenha = (p, t, t0, dur) => p.setAttribute('stroke-dashoffset', (1 - eOut(clamp((t - t0) / dur))).toFixed(4));
+function svgNovo(el) { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); s.setAttribute('class', 'des'); s.setAttribute('viewBox', '0 0 1080 1920'); el.appendChild(s); return s; }
+// legenda embaixo da construção (a fala aparece uma vez só, palavra a palavra no tempo dela). 30-out-2026 (João: "muito feio"): sem a caixa de
+// papel rasgado e sem o cursor piscando; o texto vai direto no fundo (claro com contorno no escuro, escuro no papel claro).
+function rodape(el, c, topo, faixa = true) {
+  if (!c.tokens || !c.tokens.length || c.legenda === false) return () => {};
+  const tx = div('txt' + (c.fundo === 'papel' ? ' claro' : ''), '', `top:${topo}px;font-size:56px`); el.appendChild(tx);
+  return t => { const ja = t >= c.tokens[0].s; tx.innerHTML = ja ? datilografa(c.tokens, t, false, true) : ''; };
+}
+const entra = (t, t0, d = .28) => eOut(clamp((t - t0) / d));
+// círculo de caneta à mão em volta de uma palavra de largura w e fonte fs (topo do texto em y): o mesmo traço do
+// exemplo-1, esticado pra palavra inteira caber dentro (rx = metade da palavra + 60 px, no máximo 500)
+function circuloD(y, w, fs) {
+  const cx = 540, cy = y + fs * .535, rx = Math.min(500, w / 2 + 60) / 250, ry = (fs * .5 + 45) / 115;
+  const P = (dx, dy) => `${(cx + dx * rx).toFixed(1)} ${(cy + dy * ry).toFixed(1)}`;
+  return `M${P(0, -109)} C ${P(230, -115)}, ${P(280, -15)}, ${P(250, 37)} C ${P(200, 113)}, ${P(-210, 115)}, ${P(-252, 35)} C ${P(-290, -35)}, ${P(-180, -109)}, ${P(20, -115)}`;
+}
+// texto numa linha só que passou da largura: encolhe a fonte até caber
+function cabe(el, max) {
+  el.style.whiteSpace = 'nowrap';
+  const w = el.scrollWidth, lim = Math.min(max, el.clientWidth || max);
+  if (w > lim + 2) el.style.fontSize = Math.floor(parseFloat(getComputedStyle(el).fontSize) * lim / w) + 'px';
+}
+
+// ───────────── tipos de cena (construções do exemplo-1) ─────────────
+const TIPOS = {
+  frase(el, c) {   // serifa acendendo palavra a palavra, palavra-chave grande na cor da marca (bom) ou vermelha (dor)
+    const f = fundo(el, c.fundo || 'escuro', c.i);
+    const tx = div('txt' + (c.fundo === 'papel' ? ' claro' : ''), '', `top:${c.topo || 640}px`); el.appendChild(tx);
+    return t => { const u = (t - c.de) / (c.ate - c.de); tx.style.transform = `scale(${1 + .035 * u})`; f.style.transform = `scale(${1.02 + .04 * u})`; tx.innerHTML = datilografa(c.tokens, t, true); };
+  },
+  pessoa(el, c) {   // bruto em tela cheia; aberto ou close (alterna pra a tela não ficar parada), legenda serifa com palavra colorida
+    const img = document.createElement('img'); img.className = 'bg'; el.appendChild(img);
+    const fx = (c.foco || [.5, .4])[0] * 100, fy = (c.foco || [.5, .4])[1] * 100;
+    // zoom, origem e legenda vêm do render.py (enquadrar_pessoa): a legenda fica ABAIXO DO QUEIXO, como no exemplo
+    img.style.transformOrigin = c.zoom_origem ? `${c.zoom_origem[0] * 100}% ${c.zoom_origem[1]}px` : `${fx}% ${fy}%`;
+    const z = c.zoom || (c.plano === 'close' ? [1.36, 1.40] : [1.0, 1.035]);
+    const lg = div('leg'); if (c.leg_y) lg.style.top = c.leg_y + 'px'; el.appendChild(lg);
+    return t => { const u = (t - c.de) / (c.ate - c.de);
+      const s = z[0] + (z[1] - z[0]) * u; img.style.transform = `scale(${s})`;
+      lg.innerHTML = legenda(c.blocos, t); return trocaSrc(img, quadro(c.midia, t)); };
+  },
+  recorte(el, c) {   // silhueta P&B com borda branca tirada do próprio bruto
+    fundo(el, c.fundo || 'escuro', c.i);
+    const im = document.createElement('img'); im.className = 'rec'; im.src = c.midia.recorte;
+    const alt = c.altura || 1080; im.style.height = alt + 'px'; im.style.top = (c.topo || 360) + 'px'; el.appendChild(im);
+    const leg = rodape(el, c, 1470);
+    return t => { const a = entra(t, c.de), u = (t - c.de) / (c.ate - c.de);
+      im.style.opacity = a; im.style.transform = `translateX(-50%) translateY(${(1 - a) * 40 - 18 * u}px) scale(${.96 + .04 * a + .045 * u})`; leg(t); };
+  },
+  relogio(el, c) {   // relógio correndo as horas (ex.: 23:00 → 05:00), com a silhueta embaixo se houver
+    fundo(el, c.fundo || 'escuro', c.i);
+    const rl = div('relo', '', 'top:270px'); el.appendChild(rl);
+    let im = null;
+    if (c.midia && c.midia.recorte) { im = document.createElement('img'); im.className = 'rec'; im.src = c.midia.recorte; im.style.height = '880px'; im.style.top = '560px'; el.appendChild(im); }
+    const leg = rodape(el, c, 1490);
+    const [h0, m0] = c.relogio.de.split(':').map(Number), [h1, m1] = c.relogio.ate.split(':').map(Number);
+    const ini = h0 * 60 + m0; let tot = (h1 * 60 + m1) - ini; if (tot <= 0) tot += 24 * 60;
+    return t => { const p = clamp((t - c.relogio.t0) / (c.relogio.t1 - c.relogio.t0)); const v = Math.round(ini + tot * p) % (24 * 60);
+      rl.textContent = String(Math.floor(v / 60)).padStart(2, '0') + ':' + String(v % 60).padStart(2, '0');
+      rl.style.color = p >= 1 ? 'var(--marca)' : '#fff'; rl.style.transform = `scale(${p >= 1 ? acende(t - c.relogio.t1) : 1})`;
+      if (im) { const a = entra(t, c.de), u = (t - c.de) / (c.ate - c.de); im.style.opacity = a; im.style.transform = `translateX(-50%) scale(${.97 + .03 * a + .03 * u})`; }
+      leg(t); };
+  },
+  polaroid(el, c) {   // polaroid com fita sobre o papel de jornal escuro
+    fundo(el, c.fundo || 'jornal', c.i);
+    const fv = fundoVivo(el, c.fundo || 'jornal'); if (fv) fv.src = c.midia.img;
+    const pol = div('pol', '<div class="fita"></div><div class="janela"><img></div>', `top:${c.topo || 330}px`); el.appendChild(pol);
+    const img = pol.querySelector('img'); img.src = c.midia.img;
+    const rot = c.giro ?? -2.5;
+    const leg = rodape(el, c, 1300);
+    return t => { const a = clamp((t - c.de) / .34), u = (t - c.de) / (c.ate - c.de);
+      pol.style.opacity = clamp(a * 3); pol.style.transform = `translateY(${(1 - eBack(a)) * -70}px) rotate(${rot - 6 * (1 - eOut(a))}deg)`;
+      img.style.transform = `scale(${1.02 + .06 * u})`; leg(t); };
+  },
+  caderno(el, c) {   // caderno quadriculado: título e lista à mão (Caveat), X/✓ e círculo de caneta desenhados
+    const escuro = c.tom === 'escuro';
+    el.appendChild(div('f-caderno' + (escuro ? ' escuro' : '')));
+    if (escuro) el.classList.add('escuro');
+    const tinta = escuro ? '#f1ece2' : 'var(--caneta)';
+    const tit = div('cad-tit mao', esc(c.titulo || ''), `color:${tinta}`); el.appendChild(tit);
+    const svg = svgNovo(el);
+    const sub = traco(svg, 'M220 498 C 420 486, 700 510, 860 492', escuro ? 'var(--marca)' : 'var(--caneta)', 6);
+    const itens = (c.itens || []).map((it, k) => {
+      const y = 610 + k * 140;
+      const d = div('cad-item mao', esc(it.texto), `top:${y}px;color:${tinta}`); el.appendChild(d);
+      let marca = null;
+      if (it.marca === 'x') { marca = [traco(svg, `M146 ${y + 22} L204 ${y + 80}`, 'var(--dor)', 10), traco(svg, `M204 ${y + 22} L146 ${y + 80}`, 'var(--dor)', 10)]; }
+      if (it.marca === 'v') { marca = [traco(svg, `M142 ${y + 50} L170 ${y + 80} L214 ${y + 14}`, 'var(--ok)', 10)]; }
+      return { it, d, marca };
+    });
+    let circ = null, cs = null, csub = null;
+    const y = (c.circulo && c.circulo.topo) || 1250;
+    if (c.circulo) {
+      cs = div('cad-circ', `<span>${esc(c.circulo.texto)}</span>`, `top:${y}px`); el.appendChild(cs);
+      circ = traco(svg, circuloD(y, 380, 140), escuro ? 'var(--marca)' : 'var(--caneta)', 7);
+      if (c.circulo.sub) { csub = div('cad-sub', esc(c.circulo.sub), `top:${y + 190}px`); el.appendChild(csub); }
+    }
+    // medir depois das fontes: palavra longa encolhe (cabe em 760 px) e o círculo abraça a palavra inteira.
+    // "IMENSURÁVEIS" (V2 do Cliente4) ia de borda a borda e o círculo fixo só pegava o meio
+    let medido = false;
+    const mede = () => {
+      if (medido || !tit.offsetWidth) return;
+      medido = true;
+      cabe(tit, 880);
+      for (const x of itens) cabe(x.d, 1080 - 240 - 60);
+      if (!cs) return;
+      const sp = cs.firstChild; let fs = parseFloat(getComputedStyle(cs).fontSize), w = sp.offsetWidth;
+      if (w > 760) { fs = Math.floor(fs * 760 / w); cs.style.fontSize = fs + 'px'; w = sp.offsetWidth; }
+      circ.setAttribute('d', circuloD(y, w, fs));
+      if (csub) csub.style.top = Math.round(y + fs * .535 + fs * .5 + 50) + 'px';
+    };
+    return t => {
+      mede();
+      tit.style.clipPath = `inset(0 ${(1 - clamp((t - c.de) / .45)) * 100}% 0 0)`;
+      desenha(sub, t, c.de + .3, .4);
+      for (const x of itens) { x.d.style.clipPath = `inset(-20px ${(1 - clamp((t - x.it.t) / .5)) * 100}% -20px 0)`;
+        if (x.marca) x.marca.forEach((p, k) => desenha(p, t, x.it.tm + k * .12, .16)); }
+      if (cs) { cs.style.opacity = clamp((t - c.circulo.t + .25) / .2); cs.style.transform = `scale(${acende(t - c.circulo.t + .25)})`; desenha(circ, t, c.circulo.t, .5); }
+      if (csub) csub.style.opacity = clamp((t - c.circulo.t - .35) / .3);
+    };
+  },
+  traco(el, c) {   // bifurcação desenhada, frase no topo e um rótulo em cada caminho
+    fundo(el, c.fundo || 'escuro', c.i);
+    const tx = div('txt', '', 'top:330px'); el.appendChild(tx);
+    const svg = svgNovo(el);
+    const caule = traco(svg, 'M540 1640 L540 1290', '#f1ece2', 8);
+    const esq = traco(svg, 'M540 1290 C 540 1160, 300 1200, 290 1040', '#f1ece2', 8);
+    const dir = traco(svg, 'M540 1290 C 540 1160, 780 1200, 790 1040', '#f1ece2', 8);
+    const dy = c.legenda === false ? 300 : 0;   // sem a frase em cima, a bifurcação sobe pro meio da tela
+    if (dy) svg.style.transform = `translateY(${-dy}px)`;
+    const re = div('rot', '', 'left:60px;width:460px;bottom:' + (1920 - 1010 + dy) + 'px'); el.appendChild(re);
+    const rd = div('rot grande', '', 'left:560px;width:460px;bottom:' + (1920 - 1010 + dy) + 'px'); el.appendChild(rd);
+    const L = c.rotulos || {};
+    if (L.esquerda) re.innerHTML = esc(L.esquerda.texto) + (L.esquerda.nota ? `<small>${esc(L.esquerda.nota)}</small>` : '');
+    if (L.direita) rd.innerHTML = `<span class="${L.direita.cor || 'marca'}">${esc(L.direita.texto)}</span>`;
+    const cabe = (txt, max) => Math.min(max, Math.round(440 / (Math.max(...String(txt).split(' ').map(p => p.length)) * .68)));   // a palavra mais longa cabe em 440 px
+    if (c.legenda === false && L.esquerda) re.style.fontSize = cabe(L.esquerda.texto, 76) + 'px';
+    if (L.direita) rd.style.fontSize = cabe(L.direita.texto, 118) + 'px';
+    return t => { if (c.legenda !== false) tx.innerHTML = datilografa(c.tokens, t, true);   // legenda:false = só os rótulos (a fala é o rótulo)
+      desenha(caule, t, c.traco_t, .35); desenha(esq, t, c.traco_t + .3, .45); desenha(dir, t, c.traco_t + .3, .45);
+      if (L.esquerda) { re.style.opacity = clamp((t - L.esquerda.t) / .25); }
+      if (L.direita) { rd.style.opacity = clamp((t - L.direita.t) / .2); rd.style.transform = `scale(${acende(t - L.direita.t)})`; } };
+  },
+  jornal(el, c) {   // página de jornal com o recorte da pessoa e a etiqueta de nome
+    fundo(el, 'jornal', c.i + 2);
+    const r = rng(c.i * 31 + 7);
+    const ras = div('rasgo', '', 'left:-40px;right:-40px;top:520px;height:640px'); ras.style.transform = 'rotate(-4deg)'; el.appendChild(ras);
+    const im = document.createElement('img'); im.className = 'rec'; im.src = c.midia.recorte; im.style.height = (c.altura || 1120) + 'px'; im.style.top = '300px'; el.appendChild(im);
+    const et = div('etq', `<b>${esc(c.nome || '')}</b>` + (c.cargo ? `<span>${esc(c.cargo)}</span>` : ''), `left:${c.etiqueta_x || 640}px;top:${c.etiqueta_y || 700}px`); el.appendChild(et);
+    const leg = rodape(el, c, 1490);
+    return t => { const a = entra(t, c.de), u = (t - c.de) / (c.ate - c.de);
+      if (!et._cabe && et.offsetWidth) { et._cabe = 1; const l = parseFloat(et.style.left); if (l + et.offsetWidth > 1040) et.style.left = Math.max(40, 1040 - et.offsetWidth) + 'px'; }   // etiqueta longa não sai da tela
+      im.style.opacity = a; im.style.transform = `translateX(-50%) translateX(${-200 + (1 - a) * -60}px) scale(${1 + .035 * u})`;
+      const b = clamp((t - c.etiqueta_t) / .22); et.style.opacity = b; et.style.transform = `scale(${.85 + .15 * eBack(b)})`; leg(t); };
+  },
+  filme(el, c) {   // cena de filme P&B numa faixa reta sobre o papel de jornal escuro
+    fundo(el, c.fundo || 'jornal', c.i + 1);
+    const fv = fundoVivo(el, c.fundo || 'jornal');
+    const r = rng(c.i * 17 + 3);
+    const top = c.topo || 280, alt = c.altura || 800;
+    const tira = div('tira', '', `top:${top}px;height:${alt}px`); el.appendChild(tira);
+    const jan = div('janela', '<img>', `left:0;right:0;top:12px;height:${alt - 24}px`); tira.appendChild(jan);   // reto, de ponta a ponta, régua clara em cima e embaixo
+    const img = jan.querySelector('img');
+    if (c.foco) img.style.objectPosition = (c.foco[0] * 100) + '% ' + (c.foco[1] * 100) + '%';   // foto vertical numa faixa horizontal: onde fica o rosto
+    const leg = rodape(el, c, top + alt + 110);
+    return t => { const u = (t - c.de) / (c.ate - c.de), a = entra(t, c.de, .25);
+      tira.style.transform = `translateY(${(1 - a) * 50}px)`; tira.style.opacity = a;
+      img.style.transform = `scale(${1.04 + .06 * u})`; leg(t); return Promise.all([trocaSrc(img, quadro(c.midia, t)), fv ? trocaSrc(fv, quadro(c.midia, t)) : 0]); };
+  },
+};
+
+// ───────────── montagem e seek ─────────────
+const palco = document.getElementById('palco');
+const CENAS = P.cenas.map((c, i) => {
+  const el = div('cena ' + c.tipo); palco.appendChild(el);
+  return { c, el, draw: TIPOS[c.tipo](el, c) };
+});
+let ATIVA = null;
+async function seek(t) {
+  let x = CENAS.find(x => t >= x.c.de && t < x.c.ate);
+  if (!x) x = t >= P.total - 1e-6 ? CENAS[CENAS.length - 1] : null;
+  if (x !== ATIVA) { if (ATIVA) ATIVA.el.style.display = 'none'; if (x) x.el.style.display = 'block'; ATIVA = x; }
+  if (x) { const p = x.draw(t); if (p) await p; }
+}
+window.seek = seek;
+window.TOTAL = P.total;
+const fixas = [...document.images].filter(i => i.src);
+window.pronto = document.fonts.ready.then(() => Promise.all([...document.fonts].map(f => f.load().catch(() => 0))))
+  .then(() => Promise.all(fixas.map(i => i.decode().catch(() => 0))))
+  .then(() => true);
+</script>
+</body>
+</html>

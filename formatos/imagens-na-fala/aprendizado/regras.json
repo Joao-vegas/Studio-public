@@ -1,0 +1,124 @@
+{
+  "formato": "imagens-na-fala",
+  "regras": [
+    {
+      "id": "titulo-fixo",
+      "titulo": "Título fixo o vídeo todo",
+      "texto": "Título amarelo #F4EB0C, Open Sans Bold 72 px, contorno preto 4 px, 1 linha a 83% da largura, linha de base em y=378 (16,8 a 20,6% da altura). Não some, não troca, não anima. Medido em DecxbwzBRru q0 a q1481. Título longo quebra em 2 linhas e o tamanho cai até 56 px.",
+      "desde": "2026-11-05",
+      "cobre": "r1"
+    },
+    {
+      "id": "legenda-no-rosto",
+      "titulo": "Legenda pequena abaixo do queixo, centrada no rosto",
+      "texto": "Branca, Open Sans Bold 52 px, contorno 3 px, 1 a 2 linhas, 1ª linha a 55,8% da altura (1072 px) ou 36 px abaixo do queixo se ele estiver mais embaixo. Centro em x do rosto (63 a 66% na referência), não da tela. Bloco inteiro de ~5 palavras (2 a 6) em corte seco, sem karaokê; presente em 93,8% dos quadros. DecxbwzBRru q750.",
+      "desde": "2026-11-05",
+      "cobre": "r1"
+    },
+    {
+      "id": "tres-posicoes",
+      "titulo": "Três posições fixas",
+      "texto": "Cartões só em A (topo, centro em 23,4% x 26,0% y), B (base, 24,5% x 94,5%) e C (base, 72% x 94,4%). A e B na coluna da esquerda, C embaixo à direita. A pessoa fica à direita (rosto a partir de 46% da largura). Nunca cartão em cima do rosto: encolhe até 2,5% do rosto.",
+      "desde": "2026-11-05",
+      "cobre": "r2"
+    },
+    {
+      "id": "cartao-limpo",
+      "titulo": "Cartão sem enfeite",
+      "texto": "Em pé: altura/largura de 1,10 a 1,80 (aspecto_min 1,10, nenhum cartão deitado). Largura por posição: A e B 37% (400 px, mínimo 370), C 42% (454 px, mínimo 420). Se a altura da caixa não cabe, recorta a ALTURA em volta do foco; só encolhe a largura quando nem 1,10 cabe. Canto reto, sem borda, sem sombra, sem correção de cor, parado (variação média 0,06/255). Medido nos 25 cartões da referência.",
+      "desde": "2026-11-05",
+      "cobre": "r2"
+    },
+    {
+      "id": "corte-seco",
+      "titulo": "Entra e sai em corte seco",
+      "texto": "Entrada e saída em 1 quadro a 30 fps. Sem escala, deslize nem fade. Depois da saída a posição fica vazia ~0,35 s (0,1 a 0,5 s) e o próximo cartão entra nela. DecxbwzBRru q137 a q154 e q270 a q285.",
+      "desde": "2026-11-05",
+      "cobre": "r1"
+    },
+    {
+      "id": "duracao-cartao",
+      "titulo": "Cartão fica ~4,6 s",
+      "texto": "Mediana 4,6 s, p10 3,9 s, p90 6,1 s, máximo 11,4 s (só quando a ideia atravessa 2 frases). Cartão que ninguém substitui sai em 4,6 s. Cartão novo na mesma posição tira o anterior.",
+      "desde": "2026-11-05",
+      "cobre": "r1"
+    },
+    {
+      "id": "rajada-por-ideia",
+      "titulo": "Cada posição com o seu tempo, o cartão nomeia a palavra",
+      "texto": "Entradas espalhadas: intervalo mediano 1,5 a 2,5 s entre cartões de qualquer posição; os 3 primeiros em 0,6 s. Cada posição segura o cartão até a próxima entrada dela menos 0,35 s (a silhueta laranja fica de 16 a 24 s enquanto A e B trocam), até 11,4 s. 2 ou mais cartões saindo no mesmo quadro só 3 vezes em 49 s (teto 2 em 26 s, `limpa`); pelo menos 30% dos cartões atravessam uma virada de ideia. O cartão entra de 0 a 2,5 s antes da palavra concreta que ilustra (planejar.py: `palavra`, `t` ou `antes`) e mostra a coisa dela; em >= 80% a palavra cai nessa janela. 30 cartões por minuto (faixa 26 a 34, média na tela piso 2,3, 3 na tela >= 75%). 5 viradas em 26 s é o mesmo ritmo de 10 em 49 s.",
+      "desde": "2026-11-05",
+      "cobre": "r3"
+    },
+    {
+      "id": "imagem-casa-palavra",
+      "titulo": "A imagem mostra a coisa que a palavra nomeia",
+      "texto": "Pintura (licença livre ou GERADA NO CODEX) em pé que mostra a COISA da palavra dita (cachorro e lobos em \"cachorro que quer virar lobo\"; galo, vendedora, pavão, carteiro; espelho, maçãs, ovelhas iguais). Codex: `echo \"$PROMPT\" | codex exec -m gpt-6.1-sol --skip-git-repo-check --dangerously-bypass-approvals-and-sandbox -C <pasta> -`, 1 pintura por chamada, 2 versões por palavra, 8 em paralelo (~70 s cada, assinatura, sem API); o prompt pede brilho médio (luminância ~100), fundo que contraste com o sujeito, zero letra, estilo diferente entre cartões vizinhos. Metáfora erudita só se a fala a nomeia. Sem marca d'água, sem legenda no quadro, sem foto de banco. origem.json: origem, licença, prompt, tecnica, artista (estilo). G6 e G25 valem.",
+      "desde": "2026-11-05",
+      "cobre": "r4"
+    },
+    {
+      "id": "enquadramento-rosto",
+      "titulo": "Rosto com 39% da largura, em 46% e a 23,5%, acompanhando a pessoa",
+      "texto": "Referência: caixa do rosto com 39% da largura (~420 px), começando em 46% da largura e com o topo a 23,5% da altura; coluna da esquerda livre. Bruto de perto (r1: 48,6%) é reduzido (zoom 0,78 a 1,0; a partir de 0,90 não reduz) e o fundo é o próprio quadro borrado (sigma 24, 75% do brilho, rampa 60 px na esquerda e 220 px embaixo: borrão de lente, não faixa escura). Se a pessoa se inclina, o enquadramento acompanha o rosto (zoom cai até 45,5% da largura, quadro vai pra direita até a borda do rosto ficar a 490 px). Conferência: rosto estático > 42%, rosto p95 > 46% ou a < 2,5% da largura de um cartão (amostra a cada 0,5 s) reprova. Gravar mais longe resolve de vez. Cabeça baixa (topo do rosto > 27,5% da altura, caso do Vídeo 01 da nutri a 39,5%): mantém o zoom do rosto 39% (0,95) e sobe a pessoa até o topo ficar a 23,5% (dy até 16% da altura).",
+      "desde": "2026-11-05",
+      "cobre": "r4"
+    },
+    {
+      "id": "legenda-fundo-claro",
+      "titulo": "Legenda legível em roupa clara",
+      "texto": "Atrás da legenda a referência tem luminância mediana de 37 a 77. Fundo acima de 120: contorno 5 px e sombra (0, 3, 3, 0,75), sem tarja nem caixa (a referência não usa). 1ª linha a 55,8% da altura (<= 57,8%).",
+      "desde": "2026-11-05",
+      "cobre": "r2"
+    },
+    {
+      "id": "curadoria-paleta",
+      "titulo": "Pintura em cor, 1 sujeito, sem letra, medida e não no olho",
+      "texto": "A referência NÃO é gravura em papel claro (a r1 errou): medidos 22 cartões dela, saturação mediana 62 (12 de 22 com 60 ou mais, só 4 abaixo de 30), luminância mediana 102, borda mediana 27, sujeito mediano 55% da área, sem texto; é pintura em cor de meio-tom a escura, com gravura como contraste. Regra: saturação mediana do conjunto >= 60 e metade dos cartões com 60 ou mais; luminância mediana 80 a 130 com pelo menos 1 cartão claro (> 140) e 1 escuro (< 90); borda <= 30 (200 px de largura); sujeito >= 35% da área; zero palavra legível (tesseract); gravura no máximo 1/3; nunca 2 obras do mesmo artista na tela ao mesmo tempo. casar_imagem >= 0,19 e `casa` (ver imagem-casa-palavra). origem.json guarda fonte, licença, tecnica, artista, casar, sat, lum, borda, sujeito_pct, palavras_texto. Medida em estudos/01-hedonismo-decx/paleta-cartoes.json (DecxbwzBRru).",
+      "desde": "2026-11-05",
+      "cobre": "r3"
+    },
+    {
+      "id": "pausa-ate-0-3",
+      "titulo": "Pausa depois de frase até 0,3 s",
+      "texto": "A referência fala a 198 palavras por minuto e a pausa depois da frase é de 0,2 s (máx 0,3 s). apertar_pausas.py deixa toda pausa acima de 0,30 s em 0,20 s neste formato; o corte.py dos outros formatos não muda.",
+      "desde": "2026-11-05",
+      "cobre": "r2"
+    },
+    {
+      "id": "conferir-com-formato",
+      "titulo": "Conferência sempre com --formato",
+      "texto": "conferir_video.py roda com `--formato imagens-na-fala`: sem isso a régua cai em \"estilo sem cena de apoio\" e só cobra o trecho parado. Com a régua do formato reprova média de cartões na tela < 2,3, < 26 cartões por minuto, rosto > 42% da largura (p95 > 46%, folga < 2,5% de um cartão), cartão deitado ou estreito, legenda clara sem contorno 5 px, imagem sem casar/tecnica ou que não casa, saturação, luminância, borda, texto e gravura fora da regra curadoria-paleta, mais de 2 saídas juntas, intervalo mediano de entradas fora de 1,5 a 2,5 s, < 30% atravessando virada, < 80% com a palavra casada.",
+      "desde": "2026-11-05",
+      "cobre": "r3"
+    },
+    {
+      "id": "peca-propria",
+      "titulo": "Peça própria com texto (anúncio, legenda do anúncio)",
+      "texto": "Cartão feito de propósito pra ser LIDO (o anúncio que o vídeo explica, a legenda dele): entra na posição C na palavra que o apresenta e fica até a ideia acabar (anúncio 9 a 20 s), A e B seguem trocando pinturas. Largura 0,455 no PLANO (491 px, sem passar do rosto) pra manchete ler no celular. Em imagens/origem.json leva \"propria\": true, tecnica \"peça própria\", casar e palavra; só assim a conferência pula borda, texto e sujeito dele (e de mais ninguém). O texto da peça nunca muda.",
+      "desde": "2026-11-05",
+      "cobre": "r4"
+    },
+    {
+      "id": "estilo-vegas-literal",
+      "titulo": "Estilo Vegas literal: o cartão é a coisa do assunto, nunca metáfora",
+      "texto": "O estilo da referência (ensaio com pintura-metáfora) não é o nosso. No estilo da Vegas o cartão mostra a COISA LITERAL do universo do que o João diz: a peça de marketing (anúncio, post, feed, caixa de comentário, celular com o anúncio), a comida, a roupa, a pessoa de costas ou de lado, em foto editorial realista em cor (Codex, 2 versões, em pé 1,3 a 1,6, sem letra, sem marca, sem rosto reconhecível, mãos certas) ou peça própria (propria: true, PIL, mesma estética de jornal do anúncio). Nunca máscara, Moisés, Narciso, lua, ampulheta. Abre mostrando a peça de que fala, no 1º segundo (anúncio na posição C na 1ª palavra, fica 6 a 7 s). Regra de ouro: se a fala nomeia, o cartão mostra aquilo. Conferência: borda até 38 só pra fotografia, peça própria fora das medianas de sat e lum. Foto do anúncio = as peças que a fala nomeia, em close e específicas (calça pequena, vestido colado, calcinha), nunca cenário genérico. O texto da peça ecoa a frase que o João diz naquele momento (a peça repete a fala, não inventa outra manchete). Pessoa que se olha no espelho: de FRENTE, rosto e olhos visíveis, olhar de quem se avalia; o público é homem e mulher (cartão do 'cliente' pode ser um homem mais gordinho, respeitoso, sem caricatura). O cartão conta a história do cliente do nutricionista: roupa que não serve (corpo maior que a peça), corpo real de médio a cheio (homens e mulheres, respeitoso, nunca modelo magra de catálogo), comida do dia a dia, consultório, balança, prato; nunca imagem bonita aleatória. Cada cartão passa na auditoria 'faz sentido no mundo do nutricionista e na palavra dita'. Cartão de um tema de outro negócio (implante, dentista) só dura a fala dele (sai até ~0,2 s depois da palavra), via 'dur' no PLANO; depois volta tudo ao nutricionista.",
+      "desde": "2026-11-05",
+      "cobre": "v3"
+    },
+    {
+      "id": "legenda-pontuacao",
+      "titulo": "Pontuação da legenda segue a entonação do João",
+      "texto": "A legenda queima o words.json. '?' só onde ele realmente pergunta (ex.: 'Lembra quando era usar uma roupa sem se preocupar?'); frase afirmativa termina em ponto e pausa no meio da frase é vírgula ou nada, nunca '?'. Antes do render, listar toda palavra com '?' ou '.' do words.json e conferir com a fala; o chute do Whisper nunca vale. Grafia: 70 mil, 800 calorias, CAMPANHA, Instagram.",
+      "desde": "2026-11-05",
+      "cobre": "v3"
+    },
+    {
+      "id": "tempo-na-palavra",
+      "titulo": "Cartão entra na palavra e fica até o próximo da posição entrar; 2 a 3 sempre",
+      "texto": "Entrada de 0,25 s antes a 0,10 s depois do início da palavra que ele ilustra (nunca mais cedo que 0,3 s). Saída como na referência: fica até o PRÓXIMO cartão da mesma posição entrar na palavra dele (vazio de 0,35 s); duração típica 3,5 a 6 s, teto ~7 s (exceto anúncio e legenda do anúncio nas janelas combinadas; implante só de 'E esse mesmo anúncio foi testado' até logo depois de 'implante', com cartões de nutri nas outras posições). A densidade de 2 a 3 cartões na tela o tempo todo manda: onde a fala fica sem substantivo novo pra uma posição, ADICIONAR cartão literal (mais ideias da própria frase), nunca encurtar a saída nem baixar o piso da conferência (2,3). Furo da 1ª v4: a regra 'sai até 1,5 s depois da ideia' conflitou com a densidade e deixou 0 ou 1 cartão. Conferir os quadros em 20 pontos.",
+      "desde": "2026-11-05",
+      "cobre": "v4"
+    }
+  ]
+}

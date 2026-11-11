@@ -1,0 +1,78 @@
+{
+  "modelo": "faixa-com-cenas",
+  "descricao": "Regras do formato Faixa com cenas (valem pra qualquer cliente). LER ANTES de produzir.",
+  "regras": [
+    {
+      "id": "primeira-palavra",
+      "titulo": "A 1ª palavra nunca some",
+      "categoria": "corte",
+      "peso": 10,
+      "desde": "2026-10-26",
+      "texto": "Depois do corte, transcrever os 3 primeiros segundos: a 1ª palavra da 1ª frase tem que estar lá. Gaguejo/take refeito marcado até depois do início do take bom come a palavra: o t1 do gaguejos.json para 0,3 s antes dela. Falso começo (take refeito, 'Existe...') sai sempre.",
+      "evitar": "Abrir em 'uma coisa que...' sem o 'Tem'. Deixar 11 s de falso começo."
+    },
+    {
+      "id": "abertura-forte",
+      "titulo": "Abertura dividida, forte e curta",
+      "categoria": "broll",
+      "peso": 10,
+      "desde": "2026-10-26",
+      "texto": "O vídeo já começa dividido (cena em cima, João embaixo) no t=0. A 1ª cena é forte, em movimento e ligada direto à fala (ex.: caixão sendo carregado no cemitério pra 'mais que a própria morte'), no máximo ~3 s, e já troca pra outra.",
+      "evitar": "Abrir com o João em tela cheia. Plano parado ou em câmera lenta (parece travado). A mesma cena 5 s ou mais."
+    },
+    {
+      "id": "sem-marca",
+      "titulo": "Cena sem marca à vista",
+      "categoria": "broll",
+      "peso": 8,
+      "desde": "2026-10-26",
+      "texto": "Nenhuma cena com marca ou logo em destaque (painel de Peugeot, Chevrolet...). Olhar a folha de prévias antes de escolher.",
+      "evitar": "Painel de carro com a marca."
+    },
+    {
+      "id": "sombrinha-forte",
+      "titulo": "Sombrinha forte na emenda",
+      "categoria": "layout",
+      "peso": 8,
+      "desde": "2026-10-26",
+      "texto": "Em toda janela dividida, degradê preto na emenda y=960: força 0,8, 220 px pra cada lado (gerar.py → sombra). Na frase das faixas a sombrinha vem junto.",
+      "evitar": "Emenda seca entre a cena e o João."
+    },
+    {
+      "id": "legenda-fora-do-rosto",
+      "titulo": "Frase e legenda nunca no rosto",
+      "categoria": "legenda",
+      "peso": 10,
+      "desde": "2026-10-26",
+      "texto": "Do olho ao fundo da boca nada de texto, com o João em tela cheia. Legenda: na emenda (y=925) no S e no C; no peito (y=1420) em tela cheia, só desce se o queixo pedir (queixo + 36 px). Frase (30-out-2026): fica no peito (centro y=1180) se esse lugar está livre; senão acima da cabeça (24 px sobre o cabelo, com 230 px ou mais até o topo) ou 36 px abaixo do queixo (até y=1700). UMA posição por trecho de tela cheia, pelo pior quadro (rosto do OpenCV a cada 0,25 s, com o zoom do punch); a troca vem junto do corte de layout. gerar.py + texto_fora_do_rosto.py; a conferência reprova 'Texto em cima do rosto'.",
+      "evitar": "Frase ou legenda em y=925/960 ou 1180 fixos com o João em tela cheia (cobre boca e queixo); posição que pula quadro a quadro; texto no meio da fala trocando de lugar."
+    },
+    {
+      "id": "palavra-certa",
+      "titulo": "Conferir a palavra-chave da fala",
+      "categoria": "legenda",
+      "peso": 7,
+      "desde": "2026-10-26",
+      "texto": "Ler a transcrição inteira antes da legenda: a palavra forte errada vai em trocas (ex.: 'que manda dinheiro' → 'queimando dinheiro'), a comida em palavras_extra. Nunca ordenar as palavras pelo tempo (a ordem da transcrição é a certa).",
+      "evitar": "'manda dinheiro do bolso'; 'porque bolso está'."
+    },
+    {
+      "id": "sem-pausa-morta",
+      "titulo": "Sem pausa morta no meio da fala",
+      "categoria": "corte",
+      "peso": 9,
+      "desde": "2026-10-26",
+      "texto": "Depois do corte, medir silêncio real no áudio (silencedetect -38 dB, 0,35 s): pausa acima de 0,5 s dentro da fala encolhe pra 0,15 a 0,25 s e as janelas e a legenda andam junto (PLANO.json pausas_cortadas). Transcrição pra legenda: Whisper local (mlx_whisper large-v3-turbo), que não inventa palavra; o Groq trocou 'previsibilidade' por 'de viabilidade'.",
+      "evitar": "'eles ... pedem volume' com 1,2 s de buraco. Palavra que ele não falou na legenda."
+    },
+    {
+      "id": "punch-do-joao-em-tela-cheia",
+      "titulo": "Punch seco no João em tela cheia, nas pausas",
+      "categoria": "ritmo",
+      "peso": 8,
+      "desde": "2026-10-30",
+      "texto": "Onde o João fica em tela cheia (sem cena por cima), o quadro dele aproxima 12% num pulo de 0,04 s e volta, sempre numa pausa da fala (silêncio de 0,18 s ou mais), de 3 a 6 s uma da outra: nunca mais de 6 s com o mesmo enquadramento. Só a câmera mexe: faixas, legenda do peito e sombrinha ficam fixas. O suave de 0,28 s (Caixinha) NÃO vale aqui: a conferência de dinamismo só conta como troca o que muda rápido, e a tese/CTA de 16 a 19 s ficava sem troca. Feito em gerar.py (camada.pontos_punch com os trechos livres, camada.filtro_punch); grava work/gerado/punch.json; \"punch\": false no PLANO.json desliga.",
+      "evitar": "Tese ou CTA com o João parado por mais de 12 s; zoom em cima de cena (ela já é a troca); mexer nas faixas ou na legenda."
+    }
+  ]
+}

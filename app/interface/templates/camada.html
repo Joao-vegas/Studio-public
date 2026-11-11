@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block titulo %}Editar o texto{% endblock %}
+{% block conteudo %}
+<p class="migalha meta"><a href="{{ voltar }}">← Voltar</a></p>
+<div class="topo-pagina"><div><h1>Editar o texto</h1>
+<p class="sub">O vídeo fica limpo e o texto é uma camada por cima. Mude à vontade: a prévia mostra exatamente como vai sair. O vídeo só muda quando você clicar em Gerar o vídeo.</p></div></div>
+
+<div class="cam-duas">
+  <div class="cam-palco">
+    <div class="cam-tela">
+      <video id="cam-video" src="{{ url_for('arquivo', caminho=c.video) }}" controls playsinline preload="metadata"></video>
+      <img loading="lazy" decoding="async" id="cam-camada" alt="" src="">
+    </div>
+  </div>
+
+  <form method="post" action="{{ url_for('camada_salvar') }}" class="cartao-config cam-form" id="cam-form">
+    <input type="hidden" name="pasta" value="{{ pasta }}"><input type="hidden" name="voltar" value="{{ voltar }}">
+    {% if c.tipo == 'caixinha' %}
+    <label class="campo"><b>Texto de cima (faixa escura)</b>
+      <input type="text" name="titulo" value="{{ c.titulo or 'O que você quer saber?' }}"></label>
+    <label class="campo"><b>Pergunta</b> <small class="meta">A caixa cresce sozinha; fonte, tamanho e margens são os do Instagram.</small>
+      <textarea name="texto" rows="3">{{ c.texto }}</textarea></label>
+    <div class="acoes cam-rapido">
+      <button type="button" class="btn mini" data-y="255">Em cima</button>
+      {% if y_peito %}<button type="button" class="btn mini" data-y="{{ y_peito }}">No peito</button>{% endif %}
+    </div>
+    <label class="campo"><b>Altura na tela</b> <small class="meta">topo da caixa; ou arraste no vídeo</small> <output>{{ c.y }}</output>
+      <input type="range" name="y" min="200" max="1720" value="{{ c.y }}"></label>
+    {% else %}
+    <label class="campo"><b>Texto</b> <small class="meta">Enter quebra a linha onde você quiser.</small>
+      <textarea name="texto" rows="3">{{ c.texto }}</textarea></label>
+    <label class="campo"><b>Fonte</b>
+      <select name="fonte">{% for f in fontes %}<option {{ 'selected' if f == c.fonte }}>{{ f }}</option>{% endfor %}</select></label>
+    <label class="campo"><b>Tamanho da letra</b> <output>{{ c.tamanho }}</output>
+      <input type="range" name="tamanho" min="28" max="140" value="{{ c.tamanho }}"></label>
+    <div class="cam-cores">
+      <label class="campo"><b>Cor da caixa</b>
+        <input type="color" name="cor_caixa" value="{{ c.cor_caixa if c.cor_caixa != 'transparente' else '#000000' }}"></label>
+      <label class="campo"><b>Cor do texto</b><input type="color" name="cor_texto" value="{{ c.cor_texto }}"></label>
+      <label class="campo cam-sem"><input type="checkbox" id="cam-sem-caixa" {{ 'checked' if c.cor_caixa == 'transparente' }}> Sem caixa</label>
+    </div>
+    <div class="acoes cam-rapido">
+      <button type="button" class="btn mini" data-caixa="#000000" data-texto="#FFFFFF">Preta</button>
+      <button type="button" class="btn mini" data-caixa="#FFFFFF" data-texto="#000000">Branca</button>
+      <button type="button" class="btn mini" data-y="470">Em cima</button>
+      <button type="button" class="btn mini" data-y="1430">No peito</button>
+    </div>
+    <label class="campo"><b>Altura na tela</b> <small class="meta">ou arraste o texto no vídeo</small> <output>{{ c.y }}</output>
+      <input type="range" name="y" min="200" max="1720" value="{{ c.y }}"></label>
+    <label class="campo"><b>Largura máxima da caixa</b> <output>{{ c.largura }}</output>
+      <input type="range" name="largura" min="360" max="1040" value="{{ c.largura }}"></label>
+    <details><summary>Mais ajustes da caixa</summary>
+      <label class="campo"><b>Folga dos lados</b> <output>{{ c.pad_x }}</output><input type="range" name="pad_x" min="0" max="120" value="{{ c.pad_x }}"></label>
+      <label class="campo"><b>Folga em cima e embaixo</b> <output>{{ c.pad_y }}</output><input type="range" name="pad_y" min="0" max="120" value="{{ c.pad_y }}"></label>
+      <label class="campo"><b>Canto arredondado</b> <output>{{ c.raio }}</output><input type="range" name="raio" min="0" max="80" value="{{ c.raio }}"></label>
+    </details>
+    {% endif %}
+    <div class="acoes">
+      <button class="btn primario" name="acao" value="video">Gerar o vídeo</button>
+      <button class="btn" name="acao" value="texto">Só salvar o texto</button>
+    </div>
+    {% if c.renderizado_em %}
+    <div class="cam-final">
+      <p class="meta">Vídeo gerado em {{ c.renderizado_em }}.</p>
+      <video controls playsinline preload="metadata" src="{{ url_for('arquivo', caminho=c.saida) }}?v={{ c.renderizado_em|replace(' ','') }}"></video>
+      <a class="btn" href="{{ url_for('arquivo', caminho=c.saida) }}" download>Baixar o vídeo</a>
+    </div>{% endif %}
+  </form>
+</div>
+<style>
+.cam-duas{display:grid;grid-template-columns:minmax(260px,380px) 1fr;gap:24px;align-items:start}
+@media (max-width:760px){.cam-duas{grid-template-columns:1fr}}
+.cam-tela{position:relative;width:100%;aspect-ratio:9/16;background:#000;border-radius:14px;overflow:hidden}
+.cam-tela video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#cam-camada{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cam-tela.arrastando{cursor:ns-resize}
+.cam-form .campo{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.cam-form textarea,.cam-form select,.cam-form input[type=text]{font:inherit;padding:8px 10px;border:1px solid var(--linha);border-radius:10px}
+.cam-cores{display:flex;gap:16px;align-items:end;flex-wrap:wrap}
+.cam-sem{flex-direction:row!important;align-items:center;gap:6px}
+.cam-rapido{margin-bottom:12px}
+.cam-final video{width:220px;border-radius:12px;display:block;margin:8px 0}
+</style>
+{% endblock %}
+{% block scripts %}
+<script>
+(() => {
+  const f = document.getElementById('cam-form'), img = document.getElementById('cam-camada');
+  const tela = document.querySelector('.cam-tela'), sem = document.getElementById('cam-sem-caixa');
+  const base = {{ url_for('camada_previa')|tojson }}, pasta = {{ pasta|tojson }};
+  let t = null;
+  function params() {
+    const q = new URLSearchParams({pasta});
+    ['texto','titulo','fonte','tamanho','cor_caixa','cor_texto','y','largura','pad_x','pad_y','raio'].forEach(k => { if (f.elements[k]) q.set(k, f.elements[k].value); });
+    if (sem && sem.checked) q.set('cor_caixa', 'transparente');
+    return q;
+  }
+  function atualiza() {
+    f.querySelectorAll('input[type=range]').forEach(r => { const o = r.parentElement.querySelector('output'); if (o) o.textContent = r.value; });
+    clearTimeout(t); t = setTimeout(() => { img.src = base + '?' + params().toString(); }, 120);
+  }
+  f.addEventListener('input', atualiza); f.addEventListener('change', atualiza);
+  f.addEventListener('submit', () => {   // "Sem caixa" vai como cor transparente
+    if (sem && sem.checked) { const h = document.createElement('input'); h.type = 'hidden'; h.name = 'cor_caixa'; h.value = 'transparente'; f.elements.cor_caixa.disabled = true; f.appendChild(h); }
+  });
+  document.querySelectorAll('.cam-rapido [data-caixa]').forEach(b => b.addEventListener('click', () => {
+    f.elements.cor_caixa.value = b.dataset.caixa; f.elements.cor_texto.value = b.dataset.texto; if (sem) sem.checked = false; atualiza(); }));
+  document.querySelectorAll('.cam-rapido [data-y]').forEach(b => b.addEventListener('click', () => { f.elements.y.value = b.dataset.y; atualiza(); }));
+  // arrastar o texto no vídeo muda a altura (clique com Alt pra usar o player normalmente)
+  let arr = false;
+  const yDe = e => Math.round(Math.max(200, Math.min(1720, (e.clientY - tela.getBoundingClientRect().top) / tela.clientHeight * 1920)));
+  tela.addEventListener('pointerdown', e => { if (e.altKey || e.target.tagName !== 'VIDEO' || e.offsetY > tela.clientHeight - 48) return;
+    arr = true; tela.classList.add('arrastando'); f.elements.y.value = yDe(e); atualiza(); e.preventDefault(); });
+  window.addEventListener('pointermove', e => { if (arr) { f.elements.y.value = yDe(e); atualiza(); } });
+  window.addEventListener('pointerup', () => { arr = false; tela.classList.remove('arrastando'); });
+  atualiza();
+})();
+</script>
+{% endblock %}

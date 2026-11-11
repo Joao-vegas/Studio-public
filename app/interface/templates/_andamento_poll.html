@@ -1,0 +1,19 @@
+<script>
+// Busca o pedaço de novo a cada 4 s e só troca se mudou. Vídeo tocando não é interrompido.
+(() => {
+  const box = document.getElementById('and-vivo');
+  if (!box) return;
+  let ultimo = '';
+  const tick = async () => {
+    const tocando = [...box.querySelectorAll('video')].some(v => !v.paused);
+    if (!document.hidden && !tocando) {
+      try {
+        const r = await fetch(box.dataset.andPoll, {cache: 'no-store'});
+        if (r.ok) { const html = await r.text(); if (html !== ultimo) { if (ultimo) { box.innerHTML = html; document.dispatchEvent(new Event('and:atualizou')); } ultimo = html; } }
+      } catch (e) {}
+    }
+    setTimeout(tick, 4000);
+  };
+  tick();
+})();
+</script>

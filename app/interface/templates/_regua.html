@@ -1,0 +1,11 @@
+{# Régua quadro a quadro na tela (regua_tela.resumo). Uso: {% from '_regua.html' import regua_bloco %}{{ regua_bloco(regua) }} #}
+{% macro regua_bloco(r, aberta=True) %}{% if r %}
+<section class="painel regua-bloco">
+  <h2>A régua medida <small class="meta">{{ r.n_videos }} vídeo(s) · {{ r.duracao_s }} s · quadro a quadro, a 30 por segundo</small></h2>
+  <div class="regua-cards">{% for c in r.cards %}<div class="regua-card"><small>{{ c.rotulo }}</small><b>{{ c.valor }}</b></div>{% endfor %}</div>
+  {% if r.base %}<p class="meta">Parecido com o estilo: <b>{{ r.base.split('/')[1]|replace('-', ' ')|capitalize if '/' in r.base else r.base }}</b></p>{% endif %}
+  <details{{ ' open' if aberta }}><summary>As {{ r.regras|length }} regras com número e o quadro de prova</summary>
+    <ol class="regua-regras">{% for g in r.regras %}<li><b>{{ g.titulo }}.</b> {{ g.texto }} <small class="meta">Prova: {{ g.prova }}</small></li>{% endfor %}</ol></details>
+  {% if r.folhas %}<details><summary>Storyboard: {{ r.n_folhas }} folhas a 30 fps ({{ r.folhas|length }} primeiras)</summary>
+    <div class="es-folhas">{% for f in r.folhas %}<a href="{{ url_for('arquivo', caminho=f.rel) }}" target="_blank"><img loading="lazy" alt="" src="{{ url_for('arquivo', caminho=f.rel) }}"></a>{% endfor %}</div></details>{% endif %}
+</section>{% endif %}{% endmacro %}

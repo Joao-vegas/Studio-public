@@ -1,0 +1,166 @@
+{
+  "ordem": 5,
+  "grupo": "animacao",
+  "oculto": true,
+  "titulo": "Pessoa em janela",
+  "frase": "Nos momentos-chave seu vídeo encolhe pra uma janela no canto, que acompanha o seu rosto, e a tela inteira vira a animação do que você está falando. No resto do tempo você aparece em tela cheia.",
+  "entrada": "video",
+  "proporcao": "9:16",
+  "tipo": "motor",
+  "motor": "Script da edição por vídeo (PIL + ffmpeg ou HTML) com o quadradinho que segue o rosto (app/ferramentas/motion/quadradinho.py). O motor próprio em base/ ainda não existe.",
+  "usa": [
+    {
+      "oque": "Transcrição",
+      "quem": "Groq (whisper-large-v3, cota grátis). No corte do bruto, o Scribe da ElevenLabs entra se estiver ligado (sai do seu plano)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Rastreio de rosto",
+      "quem": "OpenCV no seu Mac: acha o rosto a cada 0,5 s e suaviza o caminho para o quadradinho acompanhar",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Animação das janelas",
+      "quem": "O Claude desenha cada cena em HTML (Playwright + ffmpeg) ou PIL: texto, formas e ícones, sem imagem paga",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Música",
+      "quem": "Faixa nova de banco grátis (Mixkit), baixa sob a fala",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "ffmpeg no seu Mac: você em tela cheia nos intervalos e o quadradinho nas 3 a 5 janelas animadas",
+      "tipo": "gratis"
+    }
+  ],
+  "estimativa": "equivale a ~US$ 5 a 12 na API (Opus), incluso na assinatura",
+  "status": "receita",
+  "modelos": [
+    "pessoa-no-cantinho"
+  ],
+  "base": "formatos/pessoa-no-cantinho/base",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "folha": "exemplo-1-folha.jpg",
+      "legenda": "Pejotização · Cliente3",
+      "origem": "~/Library/Mobile Documents/com~apple~CloudDocs/Clientes/Cliente3/Ads/Pejotização/Ad 2/Pejotização - Ad 2 (três frases do chefe).mp4"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": true,
+      "escolha_na_tela": true,
+      "de_onde": "Faixa nova de banco grátis (Mixkit: python3 app/ferramentas/musica_busca.py buscar \"<clima>\" --fonte mixkit), escolhida pelo clima do vídeo e nunca a mesma do vídeo anterior. Fica baixa sob a fala (~-40 dB enquanto falam, ~-35 dB nas pausas), com ducking suave.",
+      "clima": "baixa, discreta, pelo clima do vídeo",
+      "volume": "~-40 dB na fala, ~-35 dB nas pausas, ducking suave",
+      "quando": "do início ao fim",
+      "quando_nao": "nunca a mesma do vídeo anterior do cliente",
+      "troca": "1 faixa"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "As janelas não têm efeito sonoro (no exemplo, as janelas são mudas). Efeito só quando a regra do cliente pede (no Cliente3: click nos cards e whoosh na entrada do b-roll).",
+      "quando_nao": "sempre, salvo regra do cliente (Cliente3: click nos cards e whoosh na entrada do b-roll)"
+    }
+  },
+  "legenda": {
+    "desligavel": true,
+    "como": "Pular o passo que queima a legenda nas partes em que a pessoa aparece em tela cheia; título nas frases fortes, nome no terço de baixo, janelas e cenas continuam. Na conferência, \"no máximo 2 elementos além da legenda\" vira \"além de nada\""
+  },
+  "layouts": [
+    "cheio",
+    "cantinho"
+  ],
+  "material_aceito": [
+    "cena-produto",
+    "mockup",
+    "print",
+    "foto-pessoa",
+    "video-curto",
+    "musica"
+  ],
+  "passos": [
+    "Você manda o vídeo gravado (o original da câmera).",
+    "A IA escolhe de 3 a 5 momentos-chave e planeja a animação de cada um.",
+    "Você aprova o storyboard: o tempo de cada janela e o que a tela mostra.",
+    "O vídeo sai com você no quadradinho nas janelas, conferido contra o exemplo."
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar o bruto",
+        "andamento": "preparar",
+        "faz": "Pôr em work/ o original da câmera (não o do WhatsApp), com o HDR do iPhone convertido pra bt709 sem mexer na cor (G15). Transcrever com tempo por palavra em work/words.json (python3 app/ferramentas/corte.py transcrever <bruto> <sandbox>/work) e conferir nome, número e acento (G5)."
+      },
+      {
+        "id": "rostos",
+        "titulo": "Achar os rostos",
+        "andamento": "preparar",
+        "comando": "python3 app/ferramentas/motion/quadradinho.py rostos <bruto> --out <sandbox>/work/rostos.json",
+        "faz": "Achar o rosto a cada 0,5 s nas coordenadas do quadro da edição (1080x1920), com --zoom igual ao da edição se ela der zoom. O work/rostos.json é o caminho que o quadradinho segue."
+      },
+      {
+        "id": "janelas",
+        "titulo": "Escolher as janelas",
+        "andamento": "storyboard",
+        "faz": "Pelo words.json, escolher de 3 a 5 janelas (~30% do vídeo) onde a fala vira imagem e a cena de cada fala dentro delas (forma diferente por cena, uma ideia por vez); o resto é a pessoa em tela cheia com legenda, e janelas a menos de 2 s uma da outra emendam. Escolher a música nova pelo clima (Mixkit)."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "Montar o storyboard (uma linha ou um quadro por janela: tempo, quem fala e o que a tela mostra) e olhar ao lado da folha do exemplo principal. Parar pro João aprovar antes de animar."
+      },
+      {
+        "id": "video",
+        "titulo": "Vídeo",
+        "andamento": "video",
+        "faz": "Animar só o que foi aprovado, no script da edição (PIL + ffmpeg ou HTML com o vídeo em quadros), usando Trilha e desenhar do quadradinho.py com cor e cor_nome da identidade.json do cliente: o vídeo encolhe pro quadradinho na entrada da janela e volta pra tela cheia em corte seco (k direto pra 0, sem a saída animada do exemplo). Render 1080x1920 com a música baixa sob a fala e ducking suave."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Folha do vídeo (1 quadro a cada 4 s) ao lado da folha do exemplo principal e folha 5 por segundo nas emendas e nos 5 s finais: no máximo 2 elementos além da legenda, rosto inteiro no quadradinho, volta em corte seco, nenhum vai-e-volta de menos de 2 s, 3 a 5 janelas perto de 30% e música medida. Só entrega igual ou melhor que o exemplo."
+      }
+    ]
+  },
+  "funil": "meio",
+  "funil_motivo": "Explica com animação do que a pessoa diz: reenquadramento.",
+  "apoio": {
+    "usa": true,
+    "tipo": "b-roll que troca com a fala, tela cheia atrás",
+    "fontes": [
+      "acervo",
+      "youtube",
+      "pexels"
+    ],
+    "duracao_s": "2-4",
+    "quantidade": "troca a cada frase",
+    "quando_nao": "no gancho e no CTA",
+    "previa": "folha com 3 opções por cena antes do render"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "O arquivo vai na área de cima desta etapa (ou cole o link).",
+      "principal": true
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block titulo %}{{ titulo }}{% endblock %}
+{% block conteudo %}
+<div class="vazio vazio-erro">
+  <svg class="icon vazio-icone" aria-hidden="true"><use href="#i-aviso"/></svg>
+  <h1>{{ titulo }}</h1>
+  <p>{{ frase }}</p>
+  <a class="btn primario grande" href="{{ url_for('home') }}">Voltar pro início</a>
+</div>
+{% endblock %}

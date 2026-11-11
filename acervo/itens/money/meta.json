@@ -1,0 +1,83 @@
+{
+  "titulo": "Cha-ching de caixa registradora / moedas, dois toques rápidos",
+  "tags": [
+    "dinheiro",
+    "caixa registradora",
+    "moeda",
+    "cha-ching",
+    "metalico",
+    "curto",
+    "pontual",
+    "oferta",
+    "preco",
+    "vendas",
+    "anuncio"
+  ],
+  "fonte": "clientes/Cliente2/anuncio-cliente6",
+  "autor": "",
+  "licenca": "",
+  "observacao": "Cama/SFX que era asset do modelo anuncio-cliente6.",
+  "origem": "asset-de-modelo",
+  "arquivo_original": "money.mp3",
+  "adicionado_em": "2026-09-17 21:35:11",
+  "media": {
+    "largura": null,
+    "altura": null,
+    "fps": 0.0,
+    "duracao": 2.0
+  },
+  "tipo": "sfx",
+  "checklist": {
+    "casa_com_a_fala": null,
+    "sem_rosto_indevido": true,
+    "sem_watermark": true,
+    "sem_legenda_queimada": true,
+    "qualidade_ok": true,
+    "dinamico": true
+  },
+  "usos": [],
+  "analise": {
+    "duracao_s": 2.0,
+    "bpm": 161.5,
+    "bpm_confianca": 0.4,
+    "lufs": -16.6,
+    "faixa_dinamica_lu": 0.0,
+    "pico_true_db": -0.6,
+    "bandas_geral": {
+      "grave": 0.01,
+      "medio": 0.41,
+      "agudo": 0.57
+    },
+    "bandas_pico": {},
+    "secoes": [],
+    "trechos_usaveis": [],
+    "pico_energia_s": 0,
+    "melhor_trecho_cama": null,
+    "imagens": {
+      "waveform": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/money/waveform.png",
+      "espectro": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/money/espectro.png",
+      "curva": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/money/curva.png"
+    },
+    "youtube": {},
+    "arquivo": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/money/clip.mp3",
+    "analisado_em": "20260917-213511"
+  },
+  "resumo_audio": "2.0s · 161.5 BPM (confiança 0.4) · -16.6 LUFS · faixa dinâmica 0.0 LU\ntimbre: grave 0.01 · médio 0.41 · agudo 0.57",
+  "descricao": "SFX curto e metálico com dois transientes brilhantes: um ataque forte logo no início (~0-0.3s) e um segundo golpe por volta de 0.4-0.5s, com harmônicos agudos subindo até ~14kHz — timbre de moeda caindo ou 'cha-ching' de caixa registradora. Depois de ~1.2s a energia cai a quase zero e o arquivo (2s) fica só com cauda/silêncio. Serve como efeito pontual pra marcar o momento exato em que aparece um preço, uma oferta, um resultado em dinheiro ou uma virada de 'ganho' no reel — não é cama, não tem groove pra rodar o vídeo inteiro. Evitar usar como música de fundo ou repetir em loop: é feito pra tocar uma vez, encaixado no corte certo.",
+  "trecho_sugerido": {
+    "inicio_s": 0,
+    "fim_s": 1.2,
+    "tipo": "pico",
+    "motivo": "toda a energia sonora do arquivo está entre 0 e ~1.2s, com dois transientes de impacto; depois disso é silêncio"
+  },
+  "clima": "vitorioso, chamativo, comercial",
+  "papel": "efeito pontual",
+  "descrito_em": "2026-09-17",
+  "auto": {
+    "andamento": "rápida",
+    "brilho": "brilhante",
+    "dinamica": "constante",
+    "formato": "efeito",
+    "cresce": false
+  }
+}

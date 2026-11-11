@@ -1,0 +1,28 @@
+{
+  "titulo": "Modelo do kit (os 9 tipos de cena)",
+  "saida": "modelo.mp4",
+  "video": "demo/pessoa.jpg",
+  "voz": "demo/voz.wav",
+  "palavras": "demo/palavras.json",
+  "duracao": 22.19,
+  "cores": {"marca": "#86CBFF", "dor": "#F2564B", "etiqueta": "#2463EB", "caneta": "#2747B8"},
+  "estilo": {"legenda_y": 1250, "foco": [0.5, 0.36], "maiusculas": true},
+  "musica": {"arquivo": "audio/musicas/1154.mp3", "inicio_s": 20},
+  "efeitos": true,
+  "cenas": [
+    {"tipo": "frase", "de": 0, "dor": ["malandro"]},
+    {"tipo": "recorte", "de": 1.85},
+    {"tipo": "pessoa", "de": 3.77, "plano": "aberto", "destaque": ["caixa"]},
+    {"tipo": "relogio", "de": 5.86, "de_hora": "23:00", "ate_hora": "05:00", "recorte": true},
+    {"tipo": "polaroid", "de": 7.88, "imagem": "demo/polaroid.jpg", "origem": "demo do motor (foto de teste)", "destaque": ["preço"]},
+    {"tipo": "caderno", "de": 10.31, "titulo": "Querer abraçar tudo",
+     "itens": [{"texto": "revisar cada peça", "marca": "x"}, {"texto": "responder cada cliente", "marca": "x"}],
+     "circulo": {"texto": "TUDO", "sub": "passa por você"}},
+    {"tipo": "traco", "de": 12.755, "destaque": ["bifurcação"],
+     "rotulos": {"esquerda": {"texto": "carreira de funcionário", "nota": "ok."}, "direita": {"texto": "DONO"}}},
+    {"tipo": "jornal", "de": 14.758, "nome": "Nome do Cliente", "cargo": "Profissão · Empresa"},
+    {"tipo": "filme", "de": 16.584, "imagem": "demo/filme.jpg", "origem": "demo do motor (foto de teste)"},
+    {"tipo": "frase", "de": 18.672, "destaque": ["você"]},
+    {"tipo": "frase", "de": 20.456, "destaque": ["liberdade"]}
+  ]
+}

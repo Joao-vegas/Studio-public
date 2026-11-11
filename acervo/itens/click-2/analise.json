@@ -1,0 +1,20 @@
+{
+  "duracao_s": 0.0,
+  "bpm": 0.0,
+  "bpm_confianca": 0.0,
+  "lufs": -70.0,
+  "faixa_dinamica_lu": 0.0,
+  "pico_true_db": -1.6,
+  "bandas_geral": {},
+  "bandas_pico": {},
+  "secoes": [],
+  "trechos_usaveis": [],
+  "pico_energia_s": null,
+  "melhor_trecho_cama": null,
+  "imagens": {
+    "espectro": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/click-2/espectro.png"
+  },
+  "youtube": {},
+  "arquivo": "~/Projetos/Skill/Conteúdo/producao-reels/acervo/itens/click-2/clip.mp3",
+  "analisado_em": "20260917-213529"
+}

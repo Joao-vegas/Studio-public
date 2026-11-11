@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% block titulo %}Buscar música e efeitos{% endblock %}
+{% from "_apagar_ui.html" import forms as ap_forms, musica as ap_musica, nao_usar_js with context %}
+{% macro linha(it) %}
+<div class="linha-video mb-item{{ ' mb-usada' if it.usada }}">
+  {% if it.capa %}<img src="{{ it.capa }}" alt="" loading="lazy">{% else %}<div class="miniatura"><svg class="icon" aria-hidden="true"><use href="#i-biblioteca"/></svg></div>{% endif %}
+  <div class="txt">
+    <b title="{{ it.titulo }}">{{ it.titulo }}</b>
+    {% if it.fonte in ('cliente', 'formato') %}<small>{{ it.motivo }}</small>
+    {% else %}<small>{{ it.autor or 'autor desconhecido' }}{% if it.duracao_txt %} · {{ it.duracao_txt }}{% endif %}{% if it.licenca %} · {{ it.licenca }}{% endif %}{% if it.bpm %} · {{ it.bpm }} BPM{% endif %}{% if it.como_soa %} · {{ it.como_soa }}{% endif %}</small>{% endif %}
+    <div class="mb-etiquetas">
+      {% if it.usada %}<span class="etiqueta destaque">{{ it.usada_txt }}</span>{% endif %}
+      {% if it.fonte not in ('biblioteca', 'cliente', 'formato') and it.na_biblioteca %}<span class="etiqueta ok">já está na Biblioteca</span>{% endif %}
+      {% if it.fonte == 'formato' %}<span class="etiqueta ok">vem com o formato</span>{% elif it.fonte == 'cliente' and it.modelo %}<span class="etiqueta">{{ it.modelo }}</span>{% endif %}
+      {% if it.guardando and it.guardando.estado == 'baixando' %}<span class="etiqueta">guardando…</span>{% endif %}
+      {% if it.guardando and it.guardando.estado == 'erro' %}<span class="etiqueta destaque">não deu pra guardar: {{ it.guardando.erro }}</span>{% endif %}
+      {% if it.comercial == false and it.fonte != 'youtube' %}<span class="etiqueta destaque">não comercial</span>{% elif it.comercial and it.fonte != 'biblioteca' %}<span class="etiqueta ok">pode usar comercial</span>{% endif %}
+      {% if it.longa %}<span class="etiqueta">compilação longa</span>{% endif %}
+      {% for t in it.tags %}<span class="etiqueta">{{ t }}</span>{% endfor %}
+    </div>
+    {% if it.aviso_licenca and it.fonte != 'youtube' %}<small class="mb-nota">{{ it.aviso_licenca }}</small>{% endif %}
+    {% if it.fonte in ('biblioteca', 'cliente', 'formato') and it.clip_rel %}<audio controls preload="none" src="{{ url_for('arquivo', caminho=it.clip_rel) }}"></audio>
+    {% elif it.previa %}<audio controls preload="none" src="{{ it.previa }}"></audio>
+    {% elif it.youtube_id %}<details class="mb-yt" data-id="{{ it.youtube_id }}"><summary>ouvir aqui</summary></details>{% endif %}
+  </div>
+  <div class="mb-acoes">
+    {% if it.clip_rel %}<button type="button" class="btn mini favorito" data-arquivo="{{ it.clip_rel }}" data-slug="{{ it.slug or '' }}" data-tipo="{{ tipo }}" data-cliente="{{ cliente }}" data-titulo="{{ it.titulo }}">{{ '♥ Salvo' if it.favorita else '♡ Salvar' }}</button>{% endif %}
+    {% if job_info is defined and job_info and tipo == 'musica' and (it.clip_rel or it.baixar) %}
+      <form method="post" action="{{ url_for('musica_usar') }}">
+        <input type="hidden" name="job" value="{{ job_info.id }}">
+        <input type="hidden" name="arquivo" value="{{ it.clip_rel or '' }}">
+        {% for k in ('fonte','url','titulo','autor','licenca') %}<input type="hidden" name="{{ k }}" value="{{ it[k] if it[k] is not none else '' }}">{% endfor %}
+        <input type="hidden" name="audio" value="{{ '' if it.clip_rel else (it.baixar or '') }}">
+        <button class="btn mini primario">Usar neste vídeo</button>
+      </form>
+    {% endif %}
+    {% if it.clip_rel and tipo == 'musica' %}{{ ap_musica(it.clip_rel, it.titulo, url_for('arquivo', caminho=it.clip_rel)) }}{% endif %}
+    {% if it.fonte in ('cliente', 'formato') %}
+    {% elif it.fonte == 'biblioteca' %}
+      <a class="btn mini" href="{{ url_for('acervo', tipo=it.tipo, q=it.titulo) }}">ver na Biblioteca</a>
+    {% else %}
+      {% if it.url %}<a class="btn mini" href="{{ it.url }}" target="_blank" rel="noopener">abrir ↗</a>{% endif %}
+      {% if it.na_biblioteca %}<button class="btn mini" disabled>já guardada</button>
+      {% elif it.guardando and it.guardando.estado == 'baixando' %}<button class="btn mini" disabled>guardando…</button>
+      {% elif it.longa %}<button class="btn mini" disabled title="Vídeo de mais de 15 minutos: abra e escolha uma faixa curta">longa demais</button>
+      {% elif it.fonte == 'youtube' or it.baixar %}
+      <form method="post" action="{{ url_for('musica_guardar') }}">
+        {% for k in ('fonte','url','titulo','autor','licenca','tipo','duracao','aviso_licenca') %}<input type="hidden" name="{{ k }}" value="{{ it[k] if it[k] is not none else '' }}">{% endfor %}
+        <input type="hidden" name="audio" value="{{ it.baixar or '' }}">
+        <input type="hidden" name="termo" value="{{ termo }}"><input type="hidden" name="q" value="{{ termo }}">
+        <input type="hidden" name="tipo_busca" value="{{ tipo }}"><input type="hidden" name="cliente" value="{{ cliente }}">
+        <input type="hidden" name="pagina" value="{{ pagina }}"><input type="hidden" name="instrumental" value="{{ '1' if instrumental else '' }}">
+        <button class="btn mini primario">Guardar na Biblioteca</button>
+      </form>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}
+{% block conteudo %}
+<style>
+.mb-busca{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:0 18px;align-items:end}
+.mb-busca .campo{margin:0 0 14px}
+.mb-tipos{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.mb-tipos label{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--linha);border-radius:11px;cursor:pointer;font-weight:550}
+.mb-tipos label:has(input:checked){border-color:var(--txt);box-shadow:0 0 0 1px var(--txt)}
+.mb-item{align-items:flex-start;flex-wrap:wrap}
+.mb-item img,.mb-item .miniatura{width:64px!important;height:64px!important}
+.mb-item .txt b{white-space:normal!important}
+.mb-item audio{display:block;width:100%;max-width:420px;height:34px;margin-top:8px}
+.mb-item iframe{display:block;width:100%;max-width:420px;aspect-ratio:16/9;border:0;border-radius:10px;margin-top:8px}
+.mb-etiquetas{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.mb-nota{display:block;margin-top:4px;color:var(--txt2);font-size:12.5px}
+.mb-acoes{display:flex;flex-direction:column;gap:6px;align-items:stretch;flex:none}
+.mb-usada{opacity:.62}
+.mb-yt summary{cursor:pointer;color:var(--txt2);font-size:13px;margin-top:6px}
+.mb-grupo-topo{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.mb-grupo-topo h2{margin-bottom:4px}
+.mb-sites{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+@media(max-width:820px){.mb-busca{grid-template-columns:1fr}.mb-acoes{flex-direction:row;width:100%}}
+</style>
+
+<div class="topo-pagina">
+  <div><h1>Buscar música e efeitos</h1>
+    <p class="sub">Procura primeiro nas músicas do cliente, na sua Biblioteca e no formato, depois fora: Mixkit (grátis, liberado até pra anúncio), Jamendo, Freesound (efeitos) e YouTube. O que você guardar vira item da Biblioteca: o Estúdio mede o BPM, acha os trechos e descreve sozinho.</p></div>
+  {% if job_info is defined and job_info %}<a class="btn" href="{{ url_for('job', cli=job_info.cliente, slug=job_info.slug) }}#musica">Voltar pro vídeo</a>
+  {% else %}<a class="btn" href="{{ url_for('acervo') }}">Voltar pra Biblioteca</a>{% endif %}
+</div>
+
+{% if job_info is defined and job_info %}
+<div class="aviso">Escolhendo a música de <b>“{{ job_info.titulo }}”</b>. Ouça e clique em <b>Usar neste vídeo</b>: ela volta pro storyboard já marcada.</div>
+{% endif %}
+
+{% if do_cliente is defined and do_cliente %}
+<div class="cartao-config">
+  <h3>{{ 'Músicas' if tipo == 'musica' else 'Efeitos' }} que já são do {{ cliente }}</h3>
+  <p class="sub" style="margin-bottom:8px">Guardados nos modelos dele. Grátis e já no computador.</p>
+  <div class="lista-videos">{% for it in do_cliente[:8] %}{{ linha(it) }}{% endfor %}</div>
+  {% if do_cliente|length > 8 %}<details style="margin-top:10px"><summary>Mostrar os outros {{ do_cliente|length - 8 }}</summary><div class="lista-videos">{% for it in do_cliente[8:] %}{{ linha(it) }}{% endfor %}</div></details>{% endif %}
+</div>
+{% endif %}
+
+<form method="get" class="cartao-config">
+  {% if job_info is defined and job_info %}<input type="hidden" name="job" value="{{ job_info.id }}">{% endif %}
+  <div class="mb-busca">
+    <div class="campo"><label for="mb-q">O que você procura?</label>
+      <input id="mb-q" name="q" value="{{ termo }}" placeholder="Ex.: trilha tensa investigativa · whoosh de transição" {{ 'autofocus' if not termo }}>
+      <small>Dica: em inglês acha mais no Jamendo e no Freesound (tense, corporate, epic, whoosh, impact, riser).</small></div>
+    <div class="campo"><label for="mb-cliente">Pra qual cliente? <small>(opcional)</small></label>
+      <select id="mb-cliente" name="cliente"><option value="">Nenhum</option>{% for c in clientes %}<option value="{{ c }}" {{ 'selected' if c == cliente }}>{{ c }}</option>{% endfor %}</select>
+      <small>Marca o que ele já usou nos últimos vídeos, pra não repetir.</small></div>
+  </div>
+  <div class="mb-tipos" role="radiogroup" aria-label="O que buscar">
+    <label><input type="radio" name="tipo" value="musica" {{ 'checked' if tipo == 'musica' }}> Música</label>
+    <label><input type="radio" name="tipo" value="sfx" {{ 'checked' if tipo == 'sfx' }}> Efeito sonoro</label>
+    <label title="Vale pra busca de música"><input type="checkbox" name="instrumental" value="1" {{ 'checked' if instrumental }}> Só instrumental (sem voz cantando)</label>
+  </div>
+  <button class="btn primario"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>Buscar</button>
+</form>
+
+{{ ap_forms(request.full_path) }}{{ nao_usar_js() }}
+{% if tipo == 'musica' and virais is defined and virais.itens %}
+<div class="cartao-config">
+  <h3>Virais do momento <small class="meta">o que está bombando no Brasil e no mundo hoje (Shazam, Spotify, Apple Music, Deezer)</small></h3>
+  <p class="sub" style="margin-bottom:8px">{{ virais.aviso }} O trecho que entra é o refrão ou o drop, e toda faixa passa pela checagem de marca d'água antes de virar opção.</p>
+  <div class="lista-videos">{% for it in virais.itens %}
+    <div class="linha-video mb-item mv-opcao"><div class="txt"><b>{{ it.titulo }}</b><small>{{ it.autor }} · {{ it.motivo }}</small>
+      <audio controls preload="none" data-faixa="{{ it.id }}" hidden></audio></div>
+      <div class="mb-acoes"><button type="button" class="btn mini mv-previa" data-faixa="{{ it.id }}">▶ Prévia de 10 s</button>
+      <button type="button" class="btn mini nao-usar" data-chave="viral:{{ it.id }}" data-titulo="{{ it.titulo }} - {{ it.autor }}">Não usar mais</button>
+      {% if job_info is defined and job_info %}<form method="post" action="{{ url_for('musica_usar') }}"><input type="hidden" name="job" value="{{ job_info.id }}"><input type="hidden" name="fonte" value="virais"><input type="hidden" name="url" value="{{ it.id }}"><input type="hidden" name="titulo" value="{{ it.titulo }}"><button class="btn mini primario">Usar neste vídeo</button></form>{% endif %}</div></div>
+  {% endfor %}</div>
+</div>
+<script>
+document.querySelectorAll('.mv-previa').forEach(function (b) { b.onclick = function () {
+  var a = document.querySelector('audio[data-faixa="' + b.dataset.faixa + '"]'); b.disabled = true; b.textContent = 'Baixando e achando o refrão…';
+  fetch('/musica/viral/previa?faixa=' + encodeURIComponent(b.dataset.faixa)).then(function (r) { return r.json(); }).then(function (j) {
+    b.disabled = false; b.textContent = '▶ Prévia de 10 s';
+    if (!j.ok) { alert(j.erro); return; }
+    if (!j.confere) { alert('Marca d\'água ou defeito: ' + j.motivos.join('; ')); return; }
+    a.src = '/arquivo/' + j.previa; a.hidden = false; a.play(); }); }; });
+</script>
+{% endif %}
+{% if cliente %}
+<div class="cartao-config">
+  <h3>Músicas que o {{ cliente }} usou nos últimos vídeos</h3>
+  {% if recentes %}
+  <p class="sub" style="margin-bottom:8px">Essas não se repetem. Elas aparecem marcadas e vão pro fim da lista.</p>
+  {% for r in recentes %}<div class="linha-status"><span><b>{{ r.titulo }}</b><small>vídeo “{{ r.job_titulo }}” · {{ r.data[:10] }}</small></span><span class="etiqueta destaque">{{ texto_uso(r, cliente) }}</span></div>{% endfor %}
+  {% else %}<p class="sub">Nenhuma música registrada nos últimos vídeos dele. Pode escolher à vontade.</p>{% endif %}
+</div>
+{% endif %}
+
+<div class="mb-grupo-topo"><h2>Na sua Biblioteca</h2><a class="btn mini" href="{{ url_for('acervo', tipo=tipo, q=termo, modo='fala' if termo else 'texto') }}">{{ 'procurar pelo sentido na Biblioteca' if termo else 'ver tudo (com formatos e clientes)' }}</a></div>
+{% if biblioteca %}<div class="lista-videos">{% for it in biblioteca %}{{ linha(it) }}{% endfor %}</div>
+{% else %}<p class="sub">{{ 'Nada na Biblioteca com essas palavras.' if termo else 'Ainda não tem nada guardado aqui.' }}</p>{% endif %}
+
+{% if do_formato is defined and do_formato %}
+<div class="cartao-config" style="margin-top:18px">
+  <h3>{{ 'Músicas' if tipo == 'musica' else 'Efeitos' }} que vêm com o formato</h3>
+  <p class="sub" style="margin-bottom:8px">Já no computador, valem pra qualquer cliente desse formato.</p>
+  <div class="lista-videos">{% for it in do_formato[:8] %}{{ linha(it) }}{% endfor %}</div>
+  {% if do_formato|length > 8 %}<details style="margin-top:10px"><summary>Mostrar os outros {{ do_formato|length - 8 }}</summary><div class="lista-videos">{% for it in do_formato[8:] %}{{ linha(it) }}{% endfor %}</div></details>{% endif %}
+</div>
+{% endif %}
+
+{% if varias is defined and varias %}
+  <div class="mb-grupo-topo"><h2>Sugestões pela fala do vídeo</h2><small class="sub">de {{ varias|length }} climas, sem o que o {{ cliente }} usou há pouco</small></div>
+  {% for g in varias %}
+  <h3 style="margin:14px 0 6px">{{ g.clima }} <small class="sub">procurei: “{{ g.termo }}”</small></h3>
+  <div class="lista-videos">{% for it in g.itens %}{{ linha(it) }}{% endfor %}</div>
+  {% endfor %}
+  <div style="margin-top:14px"><a class="btn" href="{{ url_for('musica_busca', tipo=tipo, cliente=cliente, pagina=pagina+1, job=(job_info.id if job_info is defined and job_info else '')) }}">Mais opções</a></div>
+{% endif %}
+
+{% if termo %}
+
+  {% for g in grupos %}
+  <div class="mb-grupo-topo"><h2>{{ g.nome }}</h2>{% if g.procurei %}<small class="sub">procurei: “{{ g.procurei }}”</small>{% endif %}</div>
+  {% if g.fonte == 'youtube' %}<p class="sub" style="margin-bottom:10px">⚠ Música do YouTube pode ter direitos autorais: boa pra referência e teste. Pra publicar, prefira fontes com licença (Jamendo, Freesound ou a sua conta paga).</p>{% endif %}
+  {% if g.aviso %}<div class="aviso">{{ g.aviso }}{% if g.precisa_chave %} <a href="{{ url_for('config') }}#musica-fontes">Abrir Configurações</a>{% endif %}</div>{% endif %}
+  {% if g.itens %}<div class="lista-videos">{% for it in g.itens %}{{ linha(it) }}{% endfor %}</div>{% endif %}
+  {% endfor %}
+
+  <div style="margin-top:22px;display:flex;gap:8px;flex-wrap:wrap">
+    <a class="btn" href="{{ url_for('musica_busca', q=termo, tipo=tipo, cliente=cliente, pagina=pagina+1, instrumental='1' if instrumental else '', visto=visto, job=(job_info.id if job_info is defined and job_info else '')) }}">Trazer outras</a>
+  </div>
+{% else %}
+  <div class="vazio-bonito" style="margin-top:8px">
+    <h3>Digite um clima, um estilo ou um efeito</h3>
+    <p>Exemplos: <a href="{{ url_for('musica_busca', q='tense investigation', tipo='musica') }}">tense investigation</a> · <a href="{{ url_for('musica_busca', q='corporate upbeat', tipo='musica') }}">corporate upbeat</a> · <a href="{{ url_for('musica_busca', q='epic cinematic', tipo='musica') }}">epic cinematic</a> · <a href="{{ url_for('musica_busca', q='whoosh', tipo='sfx') }}">whoosh</a> · <a href="{{ url_for('musica_busca', q='impact', tipo='sfx') }}">impact</a></p>
+    {% if musica_status is defined and musica_status %}<p class="sub">Fontes ligadas: {% for f in musica_status.fontes %}{{ f.nome }} ({{ f.estado }}){{ ', ' if not loop.last }}{% endfor %}. <a href="{{ url_for('config') }}#musica-fontes">Ligar as outras</a></p>{% endif %}
+  </div>
+{% endif %}
+
+<div class="cartao-config" id="pagas" style="margin-top:34px">
+  <h3>Artlist, Musicbed, Epidemic e outras pagas</h3>
+  <p class="sub">Elas não têm API pública de download, então o Estúdio não consegue buscar lá sozinho. O caminho é: você abre o site, baixa com a sua conta e arrasta o arquivo pra Biblioteca (botão “Alimentar o acervo”). O Estúdio descreve, mede o BPM, acha os trechos e guarda com a licença que você anotar.</p>
+  <div class="mb-sites">{% for s in sites %}<a class="btn mini" href="{{ s.link }}" target="_blank" rel="noopener">{{ s.nome }}{{ ' (paga)' if s.paga else ' (grátis)' }} ↗</a>{% endfor %}</div>
+  <p class="meta" style="margin-top:10px">{% if termo %}Os links com busca já abrem procurando “{{ termo }}”.{% endif %} Pixabay e a Biblioteca de áudio do YouTube são grátis, mas também só pelo site.</p>
+  <a class="btn mini" href="{{ url_for('acervo') }}" style="margin-top:6px">Ir pra Biblioteca e arrastar o arquivo</a>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll('.favorito').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var salvo = b.textContent.indexOf('Salvo') >= 0;
+    fetch('{{ url_for("musica_favorito") }}', {method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({arquivo: b.dataset.arquivo, slug: b.dataset.slug, tipo: b.dataset.tipo, cliente: b.dataset.cliente,
+                            titulo: b.dataset.titulo, desligar: salvo ? '1' : ''})})
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (d.ok) { b.textContent = salvo ? '♡ Salvar' : '♥ Salvo'; if (d.slug) b.dataset.slug = d.slug; } });
+  });
+});
+document.querySelectorAll('.mb-yt').forEach(function (d) {
+  d.addEventListener('toggle', function () {
+    if (!d.open || d.querySelector('iframe')) return;
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(d.dataset.id) + '?autoplay=1';
+    f.allow = 'autoplay; encrypted-media';
+    f.title = 'Prévia do YouTube';
+    d.appendChild(f);
+  });
+});
+</script>
+{% endblock %}

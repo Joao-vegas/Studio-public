@@ -1,0 +1,13 @@
+{
+  "titulo": "Modelo do motor genérico (troque pelas cenas do formato)",
+  "saida": "modelo.mp4",
+  "largura": 1080,
+  "altura": 1920,
+  "fps": 30,
+  "duracao": 6,
+  "cenas": [
+    {"tipo": "frase", "de": 0, "texto": "Primeira cena", "fala": "o que a pessoa fala nesta cena"},
+    {"tipo": "frase", "de": 2, "texto": "Segunda cena", "fala": "cada cena dura até o de da próxima"},
+    {"tipo": "frase", "de": 4, "texto": "Última cena", "fala": "a última vai até a voz ou a duracao"}
+  ]
+}

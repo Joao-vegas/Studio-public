@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% from "_modelo_forca.html" import modelo_forca %}
+{% block titulo %}Editar · {{ titulo }}{% endblock %}
+{% block conteudo %}
+<p class="migalha meta"><a href="{{ url_for('editor_lista') }}">← Editar vídeo</a></p>
+<div class="topo-pagina"><div><h1>{{ titulo }}</h1>
+<p class="sub">Clique numa cena (Shift+clique em outra marca um trecho), escolha até onde o Claude pode mexer e diga o que mudar. Pode colar um print (Cmd+V) mostrando o ponto. Ele só mexe no que você marcou.</p></div></div>
+
+{% include "_editor_miolo.html" %}
+{% endblock %}

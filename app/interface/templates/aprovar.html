@@ -1,0 +1,39 @@
+{% extends 'base.html' %}{% block titulo %}Esperando você{% endblock %}{% block conteudo %}
+<div class="cabecalho"><div><h1>Esperando você</h1><p class="sub">Aprove os vídeos que ficaram bons. O resto (juntar referência e estudo ao estilo certo) eu decido sozinho e aviso aqui, com Desfazer.</p></div></div>
+{% if rodando %}<section class="ap-rodando" aria-label="Rodando agora"><h2 class="titulo-grupo">Rodando agora <span class="etiqueta destaque">{{ rodando|length }}</span></h2>
+<ul>{% for r in rodando %}<li><a href="{{ url_for('andamento_ver', cli=r.cliente, slug=r.slug) }}"><b>{{ r.titulo }}</b><small>{{ r.cliente }}{% if r.etapa %} · {{ r.etapa }}{% endif %}{% if r.texto %} · {{ r.texto }}{% endif %}{% if r.ha %} · {{ r.ha }}{% endif %}</small></a><a class="btn mini" href="{{ url_for('andamento_ver', cli=r.cliente, slug=r.slug) }}">Ver andamento</a></li>{% endfor %}</ul></section>{% endif %}
+{% if itens or videos or outros %}
+{% if itens or videos %}
+<form method="post" id="aprovar-form" data-apagar-lote="botao">
+{% if itens %}<h2 class="titulo-grupo">Storyboards pra aprovar</h2>
+<div class="ap-grade">{% for i in itens %}<div class="ap-card">
+{% if i.imagem %}<a class="ap-capa" href="{{ url_for('andamento_ver', cli=i.cliente, slug=i.slug) }}"><img class="storyboard" loading="lazy" src="{{ url_for('arquivo', caminho=i.imagem) }}" alt=""></a>{% else %}<div class="ap-capa vazio">Sem imagem ainda</div>{% endif %}
+<div class="ap-corpo"><b>{{ i.titulo }}</b><small>{{ i.cliente }} · {{ i.estilo }}{% if i.lote_titulo %} · {{ i.lote_titulo }}{% endif %}</small>{% if not i.pronto %}<em class="ap-falta">Ainda falta uma escolha</em>{% endif %}
+<div class="ap-acoes"><a class="btn mini" href="{{ url_for('andamento_ver', cli=i.cliente, slug=i.slug) }}">{{ 'Ver de perto' if i.pronto else 'Abrir' }}</a> <button class="btn mini fantasma" type="submit" form="tirar-form" name="tirar_um" value="tirar:{{ i.cliente }}/{{ i.slug }}" title="Some desta lista. O vídeo continua em Em andamento e Meus vídeos.">Tirar da lista</button> <button class="btn mini fantasma perigo" type="submit" form="apagar-form" name="apagar_um" value="{{ i.cliente }}/{{ i.slug }}" data-apaga data-titulo="{{ i.titulo }}">Apagar</button></div></div>
+{% if i.opcoes_frase %}<fieldset class="opcoes-frase"><legend>Frase</legend>{% for o in i.opcoes_frase %}<label><input type="radio" name="frase_{{ i.cliente }}/{{ i.slug }}" value="{{ o }}"{% if o==i.frase or (not i.frase and loop.first) %} checked{% endif %}> {{ o }}</label>{% endfor %}</fieldset>{% endif %}
+{% if i.pronto %}<input type="checkbox" name="video" value="{{ i.cliente }}/{{ i.slug }}" checked aria-label="Marcar {{ i.titulo }}">{% endif %}
+</div>{% endfor %}</div>{% endif %}
+{% if videos %}<h2 class="titulo-grupo">Vídeos prontos pra assistir</h2>
+{% if videos|selectattr('chat')|list %}<p class="ap-antigos"><button class="btn mini fantasma" type="submit" form="antigos-form" onclick="return confirm('Tirar da lista todos os vídeos feitos pelo chat há mais de 3 dias? Nada é apagado: eles seguem em Meus vídeos.')">Tirar da lista todos os antigos (feitos pelo chat há mais de 3 dias)</button></p>{% endif %}
+<div class="ap-grade">{% for i in videos %}<div class="ap-card">
+<video class="ap-capa" controls preload="none" poster="{{ url_for('thumb_rota', caminho=i.video) }}?v={{ mtime(i.video) }}" src="{{ url_for('arquivo', caminho=i.video) }}?v={{ mtime(i.video) }}"></video>
+<div class="ap-corpo"><a href="{{ url_for('andamento_ver', cli=i.cliente, slug=i.slug) }}"><b>{{ i.titulo }}</b></a><small>{{ i.cliente }} · {{ i.estilo }}{% if i.lote_titulo %} · {{ i.lote_titulo }}{% endif %}{% if i.chat %} · feito pelo chat{% endif %}{% if i.n_versoes and i.n_versoes > 1 %} · <b class="ap-versoes">{{ i.n_versoes }} versões</b> (a última aparece aqui){% endif %}</small>
+<div class="ap-acoes"><a class="btn mini" href="{{ url_for('andamento_ver', cli=i.cliente, slug=i.slug) }}">Abrir</a> <button class="btn mini fantasma" type="submit" form="tirar-form" name="tirar_um" value="tirar:{{ i.cliente }}/{{ i.slug }}" title="Some desta lista. O vídeo continua em Meus vídeos.">Tirar da lista</button>{% if not i.chat %} <button class="btn mini fantasma perigo" type="submit" form="apagar-form" name="apagar_um" value="{{ i.cliente }}/{{ i.slug }}" data-apaga data-titulo="{{ i.titulo }}">Apagar</button>{% endif %}</div></div>
+<input type="checkbox" name="video" value="{{ i.cliente }}/{{ i.slug }}" aria-label="Marcar {{ i.titulo }}">
+</div>{% endfor %}</div>{% endif %}
+<div class="sticky-actions"><button class="btn" type="button" id="desmarcar">Desmarcar tudo</button><button class="btn" type="submit" name="acao" value="tirar" title="Some desta lista. Nada é apagado.">Tirar marcados da lista</button><button class="btn perigo" type="submit" name="acao" value="apagar" data-apaga>Apagar marcados</button><button class="btn grande primario" type="submit" name="acao" value="aprovar">Aprovar marcados</button></div>
+</form>
+<form method="post" id="tirar-form"></form><form method="post" id="antigos-form"><input type="hidden" name="acao" value="tirar_antigos"></form>
+<form method="post" id="apagar-form" data-apagar-lote="botao"></form>
+{% endif %}
+{% if outros %}<form method="post" id="auto-form"></form><h2 class="titulo-grupo">Outras coisas pra você olhar (e o que eu já resolvi sozinho) <span class="etiqueta destaque">{{ outros|length }}</span></h2>
+<div class="ap-grade ap-outros">{% for i in outros %}<div class="ap-card ap-{{ i.tipo }}">
+{% if i.video %}<video class="ap-capa" controls preload="none" poster="{{ url_for('thumb_rota', caminho=i.video) }}?v={{ mtime(i.video) }}" src="{{ url_for('arquivo', caminho=i.video) }}?v={{ mtime(i.video) }}"></video>{% elif i.thumb %}<a class="ap-capa" href="{{ i.url }}"><img class="storyboard" loading="lazy" src="{{ url_for('thumb_rota', caminho=i.thumb) }}" alt=""></a>{% elif i.imagem %}<a class="ap-capa" href="{{ i.url }}"><img class="storyboard" loading="lazy" src="{{ url_for('arquivo', caminho=i.imagem) }}" alt=""></a>{% else %}<a class="ap-capa vazio" href="{{ i.url }}">{{ {'regra':'Regra','estilo_novo':'Estilo','variacoes':'Ideias','estudo':'Estudo','referencia':'Referência'}.get(i.tipo,'') }}</a>{% endif %}
+<div class="ap-corpo"><span class="selo espera">{{ {'referencia':'Referência','estudo':'Estudo','variacoes':'Ideias de vídeo','estilo_novo':'Estilo novo','regra':'Regra','aviso':'Eu já fiz','melhoria':'Melhoria sugerida','regras_fechar':'Passar a limpo'}.get(i.tipo,i.tipo) }}</span><b>{{ i.titulo_curto or i.titulo }}</b><small>{{ i.sub }}{% if i.ha %} · {{ i.ha }}{% endif %}</small>
+{% if i.se_aprovar %}<small class="se-aprovar">Se você aprovar: {{ i.se_aprovar }}</small>{% elif i.nota %}<small class="se-aprovar">{{ i.nota }}</small>{% endif %}
+<div class="ap-acoes">{% if i.acoes %}{% for a in i.acoes %}<button class="btn mini{{ ' primario' if a.primario }}" type="submit" form="auto-form" formaction="{{ a.url }}" formmethod="post">{{ a.label }}</button> {% endfor %}<a class="btn mini fantasma" href="{{ i.url }}">Ver</a>{% else %}<a class="btn mini primario" href="{{ i.url }}">{{ i.botao }}</a>{% endif %}</div></div></div>{% endfor %}</div>{% endif %}
+{% else %}<div class="vazio"><svg class="icon vazio-icone"><use href="#i-check"/></svg><h3>Tudo aprovado</h3><p>Nada esperando você agora.</p><a class="btn grande primario" href="{{ url_for('novo_lote') }}">Vários vídeos de uma vez</a></div>{% endif %}
+{% endblock %}{% block scripts %}<script>
+const d=document.getElementById('desmarcar');if(d)d.addEventListener('click',()=>document.querySelectorAll('#aprovar-form input[type=checkbox]').forEach(x=>x.checked=false));
+document.querySelectorAll('button[data-confirma]').forEach(b=>b.addEventListener('click',e=>{if(!confirm(b.dataset.confirma))e.preventDefault()}));
+</script>{% endblock %}

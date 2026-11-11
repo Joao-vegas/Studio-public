@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block titulo %}Conversar · Criar vídeo{% endblock %}
+{% block conteudo %}
+<link rel="stylesheet" href="{{ url_for('static', filename='briefing.css') }}?v={{ vstatic }}">
+<div class="topo-pagina">
+  <div><h1>Conversar antes de criar</h1><p class="sub">Opcional. Conte o que você quer: a IA olha suas pastas, mostra o que achou e monta o pedido.</p></div>
+  <div class="acoes"><a class="btn" id="cv-pular" href="{{ url_for('novo_tela', estilo=formato or None, cliente=cliente or None) }}">Pular →</a></div>
+</div>
+<div class="s-passos" aria-hidden="true">
+  <span class="agora"><i>0</i>Conversar</span><span><i>1</i>O que você tem</span><span><i>2</i>Formato</span><span><i>3</i>Pra quem</span><span><i>4</i>Enviar</span>
+</div>
+{% if abertas %}<p class="cv-abertas">Continuar uma conversa: {% for c in abertas %}<a href="{{ url_for('conversar', id=c.id) }}">{{ c.cliente or 'sem cliente' }}{% if c.objetivo %} · {{ c.objetivo[:40] }}{% endif %}</a>{{ ' · ' if not loop.last }}{% endfor %}</p>{% endif %}
+
+<section class="cartao-config cv-barra">
+  <div class="cv-grupo pastas"><b>Pastas ligadas</b>
+    <div class="cv-linha"><span class="cv-linha" id="cv-pastas"></span><button type="button" class="btn mini" id="cv-ligar">＋ Ligar pasta</button></div>
+  </div>
+  <div class="cv-grupo"><b>Pra quem</b>
+    <select id="cv-cliente" aria-label="Pra quem é o vídeo">
+      <option value="">Ainda não sei</option>
+      {% for c in clientes %}<option{% if c == cliente %} selected{% endif %}>{{ c }}</option>{% endfor %}
+      <option value="{{ dados.avulso }}"{% if cliente == dados.avulso %} selected{% endif %}>Avulso (sem cliente)</option>
+    </select>
+  </div>
+  <div class="cv-grupo"><b>IA</b>
+    <div class="cv-modelo" role="group" aria-label="Qual IA conversa">
+      <button type="button" data-modelo="sonnet" title="Rápida e barata">Sonnet</button><button type="button" data-modelo="opus" title="Pensa melhor, custa mais">Opus</button>
+    </div>
+  </div>
+  <div class="cv-grupo"><b>Custo</b><span class="etiqueta" id="cv-custo">US$ 0,00</span> <small class="cv-gasto" id="cv-gasto" title="Quanto as pastas ligadas pesam em cada mensagem"></small></div>
+  <div class="cv-ligar" id="cv-ligar-box" hidden>
+    <select id="cv-ligar-tipo" aria-label="De quem é a pasta"></select>
+    <input id="cv-ligar-nome" autocomplete="off" placeholder="Digite o nome (ex.: marca3)" aria-label="Nome da pasta">
+    <div class="cv-achados" id="cv-achados" aria-live="polite"></div>
+    <button type="button" class="btn mini primario" id="cv-finder">Procurar no Mac</button>
+    <input id="cv-ligar-caminho" placeholder="ou cole o caminho da pasta, ex.: /Users/joao/Documents/Cliente2">
+    <button type="button" class="btn mini" id="cv-ligar-ok">Ligar</button>
+    <button type="button" class="btn mini" id="cv-ligar-fecha">Cancelar</button>
+  </div>
+  <div class="cv-manifesto" id="cv-manifesto" hidden>
+    <p><b>Essa pasta ainda não tem direcionamento.</b> Fiz um rascunho do que a IA pode usar. Confira e, se estiver bom, grave na pasta.</p>
+    <textarea id="cv-manifesto-texto" rows="9" aria-label="Rascunho do ESTUDIO.md"></textarea>
+    <div class="cv-linha"><button type="button" class="btn mini primario" id="cv-manifesto-ok">Gravar na pasta</button>
+      <button type="button" class="btn mini" id="cv-manifesto-nao">Agora não</button></div>
+  </div>
+</section>
+
+<div class="cv-grade">
+  <section class="cartao-config cv-chat" aria-label="Conversa">
+    <div class="cv-falas" id="cv-falas" aria-live="polite">
+      <p class="cv-vazio" id="cv-vazio">Diga o que é o vídeo, pra quem e o que você já tem. Ex.: “anúncio da Marca3 no 3D, com a capa do produto no telão”.</p>
+    </div>
+    <form class="cv-form" id="cv-form">
+      <textarea id="cv-texto" rows="2" placeholder="Escreva ou dite aqui. Enter manda, Shift+Enter pula linha."></textarea>
+      <button class="btn primario" id="cv-enviar">Enviar</button>
+    </form>
+  </section>
+
+  <aside class="cartao-config cv-card" aria-label="Briefing até agora">
+    <h3>Briefing até agora <span class="cv-salvo" id="cv-salvo"></span></h3>
+    <p class="sub" style="margin:0 0 14px">A IA preenche enquanto vocês conversam. Pode mudar qualquer coisa.</p>
+    <div id="bf-avisos"></div>
+    <div class="campo"><label for="bf-objetivo">Objetivo</label><textarea id="bf-objetivo" data-bf placeholder="O que esse vídeo precisa fazer"></textarea></div>
+    <div class="campo"><label for="bf-formato">Formato</label>
+      <select id="bf-formato" data-bf><option value="">A IA sugere</option>{% for f in formatos %}<option value="{{ f.slug }}">{{ f.titulo }}</option>{% endfor %}</select>
+      <small class="cv-porque" id="bf-porque"></small></div>
+    <div class="campo"><label for="bf-entrada">O que você tem</label>
+      <select id="bf-entrada" data-bf><option value="">Ainda não sei</option><option value="video">Um vídeo gravado</option><option value="roteiro">Um roteiro</option><option value="filmagem">Vídeos de um evento</option><option value="cortar">Um vídeo pra só cortar</option></select></div>
+    <div class="campo" id="bf-roteiro-campo"><label for="bf-roteiro">Roteiro</label><textarea class="roteiro" id="bf-roteiro" data-bf placeholder="Uma fala por linha (Nome: fala)"></textarea></div>
+    <div class="campo"><label for="bf-peculiaridade">Deste vídeo <small>(vale só pra ele)</small></label><input id="bf-peculiaridade" data-bf placeholder="Ex.: ótica, cena do produto no telão"></div>
+    <div class="campo"><label>Material liberado</label><div class="cv-mats" id="bf-material"></div></div>
+    <div class="campo"><label>Referência <small>(escolha o vídeo, pause e clique em Marcar este momento)</small></label>
+      <div id="bf-ref"></div>
+      <input id="bf-copiar" data-bf style="margin-top:8px" placeholder="O que copiar dela. Ex.: o corte seco pro produto"></div>
+    <div class="campo"><label for="bf-proibido">Não usar</label><input id="bf-proibido" data-bf placeholder="Separe por vírgula. Ex.: rosa neon, preço riscado"></div>
+    <div class="campo" id="bf-perguntas-campo" hidden><label>Ainda em aberto</label><ul class="cv-perguntas" id="bf-perguntas"></ul></div>
+    <label class="toggle-linha" style="margin:0 0 14px"><input type="checkbox" id="bf-descartavel" data-bf><span><b>É só teste: apagar quando eu aprovar</b><small>Quando você aprovar o vídeo, eu ofereço apagar na hora.</small></span></label>
+    <p class="aviso" id="cv-falta" role="alert" hidden></p>
+    <button type="button" class="btn primario grande" id="cv-fechar" style="width:100%">Fechar briefing e seguir</button>
+  </aside>
+</div>
+<script>window.CONVERSA = {{ dados|tojson }};</script>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='briefing.js') }}?v={{ vstatic }}"></script>{% endblock %}

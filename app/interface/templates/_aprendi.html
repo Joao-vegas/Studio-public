@@ -1,0 +1,21 @@
+{# Cartão "Aprendi:" (aprendi.py). Uso: {% from '_aprendi.html' import aprendi_card %}{{ aprendi_card(a, volta) }} #}
+{% macro aprendi_card(a, volta='') %}
+<div class="aprendi-card" id="aprendi-{{ a.id }}">
+  <p class="aprendi-frase"><b>Aprendi:</b> {{ a.regra }} <span class="selo espera">vale pra {{ {'cliente':'este cliente','estilo':'este estilo','geral':'todo vídeo'}[a.camada] }}</span></p>
+  {% if a.parecida %}<p class="meta">Já existe uma regra parecida: vou reescrever ela, sem duplicar. “{{ a.parecida.texto }}”</p>{% endif %}
+  <div class="acoes">
+    <form method="post" action="{{ url_for('aprendi_ok', id_=a.id) }}"><input type="hidden" name="volta" value="{{ volta }}"><button class="btn primario">OK</button></form>
+    <button type="button" class="btn" onclick="this.closest('.aprendi-card').querySelector('.aprendi-edita').hidden=false;this.hidden=true">Não é isso</button>
+  </div>
+  <form method="post" action="{{ url_for('aprendi_ajustar', id_=a.id) }}" class="aprendi-edita" hidden>
+    <input type="hidden" name="volta" value="{{ volta }}">
+    <label>Escreva a regra do seu jeito<textarea name="regra" rows="2" maxlength="600">{{ a.regra }}</textarea></label>
+    <fieldset class="aprendi-camada"><legend>Vale pra</legend>
+      {% for k, n in [('cliente','este cliente'),('estilo','este estilo'),('geral','todo vídeo')] %}<label class="check"><input type="radio" name="camada" value="{{ k }}"{{ ' checked' if a.camada == k }}> {{ n }}</label>{% endfor %}
+    </fieldset>
+    <div class="acoes"><button class="btn primario" name="guardar" value="1">Guardar assim</button>
+      <button class="btn" name="guardar" value="0">Só ajustar</button>
+      <button class="btn fantasma" formaction="{{ url_for('aprendi_descartar', id_=a.id) }}">Não vira regra</button></div>
+  </form>
+</div>
+{% endmacro %}

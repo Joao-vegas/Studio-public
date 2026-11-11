@@ -1,0 +1,182 @@
+{
+  "oculto": true,
+  "ordem": 3,
+  "grupo": "animacao",
+  "titulo": "Mundo 3D",
+  "frase": "Short vertical de 45 a 110 s: uma voz narra em frases curtas e a imagem é um mundo 3D feito por código, com a câmera sempre em movimento, uma cena nova a cada 3 a 5 s presa à palavra e os números dentro da cena.",
+  "entrada": "roteiro",
+  "proporcao": "9:16",
+  "tipo": "motor",
+  "motor": "Remotion + three.js (base/short3d.py: voz → tempo de cada palavra → short3d.json → cenas 3D → render)",
+  "status": "receita",
+  "modelos": [
+    "mundo-3d"
+  ],
+  "base": "formatos/mundo-3d/base",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Short S001 (Brink Finds): Tesla Roadster no espaço, 3D por código, 13 cenas, 67 s",
+      "origem": "~/Projetos/Projetos secundários/Não sei/shorts/S001-tesla-roadster-space/short-final-3d.mp4",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-10-17"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": true,
+      "de_onde": "Opcional: acervo ou Mixkit (python3 app/ferramentas/musica_busca.py buscar \"<clima>\" --fonte mixkit); o arquivo vai em audio/ da sandbox e o campo \"musica\" do short3d.json, volume ~0.09. Sem música: \"musica\": null.",
+      "clima": "opcional, leve",
+      "volume": "~0,09",
+      "quando": "do início ao fim, se houver",
+      "quando_nao": "sem música sem pedido",
+      "troca": "1 faixa"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "O motor não tem efeito sonoro: só voz e música.",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": false,
+    "motivo": "A legenda palavra por palavra (y≈1340) faz parte do desenho do formato e o motor não tem chave para desligar."
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [
+    "foto-pessoa",
+    "print",
+    "video-curto",
+    "musica"
+  ],
+  "usa": [
+    {
+      "oque": "Narração",
+      "quem": "ElevenLabs (voz do cliente), cerca de US$ 0,08 por vídeo de 60 s",
+      "tipo": "pago",
+      "usd": 0.08
+    },
+    {
+      "oque": "Tempo de cada palavra",
+      "quem": "whisper no seu Mac (mlx); idioma pela variável MOTION_LINGUA",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Cenas 3D e render",
+      "quem": "Remotion + three.js no seu Mac (cerca de 3 min de render, sem custo)",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "motor": "short3d.py",
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "pesquisa",
+        "titulo": "Pesquisa",
+        "andamento": "preparar",
+        "faz": "Confirmar cada número em fonte oficial e anotar em fontes/FONTES.md na sandbox; número sem fonte, a frase sai."
+      },
+      {
+        "id": "roteiro",
+        "titulo": "Roteiro",
+        "andamento": "preparar",
+        "faz": "Escrever 120 a 260 palavras em frases de 8 a 12 palavras: gancho com paradoxo, frase de identidade, a viagem em ordem, virada no meio e fecho que volta ao gancho. O João aprova antes (tela Criar ou chat)."
+      },
+      {
+        "id": "voz",
+        "titulo": "Voz",
+        "andamento": "preparar",
+        "faz": "Gerar a narração e gravar em audio/voz.wav na sandbox, limpa e sem ruído depois da última palavra; o tempo de cada palavra sai em audio/palavras.json (o whisper roda sozinho; idioma pela variável MOTION_LINGUA)."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "Montar o short3d.json a partir de base/exemplo-s001/short3d.json (peça + tempo da palavra em \"de\"), gerar o storyboard.jpg (um quadro por cena), comparar com a folha do exemplo e parar pro João aprovar."
+      },
+      {
+        "id": "cenas3d",
+        "titulo": "Cenas 3D",
+        "andamento": "video",
+        "faz": "Criar as peças que faltam (copiar CenaModelo, registrar em Registro3D) e conferir cada uma com --still abrindo a imagem; só depois seguir para o render."
+      },
+      {
+        "id": "render",
+        "titulo": "Render",
+        "andamento": "video",
+        "faz": "Renderizar com short3d.py --final (1080x1920, 30 fps, loudnorm -14 LUFS). Um único render por vez."
+      },
+      {
+        "id": "entrega",
+        "titulo": "Entrega",
+        "andamento": "conferencia",
+        "faz": "Gerar a folha do vídeo, conferir contra o exemplo principal (régua legível, fim cheio, legenda sem cobrir o importante) e só entregar igual ou melhor."
+      }
+    ],
+    "motor_arquivos": [
+      "short3d.py",
+      "README.md",
+      "remotion",
+      "exemplo-s001"
+    ],
+    "copiar_motor": false,
+    "cenas": "short3d.json",
+    "voz": "narracao",
+    "comandos": {
+      "storyboard": "python3 formatos/mundo-3d/base/short3d.py <sandbox> --json short3d.json",
+      "render": "python3 formatos/mundo-3d/base/short3d.py <sandbox> --json short3d.json --final --saida <saida>",
+      "conferir": "python3 app/ferramentas/formatos.py folha-video <saida> <sandbox>/qa/folha-video.jpg"
+    },
+    "folha": "qa/folha-video.jpg"
+  },
+  "estimativa": "45 a 110 s de vídeo: voz ~US$ 0,08 por minuto e render ~3 min; sem custo de imagem (tudo é código). O 1º vídeo de um assunto novo leva horas (objeto 3D novo); com peças prontas e objeto simples, bem menos.",
+  "passos": [
+    "Pedido: você diz o assunto e o fato principal (pode ser explicação, notícia ou anúncio simples).",
+    "Pesquisa: o agente confirma cada número em fonte oficial e anota em fontes/. Número sem fonte, a frase sai.",
+    "Roteiro: 120 a 260 palavras com gancho de paradoxo, a viagem em ordem, virada no meio e fecho que volta ao gancho. Você aprova.",
+    "Voz: gerada do roteiro; sai o áudio e o tempo de cada palavra.",
+    "Storyboard: uma lista (short3d.json) diz, em segundos, qual peça 3D entra em cada trecho da fala; você vê um quadro por cena e aprova.",
+    "Cenas 3D: as peças que existem são reaproveitadas, as que faltam são criadas (o objeto principal do assunto é sempre novo); cada cena é conferida abrindo a imagem.",
+    "Render: o Remotion junta cenas, voz, música e legenda em 1080x1920, 30 fps, com o volume nivelado em -14 LUFS (um render por vez).",
+    "Entrega: short-final.mp4 pronto. Seu comentário vira regra pro próximo.",
+    "Peças que já existem (nome no json): espaco, volante, afastar, lateral, foguete, carro_xray, starman_close, orbita, mergulho, patios_2018, patios_2025, patios_pergunta, final_espaco e modelo (em branco, para criar a nova). Lista completa e o que troca por assunto: COMO-FAZER.md e base/README.md."
+  ],
+  "funil": "meio",
+  "funil_motivo": "Explica um fato surpreendente com número na própria cena: bom para conteúdo que educa e para anúncio simples de produto ou evento.",
+  "apoio": {
+    "usa": false,
+    "tipo": "nenhum",
+    "fontes": [],
+    "duracao_s": "0",
+    "quantidade": "0",
+    "quando_nao": "sempre: o mundo 3D é o visual, sem b-roll",
+    "previa": "não se aplica"
+  },
+  "pede": [
+    {
+      "campo": "voz",
+      "rotulo": "Voz da narração",
+      "tipo": "voz",
+      "obrigatorio": false,
+      "dica": "Já vem a do cliente ou a de Configurações. Ouça a amostra antes."
+    },
+    {
+      "campo": "referencia",
+      "rotulo": "Foto ou print de referência",
+      "tipo": "foto",
+      "obrigatorio": false,
+      "dica": "Pessoa, print ou vídeo curto que apareça no mundo."
+    }
+  ]
+}

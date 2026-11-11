@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block titulo %}Saídas{% endblock %}
+{% block conteudo %}
+<style>
+.saida .sel{width:20px;height:20px;flex:none}
+.saida img,.saida .miniatura{width:96px;height:64px}
+.saida .acoes{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.saida details{position:relative}
+.saida details>div{position:absolute;right:0;top:calc(100% + 6px);z-index:5;width:300px;padding:14px;background:var(--painel);border:1px solid var(--linha-forte);border-radius:12px;display:flex;flex-direction:column;gap:8px}
+.saidas-barra{position:sticky;bottom:12px;margin-top:14px;display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--painel);border:1px solid var(--linha-forte);border-radius:14px}
+</style>
+<p class="migalha meta"><a href="{{ url_for('meus_videos') }}">← Meus vídeos</a></p>
+<div class="topo-pagina">
+  <div><h1>Saídas</h1><p class="sub">Todo vídeo que está no computador, feito pela tela ou pelo chat. Ocupam {{ total }} MB. Apagar libera espaço de verdade.</p></div>
+  <form method="get"><select class="btn" name="cliente" onchange="this.form.submit()" aria-label="Filtrar por cliente">
+    <option value="">Todos os clientes</option>{% for c in clientes %}<option value="{{ c }}" {{ 'selected' if quem==c }}>{{ c }}</option>{% endfor %}
+  </select></form>
+</div>
+<form method="post" action="{{ url_for('saidas_apagar') }}" id="lote"><input type="hidden" name="cliente" value="{{ quem }}"></form>
+<div class="lista-videos">
+{% for i in itens %}
+<div class="linha-video saida">
+  <input type="checkbox" class="sel" name="caminho" value="{{ i.caminho }}" form="lote" data-mb="{{ i.mb }}"
+    {% if i.referencia is not none %}disabled title="Referência só sai sozinha, no botão Apagar dela"{% endif %} aria-label="Marcar {{ i.slug }}">
+  {% if i.folha %}<img loading="lazy" src="{{ url_for('arquivo', caminho=i.folha) }}" alt="">
+  {% elif i.video %}<img loading="lazy" src="{{ url_for('thumb_rota', caminho=i.video) }}" alt="" onerror="this.outerHTML='&lt;span class=miniatura&gt;&lt;/span&gt;'">
+  {% else %}<span class="miniatura"><svg class="icon"><use href="#i-video"/></svg></span>{% endif %}
+  <div class="txt"><b>{{ i.slug }}</b><small>{{ i.cliente }}{% if i.modelo %} · {{ i.modelo }}{% endif %} · {{ i.data }} · ocupa {{ i.mb }} MB{% if not i.video %} · sem vídeo final{% endif %}</small></div>
+  {% if i.referencia is not none %}<span class="etiqueta ok" title="{{ i.referencia.motivo }}">Referência{% if i.referencia.formato %} · {{ i.referencia.formato }}{% endif %}</span>{% endif %}
+  <div class="acoes">
+    {% if i.video %}<a class="btn mini" href="{{ url_for('arquivo', caminho=i.video) }}" target="_blank">Ver</a>{% endif %}
+    {% if i.video %}<a class="btn mini" href="{{ url_for('reusar', caminho=i.caminho, titulo=i.slug) }}">Usar em outro formato</a>{% endif %}
+    {% if i.referencia is none and i.video %}
+    <details><summary class="btn mini">Guardar como referência</summary><div>
+      <form method="post" action="{{ url_for('saidas_referencia') }}" style="display:flex;flex-direction:column;gap:8px">
+        <input type="hidden" name="caminho" value="{{ i.caminho }}"><input type="hidden" name="cliente" value="{{ quem }}">
+        <label>Vira exemplo de qual formato?<select name="formato" class="btn" required>
+          {% for f in formatos %}<option value="{{ f.slug }}" {{ 'selected' if f.slug==i.formato }}>{{ f.titulo or f.slug }}</option>{% endfor %}</select></label>
+        <label>Por quê? <input name="motivo" placeholder="Ex.: ritmo perfeito no começo"></label>
+        <button class="btn primario">Guardar</button>
+      </form></div></details>
+    {% endif %}
+    <form method="post" action="{{ url_for('saidas_apagar') }}"
+      data-apagar-previa="/espaco/previa?caminho={{ i.caminho|urlencode }}{% if i.referencia is not none %}&aviso={{ 'Esse vídeo é REFERÊNCIA (o exemplo do formato continua). Apagar mesmo assim vai pra Lixeira do Mac.'|urlencode }}{% endif %}" data-titulo="{{ i.slug }}">
+      <input type="hidden" name="caminho" value="{{ i.caminho }}"><input type="hidden" name="cliente" value="{{ quem }}">
+      {% if i.referencia is not none %}<input type="hidden" name="confirmar" value="1">{% endif %}
+      <button class="btn mini perigo" aria-label="Apagar {{ i.slug }}">Apagar</button>
+    </form>
+  </div>
+</div>
+{% else %}<div class="vazio-bonito"><h3>Nenhum vídeo guardado.</h3><p>Quando um vídeo ficar pronto, ele aparece aqui.</p></div>{% endfor %}
+</div>
+{% if itens %}
+<div class="saidas-barra">
+  <label><input type="checkbox" id="todos"> Marcar todos</label>
+  <span style="flex:1" id="marcados">Nada marcado.</span>
+  <button class="btn perigo" form="lote" id="apagar-marcados" disabled>Apagar marcados</button>
+</div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+(() => {
+  const caixas = [...document.querySelectorAll('.saida .sel:not([disabled])')], lote = document.getElementById('lote');
+  const btn = document.getElementById('apagar-marcados'), info = document.getElementById('marcados'), todos = document.getElementById('todos');
+  if (!btn) return;
+  const marcadas = () => caixas.filter(c => c.checked);
+  const mb = () => marcadas().reduce((s, c) => s + parseFloat(c.dataset.mb || 0), 0).toFixed(1);
+  function conta() {
+    const n = marcadas().length;
+    info.textContent = n ? `${n} marcado(s). Libera ${mb()} MB.` : 'Nada marcado.';
+    btn.disabled = !n; btn.textContent = n ? `Apagar marcados (${mb()} MB)` : 'Apagar marcados';
+  }
+  caixas.forEach(c => c.addEventListener('change', conta));
+  todos.addEventListener('change', () => { caixas.forEach(c => c.checked = todos.checked); conta(); });
+  lote.addEventListener('submit', async e => {   // painel com tudo que vai pra Lixeira do Mac (studio.js: EstudioApagar)
+    if (lote.dataset.pronto) return; e.preventDefault();
+    const p = new URLSearchParams(); marcadas().forEach(c => p.append('caminho', c.value));
+    p.append('aviso', 'Vídeos que são referência ficam.');
+    if (await EstudioApagar.abrir({url: '/espaco/previa?' + p, titulo: marcadas().length + ' vídeo(s)'})) { lote.dataset.pronto = '1'; lote.requestSubmit(document.getElementById('apagar-marcados')); }
+  });
+  conta();
+})();
+</script>
+{% endblock %}

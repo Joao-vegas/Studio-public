@@ -1,0 +1,162 @@
+{
+  "quando": "2026-11-11 09:19",
+  "itens": [
+    {
+      "nome": "Claude Code",
+      "pra": "a IA que produz os vídeos",
+      "versao": "2.1.322",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "Codex",
+      "pra": "IA opcional (GPT) no lugar do Claude",
+      "versao": "0.167.1",
+      "nova": "",
+      "estado": "atualizada",
+      "nota": "de 0.167.0 pra 0.167.1, teste ok"
+    },
+    {
+      "nome": "VoiceStudio",
+      "pra": "a voz local dos vídeos (o aplicativo; ele mesmo instala a versão nova)",
+      "versao": "0.5.6",
+      "nova": "0.5.7",
+      "estado": "disponível",
+      "nota": "versão nova no GitHub: aperte Atualizar pra abrir o aplicativo, que instala por conta própria"
+    },
+    {
+      "nome": "anthropic (SDK)",
+      "pra": "chat de briefing",
+      "versao": "2.3.0",
+      "nova": "2.8.0",
+      "estado": "disponível",
+      "nota": "versão nova disponível: aperte Atualizar (instala, testa e volta pra anterior se falhar)"
+    },
+    {
+      "nome": "HyperFrames",
+      "pra": "opcional, nenhum estilo usa hoje: HTML vira vídeo com checagem automática",
+      "versao": "0.8.201",
+      "nova": "0.9.33",
+      "estado": "disponível",
+      "nota": "versão nova disponível: aperte Atualizar (instala, testa e volta pra anterior se falhar)"
+    },
+    {
+      "nome": "Three.js",
+      "pra": "Explicador 3D",
+      "versao": "0.186.1",
+      "nova": "0.187.0",
+      "estado": "disponível",
+      "nota": "versão nova disponível: aperte Atualizar (instala, testa e volta pra anterior se falhar)"
+    },
+    {
+      "nome": "Playwright",
+      "pra": "captura os quadros do HTML e do 3D",
+      "versao": "1.65.0",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "ffmpeg",
+      "pra": "corta, junta, cor e áudio",
+      "versao": "9.0.2_1",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "auto-editor",
+      "pra": "medir silêncio no corte",
+      "versao": "29.3.1",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "yt-dlp",
+      "pra": "baixar por link: referência, fala, música (quebra se ficar velho)",
+      "versao": "2026.10.26",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "tesseract",
+      "pra": "lê o texto nos quadros (estudo de referência, grifo)",
+      "versao": "5.5.4",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "get-brolls",
+      "pra": "busca de b-roll (YouTube, Pexels, Pixabay, Commons, NASA); é do engenheirodevideo, atualiza do repositório dele",
+      "versao": "2026-11-08",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "Gerador de imagem e vídeo",
+      "pra": "skill da kie.ai (imagem e vídeo por IA, custo por projeto)",
+      "versao": "2026-10-12",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "mlx-whisper",
+      "pra": "transcreve a fala no próprio Mac",
+      "versao": "0.4.3",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "rembg",
+      "pra": "recorta a pessoa do fundo",
+      "versao": "2.0.87",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "Demucs",
+      "pra": "separa a voz da música num clipe real (so_voz do Editorial); mexe no torch, só avisa",
+      "versao": "4.1.0",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "onnxruntime",
+      "pra": "roda o mapa de profundidade do parallax (Depth Anything) e o rembg; confere também Real-ESRGAN (ampliar foto)",
+      "versao": "1.30.0",
+      "nova": "1.31.1",
+      "estado": "disponível",
+      "nota": "versão nova disponível: aperte Atualizar (instala, testa e volta pra anterior se falhar)"
+    },
+    {
+      "nome": "OpenCV",
+      "pra": "acha rosto e mede nitidez (documentário, 3D)",
+      "versao": "4.14.0.94",
+      "nova": "5.0.0.93",
+      "estado": "disponível",
+      "nota": "versão nova disponível: aperte Atualizar (instala, testa e volta pra anterior se falhar)"
+    },
+    {
+      "nome": "sentence-transformers",
+      "pra": "busca por significado no acervo e o CLIP que confere se a imagem casa com a fala (casar_imagem.py)",
+      "versao": "5.7.0",
+      "nova": "6.2.0",
+      "estado": "disponível",
+      "nota": "versão nova disponível: aperte Atualizar (instala, testa e volta pra anterior se falhar)"
+    },
+    {
+      "nome": "Flask",
+      "pra": "as telas do Estúdio",
+      "versao": "3.1.3",
+      "nova": "",
+      "estado": "em dia"
+    },
+    {
+      "nome": "Skills do HyperFrames",
+      "pra": "documentação oficial do HyperFrames (cópia do fabricante) que a IA consulta",
+      "versao": "hoje",
+      "nova": "",
+      "estado": "atualizada",
+      "nota": "51 mudança(s) puxadas"
+    }
+  ],
+  "rodando": false
+}

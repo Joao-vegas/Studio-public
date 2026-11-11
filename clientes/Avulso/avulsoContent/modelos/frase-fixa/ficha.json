@@ -1,0 +1,33 @@
+{
+  "titulo": "Frase fixa",
+  "resumo": "Pessoa em tela cheia e UMA frase fixa numa caixa no peito, o vídeo inteiro. Caixa preta com texto branco (padrão) ou branca com texto preto. Sem legenda da fala, b-roll, música nem efeito.",
+  "quando_usar": "Fala gravada em que a frase-gancho segura a retenção e o resto é só a pessoa falando. Se precisa de b-roll ou de legenda corrida, usar outro formato.",
+  "formato": {"resolucao": "1080x1920", "proporcao": "9:16", "duracao_tipica": "30-90s"},
+  "estrutura": [
+    "Vídeo gravado em tela cheia (9:16), cortado antes: sem silêncio, gaguejo nem erro de começo",
+    "Uma caixa no peito, abaixo do queixo (centro em y=1430 de 1920), a mesma frase o vídeo inteiro",
+    "Barlow SemiBold, 60 px encolhendo até 48 px pra caber em 2 linhas (frase longa pode ir pra 3), cantos arredondados",
+    "Frase escolhida pelo João (gancho); se ele não deu, a IA propõe antes de renderizar"
+  ],
+  "paleta": [
+    {"cor": "#000000", "uso": "caixa preta (padrão), texto da caixa branca"},
+    {"cor": "#FFFFFF", "uso": "texto da caixa preta, caixa branca"}
+  ],
+  "fontes": [{"nome": "Barlow-SemiBold", "uso": "frase da caixa"}],
+  "audio": {"musica": "não usa", "sfx": [], "voz": "áudio original do João"},
+  "broll": "Não usa.",
+  "entrada": "Bruto vertical já cortado em work/joao.mp4 (checar rotation; 1080x1920).",
+  "como_usar": [
+    "Criar _sandbox-<nome>/ com work/joao.mp4 já cortado",
+    "Fechar a frase (gancho) com o João",
+    "zsh ../gerar.sh --dir . --frase \"...\" [--estilo preto|branco] [--saida <mp4>]",
+    "Olhar um quadro: a caixa abaixo do queixo, sem cobrir o rosto"
+  ],
+  "comando": "zsh ../gerar.sh --dir . --frase \"A FRASE\" --estilo preto",
+  "qa": ["Caixa abaixo do queixo, sem cobrir o rosto", "Frase sem erro de acento", "Nenhuma legenda da fala, b-roll, música nem efeito"],
+  "templates": ["build-caixa.py (caixa da frase)"],
+  "motor": "ffmpeg + PIL, h264_videotoolbox",
+  "origem": "Frase inteira, variante com UMA frase fixa (aprovada em 15 e 16-out-2026)",
+  "tempo_producao": "10-20 min",
+  "tipo": "completo"
+}

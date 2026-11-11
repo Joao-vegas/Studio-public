@@ -1,0 +1,160 @@
+{
+  "grupo": "falando",
+  "ordem": 50,
+  "titulo": "Imagens na fala",
+  "frase": "Você falando em tela cheia (9:16) com um título fixo amarelo no topo, uma legenda pequena embaixo do queixo e, conforme a fala acontece, cartões de pintura (ou gravura) entrando em 3 posições (cima à esquerda, baixo à esquerda, baixo à direita), um por ideia.",
+  "entrada": "video",
+  "proporcao": "9:16",
+  "tipo": "gravado",
+  "motor": "ffmpeg + PIL (gerar.py do modelo do cliente)",
+  "status": "receita",
+  "modelos": [
+    "imagens-na-fala"
+  ],
+  "base": "clientes/Joao/vegasContent/modelos/imagens-na-fala",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Régua principal: título fixo amarelo, legenda de 2 linhas, até 3 cartões de pintura em cor (e alguma gravura) na tela, corte seco",
+      "origem": "Instagram @felipemustafanunes, reel DecxbwzBRru (baixado em 2026-11-05)",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-11-05"
+    },
+    {
+      "arquivo": "exemplo-2.mp4",
+      "poster": "exemplo-2.jpg",
+      "legenda": "Referência secundária: título fixo branco de 2 linhas, poucos cartões (colagem de 3, diagrama em tela dividida, capa de livro com chamada)",
+      "origem": "Instagram @soudaviribas, reel DfVaomMz4Ke (baixado em 2026-11-05)",
+      "folha": "exemplo-2-folha.jpg"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": false,
+      "de_onde": "Não usa nesta rodada: só a voz da pessoa, a -14 LUFS. A medida automática da referência acusa uma cama 15 dB abaixo da voz nas pausas de 0,2 s, mais ruído de sala que faixa: conferir de ouvido na r2.",
+      "quando_nao": "sempre"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "Não usa: o cartão entra e sai em corte seco, sem som.",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": true,
+    "como": "PLANO.json \"legenda\": false (ou gerar.sh --sem-legenda): ficam só o título e os cartões"
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [
+    "print"
+  ],
+  "usa": [
+    {
+      "oque": "Corte do bruto",
+      "quem": "Tira silêncio e erro de começo no seu Mac (corte.py; transcrição Groq com cota grátis)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Imagens",
+      "quem": "Wikimedia Commons, Internet Archive e Openverse pela fontes_gratis.py (grátis, domínio público ou CC0, com origem e licença)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Rosto",
+      "quem": "OpenCV no seu Mac (acha onde fica o rosto pra legenda e os cartões não cobrirem)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "ffmpeg + PIL no seu Mac: título (Open Sans Bold), legenda, cartões em corte seco, voz a -14 LUFS",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Cortar e transcrever",
+        "andamento": "preparar",
+        "faz": "work/joao.mp4 sai do corte.py (auto + aplicar) e apertar_pausas.py (toda pausa acima de 0,30 s fica em 0,20 s) e work/words.json do Groq. Ler a fala corrigindo nome e número. O fim do vídeo é 0,3 s depois de onde a última palavra ACABA de verdade (energia do áudio, não o end do Groq, que inclui a pausa): PLANO.json fim_fala e fim."
+      },
+      {
+        "id": "ideias",
+        "titulo": "Título e ideias",
+        "andamento": "preparar",
+        "faz": "Título fixo = a tese em até ~25 caracteres por linha (PLANO.json titulo). planejar.py --oracoes lista as orações; cada cartão do IDEIAS.json nomeia a PALAVRA concreta da fala que ilustra (palavra) e entra de 0 a 2,5 s antes dela; cada posição (A, B, C) tem o seu tempo, sem trocar os 3 juntos (no máximo 2 saídas juntas). planejar.py grava o PLANO.json."
+      },
+      {
+        "id": "imagens",
+        "titulo": "Escolher as imagens",
+        "andamento": "storyboard",
+        "faz": "Por palavra, pintura em cor (gravura no máximo 1/3) de licença livre que mostra a COISA dita, 1 sujeito, sem letra: python3 app/ferramentas/fontes_gratis.py imagem \"<substantivo> painting oil\" --saida imagens/cand/<n> --fontes commons --n 8; olhar a folha, medir com paleta.py (borda <= 30, saturação mediana >= 60, luminância 80 a 130, zero texto) e casar_imagem.py pontuar (>= 0,19). Cada imagem com origem.json (origem, licença, tecnica, artista, casar, sat, lum, borda). Nada de Wikipédia como origem."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Prévia",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "zsh ../gerar.sh --dir . --previa grava storyboard.jpg (12 quadros). Conferir: cartão fora do rosto, legenda abaixo do queixo, título sem cobrir a cabeça, 2 a 3 cartões na tela na maior parte do tempo. Parar pro João aprovar."
+      },
+      {
+        "id": "video",
+        "titulo": "Montar e renderizar",
+        "andamento": "video",
+        "faz": "zsh ../gerar.sh --dir . (render num -novo.mp4 e troca no fim; grava qa/medidas.json e qa/words-saida.json). Sai em <x>Content/output/imagens-na-fala/<slug>.mp4."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "python3 app/ferramentas/conferir_video.py <saida> --sandbox <sandbox> --formato imagens-na-fala (sem --formato a régua some); reprova média de cartões na tela < 2,3, < 26 por minuto, rosto > 42% (p95 > 46%, folga < 2,5% de um cartão), cartão deitado ou estreito, legenda em fundo claro sem contorno de 5 px, imagem sem casar/tecnica, paleta fora da faixa (saturação < 60, luminância 80 a 130, borda > 30, texto), troca em trio, palavra não casada; comparar a folha lado a lado com o exemplo principal (comparar_folha.py). Pior que o exemplo não sai."
+      }
+    ],
+    "comandos": {
+      "storyboard": "zsh ../gerar.sh --dir . --previa",
+      "render": "zsh ../gerar.sh --dir .",
+      "conferir": "python3 app/ferramentas/conferir_video.py <saida> --sandbox <sandbox> --formato imagens-na-fala"
+    }
+  },
+  "apoio": {
+    "usa": true,
+    "tipo": "pintura em cor (gravura no máximo 1/3) que mostra a coisa dita pela palavra: 1 sujeito, sem letra (cartão parado, sem borda, sem animação)",
+    "fontes": [
+      "Wikimedia Commons (fontes_gratis.py)",
+      "Internet Archive",
+      "Openverse",
+      "acervo/"
+    ],
+    "duracao_s": "3,4 a 11,4 s por cartão (mediana 4,6 s); até o próximo da mesma posição, com ~0,35 s de vazio",
+    "quantidade": "~30 por minuto na referência (3 na tela 82% do tempo); r3: 32,5 por minuto, média 2,82 na tela, 84% com 3, cada posição com seu tempo",
+    "quando_nao": "fala sem ideia concreta: ficam só o título e a legenda; nunca foto de banco posando, nem imagem com marca d'água",
+    "previa": "storyboard.jpg antes do render; folha de candidatas da fontes_gratis.py por substantivo"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado (vertical, pessoa de frente)",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "Grave em plano médio (peito e cintura), a pessoa um pouco mais longe e deslocada pra direita (rosto ~40% da largura, cabeça no terço de cima, o lado esquerdo e o terço de baixo livres), roupa escura e fundo com textura. De perto o rosto cobre o espaço e os cartões ficam pequenos.",
+      "principal": true
+    },
+    {
+      "campo": "titulo",
+      "rotulo": "Título fixo do topo",
+      "tipo": "texto",
+      "obrigatorio": false,
+      "dica": "A tese em poucas palavras (ex.: A tragédia do Hedonismo). Sem isso, o Estúdio resume a 1ª ideia."
+    }
+  ]
+}

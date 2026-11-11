@@ -1,0 +1,3751 @@
+{
+  "versao": 1,
+  "nome": "DeS7yVRNyuG",
+  "criado_em": "2026-10-29",
+  "videos": [
+    {
+      "video": "/private/tmp/claude-501/-Users-joaomarcospiki-Projetos-Skill-Est-dio/4b47b012-c0c2-4bb6-9a2b-0fbc2365ae0d/scratchpad/refs/DeS7yVRNyuG.mp4",
+      "nome": "DeS7yVRNyuG",
+      "duracao": 187.03,
+      "fps": 30.0,
+      "quadros": 5611,
+      "largura": 720,
+      "altura": 1280,
+      "som_no_arquivo": true,
+      "planos": {
+        "n": 100,
+        "por_min": 32.1,
+        "media_s": 1.87,
+        "mediana_s": 1.52,
+        "min_s": 0.07,
+        "max_s": 10.67,
+        "lista": [
+          {
+            "q": 0,
+            "q_fim": 20,
+            "s": 0.0,
+            "dura_s": 0.7
+          },
+          {
+            "q": 21,
+            "q_fim": 55,
+            "s": 0.7,
+            "dura_s": 1.17
+          },
+          {
+            "q": 56,
+            "q_fim": 116,
+            "s": 1.87,
+            "dura_s": 2.03
+          },
+          {
+            "q": 117,
+            "q_fim": 121,
+            "s": 3.9,
+            "dura_s": 0.17
+          },
+          {
+            "q": 122,
+            "q_fim": 125,
+            "s": 4.07,
+            "dura_s": 0.13
+          },
+          {
+            "q": 126,
+            "q_fim": 160,
+            "s": 4.2,
+            "dura_s": 1.17
+          },
+          {
+            "q": 161,
+            "q_fim": 162,
+            "s": 5.37,
+            "dura_s": 0.07
+          },
+          {
+            "q": 163,
+            "q_fim": 166,
+            "s": 5.43,
+            "dura_s": 0.13
+          },
+          {
+            "q": 167,
+            "q_fim": 169,
+            "s": 5.57,
+            "dura_s": 0.1
+          },
+          {
+            "q": 170,
+            "q_fim": 213,
+            "s": 5.67,
+            "dura_s": 1.47
+          },
+          {
+            "q": 214,
+            "q_fim": 325,
+            "s": 7.13,
+            "dura_s": 3.73
+          },
+          {
+            "q": 326,
+            "q_fim": 416,
+            "s": 10.87,
+            "dura_s": 3.03
+          },
+          {
+            "q": 417,
+            "q_fim": 481,
+            "s": 13.9,
+            "dura_s": 2.17
+          },
+          {
+            "q": 482,
+            "q_fim": 536,
+            "s": 16.07,
+            "dura_s": 1.83
+          },
+          {
+            "q": 537,
+            "q_fim": 580,
+            "s": 17.9,
+            "dura_s": 1.47
+          },
+          {
+            "q": 581,
+            "q_fim": 708,
+            "s": 19.37,
+            "dura_s": 4.27
+          },
+          {
+            "q": 709,
+            "q_fim": 777,
+            "s": 23.63,
+            "dura_s": 2.3
+          },
+          {
+            "q": 778,
+            "q_fim": 780,
+            "s": 25.93,
+            "dura_s": 0.1
+          },
+          {
+            "q": 781,
+            "q_fim": 783,
+            "s": 26.03,
+            "dura_s": 0.1
+          },
+          {
+            "q": 784,
+            "q_fim": 797,
+            "s": 26.13,
+            "dura_s": 0.47
+          },
+          {
+            "q": 798,
+            "q_fim": 840,
+            "s": 26.6,
+            "dura_s": 1.43
+          },
+          {
+            "q": 841,
+            "q_fim": 878,
+            "s": 28.03,
+            "dura_s": 1.27
+          },
+          {
+            "q": 879,
+            "q_fim": 934,
+            "s": 29.3,
+            "dura_s": 1.87
+          },
+          {
+            "q": 935,
+            "q_fim": 997,
+            "s": 31.17,
+            "dura_s": 2.1
+          },
+          {
+            "q": 998,
+            "q_fim": 1000,
+            "s": 33.27,
+            "dura_s": 0.1
+          },
+          {
+            "q": 1001,
+            "q_fim": 1004,
+            "s": 33.37,
+            "dura_s": 0.13
+          },
+          {
+            "q": 1005,
+            "q_fim": 1008,
+            "s": 33.5,
+            "dura_s": 0.13
+          },
+          {
+            "q": 1009,
+            "q_fim": 1012,
+            "s": 33.63,
+            "dura_s": 0.13
+          },
+          {
+            "q": 1013,
+            "q_fim": 1017,
+            "s": 33.77,
+            "dura_s": 0.17
+          },
+          {
+            "q": 1018,
+            "q_fim": 1020,
+            "s": 33.93,
+            "dura_s": 0.1
+          },
+          {
+            "q": 1021,
+            "q_fim": 1024,
+            "s": 34.03,
+            "dura_s": 0.13
+          },
+          {
+            "q": 1025,
+            "q_fim": 1027,
+            "s": 34.17,
+            "dura_s": 0.1
+          },
+          {
+            "q": 1028,
+            "q_fim": 1030,
+            "s": 34.27,
+            "dura_s": 0.1
+          },
+          {
+            "q": 1031,
+            "q_fim": 1047,
+            "s": 34.37,
+            "dura_s": 0.57
+          },
+          {
+            "q": 1048,
+            "q_fim": 1052,
+            "s": 34.93,
+            "dura_s": 0.17
+          },
+          {
+            "q": 1053,
+            "q_fim": 1107,
+            "s": 35.1,
+            "dura_s": 1.83
+          },
+          {
+            "q": 1108,
+            "q_fim": 1155,
+            "s": 36.93,
+            "dura_s": 1.6
+          },
+          {
+            "q": 1156,
+            "q_fim": 1186,
+            "s": 38.53,
+            "dura_s": 1.03
+          },
+          {
+            "q": 1187,
+            "q_fim": 1221,
+            "s": 39.57,
+            "dura_s": 1.17
+          },
+          {
+            "q": 1222,
+            "q_fim": 1241,
+            "s": 40.73,
+            "dura_s": 0.67
+          },
+          {
+            "q": 1242,
+            "q_fim": 1298,
+            "s": 41.4,
+            "dura_s": 1.9
+          },
+          {
+            "q": 1299,
+            "q_fim": 1369,
+            "s": 43.3,
+            "dura_s": 2.37
+          },
+          {
+            "q": 1370,
+            "q_fim": 1412,
+            "s": 45.67,
+            "dura_s": 1.43
+          },
+          {
+            "q": 1413,
+            "q_fim": 1466,
+            "s": 47.1,
+            "dura_s": 1.8
+          },
+          {
+            "q": 1467,
+            "q_fim": 1474,
+            "s": 48.9,
+            "dura_s": 0.27
+          },
+          {
+            "q": 1475,
+            "q_fim": 1603,
+            "s": 49.17,
+            "dura_s": 4.3
+          },
+          {
+            "q": 1604,
+            "q_fim": 1644,
+            "s": 53.47,
+            "dura_s": 1.37
+          },
+          {
+            "q": 1645,
+            "q_fim": 1695,
+            "s": 54.83,
+            "dura_s": 1.7
+          },
+          {
+            "q": 1696,
+            "q_fim": 1699,
+            "s": 56.53,
+            "dura_s": 0.13
+          },
+          {
+            "q": 1700,
+            "q_fim": 1789,
+            "s": 56.67,
+            "dura_s": 3.0
+          },
+          {
+            "q": 1790,
+            "q_fim": 1857,
+            "s": 59.67,
+            "dura_s": 2.27
+          },
+          {
+            "q": 1858,
+            "q_fim": 1955,
+            "s": 61.93,
+            "dura_s": 3.27
+          },
+          {
+            "q": 1956,
+            "q_fim": 2000,
+            "s": 65.2,
+            "dura_s": 1.5
+          },
+          {
+            "q": 2001,
+            "q_fim": 2042,
+            "s": 66.7,
+            "dura_s": 1.4
+          },
+          {
+            "q": 2043,
+            "q_fim": 2075,
+            "s": 68.1,
+            "dura_s": 1.1
+          },
+          {
+            "q": 2076,
+            "q_fim": 2395,
+            "s": 69.2,
+            "dura_s": 10.67
+          },
+          {
+            "q": 2396,
+            "q_fim": 2479,
+            "s": 79.87,
+            "dura_s": 2.8
+          },
+          {
+            "q": 2480,
+            "q_fim": 2506,
+            "s": 82.67,
+            "dura_s": 0.9
+          },
+          {
+            "q": 2507,
+            "q_fim": 2526,
+            "s": 83.57,
+            "dura_s": 0.67
+          },
+          {
+            "q": 2527,
+            "q_fim": 2607,
+            "s": 84.23,
+            "dura_s": 2.7
+          },
+          {
+            "q": 2608,
+            "q_fim": 2787,
+            "s": 86.93,
+            "dura_s": 6.0
+          },
+          {
+            "q": 2788,
+            "q_fim": 2888,
+            "s": 92.93,
+            "dura_s": 3.37
+          },
+          {
+            "q": 2889,
+            "q_fim": 2985,
+            "s": 96.3,
+            "dura_s": 3.23
+          },
+          {
+            "q": 2986,
+            "q_fim": 3003,
+            "s": 99.53,
+            "dura_s": 0.6
+          },
+          {
+            "q": 3004,
+            "q_fim": 3052,
+            "s": 100.13,
+            "dura_s": 1.63
+          },
+          {
+            "q": 3053,
+            "q_fim": 3124,
+            "s": 101.77,
+            "dura_s": 2.4
+          },
+          {
+            "q": 3125,
+            "q_fim": 3224,
+            "s": 104.17,
+            "dura_s": 3.33
+          },
+          {
+            "q": 3225,
+            "q_fim": 3261,
+            "s": 107.5,
+            "dura_s": 1.23
+          },
+          {
+            "q": 3262,
+            "q_fim": 3328,
+            "s": 108.73,
+            "dura_s": 2.23
+          },
+          {
+            "q": 3329,
+            "q_fim": 3378,
+            "s": 110.97,
+            "dura_s": 1.67
+          },
+          {
+            "q": 3379,
+            "q_fim": 3464,
+            "s": 112.63,
+            "dura_s": 2.87
+          },
+          {
+            "q": 3465,
+            "q_fim": 3473,
+            "s": 115.5,
+            "dura_s": 0.3
+          },
+          {
+            "q": 3474,
+            "q_fim": 3508,
+            "s": 115.8,
+            "dura_s": 1.17
+          },
+          {
+            "q": 3509,
+            "q_fim": 3573,
+            "s": 116.97,
+            "dura_s": 2.17
+          },
+          {
+            "q": 3574,
+            "q_fim": 3598,
+            "s": 119.13,
+            "dura_s": 0.83
+          },
+          {
+            "q": 3599,
+            "q_fim": 3704,
+            "s": 119.97,
+            "dura_s": 3.53
+          },
+          {
+            "q": 3705,
+            "q_fim": 3886,
+            "s": 123.5,
+            "dura_s": 6.07
+          },
+          {
+            "q": 3887,
+            "q_fim": 3906,
+            "s": 129.57,
+            "dura_s": 0.67
+          },
+          {
+            "q": 3907,
+            "q_fim": 3927,
+            "s": 130.23,
+            "dura_s": 0.7
+          },
+          {
+            "q": 3928,
+            "q_fim": 3950,
+            "s": 130.93,
+            "dura_s": 0.77
+          },
+          {
+            "q": 3951,
+            "q_fim": 4043,
+            "s": 131.7,
+            "dura_s": 3.1
+          },
+          {
+            "q": 4044,
+            "q_fim": 4090,
+            "s": 134.8,
+            "dura_s": 1.57
+          },
+          {
+            "q": 4091,
+            "q_fim": 4136,
+            "s": 136.37,
+            "dura_s": 1.53
+          },
+          {
+            "q": 4137,
+            "q_fim": 4202,
+            "s": 137.9,
+            "dura_s": 2.2
+          },
+          {
+            "q": 4203,
+            "q_fim": 4299,
+            "s": 140.1,
+            "dura_s": 3.23
+          },
+          {
+            "q": 4300,
+            "q_fim": 4382,
+            "s": 143.33,
+            "dura_s": 2.77
+          },
+          {
+            "q": 4383,
+            "q_fim": 4542,
+            "s": 146.1,
+            "dura_s": 5.33
+          },
+          {
+            "q": 4543,
+            "q_fim": 4545,
+            "s": 151.43,
+            "dura_s": 0.1
+          },
+          {
+            "q": 4546,
+            "q_fim": 4651,
+            "s": 151.53,
+            "dura_s": 3.53
+          },
+          {
+            "q": 4652,
+            "q_fim": 4730,
+            "s": 155.07,
+            "dura_s": 2.63
+          },
+          {
+            "q": 4731,
+            "q_fim": 4766,
+            "s": 157.7,
+            "dura_s": 1.2
+          },
+          {
+            "q": 4767,
+            "q_fim": 4842,
+            "s": 158.9,
+            "dura_s": 2.53
+          },
+          {
+            "q": 4843,
+            "q_fim": 4999,
+            "s": 161.43,
+            "dura_s": 5.23
+          },
+          {
+            "q": 5000,
+            "q_fim": 5063,
+            "s": 166.67,
+            "dura_s": 2.13
+          },
+          {
+            "q": 5064,
+            "q_fim": 5084,
+            "s": 168.8,
+            "dura_s": 0.7
+          },
+          {
+            "q": 5085,
+            "q_fim": 5133,
+            "s": 169.5,
+            "dura_s": 1.63
+          },
+          {
+            "q": 5134,
+            "q_fim": 5161,
+            "s": 171.13,
+            "dura_s": 0.93
+          },
+          {
+            "q": 5162,
+            "q_fim": 5306,
+            "s": 172.07,
+            "dura_s": 4.83
+          },
+          {
+            "q": 5307,
+            "q_fim": 5533,
+            "s": 176.9,
+            "dura_s": 7.57
+          },
+          {
+            "q": 5534,
+            "q_fim": 5610,
+            "s": 184.47,
+            "dura_s": 2.57
+          }
+        ]
+      },
+      "transicoes": [
+        {
+          "q": 21,
+          "q_fim": 21,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 0.7,
+          "mudanca": 64.2,
+          "cor": 0.5
+        },
+        {
+          "q": 56,
+          "q_fim": 56,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 1.867,
+          "mudanca": 62.6,
+          "cor": 0.27
+        },
+        {
+          "q": 117,
+          "q_fim": 117,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 3.9,
+          "mudanca": 53.1,
+          "cor": 0.44
+        },
+        {
+          "q": 122,
+          "q_fim": 124,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 4.067,
+          "mudanca": 43.8,
+          "cor": 0.22
+        },
+        {
+          "q": 126,
+          "q_fim": 126,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 4.2,
+          "mudanca": 34.3,
+          "cor": 0.18
+        },
+        {
+          "q": 161,
+          "q_fim": 161,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 5.367,
+          "mudanca": 23.4,
+          "cor": 0.21
+        },
+        {
+          "q": 163,
+          "q_fim": 165,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 5.433,
+          "mudanca": 33.6,
+          "cor": 0.25
+        },
+        {
+          "q": 167,
+          "q_fim": 168,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 5.567,
+          "mudanca": 22.9,
+          "cor": 0.19
+        },
+        {
+          "q": 170,
+          "q_fim": 170,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 5.667,
+          "mudanca": 30.1,
+          "cor": 0.22
+        },
+        {
+          "q": 214,
+          "q_fim": 214,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 7.133,
+          "mudanca": 43.6,
+          "cor": 0.67
+        },
+        {
+          "q": 326,
+          "q_fim": 326,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 10.867,
+          "mudanca": 50.2,
+          "cor": 0.16
+        },
+        {
+          "q": 417,
+          "q_fim": 418,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 13.9,
+          "mudanca": 79.7,
+          "cor": 0.88
+        },
+        {
+          "q": 482,
+          "q_fim": 482,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 16.067,
+          "mudanca": 43.0,
+          "cor": 0.51
+        },
+        {
+          "q": 537,
+          "q_fim": 537,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 17.9,
+          "mudanca": 56.1,
+          "cor": 0.36
+        },
+        {
+          "q": 581,
+          "q_fim": 582,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 19.367,
+          "mudanca": 66.9,
+          "cor": 0.85
+        },
+        {
+          "q": 709,
+          "q_fim": 711,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 23.633,
+          "mudanca": 33.5,
+          "cor": 0.74
+        },
+        {
+          "q": 778,
+          "q_fim": 779,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 25.933,
+          "mudanca": 51.0,
+          "cor": 0.8
+        },
+        {
+          "q": 781,
+          "q_fim": 781,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 26.033,
+          "mudanca": 31.2,
+          "cor": 0.02
+        },
+        {
+          "q": 784,
+          "q_fim": 784,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 26.133,
+          "mudanca": 30.7,
+          "cor": 0.04
+        },
+        {
+          "q": 798,
+          "q_fim": 798,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 26.6,
+          "mudanca": 38.6,
+          "cor": 0.18
+        },
+        {
+          "q": 841,
+          "q_fim": 841,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 28.033,
+          "mudanca": 34.6,
+          "cor": 0.15
+        },
+        {
+          "q": 879,
+          "q_fim": 879,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 29.3,
+          "mudanca": 163.3,
+          "cor": 0.79
+        },
+        {
+          "q": 935,
+          "q_fim": 935,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 31.167,
+          "mudanca": 82.8,
+          "cor": 0.61
+        },
+        {
+          "q": 998,
+          "q_fim": 998,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 33.267,
+          "mudanca": 58.8,
+          "cor": 0.68
+        },
+        {
+          "q": 1001,
+          "q_fim": 1001,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 33.367,
+          "mudanca": 48.0,
+          "cor": 0.73
+        },
+        {
+          "q": 1005,
+          "q_fim": 1005,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 33.5,
+          "mudanca": 75.5,
+          "cor": 0.69
+        },
+        {
+          "q": 1009,
+          "q_fim": 1009,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 33.633,
+          "mudanca": 79.3,
+          "cor": 0.74
+        },
+        {
+          "q": 1013,
+          "q_fim": 1013,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 33.767,
+          "mudanca": 63.5,
+          "cor": 0.75
+        },
+        {
+          "q": 1018,
+          "q_fim": 1018,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 33.933,
+          "mudanca": 59.5,
+          "cor": 0.62
+        },
+        {
+          "q": 1021,
+          "q_fim": 1021,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 34.033,
+          "mudanca": 50.5,
+          "cor": 0.73
+        },
+        {
+          "q": 1025,
+          "q_fim": 1025,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 34.167,
+          "mudanca": 49.4,
+          "cor": 0.72
+        },
+        {
+          "q": 1028,
+          "q_fim": 1028,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 34.267,
+          "mudanca": 53.0,
+          "cor": 0.6
+        },
+        {
+          "q": 1031,
+          "q_fim": 1031,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 34.367,
+          "mudanca": 45.6,
+          "cor": 0.68
+        },
+        {
+          "q": 1048,
+          "q_fim": 1048,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 34.933,
+          "mudanca": 125.6,
+          "cor": 0.94
+        },
+        {
+          "q": 1053,
+          "q_fim": 1053,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 35.1,
+          "mudanca": 33.5,
+          "cor": 0.14
+        },
+        {
+          "q": 1108,
+          "q_fim": 1108,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 36.933,
+          "mudanca": 112.7,
+          "cor": 0.5
+        },
+        {
+          "q": 1156,
+          "q_fim": 1156,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 38.533,
+          "mudanca": 97.1,
+          "cor": 0.4
+        },
+        {
+          "q": 1187,
+          "q_fim": 1191,
+          "quadros": 5,
+          "tipo": "dissolve",
+          "s": 39.567,
+          "mudanca": 71.8,
+          "cor": 0.2
+        },
+        {
+          "q": 1222,
+          "q_fim": 1230,
+          "quadros": 9,
+          "tipo": "especial",
+          "s": 40.733,
+          "mudanca": 115.2,
+          "cor": 0.99
+        },
+        {
+          "q": 1242,
+          "q_fim": 1242,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 41.4,
+          "mudanca": 37.2,
+          "cor": 0.3
+        },
+        {
+          "q": 1299,
+          "q_fim": 1299,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 43.3,
+          "mudanca": 35.4,
+          "cor": 0.42
+        },
+        {
+          "q": 1370,
+          "q_fim": 1370,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 45.667,
+          "mudanca": 123.1,
+          "cor": 0.83
+        },
+        {
+          "q": 1413,
+          "q_fim": 1413,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 47.1,
+          "mudanca": 41.0,
+          "cor": 0.52
+        },
+        {
+          "q": 1467,
+          "q_fim": 1467,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 48.9,
+          "mudanca": 14.3,
+          "cor": 0.3
+        },
+        {
+          "q": 1475,
+          "q_fim": 1475,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 49.167,
+          "mudanca": 96.3,
+          "cor": 0.87
+        },
+        {
+          "q": 1604,
+          "q_fim": 1604,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 53.467,
+          "mudanca": 85.2,
+          "cor": 0.92
+        },
+        {
+          "q": 1645,
+          "q_fim": 1645,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 54.833,
+          "mudanca": 26.3,
+          "cor": 0.47
+        },
+        {
+          "q": 1696,
+          "q_fim": 1697,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 56.533,
+          "mudanca": 73.2,
+          "cor": 0.85
+        },
+        {
+          "q": 1700,
+          "q_fim": 1700,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 56.667,
+          "mudanca": 14.1,
+          "cor": 0.2
+        },
+        {
+          "q": 1790,
+          "q_fim": 1790,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 59.667,
+          "mudanca": 49.4,
+          "cor": 0.72
+        },
+        {
+          "q": 1858,
+          "q_fim": 1862,
+          "quadros": 5,
+          "tipo": "especial",
+          "s": 61.933,
+          "mudanca": 45.5,
+          "cor": 0.82
+        },
+        {
+          "q": 1956,
+          "q_fim": 1956,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 65.2,
+          "mudanca": 78.0,
+          "cor": 0.97
+        },
+        {
+          "q": 2001,
+          "q_fim": 2001,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 66.7,
+          "mudanca": 65.0,
+          "cor": 0.91
+        },
+        {
+          "q": 2043,
+          "q_fim": 2043,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 68.1,
+          "mudanca": 51.6,
+          "cor": 0.8
+        },
+        {
+          "q": 2076,
+          "q_fim": 2077,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 69.2,
+          "mudanca": 20.1,
+          "cor": 0.39
+        },
+        {
+          "q": 2396,
+          "q_fim": 2396,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 79.867,
+          "mudanca": 119.7,
+          "cor": 0.92
+        },
+        {
+          "q": 2480,
+          "q_fim": 2480,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 82.667,
+          "mudanca": 79.0,
+          "cor": 1.0
+        },
+        {
+          "q": 2507,
+          "q_fim": 2507,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 83.567,
+          "mudanca": 17.5,
+          "cor": 0.29
+        },
+        {
+          "q": 2527,
+          "q_fim": 2527,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 84.233,
+          "mudanca": 27.6,
+          "cor": 0.27
+        },
+        {
+          "q": 2608,
+          "q_fim": 2608,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 86.933,
+          "mudanca": 104.6,
+          "cor": 0.92
+        },
+        {
+          "q": 2788,
+          "q_fim": 2788,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 92.933,
+          "mudanca": 123.3,
+          "cor": 0.88
+        },
+        {
+          "q": 2889,
+          "q_fim": 2889,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 96.3,
+          "mudanca": 68.6,
+          "cor": 0.6
+        },
+        {
+          "q": 2986,
+          "q_fim": 2986,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 99.533,
+          "mudanca": 39.0,
+          "cor": 0.73
+        },
+        {
+          "q": 3004,
+          "q_fim": 3004,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 100.133,
+          "mudanca": 76.9,
+          "cor": 0.73
+        },
+        {
+          "q": 3053,
+          "q_fim": 3053,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 101.767,
+          "mudanca": 49.4,
+          "cor": 0.46
+        },
+        {
+          "q": 3125,
+          "q_fim": 3125,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 104.167,
+          "mudanca": 134.2,
+          "cor": 0.9
+        },
+        {
+          "q": 3225,
+          "q_fim": 3225,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 107.5,
+          "mudanca": 131.0,
+          "cor": 0.87
+        },
+        {
+          "q": 3262,
+          "q_fim": 3262,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 108.733,
+          "mudanca": 80.1,
+          "cor": 0.76
+        },
+        {
+          "q": 3329,
+          "q_fim": 3329,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 110.967,
+          "mudanca": 68.4,
+          "cor": 0.88
+        },
+        {
+          "q": 3379,
+          "q_fim": 3379,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 112.633,
+          "mudanca": 77.6,
+          "cor": 0.71
+        },
+        {
+          "q": 3465,
+          "q_fim": 3467,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 115.5,
+          "mudanca": 73.3,
+          "cor": 0.87
+        },
+        {
+          "q": 3474,
+          "q_fim": 3476,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 115.8,
+          "mudanca": 31.5,
+          "cor": 0.17
+        },
+        {
+          "q": 3509,
+          "q_fim": 3511,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 116.967,
+          "mudanca": 34.5,
+          "cor": 0.17
+        },
+        {
+          "q": 3574,
+          "q_fim": 3574,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 119.133,
+          "mudanca": 29.6,
+          "cor": 0.18
+        },
+        {
+          "q": 3599,
+          "q_fim": 3599,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 119.967,
+          "mudanca": 69.1,
+          "cor": 0.94
+        },
+        {
+          "q": 3705,
+          "q_fim": 3707,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 123.5,
+          "mudanca": 58.7,
+          "cor": 0.91
+        },
+        {
+          "q": 3887,
+          "q_fim": 3887,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 129.567,
+          "mudanca": 100.6,
+          "cor": 0.91
+        },
+        {
+          "q": 3907,
+          "q_fim": 3907,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 130.233,
+          "mudanca": 49.5,
+          "cor": 0.38
+        },
+        {
+          "q": 3928,
+          "q_fim": 3928,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 130.933,
+          "mudanca": 34.9,
+          "cor": 0.38
+        },
+        {
+          "q": 3951,
+          "q_fim": 3951,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 131.7,
+          "mudanca": 67.6,
+          "cor": 0.44
+        },
+        {
+          "q": 4044,
+          "q_fim": 4044,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 134.8,
+          "mudanca": 29.8,
+          "cor": 0.89
+        },
+        {
+          "q": 4091,
+          "q_fim": 4091,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 136.367,
+          "mudanca": 38.6,
+          "cor": 0.15
+        },
+        {
+          "q": 4137,
+          "q_fim": 4137,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 137.9,
+          "mudanca": 72.7,
+          "cor": 0.81
+        },
+        {
+          "q": 4203,
+          "q_fim": 4203,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 140.1,
+          "mudanca": 58.1,
+          "cor": 0.75
+        },
+        {
+          "q": 4300,
+          "q_fim": 4301,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 143.333,
+          "mudanca": 59.5,
+          "cor": 0.61
+        },
+        {
+          "q": 4383,
+          "q_fim": 4383,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 146.1,
+          "mudanca": 97.2,
+          "cor": 0.83
+        },
+        {
+          "q": 4543,
+          "q_fim": 4544,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 151.433,
+          "mudanca": 101.1,
+          "cor": 0.78
+        },
+        {
+          "q": 4546,
+          "q_fim": 4548,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 151.533,
+          "mudanca": 37.9,
+          "cor": 0.17
+        },
+        {
+          "q": 4652,
+          "q_fim": 4652,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 155.067,
+          "mudanca": 103.5,
+          "cor": 0.59
+        },
+        {
+          "q": 4731,
+          "q_fim": 4732,
+          "quadros": 2,
+          "tipo": "corte",
+          "s": 157.7,
+          "mudanca": 109.9,
+          "cor": 0.97
+        },
+        {
+          "q": 4767,
+          "q_fim": 4767,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 158.9,
+          "mudanca": 15.3,
+          "cor": 0.24
+        },
+        {
+          "q": 4843,
+          "q_fim": 4843,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 161.433,
+          "mudanca": 18.9,
+          "cor": 0.31
+        },
+        {
+          "q": 5000,
+          "q_fim": 5000,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 166.667,
+          "mudanca": 86.0,
+          "cor": 0.82
+        },
+        {
+          "q": 5064,
+          "q_fim": 5072,
+          "quadros": 9,
+          "tipo": "especial",
+          "s": 168.8,
+          "mudanca": 57.5,
+          "cor": 0.38
+        },
+        {
+          "q": 5085,
+          "q_fim": 5085,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 169.5,
+          "mudanca": 55.5,
+          "cor": 0.59
+        },
+        {
+          "q": 5134,
+          "q_fim": 5134,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 171.133,
+          "mudanca": 30.1,
+          "cor": 0.85
+        },
+        {
+          "q": 5162,
+          "q_fim": 5164,
+          "quadros": 3,
+          "tipo": "corte",
+          "s": 172.067,
+          "mudanca": 70.9,
+          "cor": 0.97
+        },
+        {
+          "q": 5307,
+          "q_fim": 5318,
+          "quadros": 12,
+          "tipo": "dissolve",
+          "s": 176.9,
+          "mudanca": 83.7,
+          "cor": 0.82
+        },
+        {
+          "q": 5534,
+          "q_fim": 5534,
+          "quadros": 1,
+          "tipo": "corte",
+          "s": 184.467,
+          "mudanca": 29.7,
+          "cor": 0.36
+        }
+      ],
+      "transicao_resumo": {
+        "corte": 94,
+        "dissolve": 2,
+        "especial": 3,
+        "dissolve_quadros_mediana": 8.5,
+        "dissolve_pct": 2.0
+      },
+      "camera": {
+        "pct_quadros_andando": 92.1,
+        "creep_pct_s": 13.55,
+        "zoom_pct_s_mediana": 5.62,
+        "entrada_x_resto": 4.05,
+        "parado_max_q": 57,
+        "parado_max_em_q": 4893,
+        "fortes_q": [
+          5299,
+          5215,
+          3989,
+          1906,
+          822
+        ],
+        "creep_tipico_q": 421
+      },
+      "acao": {
+        "picos": 133,
+        "casados": 121,
+        "quadros_antes_mediana": 0.0,
+        "padrao": false,
+        "frac_1a6": 0.33,
+        "frac_acaso": 0.36,
+        "exemplos": [
+          [
+            29,
+            31
+          ],
+          [
+            93,
+            92
+          ],
+          [
+            132,
+            134
+          ],
+          [
+            147,
+            155
+          ],
+          [
+            313,
+            310
+          ],
+          [
+            338,
+            336
+          ],
+          [
+            355,
+            356
+          ],
+          [
+            407,
+            419
+          ],
+          [
+            426,
+            422
+          ],
+          [
+            722,
+            726
+          ],
+          [
+            744,
+            752
+          ],
+          [
+            769,
+            765
+          ]
+        ],
+        "troca_palavra_q_mediana": 1.0,
+        "troca_casadas": 99
+      },
+      "fala": {
+        "palavras": 613,
+        "ppm": 196.6,
+        "ppm_falando": 204.0,
+        "voz_pct": 89.2,
+        "primeira_palavra_s": 0.0,
+        "pausa_frase_mediana_s": 0.0,
+        "pausa_frase_max_s": 0.3,
+        "pausa_tipica_q": 617,
+        "pausa_max_q": 5560,
+        "frases": 53,
+        "pausa_qualquer_mediana_s": 0.12,
+        "texto": "Lula e Flávio Bolsonaro estão no segundo turno. E quem vai decidir essa eleição não é proposta, é narrativa. E o Lula entende disso como ninguém. Mas eu sinceramente acho que eu vou ganhar as eleições no primeiro turno. Por que alguém votaria no Flávio Bolsonaro? Se mentira fosse bênção, os políticos seriam anjos. E o inferno estaria totalmente vazio. Vamos voltar para 2002. Ele tinha perdido três eleições seguidas com a imagem de sindicalista radical. Aí ele resolveu mudar tudo, barba aparada, colocou um terno, agora virou o Lulinha Paz e Amor. Mas ele era o mesmo homem, com as mesmas ideias, só mudou a narrativa. Depois veio a narrativa de sonho, repetida até hoje. A gente gosta de carne de primeira, a gente quer fazer torraço de picanha. É o ano que a gente quer colher, é o ano da gente começar a colher. Nós vamos voltar a comer picanha, dá pra aquela parte com aquela gordura vinha. É o ano da colheta, o ano de 2020 é o ano da colheta. Picanha, cervejinha, esse vai ser o ano da colheita A gente também gosta de pão com mortadela Você pode nem acreditar, mas lembra palavra por palavra E quando precisa atacar, entra a narrativa de demolição Em 2022, o Bolsonaro falou num podcast sobre umas meninas venezuelanas e soltou Eu olhei umas menininhas, três, quatro, bonitas De 14, 15 anos, arrumadinha num sábado numa comunidade Mentei um pintão, clima, voltei Quem tem família militar sabe que isso aqui É quando há uma oportunidade de conversa com uma pessoa Quem revoga decreto ambiental Não é o presidente, é o Congresso Nacional Que não pintou o clima ainda Para de te revocar esse decreto. Pintar o clima de conversa, é problema. Até depois fala assim, qual é a bronca? Cortaram a frase do resto da fala e espalharam como acusação. Isso é pedofilia! Um homem nojento, com uma pele nojenta, com cabelo de ceboso. O TC mandou tirar do ar, mas milhões de pessoas já tinham visto. Já é tarde demais. Agora em 2026 é o Bolsa Família. O lado do Lula espalha que o Flávio vai cortar esse benefício de milhões de brasileiros. Flávio Bolsonaro que é contra o Bolsa Família, que quer acabar com o Bolsa Família. Mas só que no dia 17 de setembro, o Flávio disse em público que... Quem recebe o Bolsa Família vai continuar recebendo. Foi o presidente Bolsonaro que triplicou o valor para chegar em 600 reais. Mantém o reajuste e ainda quer ampliar. Tá gravado. Não importa quantas vezes priva que isso é fake news, a narrativa já foi implantada. Vão cortar teu benefício. Assusta mais que qualquer desmentido. O André Janones teve uma ideia genial, espetacular. E o Janones abriu no WhatsApp o exército de Lula. 700 mil pessoas em 48 horas repetindo a mesma frase no grupo da família e da igreja. Por que ele sabe que a repetição vira verdade até pra quem é inteligente? Entrem agora no grupo do WhatsApp exército do Lula. Agora vira pro teu negócio. Imagina dois empresários com a mesma técnica. Um cobra 300 e implora por clientes. O outro cobra 3 mil e tem fila. Ele não é melhor no segmento dele, mas ele tem uma história que o paciente sempre repete. Entenda, picanha não é carne, é símbolo de vida melhor. Qual é o símbolo da tua marca? Se você não escolhe, teu concorrente escolhe. Imagina o cliente chegando convencido, sem pedir desconto. É isso que narrativa faz. Comenta ao BG aqui embaixo e deixa que a nossa equipe toma conta da tua narrativa. Aprenda a ser único. Ser único é a única saída.",
+        "fonte_pausa": "audio"
+      },
+      "numeros": [
+        {
+          "texto": "2002.",
+          "s": 24.34,
+          "e": 25.16,
+          "q": 730,
+          "evento": true,
+          "evento_q": 722,
+          "evento_menos_palavra_q": -8,
+          "recorte": "folhas/DeS7yVRNyuG-numero-01-q722.jpg"
+        },
+        {
+          "texto": "três",
+          "s": 25.96,
+          "e": 26.28,
+          "q": 779,
+          "evento": true,
+          "evento_q": 778,
+          "evento_menos_palavra_q": -1,
+          "recorte": "folhas/DeS7yVRNyuG-numero-02-q778.jpg"
+        },
+        {
+          "texto": "2020",
+          "s": 55.32,
+          "e": 55.72,
+          "q": 1660,
+          "evento": false,
+          "evento_q": 1652,
+          "evento_menos_palavra_q": -8,
+          "recorte": "folhas/DeS7yVRNyuG-numero-03-q1652.jpg"
+        },
+        {
+          "texto": "2022,",
+          "s": 68.12,
+          "e": 69.06,
+          "q": 2044,
+          "evento": true,
+          "evento_q": 2043,
+          "evento_menos_palavra_q": -1,
+          "recorte": "folhas/DeS7yVRNyuG-numero-04-q2043.jpg"
+        },
+        {
+          "texto": "três, quatro,",
+          "s": 74.36,
+          "e": 74.74,
+          "q": 2231,
+          "evento": false,
+          "evento_q": 2240,
+          "evento_menos_palavra_q": 9,
+          "recorte": "folhas/DeS7yVRNyuG-numero-05-q2240.jpg"
+        },
+        {
+          "texto": "14, 15",
+          "s": 75.56,
+          "e": 76.16,
+          "q": 2267,
+          "evento": true,
+          "evento_q": 2259,
+          "evento_menos_palavra_q": -8,
+          "recorte": "folhas/DeS7yVRNyuG-numero-06-q2259.jpg"
+        },
+        {
+          "texto": "milhões",
+          "s": 105.63444,
+          "e": 105.91444,
+          "q": 3169,
+          "evento": true,
+          "evento_q": 3170,
+          "evento_menos_palavra_q": 1,
+          "recorte": "folhas/DeS7yVRNyuG-numero-07-q3170.jpg"
+        },
+        {
+          "texto": "2026",
+          "s": 109.07444,
+          "e": 109.85444,
+          "q": 3272,
+          "evento": false,
+          "evento_q": 3278,
+          "evento_menos_palavra_q": 6,
+          "recorte": "folhas/DeS7yVRNyuG-numero-08-q3278.jpg"
+        },
+        {
+          "texto": "milhões",
+          "s": 114.31444,
+          "e": 114.63444,
+          "q": 3429,
+          "evento": false,
+          "evento_q": 3420,
+          "evento_menos_palavra_q": -9,
+          "recorte": "folhas/DeS7yVRNyuG-numero-09-q3420.jpg"
+        },
+        {
+          "texto": "17",
+          "s": 120.83444,
+          "e": 121.27444,
+          "q": 3625,
+          "evento": false,
+          "evento_q": 3617,
+          "evento_menos_palavra_q": -8,
+          "recorte": "folhas/DeS7yVRNyuG-numero-10-q3617.jpg"
+        },
+        {
+          "texto": "600",
+          "s": 128.75444,
+          "e": 129.17444,
+          "q": 3863,
+          "evento": false,
+          "evento_q": 3858,
+          "evento_menos_palavra_q": -5,
+          "recorte": "folhas/DeS7yVRNyuG-numero-11-q3858.jpg"
+        },
+        {
+          "texto": "700 mil",
+          "s": 146.19444,
+          "e": 147.11444,
+          "q": 4386,
+          "evento": true,
+          "evento_q": 4383,
+          "evento_menos_palavra_q": -3,
+          "recorte": "folhas/DeS7yVRNyuG-numero-12-q4383.jpg"
+        },
+        {
+          "texto": "48",
+          "s": 147.71445,
+          "e": 148.15443,
+          "q": 4431,
+          "evento": true,
+          "evento_q": 4425,
+          "evento_menos_palavra_q": -6,
+          "recorte": "folhas/DeS7yVRNyuG-numero-13-q4425.jpg"
+        },
+        {
+          "texto": "dois",
+          "s": 159.27444,
+          "e": 159.51443,
+          "q": 4778,
+          "evento": true,
+          "evento_q": 4771,
+          "evento_menos_palavra_q": -7,
+          "recorte": "folhas/DeS7yVRNyuG-numero-14-q4771.jpg"
+        },
+        {
+          "texto": "300",
+          "s": 161.75444,
+          "e": 162.19443,
+          "q": 4853,
+          "evento": true,
+          "evento_q": 4844,
+          "evento_menos_palavra_q": -9,
+          "recorte": "folhas/DeS7yVRNyuG-numero-15-q4844.jpg"
+        },
+        {
+          "texto": "3 mil",
+          "s": 163.99445,
+          "e": 164.43445,
+          "q": 4920,
+          "evento": false,
+          "evento_q": 4912,
+          "evento_menos_palavra_q": -8,
+          "recorte": "folhas/DeS7yVRNyuG-numero-16-q4912.jpg"
+        }
+      ],
+      "numeros_resumo": {
+        "n": 16,
+        "por_min": 5.1,
+        "com_evento_pct": 56.2,
+        "evento_menos_palavra_q_mediana": -6.0
+      },
+      "som": {
+        "lufs": -14.6,
+        "voz_db": -17.4,
+        "pausa_db": -16.4,
+        "pausa_db_variacao": 8.1,
+        "pausa_janelas": 59,
+        "musica_abaixo_da_voz_db": 10.1,
+        "efeitos_s": [
+          0.71,
+          1.08,
+          2.66,
+          3.11,
+          3.9,
+          4.32,
+          5.75,
+          11.18,
+          13.77,
+          14.7,
+          15.16,
+          16.36,
+          19.49,
+          25.88,
+          26.47,
+          27.14,
+          28.01,
+          28.55,
+          29.32,
+          29.88,
+          31.07,
+          31.99,
+          35.84,
+          36.49,
+          39.13,
+          39.72,
+          40.21,
+          46.49,
+          48.01,
+          51.06,
+          51.87,
+          55.76,
+          56.83,
+          57.34,
+          58.19,
+          58.7,
+          62.06,
+          62.82,
+          64.12,
+          64.75,
+          65.47,
+          65.85,
+          66.49,
+          68.23,
+          68.86,
+          69.3,
+          70.73,
+          72.42,
+          72.95,
+          86.59,
+          87.04,
+          88.96,
+          92.16,
+          93.77,
+          95.2,
+          96.68,
+          97.28,
+          98.93,
+          100.53,
+          101.95,
+          103.53,
+          104.23,
+          106.2,
+          107.1,
+          107.79,
+          108.41,
+          108.79,
+          111.93,
+          113.29,
+          115.44,
+          117.48,
+          118.4,
+          119.9,
+          120.88,
+          121.44,
+          123.44,
+          129.51,
+          130.3,
+          131.65,
+          132.69,
+          135.49,
+          136.82,
+          137.61,
+          138.68,
+          139.7,
+          140.07,
+          143.34,
+          147.53,
+          147.91,
+          152.51,
+          153.48,
+          154.35,
+          157.04,
+          157.71,
+          158.67,
+          159.76,
+          160.65,
+          161.79,
+          163.16,
+          164.03,
+          164.57,
+          166.24,
+          167.07,
+          167.5,
+          168.08,
+          168.46,
+          169.42,
+          171.29,
+          173.08,
+          173.99,
+          175.55,
+          177.34,
+          177.86,
+          178.43,
+          179.08,
+          180.07,
+          180.48,
+          181.66,
+          182.04,
+          182.82,
+          183.29,
+          184.55,
+          184.91,
+          185.57,
+          186.39,
+          186.84
+        ],
+        "efeitos_por_min": 40.4,
+        "musica_db": -27.5,
+        "musica_variacao_db": 16.3
+      },
+      "legenda": {
+        "y_pct": 44.0,
+        "altura_texto_px_1920": 41.0,
+        "palavras_por_quadro": 2.0,
+        "quadros_com_legenda_pct": 38.8,
+        "prova_q": 2693
+      },
+      "cara": {
+        "lisura": 0.284,
+        "ruido": 3.0,
+        "saturacao": 60.5,
+        "rosto_pct": 32.7
+      },
+      "base_sugerida": {
+        "base": "formatos/explicador-3d/base",
+        "tipo": "animação 3D realista",
+        "porque": "render 3D com textura e sombra (lisura 0,28, ruído 3,0, saturação 60): jogo antigo/realista"
+      },
+      "fala_imagem": {
+        "oracoes": [
+          {
+            "texto": "Lula e Flávio Bolsonaro estão no segundo turno.",
+            "s": 0.0,
+            "e": 2.1,
+            "q": 0,
+            "q_fim": 63,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2
+          },
+          {
+            "texto": "E quem vai decidir essa eleição não é proposta,",
+            "s": 2.16,
+            "e": 4.48,
+            "q": 65,
+            "q_fim": 134,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 9,
+            "evento": true,
+            "lead_evento_q": 9,
+            "imagem_nova": true,
+            "quadro_palavra": 67
+          },
+          {
+            "texto": "é narrativa.",
+            "s": 4.48,
+            "e": 5.26,
+            "q": 134,
+            "q_fim": 158,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 12,
+            "evento": true,
+            "lead_evento_q": 10,
+            "imagem_nova": true,
+            "quadro_palavra": 136
+          },
+          {
+            "texto": "E o Lula entende disso como ninguém.",
+            "s": 5.18,
+            "e": 7.42,
+            "q": 155,
+            "q_fim": 223,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -6,
+            "evento": true,
+            "lead_evento_q": -9,
+            "imagem_nova": true,
+            "quadro_palavra": 157
+          },
+          {
+            "texto": "Mas eu sinceramente acho que eu vou ganhar as eleições no primeiro turno.",
+            "s": 7.64,
+            "e": 11.34,
+            "q": 229,
+            "q_fim": 340,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -9,
+            "imagem_nova": true,
+            "quadro_palavra": 231
+          },
+          {
+            "texto": "Por que alguém votaria no Flávio Bolsonaro?",
+            "s": 10.92,
+            "e": 13.96,
+            "q": 328,
+            "q_fim": 419,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 2,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 330
+          },
+          {
+            "texto": "Se mentira fosse bênção,",
+            "s": 13.98,
+            "e": 15.9,
+            "q": 419,
+            "q_fim": 477,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 2,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 421
+          },
+          {
+            "texto": "os políticos seriam anjos.",
+            "s": 15.9,
+            "e": 17.58,
+            "q": 477,
+            "q_fim": 527,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -5,
+            "evento": true,
+            "lead_evento_q": -5,
+            "imagem_nova": true,
+            "quadro_palavra": 479
+          },
+          {
+            "texto": "E o inferno estaria totalmente vazio.",
+            "s": 18.28,
+            "e": 20.86,
+            "q": 548,
+            "q_fim": 626,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 11,
+            "evento": true,
+            "lead_evento_q": 11,
+            "imagem_nova": true,
+            "quadro_palavra": 550
+          },
+          {
+            "texto": "Vamos voltar para 2002.",
+            "s": 23.64,
+            "e": 25.16,
+            "q": 709,
+            "q_fim": 755,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 0,
+            "evento": true,
+            "lead_evento_q": -2,
+            "imagem_nova": true,
+            "quadro_palavra": 711
+          },
+          {
+            "texto": "Ele tinha perdido três eleições seguidas com a imagem de sindicalista radical.",
+            "s": 25.08,
+            "e": 29.56,
+            "q": 752,
+            "q_fim": 887,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 8,
+            "imagem_nova": true,
+            "quadro_palavra": 754
+          },
+          {
+            "texto": "Aí ele resolveu mudar tudo,",
+            "s": 29.08,
+            "e": 30.72,
+            "q": 872,
+            "q_fim": 922,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -7,
+            "imagem_nova": true,
+            "quadro_palavra": 874
+          },
+          {
+            "texto": "barba aparada,",
+            "s": 30.72,
+            "e": 31.56,
+            "q": 922,
+            "q_fim": 947,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 924
+          },
+          {
+            "texto": "colocou um terno,",
+            "s": 31.56,
+            "e": 32.42,
+            "q": 947,
+            "q_fim": 973,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 12,
+            "evento": true,
+            "lead_evento_q": 12,
+            "imagem_nova": true,
+            "quadro_palavra": 949
+          },
+          {
+            "texto": "agora virou o Lulinha Paz e Amor.",
+            "s": 32.42,
+            "e": 34.16,
+            "q": 973,
+            "q_fim": 1025,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 975
+          },
+          {
+            "texto": "Mas ele era o mesmo homem,",
+            "s": 34.16,
+            "e": 35.44,
+            "q": 1025,
+            "q_fim": 1063,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 12,
+            "evento": true,
+            "lead_evento_q": -6,
+            "imagem_nova": true,
+            "quadro_palavra": 1027
+          },
+          {
+            "texto": "com as mesmas ideias,",
+            "s": 35.44,
+            "e": 36.7,
+            "q": 1063,
+            "q_fim": 1101,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 10,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 1065
+          },
+          {
+            "texto": "só mudou a narrativa.",
+            "s": 36.7,
+            "e": 37.92,
+            "q": 1101,
+            "q_fim": 1138,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -7,
+            "imagem_nova": true,
+            "quadro_palavra": 1103
+          },
+          {
+            "texto": "Depois veio a narrativa de sonho,",
+            "s": 38.0,
+            "e": 39.66,
+            "q": 1140,
+            "q_fim": 1190,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 1142
+          },
+          {
+            "texto": "repetida até hoje.",
+            "s": 39.66,
+            "e": 41.12,
+            "q": 1190,
+            "q_fim": 1234,
+            "troca": true,
+            "troca_tipo": "dissolve",
+            "lead_troca_q": 3,
+            "evento": true,
+            "lead_evento_q": 0,
+            "imagem_nova": true,
+            "quadro_palavra": 1192
+          },
+          {
+            "texto": "A gente gosta de carne de primeira,",
+            "s": 40.44,
+            "e": 43.02,
+            "q": 1213,
+            "q_fim": 1291,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -9,
+            "imagem_nova": true,
+            "quadro_palavra": 1215
+          },
+          {
+            "texto": "a gente quer fazer torraço de picanha.",
+            "s": 43.02,
+            "e": 45.48,
+            "q": 1291,
+            "q_fim": 1364,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -8,
+            "imagem_nova": true,
+            "quadro_palavra": 1293
+          },
+          {
+            "texto": "É o ano que a gente quer colher,",
+            "s": 45.74,
+            "e": 47.16,
+            "q": 1372,
+            "q_fim": 1415,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 2,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 1374
+          },
+          {
+            "texto": "é o ano da gente começar a colher.",
+            "s": 47.16,
+            "e": 49.44,
+            "q": 1415,
+            "q_fim": 1483,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 2,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 1417
+          },
+          {
+            "texto": "Nós vamos voltar a comer picanha,",
+            "s": 49.14,
+            "e": 51.06,
+            "q": 1474,
+            "q_fim": 1532,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 7,
+            "evento": true,
+            "lead_evento_q": -1,
+            "imagem_nova": true,
+            "quadro_palavra": 1476
+          },
+          {
+            "texto": "dá pra aquela parte com aquela gordura vinha.",
+            "s": 51.06,
+            "e": 53.62,
+            "q": 1532,
+            "q_fim": 1609,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 1534
+          },
+          {
+            "texto": "É o ano da colheta,",
+            "s": 53.56,
+            "e": 54.88,
+            "q": 1607,
+            "q_fim": 1646,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 3,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 1609
+          },
+          {
+            "texto": "o ano de 2020 é o ano da colheta.",
+            "s": 54.88,
+            "e": 56.86,
+            "q": 1646,
+            "q_fim": 1706,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 1,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 1648
+          },
+          {
+            "texto": "Picanha, cervejinha,",
+            "s": 56.76,
+            "e": 58.1,
+            "q": 1703,
+            "q_fim": 1743,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 7,
+            "evento": true,
+            "lead_evento_q": 7,
+            "imagem_nova": true,
+            "quadro_palavra": 1705
+          },
+          {
+            "texto": "esse vai ser o ano da colheita",
+            "s": 58.1,
+            "e": 59.56,
+            "q": 1743,
+            "q_fim": 1787,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 1745
+          },
+          {
+            "texto": "A gente também gosta de pão com mortadela",
+            "s": 59.66,
+            "e": 61.74,
+            "q": 1790,
+            "q_fim": 1852,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 0,
+            "evento": true,
+            "lead_evento_q": 0,
+            "imagem_nova": true,
+            "quadro_palavra": 1792
+          },
+          {
+            "texto": "Você pode nem acreditar,",
+            "s": 61.26,
+            "e": 63.38,
+            "q": 1838,
+            "q_fim": 1901,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 1840
+          },
+          {
+            "texto": "mas lembra palavra por palavra",
+            "s": 63.38,
+            "e": 64.82,
+            "q": 1901,
+            "q_fim": 1945,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -5,
+            "imagem_nova": true,
+            "quadro_palavra": 1903
+          },
+          {
+            "texto": "E quando precisa atacar,",
+            "s": 64.34,
+            "e": 66.34,
+            "q": 1930,
+            "q_fim": 1990,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -6,
+            "imagem_nova": true,
+            "quadro_palavra": 1932
+          },
+          {
+            "texto": "entra a narrativa de demolição Em 2022,",
+            "s": 66.34,
+            "e": 69.06,
+            "q": 1990,
+            "q_fim": 2072,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 1992
+          },
+          {
+            "texto": "o Bolsonaro falou num podcast sobre umas meninas venezuelanas e soltou",
+            "s": 69.06,
+            "e": 73.12,
+            "q": 2072,
+            "q_fim": 2194,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -4,
+            "evento": true,
+            "lead_evento_q": -5,
+            "imagem_nova": true,
+            "quadro_palavra": 2074
+          },
+          {
+            "texto": "Eu olhei umas menininhas,",
+            "s": 72.62,
+            "e": 74.36,
+            "q": 2179,
+            "q_fim": 2231,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 12,
+            "imagem_nova": true,
+            "quadro_palavra": 2181
+          },
+          {
+            "texto": "três, quatro,",
+            "s": 74.36,
+            "e": 74.74,
+            "q": 2231,
+            "q_fim": 2242,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2233
+          },
+          {
+            "texto": "bonitas De 14,",
+            "s": 74.74,
+            "e": 76.0,
+            "q": 2242,
+            "q_fim": 2280,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -6,
+            "imagem_nova": true,
+            "quadro_palavra": 2244
+          },
+          {
+            "texto": "15 anos,",
+            "s": 76.0,
+            "e": 76.46,
+            "q": 2280,
+            "q_fim": 2294,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2282
+          },
+          {
+            "texto": "arrumadinha num sábado numa comunidade",
+            "s": 76.46,
+            "e": 78.22,
+            "q": 2294,
+            "q_fim": 2347,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -2,
+            "imagem_nova": true,
+            "quadro_palavra": 2296
+          },
+          {
+            "texto": "Mentei um pintão,",
+            "s": 78.26,
+            "e": 79.18,
+            "q": 2348,
+            "q_fim": 2375,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -1,
+            "imagem_nova": true,
+            "quadro_palavra": 2350
+          },
+          {
+            "texto": "clima, voltei",
+            "s": 79.18,
+            "e": 79.8,
+            "q": 2375,
+            "q_fim": 2394,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2377
+          },
+          {
+            "texto": "Quem tem família militar sabe que isso aqui",
+            "s": 82.64,
+            "e": 84.42,
+            "q": 2479,
+            "q_fim": 2533,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -1,
+            "evento": true,
+            "lead_evento_q": -1,
+            "imagem_nova": true,
+            "quadro_palavra": 2481
+          },
+          {
+            "texto": "É quando há uma oportunidade de conversa com uma pessoa",
+            "s": 83.94,
+            "e": 86.86,
+            "q": 2518,
+            "q_fim": 2606,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 11,
+            "evento": true,
+            "lead_evento_q": -9,
+            "imagem_nova": true,
+            "quadro_palavra": 2520
+          },
+          {
+            "texto": "Quem revoga decreto ambiental Não é o presidente,",
+            "s": 86.52,
+            "e": 89.36,
+            "q": 2596,
+            "q_fim": 2681,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2598
+          },
+          {
+            "texto": "é o Congresso Nacional",
+            "s": 89.36,
+            "e": 90.2,
+            "q": 2681,
+            "q_fim": 2706,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2683
+          },
+          {
+            "texto": "Que não pintou o clima ainda Para de te revocar esse decreto.",
+            "s": 90.68,
+            "e": 93.41,
+            "q": 2720,
+            "q_fim": 2802,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2722
+          },
+          {
+            "texto": "Pintar o clima de conversa,",
+            "s": 93.19,
+            "e": 94.33,
+            "q": 2796,
+            "q_fim": 2830,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 8,
+            "evento": true,
+            "lead_evento_q": 8,
+            "imagem_nova": true,
+            "quadro_palavra": 2798
+          },
+          {
+            "texto": "é problema.",
+            "s": 94.33,
+            "e": 94.89,
+            "q": 2830,
+            "q_fim": 2847,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 2832
+          },
+          {
+            "texto": "Até depois fala assim,",
+            "s": 94.91,
+            "e": 95.81,
+            "q": 2847,
+            "q_fim": 2874,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2849
+          },
+          {
+            "texto": "qual é a bronca?",
+            "s": 95.81,
+            "e": 96.23,
+            "q": 2874,
+            "q_fim": 2887,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 2876
+          },
+          {
+            "texto": "Cortaram a frase do resto da fala e espalharam como acusação.",
+            "s": 96.25,
+            "e": 99.83,
+            "q": 2888,
+            "q_fim": 2995,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -1,
+            "evento": true,
+            "lead_evento_q": -1,
+            "imagem_nova": true,
+            "quadro_palavra": 2890
+          },
+          {
+            "texto": "Isso é pedofilia!",
+            "s": 99.65,
+            "e": 101.79,
+            "q": 2990,
+            "q_fim": 3054,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 4,
+            "evento": true,
+            "lead_evento_q": 4,
+            "imagem_nova": true,
+            "quadro_palavra": 2992
+          },
+          {
+            "texto": "Um homem nojento,",
+            "s": 101.73,
+            "e": 102.35,
+            "q": 3052,
+            "q_fim": 3071,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -1,
+            "evento": true,
+            "lead_evento_q": -1,
+            "imagem_nova": true,
+            "quadro_palavra": 3054
+          },
+          {
+            "texto": "com uma pele nojenta,",
+            "s": 102.35,
+            "e": 103.09,
+            "q": 3071,
+            "q_fim": 3093,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 3073
+          },
+          {
+            "texto": "com cabelo de ceboso.",
+            "s": 103.09,
+            "e": 104.43,
+            "q": 3093,
+            "q_fim": 3133,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 3095
+          },
+          {
+            "texto": "O TC mandou tirar do ar,",
+            "s": 104.21,
+            "e": 105.43,
+            "q": 3126,
+            "q_fim": 3163,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 1,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 3128
+          },
+          {
+            "texto": "mas milhões de pessoas já tinham visto.",
+            "s": 105.43,
+            "e": 107.47,
+            "q": 3163,
+            "q_fim": 3224,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -7,
+            "imagem_nova": true,
+            "quadro_palavra": 3165
+          },
+          {
+            "texto": "Já é tarde demais.",
+            "s": 107.47,
+            "e": 108.73,
+            "q": 3224,
+            "q_fim": 3262,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -1,
+            "evento": true,
+            "lead_evento_q": -1,
+            "imagem_nova": true,
+            "quadro_palavra": 3226
+          },
+          {
+            "texto": "Agora em 2026 é o Bolsa Família.",
+            "s": 108.75,
+            "e": 111.29,
+            "q": 3263,
+            "q_fim": 3339,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 1,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 3265
+          },
+          {
+            "texto": "O lado do Lula espalha que o Flávio vai cortar esse benefício de milhões de brasileiros.",
+            "s": 110.95,
+            "e": 115.89,
+            "q": 3329,
+            "q_fim": 3477,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 0,
+            "evento": true,
+            "lead_evento_q": 0,
+            "imagem_nova": true,
+            "quadro_palavra": 3331
+          },
+          {
+            "texto": "Flávio Bolsonaro que é contra o Bolsa Família,",
+            "s": 115.53,
+            "e": 118.01,
+            "q": 3466,
+            "q_fim": 3540,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 1,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 3468
+          },
+          {
+            "texto": "que quer acabar com o Bolsa Família.",
+            "s": 118.01,
+            "e": 119.89,
+            "q": 3540,
+            "q_fim": 3597,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 3542
+          },
+          {
+            "texto": "Mas só que no dia 17 de setembro,",
+            "s": 119.99,
+            "e": 122.07,
+            "q": 3600,
+            "q_fim": 3662,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 1,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 3602
+          },
+          {
+            "texto": "o Flávio disse em público que...",
+            "s": 122.07,
+            "e": 123.59,
+            "q": 3662,
+            "q_fim": 3708,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 3664
+          },
+          {
+            "texto": "Quem recebe o Bolsa Família vai continuar recebendo.",
+            "s": 123.33,
+            "e": 125.73,
+            "q": 3700,
+            "q_fim": 3772,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -5,
+            "evento": true,
+            "lead_evento_q": -5,
+            "imagem_nova": true,
+            "quadro_palavra": 3702
+          },
+          {
+            "texto": "Foi o presidente Bolsonaro que triplicou o valor para chegar em 600 reais.",
+            "s": 125.67,
+            "e": 129.97,
+            "q": 3770,
+            "q_fim": 3899,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 3772
+          },
+          {
+            "texto": "Mantém o reajuste e ainda quer ampliar.",
+            "s": 129.61,
+            "e": 131.99,
+            "q": 3888,
+            "q_fim": 3960,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 1,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 3890
+          },
+          {
+            "texto": "Tá gravado.",
+            "s": 131.65,
+            "e": 132.31,
+            "q": 3950,
+            "q_fim": 3969,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -1,
+            "evento": true,
+            "lead_evento_q": -1,
+            "imagem_nova": true,
+            "quadro_palavra": 3952
+          },
+          {
+            "texto": "Não importa quantas vezes priva que isso é fake news,",
+            "s": 132.35,
+            "e": 134.61,
+            "q": 3971,
+            "q_fim": 4038,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -9,
+            "imagem_nova": true,
+            "quadro_palavra": 3973
+          },
+          {
+            "texto": "a narrativa já foi implantada.",
+            "s": 134.61,
+            "e": 136.73,
+            "q": 4038,
+            "q_fim": 4102,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -6,
+            "evento": true,
+            "lead_evento_q": -6,
+            "imagem_nova": true,
+            "quadro_palavra": 4040
+          },
+          {
+            "texto": "Vão cortar teu benefício.",
+            "s": 136.35,
+            "e": 138.25,
+            "q": 4091,
+            "q_fim": 4148,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 0,
+            "evento": true,
+            "lead_evento_q": 0,
+            "imagem_nova": true,
+            "quadro_palavra": 4093
+          },
+          {
+            "texto": "Assusta mais que qualquer desmentido.",
+            "s": 138.05,
+            "e": 140.49,
+            "q": 4142,
+            "q_fim": 4215,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 5,
+            "evento": true,
+            "lead_evento_q": 5,
+            "imagem_nova": true,
+            "quadro_palavra": 4144
+          },
+          {
+            "texto": "O André Janones teve uma ideia genial,",
+            "s": 140.15,
+            "e": 142.45,
+            "q": 4205,
+            "q_fim": 4274,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 2,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 4207
+          },
+          {
+            "texto": "espetacular. E o Janones abriu no WhatsApp o exército de Lula.",
+            "s": 142.45,
+            "e": 146.11,
+            "q": 4274,
+            "q_fim": 4383,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 4276
+          },
+          {
+            "texto": "700 mil pessoas em 48 horas repetindo a mesma frase no grupo da família e da igreja.",
+            "s": 146.19,
+            "e": 151.83,
+            "q": 4386,
+            "q_fim": 4555,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 3,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 4388
+          },
+          {
+            "texto": "Por que ele sabe que a repetição vira verdade até pra quem é inteligente?",
+            "s": 151.43,
+            "e": 155.41,
+            "q": 4543,
+            "q_fim": 4662,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 0,
+            "evento": true,
+            "lead_evento_q": 0,
+            "imagem_nova": true,
+            "quadro_palavra": 4545
+          },
+          {
+            "texto": "Entrem agora no grupo do WhatsApp exército do Lula.",
+            "s": 155.05,
+            "e": 157.69,
+            "q": 4652,
+            "q_fim": 4731,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 0,
+            "evento": true,
+            "lead_evento_q": 0,
+            "imagem_nova": true,
+            "quadro_palavra": 4654
+          },
+          {
+            "texto": "Agora vira pro teu negócio.",
+            "s": 157.67,
+            "e": 158.91,
+            "q": 4730,
+            "q_fim": 4767,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -1,
+            "evento": true,
+            "lead_evento_q": -1,
+            "imagem_nova": true,
+            "quadro_palavra": 4732
+          },
+          {
+            "texto": "Imagina dois empresários com a mesma técnica.",
+            "s": 158.95,
+            "e": 161.71,
+            "q": 4769,
+            "q_fim": 4851,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 2,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 4771
+          },
+          {
+            "texto": "Um cobra 300 e implora por clientes.",
+            "s": 161.45,
+            "e": 163.47,
+            "q": 4844,
+            "q_fim": 4904,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 1,
+            "evento": true,
+            "lead_evento_q": 1,
+            "imagem_nova": true,
+            "quadro_palavra": 4846
+          },
+          {
+            "texto": "O outro cobra 3 mil e tem fila.",
+            "s": 162.95,
+            "e": 165.53,
+            "q": 4889,
+            "q_fim": 4966,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 4891
+          },
+          {
+            "texto": "Ele não é melhor no segmento dele,",
+            "s": 165.05,
+            "e": 166.61,
+            "q": 4952,
+            "q_fim": 4998,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 4954
+          },
+          {
+            "texto": "mas ele tem uma história que o paciente sempre repete.",
+            "s": 166.61,
+            "e": 169.81,
+            "q": 4998,
+            "q_fim": 5094,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -2,
+            "evento": true,
+            "lead_evento_q": -2,
+            "imagem_nova": true,
+            "quadro_palavra": 5000
+          },
+          {
+            "texto": "Entenda, picanha não é carne,",
+            "s": 169.43,
+            "e": 170.81,
+            "q": 5083,
+            "q_fim": 5124,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -2,
+            "evento": true,
+            "lead_evento_q": -2,
+            "imagem_nova": true,
+            "quadro_palavra": 5085
+          },
+          {
+            "texto": "é símbolo de vida melhor.",
+            "s": 170.81,
+            "e": 172.39,
+            "q": 5124,
+            "q_fim": 5172,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 10,
+            "imagem_nova": true,
+            "quadro_palavra": 5126
+          },
+          {
+            "texto": "Qual é o símbolo da tua marca?",
+            "s": 171.91,
+            "e": 173.79,
+            "q": 5157,
+            "q_fim": 5214,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": -5,
+            "evento": true,
+            "lead_evento_q": -7,
+            "imagem_nova": true,
+            "quadro_palavra": 5159
+          },
+          {
+            "texto": "Se você não escolhe,",
+            "s": 173.83,
+            "e": 174.85,
+            "q": 5215,
+            "q_fim": 5246,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 0,
+            "imagem_nova": true,
+            "quadro_palavra": 5217
+          },
+          {
+            "texto": "teu concorrente escolhe.",
+            "s": 174.85,
+            "e": 175.99,
+            "q": 5246,
+            "q_fim": 5280,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 5,
+            "imagem_nova": true,
+            "quadro_palavra": 5248
+          },
+          {
+            "texto": "Imagina o cliente chegando convencido,",
+            "s": 176.05,
+            "e": 177.95,
+            "q": 5282,
+            "q_fim": 5339,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": 3,
+            "imagem_nova": true,
+            "quadro_palavra": 5284
+          },
+          {
+            "texto": "sem pedir desconto.",
+            "s": 177.95,
+            "e": 179.29,
+            "q": 5339,
+            "q_fim": 5379,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 5341
+          },
+          {
+            "texto": "É isso que narrativa faz.",
+            "s": 178.85,
+            "e": 180.19,
+            "q": 5366,
+            "q_fim": 5406,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": true,
+            "lead_evento_q": -6,
+            "imagem_nova": true,
+            "quadro_palavra": 5368
+          },
+          {
+            "texto": "Comenta ao BG aqui embaixo e deixa que a nossa equipe toma conta da tua narrativa.",
+            "s": 180.31,
+            "e": 184.77,
+            "q": 5409,
+            "q_fim": 5543,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 5411
+          },
+          {
+            "texto": "Aprenda a ser único.",
+            "s": 184.53,
+            "e": 185.65,
+            "q": 5536,
+            "q_fim": 5570,
+            "troca": true,
+            "troca_tipo": "corte",
+            "lead_troca_q": 2,
+            "evento": true,
+            "lead_evento_q": 2,
+            "imagem_nova": true,
+            "quadro_palavra": 5538
+          },
+          {
+            "texto": "Ser único é a única saída.",
+            "s": 185.67,
+            "e": 187.37,
+            "q": 5570,
+            "q_fim": 5621,
+            "troca": false,
+            "troca_tipo": "",
+            "lead_troca_q": null,
+            "evento": false,
+            "lead_evento_q": null,
+            "imagem_nova": false,
+            "quadro_palavra": 5572
+          }
+        ],
+        "n": 96,
+        "com_troca_pct": 51.0,
+        "imagem_nova_pct": 71.9,
+        "lead_q_mediana": 1.0,
+        "oracao_s_mediana": 1.88
+      },
+      "loop_diferenca_inicio_fim": 136.9,
+      "brilho_medio": 81.0,
+      "d1_mediana": 2.18,
+      "folhas": [
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-geral.jpg",
+          "tipo": "geral"
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-01-numero-q730.jpg",
+          "tipo": "numero",
+          "q": 730
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-02-numero-q779.jpg",
+          "tipo": "numero",
+          "q": 779
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-03-numero-q1660.jpg",
+          "tipo": "numero",
+          "q": 1660
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-04-numero-q2044.jpg",
+          "tipo": "numero",
+          "q": 2044
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-05-numero-q2231.jpg",
+          "tipo": "numero",
+          "q": 2231
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-06-numero-q2267.jpg",
+          "tipo": "numero",
+          "q": 2267
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-07-numero-q3169.jpg",
+          "tipo": "numero",
+          "q": 3169
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-08-numero-q3272.jpg",
+          "tipo": "numero",
+          "q": 3272
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-09-numero-q3429.jpg",
+          "tipo": "numero",
+          "q": 3429
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-10-numero-q3625.jpg",
+          "tipo": "numero",
+          "q": 3625
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-11-transicao-q1222.jpg",
+          "tipo": "transicao",
+          "q": 1222
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-12-transicao-q1858.jpg",
+          "tipo": "transicao",
+          "q": 1858
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-13-transicao-q5064.jpg",
+          "tipo": "transicao",
+          "q": 5064
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-14-transicao-q1187.jpg",
+          "tipo": "transicao",
+          "q": 1187
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-15-transicao-q5307.jpg",
+          "tipo": "transicao",
+          "q": 5307
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-16-transicao-q21.jpg",
+          "tipo": "transicao",
+          "q": 21
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-17-transicao-q56.jpg",
+          "tipo": "transicao",
+          "q": 56
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-18-transicao-q117.jpg",
+          "tipo": "transicao",
+          "q": 117
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-19-transicao-q122.jpg",
+          "tipo": "transicao",
+          "q": 122
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-20-transicao-q126.jpg",
+          "tipo": "transicao",
+          "q": 126
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-21-transicao-q161.jpg",
+          "tipo": "transicao",
+          "q": 161
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-22-transicao-q163.jpg",
+          "tipo": "transicao",
+          "q": 163
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-23-transicao-q167.jpg",
+          "tipo": "transicao",
+          "q": 167
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-24-transicao-q170.jpg",
+          "tipo": "transicao",
+          "q": 170
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-25-movimento-q5299.jpg",
+          "tipo": "movimento",
+          "q": 5299
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-26-movimento-q5215.jpg",
+          "tipo": "movimento",
+          "q": 5215
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-27-movimento-q3989.jpg",
+          "tipo": "movimento",
+          "q": 3989
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-28-movimento-q1906.jpg",
+          "tipo": "movimento",
+          "q": 1906
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-29-movimento-q822.jpg",
+          "tipo": "movimento",
+          "q": 822
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-fala-imagem-1.jpg",
+          "tipo": "fala-imagem"
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-fala-imagem-2.jpg",
+          "tipo": "fala-imagem"
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-fala-imagem-3.jpg",
+          "tipo": "fala-imagem"
+        },
+        {
+          "arquivo": "folhas/DeS7yVRNyuG-fala-imagem-4.jpg",
+          "tipo": "fala-imagem"
+        }
+      ]
+    }
+  ],
+  "conjunto": {
+    "planos.mediana_s": {
+      "rotulo": "Plano: mediana",
+      "unidade": "s",
+      "mediana": 1.52,
+      "min": 1.52,
+      "max": 1.52,
+      "n": 1
+    },
+    "planos.media_s": {
+      "rotulo": "Plano: média",
+      "unidade": "s",
+      "mediana": 1.87,
+      "min": 1.87,
+      "max": 1.87,
+      "n": 1
+    },
+    "planos.por_min": {
+      "rotulo": "Planos por minuto",
+      "unidade": "/min",
+      "mediana": 32.1,
+      "min": 32.1,
+      "max": 32.1,
+      "n": 1
+    },
+    "transicao_resumo.dissolve_pct": {
+      "rotulo": "Transição dissolve",
+      "unidade": "% das trocas",
+      "mediana": 2.0,
+      "min": 2.0,
+      "max": 2.0,
+      "n": 1
+    },
+    "transicao_resumo.dissolve_quadros_mediana": {
+      "rotulo": "Dissolve: quadros",
+      "unidade": "quadros",
+      "mediana": 8.5,
+      "min": 8.5,
+      "max": 8.5,
+      "n": 1
+    },
+    "camera.pct_quadros_andando": {
+      "rotulo": "Câmera andando",
+      "unidade": "% dos quadros",
+      "mediana": 92.0,
+      "min": 92.1,
+      "max": 92.1,
+      "n": 1
+    },
+    "camera.creep_pct_s": {
+      "rotulo": "Creep típico",
+      "unidade": "% da largura/s",
+      "mediana": 13.55,
+      "min": 13.55,
+      "max": 13.55,
+      "n": 1
+    },
+    "camera.entrada_x_resto": {
+      "rotulo": "Entrada do plano × resto",
+      "unidade": "×",
+      "mediana": 4.05,
+      "min": 4.05,
+      "max": 4.05,
+      "n": 1
+    },
+    "camera.parado_max_q": {
+      "rotulo": "Maior trecho parado",
+      "unidade": "quadros",
+      "mediana": 57.0,
+      "min": 57,
+      "max": 57,
+      "n": 1
+    },
+    "fala.ppm": {
+      "rotulo": "Fala",
+      "unidade": "palavras/min",
+      "mediana": 197.0,
+      "min": 196.6,
+      "max": 196.6,
+      "n": 1
+    },
+    "fala.voz_pct": {
+      "rotulo": "Voz no tempo",
+      "unidade": "%",
+      "mediana": 89.0,
+      "min": 89.2,
+      "max": 89.2,
+      "n": 1
+    },
+    "fala.pausa_frase_mediana_s": {
+      "rotulo": "Pausa pós-frase: mediana",
+      "unidade": "s",
+      "mediana": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 1
+    },
+    "fala.pausa_frase_max_s": {
+      "rotulo": "Pausa pós-frase: máx",
+      "unidade": "s",
+      "mediana": 0.3,
+      "min": 0.3,
+      "max": 0.3,
+      "n": 1
+    },
+    "acao.troca_palavra_q_mediana": {
+      "rotulo": "Troca de plano × palavra",
+      "unidade": "quadros",
+      "mediana": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 1
+    },
+    "acao.quadros_antes_mediana": {
+      "rotulo": "Ação antes da palavra",
+      "unidade": "quadros",
+      "mediana": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 1
+    },
+    "fala_imagem.imagem_nova_pct": {
+      "rotulo": "Oração com imagem nova",
+      "unidade": "% das orações",
+      "mediana": 72.0,
+      "min": 71.9,
+      "max": 71.9,
+      "n": 1
+    },
+    "fala_imagem.com_troca_pct": {
+      "rotulo": "Oração com troca de plano",
+      "unidade": "% das orações",
+      "mediana": 51.0,
+      "min": 51.0,
+      "max": 51.0,
+      "n": 1
+    },
+    "fala_imagem.lead_q_mediana": {
+      "rotulo": "Imagem muda antes da palavra",
+      "unidade": "quadros",
+      "mediana": 1.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 1
+    },
+    "numeros_resumo.por_min": {
+      "rotulo": "Números falados",
+      "unidade": "/min",
+      "mediana": 5.1,
+      "min": 5.1,
+      "max": 5.1,
+      "n": 1
+    },
+    "numeros_resumo.com_evento_pct": {
+      "rotulo": "Número com evento visual",
+      "unidade": "%",
+      "mediana": 56.0,
+      "min": 56.2,
+      "max": 56.2,
+      "n": 1
+    },
+    "som.lufs": {
+      "rotulo": "Volume (LUFS integrado)",
+      "unidade": "LUFS",
+      "mediana": -14.6,
+      "min": -14.6,
+      "max": -14.6,
+      "n": 1
+    },
+    "som.musica_abaixo_da_voz_db": {
+      "rotulo": "Música abaixo da voz",
+      "unidade": "dB",
+      "mediana": 10.1,
+      "min": 10.1,
+      "max": 10.1,
+      "n": 1
+    },
+    "som.efeitos_por_min": {
+      "rotulo": "Efeitos (estimativa)",
+      "unidade": "/min",
+      "mediana": 40.4,
+      "min": 40.4,
+      "max": 40.4,
+      "n": 1
+    },
+    "legenda.y_pct": {
+      "rotulo": "Legenda: altura do centro",
+      "unidade": "% da altura",
+      "mediana": 44.0,
+      "min": 44.0,
+      "max": 44.0,
+      "n": 1
+    },
+    "legenda.altura_texto_px_1920": {
+      "rotulo": "Legenda: altura do texto",
+      "unidade": "px em 1920",
+      "mediana": 41.0,
+      "min": 41.0,
+      "max": 41.0,
+      "n": 1
+    },
+    "legenda.palavras_por_quadro": {
+      "rotulo": "Legenda: palavras na tela",
+      "unidade": "palavras",
+      "mediana": 2.0,
+      "min": 2.0,
+      "max": 2.0,
+      "n": 1
+    },
+    "base_sugerida": "formatos/explicador-3d/base"
+  },
+  "regras": [
+    {
+      "id": "plano",
+      "titulo": "Duração do plano",
+      "texto": "Plano de 1,52 s na mediana (média 1,87 s; 32 planos por minuto). Imagem nova a cada ~1,5 s.",
+      "prova": "DeS7yVRNyuG q4091-q4136 (136,37 s, 1,53 s)"
+    },
+    {
+      "id": "transicao",
+      "titulo": "Tipo de transição",
+      "texto": "2% das trocas são dissolve de 8 quadros; o resto é corte seco. Especiais: 3 em 99 trocas (3,0 por vídeo).",
+      "prova": "DeS7yVRNyuG q5307-q5318 (dissolve, 176,90 s)"
+    },
+    {
+      "id": "camera",
+      "titulo": "Câmera nunca para",
+      "texto": "Câmera andando em 92% dos quadros; creep típico de 13,6% da largura por segundo; nos 10 primeiros quadros do plano ela anda 4,0× o resto (impulso na entrada). Maior trecho parado: 57 quadros.",
+      "prova": "DeS7yVRNyuG q421 (14,03 s)"
+    },
+    {
+      "id": "fala",
+      "titulo": "Ritmo da fala",
+      "texto": "197 palavras por minuto, voz em 89% do tempo; pausa depois de frase de 0,00 s na mediana (máx 0,30 s).",
+      "prova": "DeS7yVRNyuG pausa típica no fim de frase em q617 (20,57 s)"
+    },
+    {
+      "id": "troca_palavra",
+      "titulo": "Troca de plano presa à palavra",
+      "texto": "A troca de plano começa 1 quadro(s) ANTES do começo da palavra mais perto (mediana): imagem nova entra junto com a palavra nova.",
+      "prova": "DeS7yVRNyuG troca q21"
+    },
+    {
+      "id": "acao",
+      "titulo": "Ação × palavra",
+      "texto": "Sem padrão medível entre o gesto e a palavra seguinte (fala densa: uma palavra a cada ~8 quadros; o casamento não passa do acaso). Use a regra do formato (gesto termina ~4 quadros antes da palavra tônica).",
+      "prova": "DeS7yVRNyuG pico q29 → palavra q31"
+    },
+    {
+      "id": "fala_imagem",
+      "titulo": "A imagem é o que a fala diz, no quadro da palavra",
+      "texto": "72% das orações trazem imagem nova (troca de plano em 51%, o resto é ação/objeto dentro do plano); a imagem muda 1 quadro(s) antes da 1ª palavra da oração (mediana). Conferir oração por oração na folha fala-imagem e na tabela `fala-imagem/<vídeo>.md` (o que aparece × o que é dito).",
+      "prova": "DeS7yVRNyuG 'E quem vai decidir essa eleição não é pr' troca q56 → palavra q65"
+    },
+    {
+      "id": "numero",
+      "titulo": "Fato vira objeto",
+      "texto": "5,1 números falados por minuto; 56% deles têm um evento visível (objeto que aparece, rola, acende ou plano novo) a ±0,3 s da palavra, em média -6 quadros da palavra.",
+      "prova": "DeS7yVRNyuG '2002.' palavra q730, evento q722"
+    },
+    {
+      "id": "som",
+      "titulo": "Som medido",
+      "texto": "Volume integrado -14,6 LUFS. Música (medida nas pausas da fala) 10 dB abaixo da voz. Picos de efeito: ~40 por minuto (estimativa: conferir no ouvido).",
+      "prova": "DeS7yVRNyuG (áudio inteiro)"
+    },
+    {
+      "id": "legenda",
+      "titulo": "Legenda",
+      "texto": "Legenda com o centro a 44% da altura, letra de ~41 px numa tela de 1920, ~2 palavras por vez.",
+      "prova": "DeS7yVRNyuG q2693 (89,77 s)"
+    },
+    {
+      "id": "loop",
+      "titulo": "Fim que emenda no começo",
+      "texto": "Diferença entre o 1º e o último quadro: 136,9 (0 = idêntico; abaixo de ~12 o fim emenda no começo). Mais parecido: DeS7yVRNyuG (136,9).",
+      "prova": "DeS7yVRNyuG q0 × q5610"
+    },
+    {
+      "id": "gancho",
+      "titulo": "Gancho",
+      "texto": "A 1ª troca de imagem vem em 0,70 s na mediana; a primeira palavra em 0,00 s.",
+      "prova": "DeS7yVRNyuG q21"
+    }
+  ]
+}

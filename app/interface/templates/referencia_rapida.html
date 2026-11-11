@@ -1,0 +1,25 @@
+{% extends 'base.html' %}{% block titulo %}Jogar referência{% endblock %}
+{% block conteudo %}
+<div class="cabecalho"><div><h1>Jogar uma referência</h1>
+<p class="sub">Joga um vídeo que você gostou, ou um SET de vários da mesma pegada. Eu estudo quadro a quadro, entendo o estilo sozinho e paro pra você dizer “Aprovou?”.</p></div></div>
+<form method="post" enctype="multipart/form-data" class="form">
+<section class="bloco-ref">
+  <label class="soltar" id="drop-ref"><span class="soltar-icone"><svg class="icon"><use href="#i-video"/></svg></span><b class="soltar-titulo">Arraste o vídeo (ou vários) aqui</b><span class="soltar-ajuda">ou clique pra escolher · .mp4 ou .mov</span>
+  <span class="soltar-linha"><video class="soltar-mini" muted playsinline preload="metadata"></video><span class="soltar-txt"><b class="soltar-nome"></b><small class="soltar-info"></small></span><span class="btn mini fantasma">Trocar</span></span>
+  <input type="file" name="video" accept="video/*" multiple class="sr-only"></label>
+  <div class="campo"><label for="ref-link">Ou cole os links <span class="chip-opc">um por linha</span></label><textarea id="ref-link" name="links" rows="2" placeholder="https://…"></textarea></div>
+  <div class="campo"><label for="ref-nome">Nome do set <span class="chip-opc">opcional, se mandar mais de um</span></label><input id="ref-nome" name="nome" placeholder="ex.: análise com prints"></div>
+  <div class="campo"><label for="ref-cli">Cliente <span class="chip-opc">opcional</span></label><select id="ref-cli" name="cliente"><option value="">Nenhum</option>{% for c in clientes %}<option>{{ c.nome }}</option>{% endfor %}</select></div>
+  <p class="passo-dica">É só o estilo. Nunca copio a fala nem o roteiro do vídeo. Mais de um vídeo = set: sai uma régua só com o que se repete, e dá pra pedir variações nessa pegada.</p>
+</section>
+<div class="sticky-actions"><button class="btn grande primario" {{ 'disabled' if not ia_ok }}>Entender o estilo</button></div>
+</form>
+{% if recentes %}
+<h2>Últimas referências</h2>
+<div class="lista-videos">{% for r in recentes %}
+  <a class="linha-video linha-limpa" href="{{ url_for('referencia_rapida_ver', id_=r.id) }}">
+    <div class="txt"><b>{{ r.nome_curto }}</b><small>{{ r.criado_em[:10] }}{% if r.formato_nome %} · {{ r.formato_nome }}{% endif %}</small></div>
+    <span class="selo {{ 'ok' if r.estado in ('pronto','confirmado') else 'erro' if r.estado == 'erro' else 'espera' }}">{{ {'analisando':'olhando','pronto':'pronto','erro':'deu erro','confirmado':'guardado'}.get(r.estado, r.estado) }}</span>
+  </a>{% endfor %}</div>
+{% endif %}
+{% endblock %}

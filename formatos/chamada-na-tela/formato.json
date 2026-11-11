@@ -1,0 +1,126 @@
+{
+  "ordem": 4,
+  "grupo": "falando",
+  "titulo": "Chamada na tela",
+  "frase": "A pessoa fala em tela cheia desde o primeiro segundo; um gancho que chama atenção (título neon batendo, close que puxa, feixe de luz ou falha de sinal), legenda de uma palavra por vez no peito e, de vez em quando, um motion limpo no tempo da palavra. Tom direto, de anúncio.",
+  "entrada": "video",
+  "proporcao": "9:16",
+  "tipo": "gravado",
+  "motor": "ffmpeg + PIL (scripts do modelo)",
+  "status": "pronto",
+  "modelos": [
+    "chamada-na-tela"
+  ],
+  "base": "clientes/Cliente1/cliente1Content/modelos/chamada-na-tela",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Referência",
+      "origem": "~/Downloads/copy_F681CE7F-8C7C-40F9-B26C-EB381A0B8083.mov",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-10-19"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": true,
+      "escolha_na_tela": true,
+      "de_onde": "assets/musica do modelo do cliente (catalogo.json com o LUFS de cada faixa); cama baixa com ducking, uma faixa diferente por vídeo",
+      "clima": "cama musical que acompanha o gancho do anúncio",
+      "volume": "baixa com ducking (LUFS no catalogo.json)",
+      "quando": "do início ao fim, sob a fala",
+      "quando_nao": "nunca a mesma do vídeo anterior; sem música alta no gancho",
+      "troca": "1 faixa por vídeo"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "Não usa: o golpe é visual (tremor, clarão, falha de sinal).",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": false,
+    "motivo": "A legenda de uma palavra por vez é o próprio formato (o motion entra no lugar dela); o tela.py não tem chave pra desligar."
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [
+    "musica"
+  ],
+  "usa": [
+    {
+      "oque": "Montagem e render",
+      "quem": "Motor do formato no seu Mac",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar a entrada",
+        "andamento": "preparar",
+        "faz": "Vídeo gravado já cortado (gancho + corpo + CTA): exportar em SDR 1080x1920 (iPhone HLG convertido com scale_vt) e o tempo por palavra no vídeo final (words.json com 'pecas' = início e fim de cada trecho). Conferir nome, número e acento."
+      },
+      {
+        "id": "cenas",
+        "titulo": "Montar as cenas",
+        "andamento": "storyboard",
+        "faz": "Escrever o config.json do vídeo: título neon de 2 linhas (o assunto do gancho, sem 'Black Friday'), o gancho (bate, puxa, luz ou sinal, revezando entre vídeos), a música (outra que a do vídeo anterior) e as palavras em destaque. Os motions saem sozinhos dos gatilhos do tela.py."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "Gerar o storyboard (folha de quadros do render de teste) e comparar com a folha do exemplo principal; parar pro João aprovar o 1º de cada lote."
+      },
+      {
+        "id": "video",
+        "titulo": "Vídeo",
+        "andamento": "video",
+        "faz": "Renderizar pelo comando do formato, com a música e os efeitos aprovados no storyboard."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Conferir o vídeo contra o exemplo principal (folha lado a lado): só entrega se ficou igual ou melhor."
+      }
+    ],
+    "comandos": {
+      "storyboard": "python3 app/ferramentas/storyboard.py <sandbox>",
+      "render": "python3 <modelo>/tela.py <sandbox>/config.json"
+    }
+  },
+  "apoio": {
+    "usa": true,
+    "tipo": "motion limpo de vez em quando",
+    "fontes": [
+      "motor"
+    ],
+    "duracao_s": "1-2",
+    "quantidade": "pontual, nos títulos",
+    "quando_nao": "no gancho e no CTA",
+    "previa": "storyboard antes do render"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo de fala do anúncio",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "O arquivo vai na área de cima desta etapa (ou cole o link).",
+      "principal": true
+    }
+  ]
+}

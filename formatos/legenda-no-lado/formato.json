@@ -1,0 +1,125 @@
+{
+  "grupo": "falando",
+  "ordem": 50,
+  "titulo": "Legenda no lado",
+  "frase": "Vídeo gravado de lado (carro), horizontal 16:9: corta todo silêncio, enquadra a pessoa à esquerda sem o volante e põe a legenda no lado direito, em maiúsculas, 3 palavras por vez, com a palavra falada em dourado.",
+  "entrada": "video",
+  "proporcao": "16:9",
+  "tipo": "gravado",
+  "motor": "ffmpeg + PIL (scripts do modelo)",
+  "status": "receita",
+  "modelos": [
+    "legenda-no-lado"
+  ],
+  "base": "clientes/Joao/vegasContent/modelos/legenda-no-lado",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "carro-0411",
+      "origem": "~/Projetos/Skill/Estúdio/clientes/Joao/vegasContent/output/legenda-no-lado/carro-0411.mp4",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-11-05"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": false,
+      "de_onde": "Não usa: o áudio é só a voz do João, nivelada.",
+      "quando_nao": "sempre"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "Não usa: o golpe é o corte seco e a palavra que acende.",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": true,
+    "como": "rodar o gerar.sh com --sem-legenda (só corte e enquadramento)"
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [],
+  "usa": [
+    {
+      "oque": "Montagem e render",
+      "quem": "Motor do formato no seu Mac",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar a entrada",
+        "andamento": "preparar",
+        "faz": "Transcrever com tempo por palavra (corte.py transcrever --groq) e montar work/legenda.json com a fala CERTA (legenda.py): corrigir nome, número, verbo trocado e ordem das palavras. Linkar o bruto em work/joao.mp4."
+      },
+      {
+        "id": "cortar",
+        "titulo": "Cortar silêncio e começo errado",
+        "andamento": "preparar",
+        "faz": "Medir a energia do áudio (nunca no ouvido), tirar o falso começo e toda pausa de 0,26 s ou mais, deixando 0,14 s de respiro. Termina no fim de uma frase dita inteira (G23)."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "Gerar um quadro do vídeo final (gerar.sh --quadro 6) e olhar: volante fora, pessoa à esquerda, texto do lado direito sem tocar o rosto. Parar pro João aprovar."
+      },
+      {
+        "id": "video",
+        "titulo": "Vídeo",
+        "andamento": "video",
+        "faz": "Renderizar pelo gerar.sh: corte, enquadramento, escurecido, legenda e áudio a -14 LUFS."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Rodar conferir_video.py com --formato legenda-no-lado, olhar a folha de quadros (1 a cada 3 s) e conferir a legenda contra a voz."
+      }
+    ],
+    "comandos": {
+      "storyboard": "zsh ../gerar.sh --dir . --quadro 6",
+      "conferir": "python3 app/ferramentas/conferir_video.py <saida> --sandbox <sandbox> --formato legenda-no-lado",
+      "render": "zsh ../gerar.sh --dir ."
+    }
+  },
+  "apoio": {
+    "usa": false,
+    "tipo": "sem cena de apoio",
+    "fontes": [],
+    "duracao_s": "0",
+    "quando_nao": "sempre",
+    "previa": "quadro do segundo escolhido antes do render (gerar.sh --quadro S)"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado (de lado, no carro)",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "Horizontal, de preferência 4K: o zoom que tira o volante precisa de resolução sobrando.",
+      "principal": true
+    },
+    {
+      "campo": "inicio_s",
+      "rotulo": "Onde a fala boa começa (segundos)",
+      "tipo": "tempo",
+      "obrigatorio": false,
+      "dica": "Se você gravou um começo errado, diga em que segundo a boa começa. Sem isso o Estúdio acha pelo take refeito."
+    }
+  ],
+  "oculto": false
+}

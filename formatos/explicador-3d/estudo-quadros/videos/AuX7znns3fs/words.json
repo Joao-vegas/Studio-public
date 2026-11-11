@@ -1,0 +1,2464 @@
+{
+  "words": [
+    {
+      "word": "If",
+      "start": 0,
+      "end": 0.2
+    },
+    {
+      "word": "an",
+      "start": 0.2,
+      "end": 0.42
+    },
+    {
+      "word": "influencer",
+      "start": 0.42,
+      "end": 0.86
+    },
+    {
+      "word": "comes",
+      "start": 0.86,
+      "end": 1.22
+    },
+    {
+      "word": "up",
+      "start": 1.22,
+      "end": 1.4
+    },
+    {
+      "word": "to",
+      "start": 1.4,
+      "end": 1.52
+    },
+    {
+      "word": "you",
+      "start": 1.52,
+      "end": 1.62
+    },
+    {
+      "word": "in",
+      "start": 1.62,
+      "end": 1.7
+    },
+    {
+      "word": "the",
+      "start": 1.7,
+      "end": 1.74
+    },
+    {
+      "word": "street",
+      "start": 1.74,
+      "end": 2.04
+    },
+    {
+      "word": "and",
+      "start": 2.04,
+      "end": 2.26
+    },
+    {
+      "word": "says",
+      "start": 2.26,
+      "end": 2.54
+    },
+    {
+      "word": "For $5,",
+      "start": 2.58,
+      "end": 3.48
+    },
+    {
+      "word": "how",
+      "start": 3.48,
+      "end": 3.62
+    },
+    {
+      "word": "many",
+      "start": 3.62,
+      "end": 3.82
+    },
+    {
+      "word": "states",
+      "start": 3.82,
+      "end": 4.08
+    },
+    {
+      "word": "are",
+      "start": 4.08,
+      "end": 4.28
+    },
+    {
+      "word": "there",
+      "start": 4.28,
+      "end": 4.42
+    },
+    {
+      "word": "in",
+      "start": 4.42,
+      "end": 4.5
+    },
+    {
+      "word": "the",
+      "start": 4.5,
+      "end": 4.64
+    },
+    {
+      "word": "US?",
+      "start": 4.64,
+      "end": 4.86
+    },
+    {
+      "word": "Don't",
+      "start": 5.14,
+      "end": 5.4
+    },
+    {
+      "word": "instantly",
+      "start": 5.4,
+      "end": 5.78
+    },
+    {
+      "word": "answer",
+      "start": 5.78,
+      "end": 6.12
+    },
+    {
+      "word": "them,",
+      "start": 6.12,
+      "end": 6.58
+    },
+    {
+      "word": "because",
+      "start": 6.58,
+      "end": 6.7
+    },
+    {
+      "word": "you",
+      "start": 6.7,
+      "end": 6.9
+    },
+    {
+      "word": "could",
+      "start": 6.9,
+      "end": 7.06
+    },
+    {
+      "word": "be",
+      "start": 7.06,
+      "end": 7.2
+    },
+    {
+      "word": "engaging",
+      "start": 7.2,
+      "end": 7.58
+    },
+    {
+      "word": "in",
+      "start": 7.58,
+      "end": 7.88
+    },
+    {
+      "word": "an",
+      "start": 7.88,
+      "end": 8.06
+    },
+    {
+      "word": "illegal",
+      "start": 8.06,
+      "end": 8.34
+    },
+    {
+      "word": "act",
+      "start": 8.34,
+      "end": 8.62
+    },
+    {
+      "word": "of",
+      "start": 8.62,
+      "end": 8.84
+    },
+    {
+      "word": "gambling.",
+      "start": 8.84,
+      "end": 9.84
+    },
+    {
+      "word": "According",
+      "start": 9.78,
+      "end": 10.06
+    },
+    {
+      "word": "to",
+      "start": 10.06,
+      "end": 10.3
+    },
+    {
+      "word": "the",
+      "start": 10.3,
+      "end": 10.48
+    },
+    {
+      "word": "US",
+      "start": 10.48,
+      "end": 10.66
+    },
+    {
+      "word": "lottery",
+      "start": 10.66,
+      "end": 11.08
+    },
+    {
+      "word": "laws,",
+      "start": 11.08,
+      "end": 11.54
+    },
+    {
+      "word": "for",
+      "start": 11.54,
+      "end": 11.66
+    },
+    {
+      "word": "a",
+      "start": 11.66,
+      "end": 11.78
+    },
+    {
+      "word": "game",
+      "start": 11.78,
+      "end": 11.9
+    },
+    {
+      "word": "to",
+      "start": 11.9,
+      "end": 12.06
+    },
+    {
+      "word": "be",
+      "start": 12.06,
+      "end": 12.2
+    },
+    {
+      "word": "an",
+      "start": 12.2,
+      "end": 12.36
+    },
+    {
+      "word": "illegal",
+      "start": 12.36,
+      "end": 12.64
+    },
+    {
+      "word": "lottery,",
+      "start": 12.64,
+      "end": 13.5
+    },
+    {
+      "word": "it",
+      "start": 13.26,
+      "end": 13.34
+    },
+    {
+      "word": "has",
+      "start": 13.34,
+      "end": 13.54
+    },
+    {
+      "word": "to",
+      "start": 13.54,
+      "end": 13.68
+    },
+    {
+      "word": "have",
+      "start": 13.68,
+      "end": 13.84
+    },
+    {
+      "word": "elements",
+      "start": 13.84,
+      "end": 14.24
+    },
+    {
+      "word": "of",
+      "start": 14.24,
+      "end": 14.46
+    },
+    {
+      "word": "prize,",
+      "start": 14.46,
+      "end": 15.06
+    },
+    {
+      "word": "chance,",
+      "start": 15.06,
+      "end": 15.62
+    },
+    {
+      "word": "and",
+      "start": 15.62,
+      "end": 15.88
+    },
+    {
+      "word": "consideration.",
+      "start": 15.88,
+      "end": 16.28
+    },
+    {
+      "word": "So",
+      "start": 16.74,
+      "end": 16.86
+    },
+    {
+      "word": "if",
+      "start": 16.86,
+      "end": 16.98
+    },
+    {
+      "word": "you",
+      "start": 16.98,
+      "end": 17.14
+    },
+    {
+      "word": "ever",
+      "start": 17.14,
+      "end": 17.32
+    },
+    {
+      "word": "use",
+      "start": 17.32,
+      "end": 17.54
+    },
+    {
+      "word": "the",
+      "start": 17.54,
+      "end": 17.68
+    },
+    {
+      "word": "coin",
+      "start": 17.68,
+      "end": 17.86
+    },
+    {
+      "word": "flip",
+      "start": 17.86,
+      "end": 17.98
+    },
+    {
+      "word": "to",
+      "start": 17.98,
+      "end": 18.22
+    },
+    {
+      "word": "decide",
+      "start": 18.22,
+      "end": 18.54
+    },
+    {
+      "word": "whether",
+      "start": 18.54,
+      "end": 18.72
+    },
+    {
+      "word": "you",
+      "start": 18.72,
+      "end": 19.04
+    },
+    {
+      "word": "or",
+      "start": 19.04,
+      "end": 19.36
+    },
+    {
+      "word": "your",
+      "start": 19.36,
+      "end": 19.5
+    },
+    {
+      "word": "friend",
+      "start": 19.5,
+      "end": 19.8
+    },
+    {
+      "word": "pays",
+      "start": 19.8,
+      "end": 20.06
+    },
+    {
+      "word": "for",
+      "start": 20.06,
+      "end": 20.22
+    },
+    {
+      "word": "dinner,",
+      "start": 20.22,
+      "end": 21
+    },
+    {
+      "word": "that",
+      "start": 20.78,
+      "end": 20.96
+    },
+    {
+      "word": "technically",
+      "start": 20.96,
+      "end": 21.4
+    },
+    {
+      "word": "could",
+      "start": 21.4,
+      "end": 21.66
+    },
+    {
+      "word": "have",
+      "start": 21.66,
+      "end": 21.78
+    },
+    {
+      "word": "been",
+      "start": 21.78,
+      "end": 21.96
+    },
+    {
+      "word": "unlicensed",
+      "start": 21.96,
+      "end": 22.34
+    },
+    {
+      "word": "gambling,",
+      "start": 22.34,
+      "end": 23.02
+    },
+    {
+      "word": "since",
+      "start": 23.02,
+      "end": 23.2
+    },
+    {
+      "word": "there's",
+      "start": 23.2,
+      "end": 23.44
+    },
+    {
+      "word": "a",
+      "start": 23.44,
+      "end": 23.58
+    },
+    {
+      "word": "prize,",
+      "start": 23.58,
+      "end": 24.14
+    },
+    {
+      "word": "dinner,",
+      "start": 24.14,
+      "end": 24.56
+    },
+    {
+      "word": "determined",
+      "start": 24.56,
+      "end": 24.94
+    },
+    {
+      "word": "by",
+      "start": 24.94,
+      "end": 25.14
+    },
+    {
+      "word": "chance,",
+      "start": 25.14,
+      "end": 25.7
+    },
+    {
+      "word": "a",
+      "start": 25.7,
+      "end": 25.8
+    },
+    {
+      "word": "coin",
+      "start": 25.8,
+      "end": 26
+    },
+    {
+      "word": "flip,",
+      "start": 26,
+      "end": 26.52
+    },
+    {
+      "word": "and",
+      "start": 26.38,
+      "end": 26.46
+    },
+    {
+      "word": "you're",
+      "start": 26.46,
+      "end": 26.6
+    },
+    {
+      "word": "risking",
+      "start": 26.6,
+      "end": 26.86
+    },
+    {
+      "word": "paying",
+      "start": 26.86,
+      "end": 27.1
+    },
+    {
+      "word": "for",
+      "start": 27.1,
+      "end": 27.3
+    },
+    {
+      "word": "the",
+      "start": 27.3,
+      "end": 27.5
+    },
+    {
+      "word": "entire",
+      "start": 27.5,
+      "end": 27.8
+    },
+    {
+      "word": "bill,",
+      "start": 27.8,
+      "end": 28.28
+    },
+    {
+      "word": "consideration,",
+      "start": 28.28,
+      "end": 28.62
+    },
+    {
+      "word": "Or",
+      "start": 28.86,
+      "end": 29.24
+    },
+    {
+      "word": "worse,",
+      "start": 29.24,
+      "end": 29.78
+    },
+    {
+      "word": "if",
+      "start": 29.78,
+      "end": 29.9
+    },
+    {
+      "word": "you're",
+      "start": 29.9,
+      "end": 30.02
+    },
+    {
+      "word": "American",
+      "start": 30.02,
+      "end": 30.44
+    },
+    {
+      "word": "and",
+      "start": 30.44,
+      "end": 30.78
+    },
+    {
+      "word": "have",
+      "start": 30.78,
+      "end": 30.94
+    },
+    {
+      "word": "ever",
+      "start": 30.94,
+      "end": 31.12
+    },
+    {
+      "word": "had",
+      "start": 31.12,
+      "end": 31.38
+    },
+    {
+      "word": "a",
+      "start": 31.38,
+      "end": 31.52
+    },
+    {
+      "word": "group",
+      "start": 31.52,
+      "end": 31.7
+    },
+    {
+      "word": "dinner,",
+      "start": 31.7,
+      "end": 32.14
+    },
+    {
+      "word": "you",
+      "start": 32.14,
+      "end": 32.24
+    },
+    {
+      "word": "may",
+      "start": 32.24,
+      "end": 32.38
+    },
+    {
+      "word": "have",
+      "start": 32.38,
+      "end": 32.56
+    },
+    {
+      "word": "committed",
+      "start": 32.56,
+      "end": 32.88
+    },
+    {
+      "word": "illegal",
+      "start": 32.88,
+      "end": 33.32
+    },
+    {
+      "word": "gambling",
+      "start": 33.32,
+      "end": 33.74
+    },
+    {
+      "word": "by",
+      "start": 33.74,
+      "end": 34.06
+    },
+    {
+      "word": "playing",
+      "start": 34.06,
+      "end": 34.3
+    },
+    {
+      "word": "credit",
+      "start": 34.3,
+      "end": 34.62
+    },
+    {
+      "word": "card",
+      "start": 34.62,
+      "end": 35.02
+    },
+    {
+      "word": "roulette.",
+      "start": 35.02,
+      "end": 35.62
+    },
+    {
+      "word": "It's",
+      "start": 35.54,
+      "end": 35.72
+    },
+    {
+      "word": "where",
+      "start": 35.72,
+      "end": 35.86
+    },
+    {
+      "word": "you",
+      "start": 35.86,
+      "end": 36
+    },
+    {
+      "word": "let",
+      "start": 36,
+      "end": 36.2
+    },
+    {
+      "word": "the",
+      "start": 36.2,
+      "end": 36.34
+    },
+    {
+      "word": "waiter",
+      "start": 36.34,
+      "end": 36.66
+    },
+    {
+      "word": "randomly",
+      "start": 36.66,
+      "end": 37.34
+    },
+    {
+      "word": "pick",
+      "start": 37.34,
+      "end": 37.68
+    },
+    {
+      "word": "a",
+      "start": 37.68,
+      "end": 37.8
+    },
+    {
+      "word": "credit",
+      "start": 37.8,
+      "end": 38.06
+    },
+    {
+      "word": "card",
+      "start": 38.06,
+      "end": 38.38
+    },
+    {
+      "word": "that",
+      "start": 38.38,
+      "end": 38.74
+    },
+    {
+      "word": "would",
+      "start": 38.74,
+      "end": 38.9
+    },
+    {
+      "word": "pay",
+      "start": 38.9,
+      "end": 39.26
+    },
+    {
+      "word": "for",
+      "start": 39.26,
+      "end": 39.72
+    },
+    {
+      "word": "yours",
+      "start": 39.72,
+      "end": 40.02
+    },
+    {
+      "word": "and",
+      "start": 40.02,
+      "end": 40.2
+    },
+    {
+      "word": "everyone's",
+      "start": 40.2,
+      "end": 40.6
+    },
+    {
+      "word": "dinner",
+      "start": 40.6,
+      "end": 40.88
+    },
+    {
+      "word": "with",
+      "start": 40.88,
+      "end": 41.26
+    },
+    {
+      "word": "the",
+      "start": 41.26,
+      "end": 41.38
+    },
+    {
+      "word": "risk",
+      "start": 41.38,
+      "end": 41.8
+    },
+    {
+      "word": "of",
+      "start": 41.8,
+      "end": 42.06
+    },
+    {
+      "word": "your",
+      "start": 42.06,
+      "end": 42.22
+    },
+    {
+      "word": "card",
+      "start": 42.22,
+      "end": 42.46
+    },
+    {
+      "word": "being",
+      "start": 42.46,
+      "end": 42.66
+    },
+    {
+      "word": "selected.",
+      "start": 42.66,
+      "end": 43.64
+    },
+    {
+      "word": "Of",
+      "start": 43.44,
+      "end": 43.6
+    },
+    {
+      "word": "course,",
+      "start": 43.6,
+      "end": 44.02
+    },
+    {
+      "word": "no",
+      "start": 44.02,
+      "end": 44.16
+    },
+    {
+      "word": "one",
+      "start": 44.16,
+      "end": 44.26
+    },
+    {
+      "word": "will",
+      "start": 44.26,
+      "end": 44.48
+    },
+    {
+      "word": "arrest",
+      "start": 44.48,
+      "end": 44.76
+    },
+    {
+      "word": "you",
+      "start": 44.76,
+      "end": 44.92
+    },
+    {
+      "word": "for",
+      "start": 44.92,
+      "end": 45.08
+    },
+    {
+      "word": "engaging",
+      "start": 45.08,
+      "end": 45.42
+    },
+    {
+      "word": "in",
+      "start": 45.42,
+      "end": 45.58
+    },
+    {
+      "word": "social",
+      "start": 45.58,
+      "end": 45.94
+    },
+    {
+      "word": "gambling",
+      "start": 45.94,
+      "end": 46.34
+    },
+    {
+      "word": "like",
+      "start": 46.34,
+      "end": 46.6
+    },
+    {
+      "word": "this.",
+      "start": 46.6,
+      "end": 46.98
+    },
+    {
+      "word": "And",
+      "start": 46.98,
+      "end": 47.08
+    },
+    {
+      "word": "an",
+      "start": 47.08,
+      "end": 47.26
+    },
+    {
+      "word": "influencer",
+      "start": 47.26,
+      "end": 47.7
+    },
+    {
+      "word": "offering",
+      "start": 47.7,
+      "end": 48.12
+    },
+    {
+      "word": "you $5",
+      "start": 48.12,
+      "end": 48.68
+    },
+    {
+      "word": "to",
+      "start": 48.68,
+      "end": 49.12
+    },
+    {
+      "word": "answer",
+      "start": 49.12,
+      "end": 49.34
+    },
+    {
+      "word": "a",
+      "start": 49.34,
+      "end": 49.44
+    },
+    {
+      "word": "question",
+      "start": 49.44,
+      "end": 49.78
+    },
+    {
+      "word": "is",
+      "start": 49.78,
+      "end": 50.18
+    },
+    {
+      "word": "likely",
+      "start": 50.18,
+      "end": 50.48
+    },
+    {
+      "word": "just",
+      "start": 50.48,
+      "end": 50.76
+    },
+    {
+      "word": "a",
+      "start": 50.76,
+      "end": 50.9
+    },
+    {
+      "word": "giveaway,",
+      "start": 50.9,
+      "end": 51.54
+    },
+    {
+      "word": "since",
+      "start": 51.54,
+      "end": 51.62
+    },
+    {
+      "word": "it",
+      "start": 51.62,
+      "end": 51.82
+    },
+    {
+      "word": "lacks",
+      "start": 51.82,
+      "end": 52.02
+    },
+    {
+      "word": "the",
+      "start": 52.02,
+      "end": 52.22
+    },
+    {
+      "word": "element",
+      "start": 52.22,
+      "end": 52.56
+    },
+    {
+      "word": "of",
+      "start": 52.56,
+      "end": 52.76
+    },
+    {
+      "word": "you",
+      "start": 52.76,
+      "end": 52.9
+    },
+    {
+      "word": "putting",
+      "start": 52.9,
+      "end": 53.12
+    },
+    {
+      "word": "your",
+      "start": 53.12,
+      "end": 53.32
+    },
+    {
+      "word": "money",
+      "start": 53.32,
+      "end": 53.52
+    },
+    {
+      "word": "on",
+      "start": 53.52,
+      "end": 53.72
+    },
+    {
+      "word": "the",
+      "start": 53.72,
+      "end": 53.84
+    },
+    {
+      "word": "line.",
+      "start": 53.84,
+      "end": 54.5
+    },
+    {
+      "word": "But",
+      "start": 54.16,
+      "end": 54.36
+    },
+    {
+      "word": "let's",
+      "start": 54.36,
+      "end": 54.58
+    },
+    {
+      "word": "say",
+      "start": 54.58,
+      "end": 54.66
+    },
+    {
+      "word": "you",
+      "start": 54.66,
+      "end": 54.78
+    },
+    {
+      "word": "answer",
+      "start": 54.78,
+      "end": 55.04
+    },
+    {
+      "word": "his",
+      "start": 55.04,
+      "end": 55.24
+    },
+    {
+      "word": "question",
+      "start": 55.24,
+      "end": 55.52
+    },
+    {
+      "word": "correctly",
+      "start": 55.52,
+      "end": 56.02
+    },
+    {
+      "word": "and",
+      "start": 56.02,
+      "end": 56.22
+    },
+    {
+      "word": "he",
+      "start": 56.22,
+      "end": 56.4
+    },
+    {
+      "word": "offers",
+      "start": 56.4,
+      "end": 56.64
+    },
+    {
+      "word": "you",
+      "start": 56.64,
+      "end": 56.82
+    },
+    {
+      "word": "this.",
+      "start": 56.82,
+      "end": 57.62
+    },
+    {
+      "word": "Do",
+      "start": 57.28,
+      "end": 57.42
+    },
+    {
+      "word": "you",
+      "start": 57.42,
+      "end": 57.52
+    },
+    {
+      "word": "want",
+      "start": 57.52,
+      "end": 57.66
+    },
+    {
+      "word": "to",
+      "start": 57.66,
+      "end": 57.78
+    },
+    {
+      "word": "go",
+      "start": 57.78,
+      "end": 57.9
+    },
+    {
+      "word": "double",
+      "start": 57.9,
+      "end": 58.14
+    },
+    {
+      "word": "or",
+      "start": 58.14,
+      "end": 58.26
+    },
+    {
+      "word": "nothing?",
+      "start": 58.26,
+      "end": 58.84
+    },
+    {
+      "word": "Name",
+      "start": 58.86,
+      "end": 59.34
+    },
+    {
+      "word": "five",
+      "start": 59.34,
+      "end": 59.64
+    },
+    {
+      "word": "countries",
+      "start": 59.64,
+      "end": 60.08
+    },
+    {
+      "word": "other",
+      "start": 60.08,
+      "end": 60.42
+    },
+    {
+      "word": "than",
+      "start": 60.42,
+      "end": 60.56
+    },
+    {
+      "word": "the",
+      "start": 60.56,
+      "end": 60.72
+    },
+    {
+      "word": "US.",
+      "start": 60.72,
+      "end": 61.32
+    },
+    {
+      "word": "Now",
+      "start": 61.44,
+      "end": 61.78
+    },
+    {
+      "word": "you're",
+      "start": 61.78,
+      "end": 62.02
+    },
+    {
+      "word": "actually",
+      "start": 62.02,
+      "end": 62.36
+    },
+    {
+      "word": "betting",
+      "start": 62.36,
+      "end": 62.56
+    },
+    {
+      "word": "the $5",
+      "start": 62.56,
+      "end": 63.14
+    },
+    {
+      "word": "that",
+      "start": 63.14,
+      "end": 63.82
+    },
+    {
+      "word": "you",
+      "start": 63.82,
+      "end": 63.96
+    },
+    {
+      "word": "previously",
+      "start": 63.96,
+      "end": 64.42
+    },
+    {
+      "word": "won,",
+      "start": 64.42,
+      "end": 65
+    },
+    {
+      "word": "which",
+      "start": 65,
+      "end": 65.1
+    },
+    {
+      "word": "is",
+      "start": 65.1,
+      "end": 65.24
+    },
+    {
+      "word": "the",
+      "start": 65.24,
+      "end": 65.34
+    },
+    {
+      "word": "final",
+      "start": 65.34,
+      "end": 65.68
+    },
+    {
+      "word": "piece",
+      "start": 65.68,
+      "end": 65.98
+    },
+    {
+      "word": "needed",
+      "start": 65.98,
+      "end": 66.28
+    },
+    {
+      "word": "for",
+      "start": 66.28,
+      "end": 66.5
+    },
+    {
+      "word": "it",
+      "start": 66.5,
+      "end": 66.6
+    },
+    {
+      "word": "to",
+      "start": 66.6,
+      "end": 66.72
+    },
+    {
+      "word": "count",
+      "start": 66.72,
+      "end": 66.96
+    },
+    {
+      "word": "as",
+      "start": 66.96,
+      "end": 67.24
+    },
+    {
+      "word": "gambling",
+      "start": 67.24,
+      "end": 67.64
+    },
+    {
+      "word": "or",
+      "start": 67.64,
+      "end": 67.92
+    },
+    {
+      "word": "an",
+      "start": 67.92,
+      "end": 68.1
+    },
+    {
+      "word": "illegal",
+      "start": 68.1,
+      "end": 68.34
+    },
+    {
+      "word": "lottery.",
+      "start": 68.34,
+      "end": 69.06
+    },
+    {
+      "word": "Or",
+      "start": 69.04,
+      "end": 69.24
+    },
+    {
+      "word": "at",
+      "start": 69.24,
+      "end": 69.46
+    },
+    {
+      "word": "least",
+      "start": 69.46,
+      "end": 69.68
+    },
+    {
+      "word": "that's",
+      "start": 69.68,
+      "end": 70
+    },
+    {
+      "word": "what",
+      "start": 70,
+      "end": 70.12
+    },
+    {
+      "word": "I",
+      "start": 70.12,
+      "end": 70.3
+    },
+    {
+      "word": "thought.",
+      "start": 70.3,
+      "end": 70.82
+    },
+    {
+      "word": "Because",
+      "start": 70.76,
+      "end": 70.96
+    },
+    {
+      "word": "it",
+      "start": 70.96,
+      "end": 71.14
+    },
+    {
+      "word": "turns",
+      "start": 71.14,
+      "end": 71.36
+    },
+    {
+      "word": "out",
+      "start": 71.36,
+      "end": 71.66
+    },
+    {
+      "word": "that",
+      "start": 71.66,
+      "end": 71.86
+    },
+    {
+      "word": "trivia",
+      "start": 71.86,
+      "end": 72.2
+    },
+    {
+      "word": "questions",
+      "start": 72.2,
+      "end": 72.56
+    },
+    {
+      "word": "like",
+      "start": 72.56,
+      "end": 72.82
+    },
+    {
+      "word": "these",
+      "start": 72.82,
+      "end": 73.08
+    },
+    {
+      "word": "are",
+      "start": 73.08,
+      "end": 73.36
+    },
+    {
+      "word": "not",
+      "start": 73.36,
+      "end": 73.66
+    },
+    {
+      "word": "seen",
+      "start": 73.66,
+      "end": 74
+    },
+    {
+      "word": "as",
+      "start": 74,
+      "end": 74.16
+    },
+    {
+      "word": "chance,",
+      "start": 74.16,
+      "end": 74.68
+    },
+    {
+      "word": "but",
+      "start": 74.7,
+      "end": 74.8
+    },
+    {
+      "word": "rather",
+      "start": 74.8,
+      "end": 75.14
+    },
+    {
+      "word": "a",
+      "start": 75.14,
+      "end": 75.38
+    },
+    {
+      "word": "skill-based",
+      "start": 75.38,
+      "end": 75.84
+    },
+    {
+      "word": "outcome.",
+      "start": 75.84,
+      "end": 76.62
+    },
+    {
+      "word": "So",
+      "start": 76.58,
+      "end": 76.68
+    },
+    {
+      "word": "unless",
+      "start": 76.68,
+      "end": 76.92
+    },
+    {
+      "word": "they",
+      "start": 76.92,
+      "end": 77.12
+    },
+    {
+      "word": "start",
+      "start": 77.12,
+      "end": 77.38
+    },
+    {
+      "word": "asking",
+      "start": 77.38,
+      "end": 77.68
+    },
+    {
+      "word": "you",
+      "start": 77.68,
+      "end": 77.86
+    },
+    {
+      "word": "truly",
+      "start": 77.86,
+      "end": 78.24
+    },
+    {
+      "word": "random",
+      "start": 78.24,
+      "end": 78.6
+    },
+    {
+      "word": "stuff,",
+      "start": 78.6,
+      "end": 79.2
+    },
+    {
+      "word": "like",
+      "start": 79.18,
+      "end": 79.32
+    },
+    {
+      "word": "what",
+      "start": 79.32,
+      "end": 79.7
+    },
+    {
+      "word": "number",
+      "start": 79.7,
+      "end": 79.94
+    },
+    {
+      "word": "am",
+      "start": 79.94,
+      "end": 80.1
+    },
+    {
+      "word": "I",
+      "start": 80.1,
+      "end": 80.14
+    },
+    {
+      "word": "thinking",
+      "start": 80.14,
+      "end": 80.42
+    },
+    {
+      "word": "of?",
+      "start": 80.42,
+      "end": 81.12
+    },
+    {
+      "word": "You're",
+      "start": 80.76,
+      "end": 80.94
+    },
+    {
+      "word": "good.",
+      "start": 80.94,
+      "end": 81.36
+    },
+    {
+      "word": "It's",
+      "start": 81.36,
+      "end": 81.54
+    },
+    {
+      "word": "not",
+      "start": 81.54,
+      "end": 81.76
+    },
+    {
+      "word": "illegal",
+      "start": 81.76,
+      "end": 82.02
+    },
+    {
+      "word": "gambling.",
+      "start": 82.02,
+      "end": 82.86
+    },
+    {
+      "word": "But",
+      "start": 82.72,
+      "end": 82.88
+    },
+    {
+      "word": "to",
+      "start": 82.88,
+      "end": 83.08
+    },
+    {
+      "word": "be",
+      "start": 83.08,
+      "end": 83.18
+    },
+    {
+      "word": "honest,",
+      "start": 83.18,
+      "end": 83.58
+    },
+    {
+      "word": "I",
+      "start": 83.58,
+      "end": 83.6
+    },
+    {
+      "word": "think",
+      "start": 83.6,
+      "end": 83.72
+    },
+    {
+      "word": "you",
+      "start": 83.72,
+      "end": 83.82
+    },
+    {
+      "word": "have",
+      "start": 83.82,
+      "end": 83.94
+    },
+    {
+      "word": "a",
+      "start": 83.94,
+      "end": 84.04
+    },
+    {
+      "word": "better",
+      "start": 84.04,
+      "end": 84.16
+    },
+    {
+      "word": "chance",
+      "start": 84.16,
+      "end": 84.44
+    },
+    {
+      "word": "of",
+      "start": 84.44,
+      "end": 84.58
+    },
+    {
+      "word": "guessing",
+      "start": 84.58,
+      "end": 84.76
+    },
+    {
+      "word": "the",
+      "start": 84.76,
+      "end": 84.92
+    },
+    {
+      "word": "number",
+      "start": 84.92,
+      "end": 85.16
+    },
+    {
+      "word": "in",
+      "start": 85.16,
+      "end": 85.28
+    },
+    {
+      "word": "their",
+      "start": 85.28,
+      "end": 85.42
+    },
+    {
+      "word": "head",
+      "start": 85.42,
+      "end": 85.58
+    },
+    {
+      "word": "than",
+      "start": 85.08,
+      "end": 85.78
+    },
+    {
+      "word": "naming",
+      "start": 85.78,
+      "end": 85.96
+    },
+    {
+      "word": "five",
+      "start": 85.96,
+      "end": 86.22
+    },
+    {
+      "word": "countries",
+      "start": 86.22,
+      "end": 86.56
+    },
+    {
+      "word": "other",
+      "start": 86.56,
+      "end": 86.78
+    },
+    {
+      "word": "than",
+      "start": 86.78,
+      "end": 86.9
+    },
+    {
+      "word": "the",
+      "start": 86.9,
+      "end": 87.04
+    },
+    {
+      "word": "US.",
+      "start": 87.04,
+      "end": 87.74
+    },
+    {
+      "word": "Um,",
+      "start": 86.76,
+      "end": 88.12
+    },
+    {
+      "word": "London?",
+      "start": 88.12,
+      "end": 88.84
+    },
+    {
+      "word": "Mm-mm.",
+      "start": 88.86,
+      "end": 89.34
+    }
+  ],
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 0,
+      "end": 2.54,
+      "text": " If an influencer comes up to you in the street and says",
+      "tokens": [
+        50365,
+        759,
+        364,
+        39503,
+        1487,
+        493,
+        281,
+        291,
+        294,
+        264,
+        4838,
+        293,
+        1619,
+        50492
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.12303766,
+      "compression_ratio": 1.7463127,
+      "no_speech_prob": 0.027069092
+    },
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 2.54,
+      "end": 4.96,
+      "text": " For $5, how many states are there in the US?",
+      "tokens": [
+        50492,
+        1171,
+        1848,
+        20,
+        11,
+        577,
+        867,
+        4368,
+        366,
+        456,
+        294,
+        264,
+        2546,
+        30,
+        50613
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.12303766,
+      "compression_ratio": 1.7463127,
+      "no_speech_prob": 0.027069092
+    },
+    {
+      "id": 2,
+      "seek": 0,
+      "start": 5.1,
+      "end": 9.36,
+      "text": " Don't instantly answer them, because you could be engaging in an illegal act of gambling.",
+      "tokens": [
+        50620,
+        1468,
+        380,
+        13518,
+        1867,
+        552,
+        11,
+        570,
+        291,
+        727,
+        312,
+        11268,
+        294,
+        364,
+        11905,
+        605,
+        295,
+        27077,
+        13,
+        50833
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.12303766,
+      "compression_ratio": 1.7463127,
+      "no_speech_prob": 0.027069092
+    },
+    {
+      "id": 3,
+      "seek": 0,
+      "start": 9.679999,
+      "end": 13.0199995,
+      "text": " According to the US lottery laws, for a game to be an illegal lottery,",
+      "tokens": [
+        50849,
+        7328,
+        281,
+        264,
+        2546,
+        27391,
+        6064,
+        11,
+        337,
+        257,
+        1216,
+        281,
+        312,
+        364,
+        11905,
+        27391,
+        11,
+        51016
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.12303766,
+      "compression_ratio": 1.7463127,
+      "no_speech_prob": 0.027069092
+    },
+    {
+      "id": 4,
+      "seek": 0,
+      "start": 13.24,
+      "end": 16.46,
+      "text": " it has to have elements of prize, chance, and consideration.",
+      "tokens": [
+        51027,
+        309,
+        575,
+        281,
+        362,
+        4959,
+        295,
+        12818,
+        11,
+        2931,
+        11,
+        293,
+        12381,
+        13,
+        51188
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.12303766,
+      "compression_ratio": 1.7463127,
+      "no_speech_prob": 0.027069092
+    },
+    {
+      "id": 5,
+      "seek": 0,
+      "start": 16.68,
+      "end": 20.52,
+      "text": " So if you ever use the coin flip to decide whether you or your friend pays for dinner,",
+      "tokens": [
+        51199,
+        407,
+        498,
+        291,
+        1562,
+        764,
+        264,
+        11464,
+        7929,
+        281,
+        4536,
+        1968,
+        291,
+        420,
+        428,
+        1277,
+        10604,
+        337,
+        6148,
+        11,
+        51391
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.12303766,
+      "compression_ratio": 1.7463127,
+      "no_speech_prob": 0.027069092
+    },
+    {
+      "id": 6,
+      "seek": 0,
+      "start": 20.779999,
+      "end": 22.8,
+      "text": " that technically could have been unlicensed gambling,",
+      "tokens": [
+        51404,
+        300,
+        12120,
+        727,
+        362,
+        668,
+        517,
+        1050,
+        16332,
+        27077,
+        11,
+        51505
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.12303766,
+      "compression_ratio": 1.7463127,
+      "no_speech_prob": 0.027069092
+    },
+    {
+      "id": 7,
+      "seek": 0,
+      "start": 23.019999,
+      "end": 26.18,
+      "text": " since there's a prize, dinner, determined by chance, a coin flip,",
+      "tokens": [
+        51516,
+        1670,
+        456,
+        311,
+        257,
+        12818,
+        11,
+        6148,
+        11,
+        9540,
+        538,
+        2931,
+        11,
+        257,
+        11464,
+        7929,
+        11,
+        51674
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.12303766,
+      "compression_ratio": 1.7463127,
+      "no_speech_prob": 0.027069092
+    },
+    {
+      "id": 8,
+      "seek": 0,
+      "start": 26.32,
+      "end": 28.859999,
+      "text": " and you're risking paying for the entire bill, consideration,",
+      "tokens": [
+        51681,
+        293,
+        291,
+        434,
+        45235,
+        6229,
+        337,
+        264,
+        2302,
+        2961,
+        11,
+        12381,
+        11,
+        51808
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.12303766,
+      "compression_ratio": 1.7463127,
+      "no_speech_prob": 0.027069092
+    },
+    {
+      "id": 9,
+      "seek": 2886,
+      "start": 28.859999,
+      "end": 35.42,
+      "text": " Or worse, if you're American and have ever had a group dinner, you may have committed illegal gambling by playing credit card roulette.",
+      "tokens": [
+        50365,
+        1610,
+        5324,
+        11,
+        498,
+        291,
+        434,
+        2665,
+        293,
+        362,
+        1562,
+        632,
+        257,
+        1594,
+        6148,
+        11,
+        291,
+        815,
+        362,
+        7784,
+        11905,
+        27077,
+        538,
+        2433,
+        5397,
+        2920,
+        18450,
+        36563,
+        13,
+        50693
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.060275562,
+      "compression_ratio": 1.7166667,
+      "no_speech_prob": 0.015182495
+    },
+    {
+      "id": 10,
+      "seek": 2886,
+      "start": 35.579998,
+      "end": 43.16,
+      "text": " It's where you let the waiter randomly pick a credit card that would pay for yours and everyone's dinner with the risk of your card being selected.",
+      "tokens": [
+        50701,
+        467,
+        311,
+        689,
+        291,
+        718,
+        264,
+        45389,
+        16979,
+        1888,
+        257,
+        5397,
+        2920,
+        300,
+        576,
+        1689,
+        337,
+        6342,
+        293,
+        1518,
+        311,
+        6148,
+        365,
+        264,
+        3148,
+        295,
+        428,
+        2920,
+        885,
+        8209,
+        13,
+        51080
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.060275562,
+      "compression_ratio": 1.7166667,
+      "no_speech_prob": 0.015182495
+    },
+    {
+      "id": 11,
+      "seek": 2886,
+      "start": 43.399998,
+      "end": 46.84,
+      "text": " Of course, no one will arrest you for engaging in social gambling like this.",
+      "tokens": [
+        51092,
+        2720,
+        1164,
+        11,
+        572,
+        472,
+        486,
+        7823,
+        291,
+        337,
+        11268,
+        294,
+        2093,
+        27077,
+        411,
+        341,
+        13,
+        51264
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.060275562,
+      "compression_ratio": 1.7166667,
+      "no_speech_prob": 0.015182495
+    },
+    {
+      "id": 12,
+      "seek": 2886,
+      "start": 46.98,
+      "end": 54.019997,
+      "text": " And an influencer offering you $5 to answer a question is likely just a giveaway, since it lacks the element of you putting your money on the line.",
+      "tokens": [
+        51271,
+        400,
+        364,
+        39503,
+        8745,
+        291,
+        1848,
+        20,
+        281,
+        1867,
+        257,
+        1168,
+        307,
+        3700,
+        445,
+        257,
+        23508,
+        11,
+        1670,
+        309,
+        31132,
+        264,
+        4478,
+        295,
+        291,
+        3372,
+        428,
+        1460,
+        322,
+        264,
+        1622,
+        13,
+        51623
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.060275562,
+      "compression_ratio": 1.7166667,
+      "no_speech_prob": 0.015182495
+    },
+    {
+      "id": 13,
+      "seek": 2886,
+      "start": 54.219997,
+      "end": 57.14,
+      "text": " But let's say you answer his question correctly and he offers you this.",
+      "tokens": [
+        51633,
+        583,
+        718,
+        311,
+        584,
+        291,
+        1867,
+        702,
+        1168,
+        8944,
+        293,
+        415,
+        7736,
+        291,
+        341,
+        13,
+        51779
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.060275562,
+      "compression_ratio": 1.7166667,
+      "no_speech_prob": 0.015182495
+    },
+    {
+      "id": 14,
+      "seek": 2886,
+      "start": 57.14,
+      "end": 58.48,
+      "text": " Do you want to go double or nothing?",
+      "tokens": [
+        51779,
+        1144,
+        291,
+        528,
+        281,
+        352,
+        3834,
+        420,
+        1825,
+        30,
+        51846
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.060275562,
+      "compression_ratio": 1.7166667,
+      "no_speech_prob": 0.015182495
+    },
+    {
+      "id": 15,
+      "seek": 5886,
+      "start": 58.859997,
+      "end": 61.079998,
+      "text": " Name five countries other than the US.",
+      "tokens": [
+        50365,
+        13866,
+        1732,
+        3517,
+        661,
+        813,
+        264,
+        2546,
+        13,
+        50476
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 16,
+      "seek": 5886,
+      "start": 61.359997,
+      "end": 64.82,
+      "text": " Now you're actually betting the $5 that you previously won,",
+      "tokens": [
+        50490,
+        823,
+        291,
+        434,
+        767,
+        34246,
+        264,
+        1848,
+        20,
+        300,
+        291,
+        8046,
+        1582,
+        11,
+        50663
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 17,
+      "seek": 5886,
+      "start": 64.939995,
+      "end": 68.74,
+      "text": " which is the final piece needed for it to count as gambling or an illegal lottery.",
+      "tokens": [
+        50669,
+        597,
+        307,
+        264,
+        2572,
+        2522,
+        2978,
+        337,
+        309,
+        281,
+        1207,
+        382,
+        27077,
+        420,
+        364,
+        11905,
+        27391,
+        13,
+        50859
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 18,
+      "seek": 5886,
+      "start": 69.02,
+      "end": 70.53999,
+      "text": " Or at least that's what I thought.",
+      "tokens": [
+        50873,
+        1610,
+        412,
+        1935,
+        300,
+        311,
+        437,
+        286,
+        1194,
+        13,
+        50949
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 19,
+      "seek": 5886,
+      "start": 70.7,
+      "end": 74.52,
+      "text": " Because it turns out that trivia questions like these are not seen as chance,",
+      "tokens": [
+        50957,
+        1436,
+        309,
+        4523,
+        484,
+        300,
+        48770,
+        1651,
+        411,
+        613,
+        366,
+        406,
+        1612,
+        382,
+        2931,
+        11,
+        51148
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 20,
+      "seek": 5886,
+      "start": 74.659996,
+      "end": 76.259995,
+      "text": " but rather a skill-based outcome.",
+      "tokens": [
+        51155,
+        457,
+        2831,
+        257,
+        5389,
+        12,
+        6032,
+        9700,
+        13,
+        51235
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 21,
+      "seek": 5886,
+      "start": 76.5,
+      "end": 79,
+      "text": " So unless they start asking you truly random stuff,",
+      "tokens": [
+        51247,
+        407,
+        5969,
+        436,
+        722,
+        3365,
+        291,
+        4908,
+        4974,
+        1507,
+        11,
+        51372
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 22,
+      "seek": 5886,
+      "start": 79.159996,
+      "end": 80.64,
+      "text": " like what number am I thinking of?",
+      "tokens": [
+        51380,
+        411,
+        437,
+        1230,
+        669,
+        286,
+        1953,
+        295,
+        30,
+        51454
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 23,
+      "seek": 5886,
+      "start": 80.78,
+      "end": 81.159996,
+      "text": " You're good.",
+      "tokens": [
+        51461,
+        509,
+        434,
+        665,
+        13,
+        51480
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 24,
+      "seek": 5886,
+      "start": 81.28,
+      "end": 82.38,
+      "text": " It's not illegal gambling.",
+      "tokens": [
+        51486,
+        467,
+        311,
+        406,
+        11905,
+        27077,
+        13,
+        51541
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 25,
+      "seek": 5886,
+      "start": 82.6,
+      "end": 85.579994,
+      "text": " But to be honest, I think you have a better chance of guessing the number in their head",
+      "tokens": [
+        51552,
+        583,
+        281,
+        312,
+        3245,
+        11,
+        286,
+        519,
+        291,
+        362,
+        257,
+        1101,
+        2931,
+        295,
+        17939,
+        264,
+        1230,
+        294,
+        641,
+        1378,
+        51701
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 26,
+      "seek": 5886,
+      "start": 85.579994,
+      "end": 87.259995,
+      "text": " than naming five countries other than the US.",
+      "tokens": [
+        51701,
+        813,
+        25290,
+        1732,
+        3517,
+        661,
+        813,
+        264,
+        2546,
+        13,
+        51785
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 27,
+      "seek": 5886,
+      "start": 87.259995,
+      "end": 88.53999,
+      "text": " Um, London?",
+      "tokens": [
+        51785,
+        3301,
+        11,
+        7042,
+        30,
+        51849
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.15805767,
+      "compression_ratio": 1.7398844,
+      "no_speech_prob": 0.089416504
+    },
+    {
+      "id": 28,
+      "seek": 8886,
+      "start": 88.86,
+      "end": 89.7,
+      "text": " Mm-mm.",
+      "tokens": [
+        50365,
+        8266,
+        12,
+        2174,
+        13,
+        50407
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.5527844,
+      "compression_ratio": 0.46666667,
+      "no_speech_prob": 0.44555664
+    }
+  ],
+  "text": "If an influencer comes up to you in the street and says For $5, how many states are there in the US? Don't instantly answer them, because you could be engaging in an illegal act of gambling. According to the US lottery laws, for a game to be an illegal lottery, it has to have elements of prize, chance, and consideration. So if you ever use the coin flip to decide whether you or your friend pays for dinner, that technically could have been unlicensed gambling, since there's a prize, dinner, determined by chance, a coin flip, and you're risking paying for the entire bill, consideration, Or worse, if you're American and have ever had a group dinner, you may have committed illegal gambling by playing credit card roulette. It's where you let the waiter randomly pick a credit card that would pay for yours and everyone's dinner with the risk of your card being selected. Of course, no one will arrest you for engaging in social gambling like this. And an influencer offering you $5 to answer a question is likely just a giveaway, since it lacks the element of you putting your money on the line. But let's say you answer his question correctly and he offers you this. Do you want to go double or nothing? Name five countries other than the US. Now you're actually betting the $5 that you previously won, which is the final piece needed for it to count as gambling or an illegal lottery. Or at least that's what I thought. Because it turns out that trivia questions like these are not seen as chance, but rather a skill-based outcome. So unless they start asking you truly random stuff, like what number am I thinking of? You're good. It's not illegal gambling. But to be honest, I think you have a better chance of guessing the number in their head than naming five countries other than the US. Um, London? Mm-mm."
+}

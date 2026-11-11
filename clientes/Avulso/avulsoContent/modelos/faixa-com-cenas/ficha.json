@@ -1,0 +1,64 @@
+{
+  "titulo": "Faixa com cenas",
+  "resumo": "Só a câmera: cenas em cima (dividido) ou em tela cheia, João em tela cheia nas teses, frase em faixas branca e vermelha na emenda; estilo frase-fixa ou gancho-legenda.",
+  "quando_usar": "Fala gravada só com a câmera que conta uma ideia com imagens fortes.",
+  "formato": {
+    "resolucao": "1080x1920",
+    "proporcao": "9:16",
+    "duracao_tipica": "30-180s"
+  },
+  "estrutura": [
+    "Bloco de cima (0-960): gravação de tela, cover (padrão) ou fit com fundo desfocado",
+    "Bloco de baixo (960-1920): câmera em recorte 9:16 seguindo o rosto",
+    "Sombrinha na emenda: degradê preto até 55% em y=960, some em 150 px pra cada lado",
+    "Frase fixa em caixa-alta, Gilroy ExtraBold 64 px, linhas em faixas alternadas branca (texto #111) e vermelha #DE1C21 (texto branco), centradas na emenda"
+  ],
+  "paleta": [
+    {
+      "cor": "#FFFFFF",
+      "uso": "faixa das linhas ímpares"
+    },
+    {
+      "cor": "#DE1C21",
+      "uso": "faixa das linhas pares (o vermelho do reel-dividido-por-video)"
+    },
+    {
+      "cor": "#111111",
+      "uso": "texto na faixa branca"
+    }
+  ],
+  "fontes": [
+    {
+      "nome": "Gilroy-ExtraBold",
+      "uso": "frase das faixas"
+    }
+  ],
+  "audio": {
+    "musica": "não usa",
+    "sfx": [],
+    "voz": "áudio da câmera, -14 LUFS"
+  },
+  "broll": "Pexels/Wikimedia pela get-brolls ou acervo; 2,5 a 8 s por cena.",
+  "entrada": "work/joao.mp4 (câmera cortada) + PLANO.json (estilo, frase, janelas).",
+  "como_usar": [
+    "Criar _sandbox-<nome>/ com work/joao.mp4 e PLANO.json",
+    "zsh ../gerar.sh --dir . --previa",
+    "Aprovada a prévia: o mesmo sem --previa"
+  ],
+  "comando": "zsh ../gerar.sh --dir .",
+  "qa": [
+    "Frase e faixas o vídeo inteiro, sem cobrir o queixo",
+    "Rosto no bloco de baixo quadro a quadro",
+    "Voz em sincronia com a tela"
+  ],
+  "templates": [
+    "gerar.py (montagem)",
+    "build-faixa.py (faixas)",
+    "build-legenda.py (legenda)",
+    "seguir_rosto.py (recorte da câmera)"
+  ],
+  "motor": "ffmpeg + PIL, h264_videotoolbox",
+  "origem": "Vídeos 12-anos e video-2 do João (26-out-2026), em cima do estilo da Análise de tela",
+  "tempo_producao": "5-15 min",
+  "tipo": "completo"
+}

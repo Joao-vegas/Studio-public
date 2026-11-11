@@ -1,0 +1,434 @@
+{% extends "base.html" %}
+{% from "_formato.html" import cartao, script_play %}
+{% block titulo %}Criar vídeo{% endblock %}
+{% block conteudo %}
+<link rel="stylesheet" href="{{ url_for('static', filename='briefing.css') }}?v={{ vstatic }}">
+<div class="cabecalho">
+  <div><h1>Criar vídeo</h1>{% if pre %}<p class="sub">Já preenchi com o que vocês combinaram na conversa. Confira e mande.</p>{% endif %}</div>
+</div>
+<ol class="trilha" id="trilha" aria-label="Passos">
+  {% for n, nome in ((1,'O que você tem'),(2,'Estilo'),(3,'Pra quem'),(4,'Material'),(5,'Criar')) %}
+  <li data-indicador="{{ n }}"><button type="button" class="trilha-bolinha" data-trilha="{{ n }}" aria-label="Passo {{ n }}: {{ nome }}"><span class="trilha-num">{{ n }}</span><svg class="icon trilha-ok" aria-hidden="true"><use href="#i-check"/></svg></button><span class="trilha-nome">{{ nome }}</span></li>
+  {% endfor %}
+</ol>
+<p class="trilha-mobile" id="trilha-mobile" aria-live="polite"><b id="tm-txt">Passo 1 de 5</b><span class="tm-barra"><i></i><i></i><i></i><i></i><i></i></span></p>
+
+<form method="post" enctype="multipart/form-data" id="form-criar">
+<input type="hidden" name="formato" id="campo-formato" value="{{ pre_formato }}">
+<input type="hidden" name="cliente" id="campo-cliente" value="{{ pre_cliente }}">
+{% if pre %}<input type="hidden" name="conversa" value="{{ pre.id }}">{% endif %}
+
+<section class="passo" data-passo="1">
+  <h2>O que você tem?</h2>
+  <div class="opcoes-grandes">
+    <button type="button" class="opcao-grande" data-entrada="video"><span class="emoji"><svg class="icon"><use href="#i-video"/></svg></span><b>Um vídeo gravado</b><span>Você falando pra câmera.</span></button>
+    <button type="button" class="opcao-grande" data-entrada="roteiro"><span class="emoji"><svg class="icon"><use href="#i-formatos"/></svg></span><b>Um roteiro</b><span>Texto pronto. Vira narração.</span></button>
+    <button type="button" class="opcao-grande" data-entrada="filmagem"><span class="emoji"><svg class="icon"><use href="#i-ref"/></svg></span><b>Vídeos de um evento</b><span>Vários clipes que viram um filme.</span></button>
+  </div>
+  <p class="passo-link links-linha"><button type="button" class="voltar" id="ir-formatos">Ou escolha direto o estilo →</button>{% if not pre %}<a class="voltar" href="{{ url_for('conversar') }}" id="ir-conversar">Prefere conversar? Fale com a IA →</a>{% endif %}<a class="voltar" href="/novo-lote">Vários brutos? Faça vários de uma vez →</a></p>
+</section>
+
+<section class="passo" data-passo="2">
+  <button type="button" class="btn fantasma mini voltar-topo" data-ir="1">← Voltar</button>
+  <h2>Escolha o estilo</h2>
+  <div id="grade-escolha">
+    {% for g in catalogo if g.formatos %}
+    <h3 class="titulo-grupo" data-grupo-titulo>{{ g.titulo }}</h3>
+    <div class="grade-formatos grade-cards" data-grupo="{{ g.grupo }}">
+      {% for c in g.formatos if c.slug != 'so-cortar' %}{{ cartao(c.formato, link=False, escolher=True) }}{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <p class="vazio-bonito" id="sem-formato" hidden>Ainda não tem estilo pra esse tipo de entrada. <a href="{{ url_for('nova_referencia') }}">Crie um a partir de uma referência.</a></p>
+  <p class="passo-link"><a href="{{ url_for('formatos_lista') }}">Mais estilos em teste e exemplos com som →</a></p>
+  </section>
+
+<section class="passo" data-passo="3">
+  <button type="button" class="btn fantasma mini voltar-topo" data-ir="2">← Voltar</button>
+  <h2>Pra quem é?</h2>
+  <div class="pra-quem">
+    <button type="button" class="pessoa avulso" data-cliente="Avulso"><span class="avatar">+</span><span><b>Sem cliente (avulso)</b><small>Peça solta</small></span></button>
+    {% for c in clientes %}
+    <button type="button" class="pessoa" data-cliente="{{ c.nome }}"><span class="avatar tom-{{ loop.index0 % 5 }}">{{ c.nome[:2]|upper }}</span><span><b>{{ c.nome }}</b>{% if c.n_videos %}<small>{{ c.n_videos }} vídeo{{ "s" if c.n_videos != 1 }}</small>{% endif %}</span></button>
+    {% endfor %}
+    <a class="pessoa novo" href="{{ url_for('novo_cliente') }}"><span class="avatar">+</span><span><b>Novo cliente</b></span></a>
+  </div>
+  </section>
+
+<section class="passo envio" data-passo="4">
+  <h2 id="titulo-envio">Seu material</h2>
+  <p class="sub" id="sub-material">Mande o vídeo gravado.</p>
+  <div class="resumo-escolha" id="resumo"></div>
+  <div id="variacoes-topo"></div>
+  <div id="material-corpo">
+  <label class="soltar" id="soltar" data-mostrar="video filmagem cortar">
+    <span class="soltar-icone"><svg class="icon"><use href="#i-video"/></svg></span>
+    <b class="soltar-titulo" id="soltar-titulo">Arraste o vídeo aqui</b>
+    <span class="soltar-ajuda" id="soltar-ajuda">ou clique pra escolher · .mov .mp4 até 4 GB</span>
+    <span class="soltar-linha"><video class="soltar-mini" muted playsinline preload="metadata"></video><span class="soltar-txt"><b class="soltar-nome"></b><small class="soltar-info"></small></span><span class="btn mini fantasma">Trocar</span></span>
+    <input type="file" name="videos" id="arquivos" class="sr-only" accept="video/*,.mov,.mp4,.m4v,.mkv,.webm">
+  </label>
+
+  <div class="campo" data-mostrar="roteiro cortar">
+    <label for="roteiro">Roteiro</label>
+    <small>Cole o texto. Sem ponto de exclamação.</small>
+    <details class="dicas"><summary>Dicas</summary><p>Cole o texto inteiro ou use o “Me ajuda a pensar”. Diálogo: uma fala por linha (Nome: fala). Sem ponto de exclamação a voz fica mais natural.</p></details>
+    <textarea class="roteiro" name="roteiro" id="roteiro" placeholder="Você paga alguém pra cuidar do seu Instagram e nenhum cliente novo vem de lá..."></textarea>
+  </div>
+
+  <input type="hidden" name="cortar" value="1">
+  <p class="passo-dica" data-mostrar="video">O vídeo gravado já entra cortado (silêncio, take refeito, erro). Quer ajustar? Corrigir o corte, na página do vídeo.</p>
+  <label class="toggle-linha"><span class="txt"><b>Seguir direto até o vídeo final</b><small>Faz o vídeo inteiro; você aprova no final e ajusta cena por cena no Editar vídeo. Desligado, ele para no storyboard esperando você.</small></span><input type="hidden" name="direto_campo" value="1"><input type="checkbox" name="direto" value="1" id="direto" class="interruptor" checked></label>
+
+
+  <details class="campo ia-escolha"><summary><b>Modelo e esforço do Claude</b> <small>(opcional: vale só pra este vídeo)</small></summary>
+    <div class="ia-linha"><select name="ia_modelo" aria-label="Modelo">{% for v, r in ia_modelos %}<option value="{{ v }}">{{ r }}</option>{% endfor %}</select>
+    <select name="ia_esforco" aria-label="Esforço">{% for v, r in ia_esforcos %}<option value="{{ v }}">{{ r }}</option>{% endfor %}</select></div>
+    <small>Sonnet com esforço baixo é rápido e gasta pouco do limite; Opus com esforço alto pensa mais no vídeo difícil.</small>
+  </details>
+
+  {% for slug_, es_ in (refs or {}).items() %}
+  <div class="campo ref-bloco" data-ref-formato="{{ slug_ }}" hidden>
+    <label>Quanto cada referência pesa <small>(opcional)</small></label>
+    <small>Tudo em zero = a IA mistura todas. Ponha o peso que quiser (ex.: 50 · 30 · 20) ou clique em "Só esta". A IA pega o fundamento delas (~70%) e tenta melhorar com o que aprendeu nos últimos vídeos (~30%), sem copiar.</small>
+    <div class="ref-pesos">{% for e in es_ %}
+      <div class="ref-peso">
+        {% if e.videos %}<a href="{{ url_for('arquivo', caminho=e.videos[0]) }}" target="_blank" title="Ver a referência"><video muted playsinline preload="metadata" src="{{ url_for('arquivo', caminho=e.videos[0]) }}#t=0.5"></video></a>{% endif %}
+        <b>{{ e.titulo }}{% if e.principal %} <small class="selo ok">principal</small>{% endif %}</b>
+        <input type="range" min="0" max="100" step="10" value="0" name="ref_peso__{{ e.nome }}" disabled aria-label="Peso de {{ e.titulo }}">
+        <output>0%</output>
+        <button type="button" class="btn mini ref-so">Só esta</button>
+      </div>{% endfor %}</div>
+  </div>
+  {% endfor %}
+
+  {% for f in formatos if f.pede %}
+  <div class="pede-bloco" data-pede-formato="{{ f.slug }}" hidden>
+    {% for grupo, titulo in ((True, ''), (False, 'Mais opções')) %}
+    {% set campos = f.pede|selectattr('obrigatorio', 'equalto', grupo)|list %}
+    {% if campos %}{% if titulo %}<details class="campo"><summary><b>{{ titulo }}</b></summary>{% endif %}
+    {% for c in campos %}{% if not c.principal or 'link' in c.tipo %}
+    <div class="campo" data-pede-campo="{{ c.campo }}">
+      <label>{{ c.rotulo }}{% if not c.obrigatorio %} <small>(opcional)</small>{% endif %}</label>
+      {% if c.dica %}<small>{{ c.dica }}</small>{% endif %}
+      {% if c.tipo == 'voz' %}
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><select name="voz" class="pede-voz" disabled><option value="">A do cliente ou a de Configurações</option>{% for v in vozes %}<option value="{{ v.id }}">{{ v.rotulo }}{% if v.idioma %} ({{ v.idioma }}){% endif %}</option>{% endfor %}</select>
+        <button type="button" class="btn mini pede-ouvir">▶ ouvir</button><audio controls hidden></audio></div>
+      {% else %}
+        {% if c.tipo in ('arquivo', 'foto', 'arquivo_ou_link') and not c.principal %}<input type="file" name="pede__{{ c.campo }}" disabled accept="{{ 'image/*' if c.tipo == 'foto' else 'video/*,image/*,audio/*,.mov,.mp4,.pdf' }}">{% endif %}
+        {% if c.tipo in ('link', 'arquivo_ou_link') %}<input name="pede__{{ c.campo }}__link" disabled placeholder="{{ 'ou cole o link: https://...' if c.tipo == 'arquivo_ou_link' else 'https://...' }}" style="margin-top:6px">{% endif %}
+        {% if c.tipo in ('tempo', 'texto') %}<input name="pede__{{ c.campo }}" disabled placeholder="{{ c.dica if c.tipo == 'tempo' else '' }}"{% if c.obrigatorio %} data-obrigatorio="1"{% endif %}>{% endif %}
+      {% endif %}
+    </div>{% endif %}{% endfor %}
+    {% if titulo %}</details>{% endif %}{% endif %}
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="passo-acoes">
+    <button type="button" class="btn fantasma" data-ir="3" id="voltar-envio">← Voltar</button>
+    <button type="button" class="btn primario grande" id="continuar-material">Continuar</button>
+  </div>
+  </div>
+</section>
+
+<section class="passo envio" data-passo="5">
+  <h2>Confira e crie</h2>
+  <div class="resumo-cartao" id="resumo5" aria-label="Resumo do pedido"></div>
+  <p class="sub">Tudo abaixo é opcional. Sem mexer, eu decido pelo material e pelo cliente.</p>
+  <details class="cartao-config" id="previsao" hidden style="margin-bottom:18px"><summary><b>O que vai acontecer</b> <span class="sub" id="prev-resumo"></span></summary><div id="prev-corpo" style="margin-top:10px"></div></details>
+
+  {% if pre %}
+  <div class="cartao-config" id="do-briefing">
+    <h3>Do briefing da conversa</h3>
+    <p class="sub" style="margin:0 0 10px">Formato, cliente, roteiro e o pedido já vieram preenchidos. <a href="{{ url_for('conversar', id=pre.id) }}">Ver a conversa</a></p>
+    {% for a in pre.avisos %}<p class="aviso" style="margin:0 0 10px">{{ a }}</p>{% endfor %}
+    {% if pre.material %}<b style="font-size:14px">Material liberado</b> <small class="sub">(desmarque o que não deve entrar; o original não é mexido, vai uma cópia pro vídeo)</small>
+    <div class="cv-mats chips-clientes" style="margin-top:8px">{% for m in pre.material %}
+      <label class="pessoa{% if m.ok %} escolhido{% endif %}"{% if not m.ok %} title="Essa pasta não está ligada a este vídeo"{% endif %}><input type="checkbox" name="mat_conversa" value="{{ m.i }}" hidden{% if m.ok %} checked{% else %} disabled{% endif %} onchange="this.closest('.pessoa').classList.toggle('escolhido',this.checked)">
+        {% if m.mini %}<img loading="lazy" decoding="async" alt="" src="{{ m.mini }}" onerror="this.style.visibility='hidden'">{% endif %}<span><b>{{ m.nome }}</b><small>{{ m.papel or m.pasta }}{% if m.onde %} · {{ m.onde }}{% endif %}</small></span></label>{% endfor %}
+    </div>{% endif %}
+  </div>
+  {% endif %}
+  <div id="escolhas"></div>
+  <div class="campo">
+    <div class="campo-topo" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><label for="briefing">O que você quer ver <small>(opcional)</small></label><button type="button" class="btn mini" id="ajuda-briefing" data-mostrar="video roteiro filmagem">✨ Me ajuda a pensar</button></div>
+    <textarea id="briefing" name="briefing" placeholder="Oferta, produto, o que mostrar, o que evitar. Pode escrever corrido."></textarea>
+    <div id="ajuda-saida" hidden></div>
+  </div>
+
+  <details class="toggle-linha" style="display:block" data-mostrar="video roteiro filmagem" id="ref-caixa"{% if pre and pre.ref %} open{% endif %}><summary><b>Tem um vídeo de referência de estilo?</b> <small>(opcional) Serve pra pegar o jeito (ritmo, enquadramento, acabamento). O roteiro, as pessoas e as cores são os seus.</small></summary>
+    <div class="campo"><label>Escolha um vídeo, pause no momento e clique em “Marcar este momento”</label><div id="ref-seletor"></div>
+      <input type="hidden" name="ref"><input type="hidden" name="ref_pasta"><input type="hidden" name="segundo">
+      <input name="ref_copiar" id="ref-copiar" style="margin-top:8px" placeholder="O que você gostou nela (opcional). Ex.: o corte seco pro produto">
+      <p class="aviso" id="ref-layout" role="status" hidden></p></div>
+    <div class="campo"><label>Arquivo da referência</label><input type="file" name="referencia" accept="video/*,.mov,.mp4"></div>
+    <div class="campo"><label>Ou o link</label><input name="referencia_link" placeholder="https://www.instagram.com/reel/..."></div>
+  </details>
+  <details class="mais-detalhes"><summary>Mais detalhes (opcional)</summary>
+  <label class="toggle-linha" id="legenda-linha" data-mostrar="video roteiro filmagem"><span class="txt"><b>Legenda: <span id="legenda-estado">ligada</span></b><small id="legenda-ajuda">Use sem legenda se o vídeo vai entrar em outro formato.</small></span><input type="checkbox" id="legenda-on" class="interruptor" checked><input type="hidden" name="legenda" id="legenda-campo" value="1"></label>
+  <label class="toggle-linha"><span class="txt"><b>É só teste: apagar quando eu aprovar</b><small>Quando você aprovar, eu ofereço apagar na hora.</small></span><input type="checkbox" name="descartavel" value="1" id="descartavel" class="interruptor"></label>
+  <div class="campo"><label for="titulo">Nome do vídeo <small class="opcional">opcional</small></label><input id="titulo" name="titulo" placeholder="Ex.: Anúncio pejotização 03"></div>
+  </details>
+
+  <div class="passo-acoes">
+    <button type="button" class="btn fantasma" data-ir="4">← Voltar</button>
+    <span class="passo-custo" id="passo-custo">sem custo se não gerar cena por IA</span>
+    <button type="submit" class="btn primario grande" id="enviar">Criar vídeo</button>
+  </div>
+</section>
+</form>
+{{ script_play() }}
+<script src="{{ url_for('static', filename='briefing.js') }}?v={{ vstatic }}"></script>
+<script>
+(function(){
+  var VOZ_CLIENTE={{ voz_cliente|tojson }};
+  var DIRETOS={{ formatos|selectattr('seguir_direto')|map(attribute='slug')|list|tojson }};
+  document.addEventListener('click',function(e){var b=e.target.closest('.pede-ouvir'); if(!b) return; var w=b.closest('.campo'), sel=w.querySelector('select'), a=w.querySelector('audio'); a.src='/voz/amostra?voz='+encodeURIComponent(sel.value||'default'); a.hidden=false; a.play();});
+  var PRE={{ pre|tojson if pre else 'null' }};
+  var estado={entrada:new URLSearchParams(location.search).get('entrada')||'', formato:'{{ pre_formato }}', cliente:'{{ pre_cliente }}'};
+  var nomes={}; document.querySelectorAll('[data-escolher]').forEach(function(c){nomes[c.dataset.formato]={titulo:c.dataset.titulo,entrada:c.dataset.entrada}});
+  function passo(n){
+    document.querySelectorAll('.passo').forEach(function(s){s.classList.toggle('ativo',s.dataset.passo==n)});
+    var NOMES=['','O que você tem','Estilo','Pra quem','Material','Criar'];
+    document.querySelectorAll('.trilha [data-indicador]').forEach(function(i){var k=+i.dataset.indicador;i.className=k<n?'feito':(k==n?'agora':'');var b=i.querySelector('button');b.disabled=k>n;if(k==n)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});
+    document.getElementById('tm-txt').textContent='Passo '+n+' de 5 · '+NOMES[n];
+    document.querySelectorAll('#trilha-mobile .tm-barra i').forEach(function(x,k){x.className=k<n?'on':''});
+    if(n<4) limpaAjuda(); if(n==2) filtra(); if(n>=4) prepara(); window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function filtra(){
+    var vis=0; document.querySelectorAll('#grade-escolha .formato').forEach(function(c){
+      var e=c.dataset.entrada, ok=!estado.entrada||e===estado.entrada||(e==='video-ou-roteiro'&&(estado.entrada==='video'||estado.entrada==='roteiro'));
+      c.hidden=!ok; c.classList.toggle('escolhido',c.dataset.formato===estado.formato); if(ok)vis++;
+    });
+    document.getElementById('sem-formato').hidden=vis>0;
+    document.querySelectorAll('#grade-escolha .grade-cards').forEach(function(g){var t=g.previousElementSibling; if(t&&t.dataset.grupoTitulo!==undefined) t.hidden=!g.querySelector('.formato:not([hidden])')});
+  }
+  function prepara(){
+    var ent=estado.entrada==='cortar'?'cortar':estado.entrada;
+    document.querySelectorAll('[data-mostrar]').forEach(function(el){el.hidden=el.dataset.mostrar.split(' ').indexOf(ent)<0});
+    var inp=document.getElementById('arquivos'); inp.multiple=ent==='filmagem';
+    inp.accept=ent==='filmagem'?'video/*,image/*,.mov,.mp4,.m4v,.mkv,.webm,.jpg,.jpeg,.png,.webp':'video/*,.mov,.mp4,.m4v,.mkv,.webm';
+    // roteiro: a ideia (com Me ajuda a pensar) sobe pro passo 4, antes do roteiro; nos outros fica no passo 5
+    var brC=document.getElementById('briefing').closest('.campo'), rotC=document.getElementById('roteiro').closest('.campo'), corpo=document.getElementById('material-corpo'), p5=document.querySelector('.passo[data-passo="5"]');
+    if(ent==='roteiro'){corpo.insertBefore(brC,rotC);document.querySelector('label[for=briefing]').innerHTML='Sua ideia <small>(opcional. Só a ideia? Clique em ajuda e sai o roteiro. Já tem o roteiro? Cole embaixo e clique: eu completo quem está em cena e o lugar)</small>';campoBriefing.placeholder='Ex.: Claudio, faz meu site em 5 minutos. Ou: anúncio da Marca3 com o dono e uma atendente.';}
+    else{p5.insertBefore(brC,document.getElementById('ref-caixa'));document.querySelector('label[for=briefing]').innerHTML='O que você quer ver <small>(opcional)</small>';campoBriefing.placeholder='Oferta, produto, o que mostrar, o que evitar. Pode escrever corrido.';}
+    document.getElementById('sub-material').textContent={video:'Mande o vídeo gravado.',roteiro:'Cole o roteiro ou só a ideia.',filmagem:'Mande os vídeos do evento.',cortar:'Mande o vídeo que você quer cortar.'}[ent]||'Mande o material.';
+    document.getElementById('soltar-titulo').textContent=ent==='filmagem'?'Arraste todos os vídeos aqui':'Arraste o vídeo aqui';
+    document.getElementById('soltar-ajuda').textContent=ent==='filmagem'?'ou clique pra escolher · fotos e logo podem vir junto':'ou clique pra escolher · .mov .mp4 até 4 GB';
+    var comCorte=ent==='cortar'||ent==='video';   // vídeo gravado sempre entra cortado
+    if(ent==='video') document.getElementById('roteiro').closest('.campo').hidden=!comCorte;   // cortar o vídeo: o roteiro é o gabarito do corte
+    if(comCorte){var rl=document.querySelector('label[for=roteiro]'), rs=rl.nextElementSibling; rl.textContent='Roteiro (opcional)'; if(rs) rs.textContent='Opcional. O que está escrito fica; o resto é tropeço.';}
+    else{var rl2=document.querySelector('label[for=roteiro]'), rs2=rl2.nextElementSibling; rl2.textContent='Roteiro'; if(rs2) rs2.textContent='Cole o texto. Sem ponto de exclamação.';}
+    var vzc=VOZ_CLIENTE[estado.cliente]||'';
+    document.querySelectorAll('.ref-bloco').forEach(function(b){var on=ent!=='cortar'&&b.dataset.refFormato===estado.formato; b.hidden=!on; b.querySelectorAll('input').forEach(function(i){i.disabled=!on});});
+    document.querySelectorAll('.pede-bloco').forEach(function(b){var on=ent!=='cortar'&&b.dataset.pedeFormato===estado.formato; b.hidden=!on;
+      b.querySelectorAll('input,select').forEach(function(i){i.disabled=!on}); if(on){var sv=b.querySelector('.pede-voz'); if(sv&&!sv.value) sv.value=vzc;}});
+    var f=nomes[estado.formato], r=[];
+    if(ent!=='cortar'&&f) r.push('Estilo <b>'+f.titulo+'</b>');
+    if(ent==='cortar') r.push('<b>Só cortar</b>');
+    if(estado.cliente&&ent!=='cortar') r.push('pra <b>'+estado.cliente+'</b>');
+    document.getElementById('resumo').innerHTML=r.join(' · ')+' <button type="button" class="voltar" data-ir="'+(ent==='cortar'?1:2)+'">trocar</button>';
+    document.querySelectorAll('#resumo [data-ir]').forEach(liga);
+    var ENT={video:'Vídeo gravado',roteiro:'Roteiro',filmagem:'Vídeos de um evento',cortar:'Só cortar'};
+    var linhas=[['Entrada',ENT[ent]||'',1]]; if(ent!=='cortar'){linhas.push(['Estilo',f?f.titulo:'',2]); linhas.push(['Cliente',estado.cliente||'Sem cliente',3]);}
+    var nArq=inp.files.length, rot=(document.getElementById('roteiro').value||'').trim();
+    linhas.push(['Material',nArq?(nArq===1?inp.files[0].name:nArq+' arquivos'):(rot?'Roteiro colado':'—'),4]);
+    document.getElementById('resumo5').innerHTML=linhas.map(function(l){return '<div class="resumo-linha"><span class="rl-rotulo">'+l[0]+'</span><b class="rl-valor">'+escHtml(l[1])+'</b><button type="button" class="btn mini fantasma" data-ir="'+l[2]+'">Trocar</button></div>'}).join('');
+    document.querySelectorAll('#resumo5 [data-ir]').forEach(liga);
+    document.getElementById('voltar-envio').dataset.ir=ent==='cortar'?1:3;
+    carregaRefs();
+    var box=document.getElementById('previsao');
+    if(ent==='cortar'||!estado.formato){box.hidden=true;return;}
+    fetch('/api/formato/'+encodeURIComponent(estado.formato)+'?cliente='+encodeURIComponent(estado.cliente||'')).then(function(r){return r.json()}).then(function(d){
+      var esc=function(t){var x=document.createElement('span');x.textContent=t;return x.innerHTML};
+      var rotulo={gratis:'grátis',pago:'pago, se você pedir',assinatura:'na assinatura'};
+      var h=d.usa.map(function(u){return '<div class="linha-status"><span><b>'+esc(u[0])+'</b><small>'+esc(u[1])+'</small></span><span class="etiqueta '+(u[2]==='gratis'?'ok':u[2]==='pago'?'destaque':'')+'">'+rotulo[u[2]]+'</span></div>'}).join('');
+      var regras=d.regras_cliente.length?d.regras_cliente:d.regras_formato;
+      h+='<div class="linha-status"><span><b>Aprendizado que vai ser usado</b><small>'+d.n_formato+' regra(s) do formato'+(d.cliente&&d.cliente!=='Avulso'?' + '+d.n_cliente+' do '+esc(d.cliente):'')+'</small>'+(regras.length?'<small style="margin-top:6px">• '+regras.map(esc).join('<br>• ')+'</small>':'')+'</span></div>';
+      document.getElementById('prev-corpo').innerHTML=h;
+      legFormato(d.legenda);
+      var ec=document.getElementById('escolhas'); ec.innerHTML=''; var vt=document.getElementById('variacoes-topo'); vt.innerHTML='';
+      (d.escolhas||[]).forEach(function(e){
+        var box=document.createElement('div');box.className='campo';
+        var t='<label>'+esc(e.rotulo)+' <small>(opcional: em branco, a IA decide pelo roteiro)</small></label><div class="chips-clientes">';
+        e.opcoes.forEach(function(o){var pad=e.tipo==='varios'?(e.padrao||[]).indexOf(o)>=0:e.padrao===o, pv=(e.previas||{})[o];
+          t+='<label class="pessoa'+(pad?' escolhido':'')+'"'+(pv?' data-previa="/arquivo/'+esc(pv)+'"':'')+' style="padding:8px 12px"><input type="'+(e.tipo==='varios'?'checkbox':'radio')+'" name="escolha__'+esc(e.campo)+'" value="'+esc(o)+'"'+(pad?' checked':'')+' hidden onchange="this.closest(\'.campo\').querySelectorAll(\'.pessoa\').forEach(function(x){x.classList.toggle(\'escolhido\',x.querySelector(\'input\').checked)})"><span>'+esc(o)+'</span></label>';});
+        t+='</div>'+(e.tipo==='varios'?'<input type="hidden" name="escolha__'+esc(e.campo)+'__varios" value="1">':'')+'<input name="escolha__'+esc(e.campo)+'__livre" style="margin-top:8px" placeholder="'+(e.tipo==='varios'?'Ou escreva quem você quer, separado por ; (ex.: dono de ótica de óculos; atendente de uniforme)':'Ou escreva o seu (ex.: cozinha de restaurante, consultório de ótica)')+'">';
+        box.innerHTML=t;ec.appendChild(box);
+        // variações do mesmo formato (modelo pai → filhos): a referência de cada uma fica à vista, lado a lado; clicar escolhe
+        var comPrevia=e.opcoes.filter(function(o){return (e.previas||{})[o]});
+        if(e.tipo!=='varios'&&comPrevia.length>=2){
+          var g=document.createElement('div');g.className='variacoes';g.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px';
+          comPrevia.forEach(function(o){var vd=(e.videos||{})[o];
+            var c=document.createElement('div');c.style.cssText='border:1px solid var(--linha);border-radius:12px;padding:8px;cursor:pointer';
+            c.innerHTML='<img loading="lazy" decoding="async" src="/arquivo/'+esc(e.previas[o])+'" alt="" style="width:100%;border-radius:8px;display:block"><b style="display:block;margin-top:6px;font-size:14px">'+esc(o)+'</b>'+(vd?'<a href="/arquivo/'+esc(vd)+'" target="_blank" onclick="event.stopPropagation()" style="font-size:13px">▶ ver o vídeo de referência</a>':'');
+            c.addEventListener('click',function(){var i=[].slice.call(box.querySelectorAll('input[type=radio]')).filter(function(x){return x.value===o})[0];if(i){i.checked=true;i.dispatchEvent(new Event('change'));}
+              g.querySelectorAll(':scope>div').forEach(function(x){x.style.borderColor=''});c.style.borderColor='var(--vermelho, #DE1C21)';});
+            if(e.padrao===o) c.style.borderColor='var(--vermelho, #DE1C21)';
+            g.appendChild(c);});
+          var tt=document.createElement('div');tt.className='campo';tt.innerHTML='<label>'+esc(e.rotulo)+': qual você quer seguir? <small>(clique na referência; dá pra trocar no último passo)</small></label>';tt.appendChild(g);vt.appendChild(tt);
+        }
+        // passar o mouse (ou tocar) numa opção com prévia mostra a referência daquele estilo, sem precisar escolher às cegas
+        box.querySelectorAll('[data-previa]').forEach(function(l){
+          var mostra=function(){var p=box.querySelector('.previa-escolha');
+            if(!p){p=document.createElement('div');p.className='previa-escolha';p.style.cssText='margin:10px 0;max-width:100%';box.appendChild(p);}
+            p.innerHTML='<img loading="lazy" decoding="async" src="'+l.dataset.previa+'" alt="Referência do estilo" style="max-width:100%;max-height:340px;border-radius:10px;border:1px solid var(--linha)">';};
+          l.addEventListener('mouseenter',mostra); l.addEventListener('focusin',mostra); l.addEventListener('touchstart',mostra,{passive:true});
+        });
+      });
+      document.getElementById('prev-resumo').textContent='· pago: R$ 0 se não gerar cena por IA · '+(d.n_formato+d.n_cliente)+' regra(s) aprendida(s)';
+      box.hidden=false;
+    }).catch(function(){box.hidden=true});
+  }
+  // legenda: ligável só nos formatos que sabem desligar (formato.json → legenda); nos outros aparece travada, com o motivo
+  var legOn=document.getElementById('legenda-on'), legCampo=document.getElementById('legenda-campo'), legEstado=document.getElementById('legenda-estado'), legAjuda=document.getElementById('legenda-ajuda');
+  function legAtualiza(){legCampo.value=(legOn.checked||legOn.disabled)?'1':'0'; if(!legOn.disabled) legEstado.textContent=legOn.checked?'ligada':'sem legenda';}
+  function legFormato(l){
+    if(!l||l.desligavel){legOn.disabled=false; legAjuda.textContent='Use sem legenda se o vídeo vai entrar em outro formato.';}
+    else{legOn.disabled=true; legOn.checked=true; legEstado.textContent='não dá pra desligar neste formato'; legAjuda.textContent=l.motivo||'';}
+    legAtualiza();
+  }
+  legOn.addEventListener('change',legAtualiza);
+  // referência: vídeo do formato ou o que veio da conversa → pausa → "Marcar este momento"
+  var formRef=document.getElementById('form-criar'), refPre=PRE&&PRE.ref&&PRE.ref.rel?PRE.ref:null, refsDe=null;
+  var seletorRef=SeletorRef(document.getElementById('ref-seletor'),function(v){
+    formRef.elements.ref.value=v?v.rel:''; formRef.elements.ref_pasta.value=v?v.pasta:''; formRef.elements.segundo.value=v&&v.segundo!=null?v.segundo:'';
+  });
+  // a referência pede um layout que o formato não monta (ex.: tela dividida no 3D)? avisa antes de gastar
+  var refLayout=document.getElementById('ref-layout'), refCopiar=document.getElementById('ref-copiar'), tLayout=null;
+  function avisoLayout(){
+    clearTimeout(tLayout); tLayout=setTimeout(function(){
+      var q='formato='+encodeURIComponent(estado.formato||'')+'&copiar='+encodeURIComponent(refCopiar.value)+'&layout='+encodeURIComponent(PRE&&PRE.ref&&PRE.ref.layout||'');
+      if(!estado.formato){refLayout.hidden=true;return;}
+      fetch('/api/aviso-layout?'+q).then(function(r){return r.json()}).then(function(d){refLayout.textContent=d.aviso||'';refLayout.hidden=!d.aviso;}).catch(function(){});
+    },400);
+  }
+  refCopiar.addEventListener('input',avisoLayout);
+  function carregaRefs(){
+    avisoLayout();
+    if(refsDe===estado.formato) return; refsDe=estado.formato;
+    var base=refPre?[refPre]:[];
+    if(!estado.formato||estado.formato==='so-cortar'){seletorRef.opcoes(base);return;}
+    fetch('/api/referencias/'+encodeURIComponent(estado.formato)).then(function(r){return r.json()}).then(function(l){seletorRef.opcoes(base.concat(l));seletorRef.valor(seletorRef.atual()||refPre,false)}).catch(function(){seletorRef.opcoes(base)});
+  }
+  if(refPre){seletorRef.opcoes([refPre]);seletorRef.valor({rel:refPre.rel,pasta:refPre.pasta,nome:refPre.nome,segundo:refPre.segundo},false);
+    formRef.elements.ref.value=refPre.rel;formRef.elements.ref_pasta.value=refPre.pasta||'';formRef.elements.segundo.value=refPre.segundo!=null?refPre.segundo:'';}
+  if(PRE){   // veio da conversa: os campos já nascem com o briefing fechado
+    document.getElementById('roteiro').value=PRE.roteiro||''; document.getElementById('briefing').value=PRE.texto||'';
+    document.getElementById('descartavel').checked=!!PRE.descartavel;
+    if(PRE.ref){document.getElementById('ref-copiar').value=PRE.ref.copiar||''; if(PRE.ref.link) formRef.elements.referencia_link.value=PRE.ref.link;}
+    if(PRE.entrada) estado.entrada=PRE.entrada;
+  }
+  function pesos(bloco){   // mostra a % de cada referência já dividida pelo total (o que a IA vai receber)
+    var rs=[].slice.call(bloco.querySelectorAll('input[type=range]')), t=rs.reduce(function(a,r){return a+ +r.value},0);
+    rs.forEach(function(r){r.nextElementSibling.textContent=t?Math.round(100*r.value/t)+'%':'0%'});
+  }
+  document.querySelectorAll('.ref-bloco').forEach(function(bl){
+    bl.querySelectorAll('input[type=range]').forEach(function(r){r.addEventListener('input',function(){pesos(bl)})});
+    bl.querySelectorAll('.ref-so').forEach(function(b){b.addEventListener('click',function(){
+      bl.querySelectorAll('input[type=range]').forEach(function(r){r.value=r.closest('.ref-peso')===b.closest('.ref-peso')?100:0}); pesos(bl);})});
+  });
+  function liga(b){b.addEventListener('click',function(){passo(+b.dataset.ir)})}
+  document.querySelectorAll('[data-trilha]').forEach(function(b){b.addEventListener('click',function(){var k=+b.dataset.trilha; if(k==4&&estado.entrada==='cortar') k=4; if(!b.disabled) passo(k)})});
+  document.querySelectorAll('[data-ir]').forEach(liga);
+  document.querySelectorAll('[data-entrada].opcao-grande').forEach(function(b){b.addEventListener('click',function(){
+    estado.entrada=b.dataset.entrada;
+    if(estado.entrada==='cortar'){estado.formato='so-cortar';document.getElementById('campo-formato').value='so-cortar';passo(4);return;}
+    if(estado.formato==='so-cortar') estado.formato='';
+    passo(2);
+  })});
+  document.querySelectorAll('[data-escolher]').forEach(function(c){c.addEventListener('click',function(){
+    if(c.dataset.naTela==='0'){   // formato que ainda não roda pela tela: avisa aqui, não na hora do erro
+      var g=c.closest('.grade-formatos'), a=document.createElement('div'); a.className='aviso erro'; a.setAttribute('role','alert');
+      a.textContent='“'+c.dataset.titulo+'” ainda não roda pela tela. Peça pelo chat que eu faço.'; g.before(a); setTimeout(function(){a.remove()},5000); return;
+    }
+    estado.formato=c.dataset.formato; document.getElementById('campo-formato').value=estado.formato;
+    document.getElementById('direto').checked=true;   // regra do João (30-out): todo estilo segue direto até o vídeo final; ele desliga se quiser parar no storyboard
+    if(!estado.entrada){var e=c.dataset.entrada;estado.entrada=e==='video-ou-roteiro'?'video':e;}   // veio direto do passo 1
+    passo(estado.cliente?4:3);
+  })});
+  document.querySelectorAll('[data-cliente]').forEach(function(b){b.addEventListener('click',function(){
+    estado.cliente=b.dataset.cliente; document.getElementById('campo-cliente').value=estado.cliente;
+    document.querySelectorAll('[data-cliente]').forEach(function(x){x.classList.toggle('escolhido',x===b)}); passo(4);
+  })});
+  var soltar=document.getElementById('soltar'), inp=document.getElementById('arquivos');
+  var cxCorte=document.querySelector('input[name=cortar]'); if(cxCorte) cxCorte.addEventListener('change',prepara);
+  document.getElementById('form-criar').addEventListener('submit',function(e){
+    var ent=estado.entrada;
+    var falta=faltaMaterial(); if(falta){e.preventDefault();passo(4);alertar(falta);return;}
+    var b=document.getElementById('enviar'); b.disabled=true; b.textContent='Enviando…';
+  });
+  // passo 4 só libera com o vídeo ou o roteiro
+  function faltaMaterial(){
+    var ent=estado.entrada;
+    if((ent==='video'||ent==='filmagem'||ent==='cortar')&&!inp.files.length) return 'Escolha o vídeo antes de continuar.';
+    if(ent==='roteiro'&&!document.getElementById('roteiro').value.trim()) return 'Cole o roteiro ou use o Me ajuda a pensar pra escrever um antes de continuar.';
+    return '';
+  }
+  document.getElementById('continuar-material').addEventListener('click',function(){var f=faltaMaterial(); if(f){alertar(f);return;} passo(5);});
+  document.getElementById('ir-formatos').addEventListener('click',function(){estado.entrada='';passo(2);});
+  function alertar(t){var a=document.createElement('div');a.className='aviso erro';a.role='alert';a.textContent=t;document.getElementById('resumo').after(a);setTimeout(function(){a.remove()},4000);}
+  // "Me ajuda a pensar": perguntas + 3 sugestões de briefing (IA barata). Clicar numa sugestão substitui o campo; dá pra desfazer.
+  var ajudaBtn=document.getElementById('ajuda-briefing'), ajudaSaida=document.getElementById('ajuda-saida'), campoBriefing=document.getElementById('briefing'), antesDaSugestao=null;
+  function escHtml(t){var x=document.createElement('span');x.textContent=t;return x.innerHTML}
+  function ajudaMsg(h,erro){ajudaSaida.innerHTML='<small class="sub"'+(erro?' style="color:var(--erro)"':'')+'>'+h+'</small>';ajudaSaida.hidden=false}
+  function limpaAjuda(){ajudaSaida.hidden=true;ajudaSaida.innerHTML='';antesDaSugestao=null}
+  // roteiro sugerido → joga nos campos: roteiro, briefing e as escolhas (chip com o mesmo nome; se não tem chip, vai no "Ou escreva")
+  var semAcento=function(t){return (t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim()};
+  function fotoCampos(){var f={roteiro:document.getElementById('roteiro').value,briefing:campoBriefing.value,inputs:[]};
+    document.querySelectorAll('#escolhas input').forEach(function(i){f.inputs.push([i,i.type==='text'||!i.type||i.type==='search'?i.value:i.checked])});return f;}
+  function voltaFoto(f){document.getElementById('roteiro').value=f.roteiro;campoBriefing.value=f.briefing;
+    f.inputs.forEach(function(x){if(x[0].type==='checkbox'||x[0].type==='radio')x[0].checked=x[1];else if(x[0].type!=='hidden')x[0].value=x[1];});marcaChips();}
+  function marcaChips(){document.querySelectorAll('#escolhas .pessoa').forEach(function(x){var i=x.querySelector('input');x.classList.toggle('escolhido',!!(i&&i.checked))})}
+  function aplicaEscolhas(sug){
+    [['elenco',sug.elenco||[]],['cenario',sug.cenario?[sug.cenario]:[]],['clima',sug.clima?[sug.clima]:[]]].forEach(function(par){
+      var campo=par[0], vals=par[1]; if(!vals.length) return;
+      var chips=document.querySelectorAll('#escolhas input[name="escolha__'+campo+'"]'), livre=document.querySelector('#escolhas input[name="escolha__'+campo+'__livre"]'), sobra=[];
+      if(!chips.length&&!livre) return;
+      chips.forEach(function(c){c.checked=false});
+      vals.forEach(function(v){var achou=false;chips.forEach(function(c){if(semAcento(c.value)===semAcento(v)){c.checked=true;achou=true}});if(!achou)sobra.push(v)});
+      if(livre) livre.value=sobra.join('; ');
+    }); marcaChips();
+  }
+  function mostraAjuda(d){
+    var h='', temRoteiro=d.sugestoes.some(function(s){return s.roteiro});
+    if(d.perguntas&&d.perguntas.length) h+='<div class="cartao-config" style="padding:14px 18px;margin:8px 0 12px"><b>Pra decidir, pense em</b><small class="sub" style="display:block;margin-top:6px;line-height:1.6">• '+d.perguntas.map(escHtml).join('<br>• ')+'</small></div>';
+    h+='<small class="sub" style="display:block;margin:8px 0">'+(temRoteiro?'Clique num roteiro: ele vai pro campo Roteiro, junto com quem está em cena e o cenário. Dá pra editar depois.':'Clique numa sugestão pra colocar no campo acima.')+'</small><div style="display:grid;gap:10px">';
+    d.sugestoes.forEach(function(s,i){
+      var extra=s.roteiro?'<small style="font-size:12px;opacity:.8">'+escHtml([(s.elenco||[]).join(', '),s.cenario,s.clima].filter(Boolean).join(' · '))+'</small><small style="white-space:pre-line;font-size:13px;margin-top:4px">'+escHtml(s.roteiro)+'</small><span class="btn mini" style="margin-top:6px">Usar este roteiro ↑</span>':'<small style="white-space:pre-line;font-size:13px">'+escHtml(s.texto)+'</small>';
+      h+='<button type="button" class="pessoa" data-sugestao="'+i+'" style="flex-direction:column;align-items:flex-start;gap:4px;text-align:left"><b>'+escHtml(s.titulo)+'</b>'+(s.roteiro?'<small style="font-size:13px">'+escHtml(s.texto)+'</small>':'')+extra+'</button>'});
+    h+='</div><div style="margin-top:10px"><button type="button" class="btn mini" id="ajuda-desfazer"'+(antesDaSugestao===null?' hidden':'')+'>↶ Desfazer (volta o que estava antes)</button></div>';
+    ajudaSaida.innerHTML=h; ajudaSaida.hidden=false;
+    var desfazer=document.getElementById('ajuda-desfazer');
+    ajudaSaida.querySelectorAll('[data-sugestao]').forEach(function(b){b.addEventListener('click',function(){
+      var s=d.sugestoes[+b.dataset.sugestao];
+      if(antesDaSugestao===null) antesDaSugestao=fotoCampos();
+      campoBriefing.value=s.texto;
+      if(s.roteiro){document.getElementById('roteiro').value=s.roteiro; aplicaEscolhas(s); if(window.__linhasVozes) window.__linhasVozes(); document.getElementById('escolhas').scrollIntoView({behavior:'smooth',block:'start'});}
+      ajudaSaida.querySelectorAll('[data-sugestao]').forEach(function(x){x.classList.toggle('escolhido',x===b)});
+      desfazer.hidden=false;
+    })});
+    desfazer.addEventListener('click',function(){
+      if(antesDaSugestao!==null) voltaFoto(antesDaSugestao);
+      antesDaSugestao=null; desfazer.hidden=true;
+      ajudaSaida.querySelectorAll('[data-sugestao]').forEach(function(x){x.classList.remove('escolhido')});
+    });
+  }
+  ajudaBtn.addEventListener('click',function(){
+    if(!estado.formato){ajudaMsg('Escolha o formato primeiro.',true);return;}
+    var temRot=((document.getElementById('roteiro')||{}).value||'').trim(); ajudaBtn.disabled=true; ajudaMsg(temRot?'Completando quem está em cena e o lugar pelo seu roteiro… (uns 30 segundos)':'Pensando… (lendo o que você já tem desse cliente; leva uns 40 segundos)');
+    fetch('/api/briefing-ajuda',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({formato:estado.formato,cliente:estado.cliente,ideia:campoBriefing.value,entrada:estado.entrada,roteiro:(document.getElementById('roteiro')||{}).value||''})})
+    .then(function(r){return r.json().catch(function(){return {ok:false,erro:'A resposta veio quebrada. Tenta de novo.'}})})
+    .then(function(d){if(d.ok) mostraAjuda(d); else ajudaMsg(escHtml(d.erro||'Não consegui ajudar agora.'),true)})
+    .catch(function(){ajudaMsg('Não consegui falar com o Estúdio. Tenta de novo.',true)})
+    .then(function(){ajudaBtn.disabled=false});
+  });
+  // começo: veio de um formato? de uma entrada?
+  if(estado.formato==='so-cortar'){estado.entrada='cortar';passo(4);}
+  else if(estado.formato&&nomes[estado.formato]){var e=nomes[estado.formato].entrada;estado.entrada=e==='video-ou-roteiro'?(estado.entrada==='roteiro'?'roteiro':'video'):e;passo(estado.cliente?4:3);}
+  else if(estado.entrada){passo(2);} else passo(1);
+})();
+</script>
+{% endblock %}

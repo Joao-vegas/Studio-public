@@ -1,0 +1,63 @@
+/* Passo 0 "Conversar" e o que o Criar mostra do briefing. Usa as cores do simples.css. */
+.cv-barra{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:flex-end;padding:16px 20px}
+.cv-grupo{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cv-grupo>b{font-size:var(--t1);font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em}
+.cv-grupo.pastas{flex:1 1 380px}
+.cv-linha{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cv-chip{padding:7px 12px;font-size:var(--t1);gap:6px}
+.cv-chip input:disabled+span{color:var(--txt2)}
+.cv-barra select{font:inherit;padding:7px 10px;border-radius:10px;border:1px solid var(--linha);background:var(--painel);color:var(--txt)}
+.cv-modelo{display:inline-flex;border:1px solid var(--linha);border-radius:10px;overflow:hidden}
+.cv-modelo button{font:inherit;font-size:var(--t1);padding:7px 14px;border:0;background:var(--painel);color:var(--txt2);cursor:pointer}
+.cv-modelo button.ativo{background:var(--txt);color:var(--bg)}
+.cv-ligar{flex-basis:100%;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-top:12px;border-top:1px solid var(--linha)}
+.cv-ligar[hidden]{display:none}
+.cv-ligar input{flex:1 1 260px;font:inherit;padding:7px 10px;border-radius:10px;border:1px solid var(--linha);background:var(--painel);color:var(--txt)}
+.cv-achados{flex-basis:100%;display:flex;flex-direction:column;gap:6px}
+.cv-achados:empty{display:none}
+.cv-achado{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 10px;border:1px solid var(--linha);border-radius:10px;background:var(--painel)}
+.cv-achado span{flex:1 1 240px;min-width:0;font-size:var(--t1);overflow-wrap:anywhere}
+.cv-achado small{color:var(--txt2)}
+.cv-manifesto{flex-basis:100%;padding-top:12px;border-top:1px solid var(--linha)}
+.cv-manifesto[hidden]{display:none}
+.cv-manifesto textarea{width:100%;font:12.5px/1.45 ui-monospace,Menlo,monospace;padding:8px 10px;border-radius:10px;border:1px solid var(--linha);background:var(--painel);color:var(--txt);margin:8px 0}
+.cv-gasto{color:var(--txt2);font-size:var(--t1)}
+.cv-grade{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.cv-grade{grid-template-columns:1fr}}
+.cv-chat{display:flex;flex-direction:column;padding:0;overflow:hidden}
+.cv-falas{display:flex;flex-direction:column;gap:12px;padding:18px 20px;min-height:340px;max-height:62vh;overflow-y:auto}
+.cv-vazio{color:var(--txt2);font-size:14px;margin:auto 0}
+.cv-fala{max-width:88%;padding:10px 14px;border-radius:14px;font-size:14.5px}
+.cv-fala p{margin:0;white-space:pre-wrap}.cv-fala p+p{margin-top:8px}
+.cv-fala.voce{align-self:flex-end;background:var(--txt);color:var(--bg);border-bottom-right-radius:4px}
+.cv-fala.ia{align-self:flex-start;background:var(--painel2);border-bottom-left-radius:4px}
+.cv-fala.ia.pensando p:last-of-type::after{content:"…";color:var(--txt3)}
+.cv-fala small.cv-status,.cv-fala small.cv-nota{display:block;margin-top:6px;color:var(--txt2);font-size:var(--t1)}
+.cv-fala small.cv-nota.erro{color:var(--erro)}
+.cv-aviso{align-self:center;font-size:var(--t1);color:var(--txt2);text-align:center}
+.cv-minis{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.cv-mini{width:132px;background:var(--painel);border:2px solid var(--linha);border-radius:12px;padding:6px;display:flex;flex-direction:column;gap:5px}
+.cv-mini img{width:100%;height:96px;object-fit:cover;border-radius:8px;background:var(--painel2)}
+.cv-mini small{font-size:var(--t1);color:var(--txt2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cv-mini .cv-linha{gap:4px}.cv-mini .btn.mini{padding:4px 8px;font-size:var(--t1)}
+.cv-mini.usar{border-color:var(--ok)}.cv-mini.usar [data-usar]{background:var(--ok);color:var(--branco);border-color:var(--ok)}
+.cv-mini.nao{opacity:.5}
+.cv-form{display:flex;gap:10px;align-items:flex-end;padding:14px 16px;border-top:1px solid var(--linha);background:var(--painel)}
+.cv-form textarea{flex:1;min-height:52px;resize:vertical}
+.cv-card{position:sticky;top:16px}
+.cv-card .campo{margin:0 0 12px}.cv-card .campo label{font-size:var(--t1);font-weight:600}
+.cv-card textarea{min-height:64px}.cv-card textarea.roteiro{min-height:120px}
+.cv-card select,.cv-card input:not([type=checkbox]){width:100%}
+.cv-porque{display:block;margin-top:4px;color:var(--txt2);font-size:var(--t1)}
+.cv-mats{display:flex;flex-direction:column;gap:8px}
+.cv-mat{display:flex;align-items:center;gap:10px;padding:6px;border:1px solid var(--linha);border-radius:12px}
+.cv-mat img,.cv-mats .pessoa img{width:44px;height:44px;object-fit:cover;border-radius:8px;background:var(--painel2);flex:none}
+.cv-mat span{flex:1;min-width:0}.cv-mat b{display:block;font-size:var(--t1);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cv-mat small{display:block;color:var(--txt2);font-size:var(--t1)}
+.cv-mats .pessoa{padding:8px 12px}
+.cv-perguntas{margin:0;padding-left:18px;color:var(--txt2);font-size:var(--t1)}
+.cv-salvo{font-size:var(--t1);color:var(--txt3);margin-left:8px}
+.cv-abertas{font-size:var(--t1);color:var(--txt2);margin:-6px 0 14px}
+/* campos dentro da caixa "Tem um vídeo de referência" (o .toggle-linha encolhe todo input pro tamanho de checkbox) */
+details.toggle-linha .campo input:not([type=checkbox]):not([type=hidden]){width:100%;height:auto;margin-top:0;accent-color:auto}
+details.toggle-linha .campo #ref-copiar{margin-top:8px}

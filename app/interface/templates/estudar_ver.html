@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titulo %}{{ e.nome }} · Estudo{% endblock %}
+{% block conteudo %}
+<p class="migalha meta"><a href="{{ url_for('estudar_lista') }}">← Referências</a></p>
+<div class="topo-pagina"><div><h1>{{ e.nome }}</h1>
+<p class="sub" id="es-fase">{% if e.estado.rodando %}{{ e.estado.fase }}…{% elif e.estado.erro %}✖ {{ e.estado.erro }}{% else %}Estudo pronto: {{ e.videos|length }} vídeo(s) medidos quadro a quadro.{% endif %}</p></div></div>
+{% from '_regua.html' import regua_bloco %}
+{% if e.estado.pronto %}{{ regua_bloco(regua, aberta=False) }}{% endif %}
+{% if e.estado.juntado %}<p><span class="selo ok">Já juntado ao estilo</span> <code>{{ e.estado.juntado }}</code></p>
+{% elif e.estado.pronto and confirmando %}
+<section class="painel aprovou" id="aprovou"><h2>Aprovou?</h2>
+<p>Vou juntar este estudo como referência do estilo <b>{{ titulo_estilo }}</b>, em <code>{{ alvo }}</code> (vídeo, capa, folha e o estudo quadro a quadro). Nenhuma referência existente é apagada.</p>
+<form method="post" action="{{ url_for('estudar_juntar', sid=e.id) }}" class="acoes"><input type="hidden" name="formato" value="{{ confirmando }}"><input type="hidden" name="confirmar" value="1">
+<button class="btn grande primario">Sim, juntar</button> <a class="btn" href="{{ url_for('estudar_ver', sid=e.id) }}">Voltar</a></form></section>
+{% elif e.estado.pronto %}
+<form method="post" action="{{ url_for('estudar_juntar', sid=e.id) }}" class="cartao-config es-juntar">
+  <b>Juntar como referência do estilo</b>
+  <select name="formato">{% for f in formatos %}<option value="{{ f.slug }}">{{ f.titulo }}</option>{% endfor %}</select>
+  <button class="btn primario">Juntar a um estilo…</button> <small class="meta">antes de guardar eu mostro onde vai e pergunto “Aprovou?”</small>
+</form>{% endif %}
+<div class="es-duas">
+  <div class="es-videos">{% for v in e.videos %}<video controls playsinline preload="metadata" src="{{ url_for('arquivo', caminho=v) }}"></video>{% endfor %}</div>
+  <div class="markdown es-md">{% if e.md %}{{ e.md|md|safe }}{% else %}<p class="meta">O estudo aparece aqui quando terminar.</p>{% endif %}</div>
+</div>
+{% if e.folhas %}<h2>Folhas quadro a quadro</h2><div class="es-folhas">{% for f in e.folhas %}<a href="{{ url_for('arquivo', caminho=f) }}" target="_blank"><img src="{{ url_for('arquivo', caminho=f) }}" alt="" loading="lazy"></a>{% endfor %}</div>{% endif %}
+<form method="post" action="{{ url_for('estudar_tirar', sid=e.id) }}" style="margin-top:24px"><button class="btn mini" onclick="return confirm('Tirar este estudo? Ele vai pra lixeira e volta em Configurações.')">Tirar este estudo</button></form>
+{% if e.estado.rodando %}<script>setInterval(function(){fetch({{ url_for('estudar_estado', sid=e.id)|tojson }}).then(function(r){return r.json()}).then(function(s){if(!s.rodando)location.reload();else document.getElementById('es-fase').textContent=s.fase+'…'})},4000)</script>{% endif %}
+{% endblock %}

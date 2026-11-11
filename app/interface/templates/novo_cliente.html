@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block titulo %}Novo cliente{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('home') }}">Clientes</a> › Novo cliente</p>
+<h1>Novo cliente</h1>
+<p class="sub">Cria a pasta e a identidade do cliente. Cores, fontes e voz você ajusta depois.</p>
+<form method="post" class="form form-estreito">
+  <div class="campo"><label for="nc-nome">Nome</label><input id="nc-nome" name="nome" required placeholder="Ex.: Carla" maxlength="40"></div>
+  <div class="campo"><label for="nc-portar">Já começar com um estilo de outro cliente <span class="chip-opc">opcional</span></label>
+    <select id="nc-portar" name="portar"><option value="">Nenhum, criar vazio</option>{% for val, rotulo in opcoes %}<option value="{{ val }}">{{ rotulo }}</option>{% endfor %}</select>
+  </div>
+  <button class="btn grande primario">Criar cliente</button>
+</form>
+{% endblock %}

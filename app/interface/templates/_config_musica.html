@@ -1,0 +1,24 @@
+{# Bloco "Música e efeitos" das Configurações. Usa `musica_status` (= musica_busca.status()),
+   que o musica_rotas.register já injeta na tela de Configurações. Incluir FORA de outro <form>. #}
+<details class="cartao-config bloco-cfg" id="musica-fontes"><summary><b>Música e efeitos sonoros</b> <span class="sub">de onde vêm as trilhas e os efeitos</span></summary>
+<form method="post" action="{{ url_for('musica_chaves') }}">
+  <p class="sub" style="margin-bottom:12px">Onde o Estúdio procura música e efeito quando a Biblioteca não tem. As chaves são grátis e ficam só neste computador (app/.env).</p>
+  {% if musica_status is defined and musica_status %}
+    {% if musica_status.locais %}{% set m = musica_status.locais.musica %}{% set e = musica_status.locais.sfx %}
+    <div class="linha-status"><span><b>Já no computador</b><small>Ordem de procura: cliente, Biblioteca, estilo, depois as fontes abaixo. Músicas: {{ m.clientes }} nos clientes, {{ m.biblioteca }} na Biblioteca, {{ m.formatos }} nos formatos. Efeitos: {{ e.clientes }}, {{ e.biblioteca }} e {{ e.formatos }}. <a href="{{ url_for('acervo', tipo='musica') }}">Ver e ouvir tudo</a>.</small></span><span class="etiqueta ok">grátis</span></div>
+    {% endif %}
+    {% for f in musica_status.fontes %}
+    <div class="linha-status"><span><b>{{ f.nome }}</b><small>{{ f.serve }}{% if f.env and not f.ligado %} Chave grátis em <a href="{{ f.onde }}" target="_blank" rel="noopener noreferrer">Onde pego a chave ↗</a> ({{ f.onde_txt }}).{% endif %}</small></span><span class="etiqueta {{ 'ok' if f.ligado }}">{{ f.estado }}</span></div>
+    {% if f.env %}
+    <div class="campo" style="margin:0 0 12px"><label for="mf-{{ f.id }}">{{ 'Client ID' if f.id == 'jamendo' else 'Chave (API key)' }} do {{ f.nome }}</label>
+      <input id="mf-{{ f.id }}" type="password" name="{{ f.env }}" autocomplete="new-password" placeholder="{{ 'Chave salva. Cole outra pra trocar' if f.chave_salva else 'Cole a chave aqui' }}"></div>
+    {% endif %}
+    {% endfor %}
+  {% else %}
+    <p class="sub">Não consegui ler o estado das fontes agora.</p>
+  {% endif %}
+  <div class="linha-status"><span><b>Pixabay e Pexels</b><small>Cenas de vídeo e foto: as chaves ficam no bloco de busca de cenas reais. A música do Pixabay só pelo site.</small></span><span class="etiqueta">outro bloco</span></div>
+  <div class="linha-status"><span><b>Artlist, Musicbed, Epidemic e outras pagas</b><small>Não têm API pública: baixe com a sua conta e arraste o arquivo pra Biblioteca. O Estúdio descreve, mede o BPM e guarda.</small></span><span class="etiqueta">pelo site</span></div>
+  <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primario">Salvar chaves</button><a class="btn" href="{{ url_for('musica_busca') }}">Abrir a busca de música</a></div>
+</form>
+</details>

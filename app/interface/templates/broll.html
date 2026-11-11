@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block titulo %}Buscar b-roll{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <div><h1>Buscar b-roll</h1><p class="sub">Metodologia get-brolls: buscar → <b>prévia com contact sheet</b> → você confere os frames → aprova → corte final vai pro acervo com fonte e condição de uso.</p></div>
+  <div class="acoes"><a class="btn" href="{{ url_for('acervo') }}">Acervo</a></div>
+</div>
+
+<form method="post" class="painel form" id="fbusca">
+  <input type="hidden" name="acao" value="buscar">
+  <div class="quatro">
+    <label>Fonte <select name="provider">
+      {% for v, rotulo in provedores %}
+        {% set falta = (v=='pexels' and not pexels) or (v=='pixabay' and not pixabay) %}
+        {% set nome = rotulo.split(' (')[0] %}
+        <option value="{{ v }}" {{ 'selected' if v == provider }} {{ 'disabled' if falta }}>{{ nome }} {% if v in ('pexels','pixabay') %}{{ '(stock, sem chave — configurar)' if falta else '(stock ✓ chave ok)' }}{% else %}(sem chave, pronto){% endif %}</option>
+      {% endfor %}
+    </select></label>
+    <label class="larga">Busca <input name="query" value="{{ query }}" placeholder="Ex.: businessman walking city night cinematic" required></label>
+    <label>Qtd <input name="limit" type="number" value="8" min="1" max="30"></label>
+    <label>Intenção <select name="intent"><option value="literal">literal (o fato/pessoa/produto citado)</option><option value="illustrative">ilustrativa (sensação/tema)</option></select></label>
+  </div>
+  <button class="btn primario">Buscar</button>
+  <span class="meta">YouTube leva ~10s. Dica: buscar em inglês acha mais; adicione "no watermark", "free stock", "cinematic".</span>
+</form>
+
+{% if erro %}<div class="aviso erro">{{ erro }}</div>{% endif %}
+{% if resultado is not none %}
+<h2>{{ resultado|length }} candidatos {% if resumo %}<span class="meta">· {{ resumo }}</span>{% endif %}</h2>
+<div class="grade candidatos">
+  {% for c in resultado %}
+  <div class="card broll">
+    {% if c.preview and c.preview.poster_url %}<img loading="lazy" decoding="async" class="capa" src="{{ c.preview.poster_url }}" alt="">{% endif %}
+    <div class="card-corpo">
+      <div class="card-titulo">{{ c.title }}</div>
+      <div class="card-meta">{{ c.provider }} · {{ c.creator.name if c.creator else '' }}{% if c.media and c.media.duration_s %} · {{ c.media.duration_s }}s{% endif %} · <a href="{{ c.source_url }}" target="_blank">abrir ↗</a></div>
+      <form method="post" action="{{ url_for('broll_previa') }}" class="form compacto previa-form">
+        <input type="hidden" name="candidate" value="{{ c.id }}">
+        <div class="tres">
+          <input name="start" type="number" step="0.5" value="0" placeholder="início s">
+          <input name="end" type="number" step="0.5" value="{{ [5, c.media.duration_s or 5]|min }}" placeholder="fim s">
+          <button class="btn mini primario">Ver frames</button>
+        </div>
+        <input name="reason" placeholder="pra qual fala/beat é? (motivo)">
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}
+{% block scripts %}
+<script>
+document.querySelectorAll('form').forEach(f => f.addEventListener('submit', () => {
+  f.querySelectorAll('button').forEach(b => { b.disabled = true; b.textContent = '⏳ …'; });
+}));
+</script>
+{% endblock %}

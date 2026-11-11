@@ -1,0 +1,145 @@
+{
+  "grupo": "falando",
+  "ordem": 50,
+  "titulo": "Análise de tela",
+  "frase": "Gravação de tela em cima, você falando embaixo e uma frase fixa empilhada em faixas branca e vermelha na emenda, o vídeo inteiro.",
+  "entrada": "video",
+  "proporcao": "9:16",
+  "tipo": "gravado",
+  "motor": "ffmpeg + PIL (gerar.sh do modelo do cliente)",
+  "status": "pronto",
+  "modelos": [
+    "analise-de-tela"
+  ],
+  "base": "clientes/Joao/vegasContent/modelos/analise-de-tela",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Referência: tela dividida com frase em faixas (reel De5M51LRqvy)",
+      "origem": "https://www.instagram.com/reel/De5M51LRqvy/",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-10-26"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": false,
+      "de_onde": "Não usa: só a voz da câmera.",
+      "quando_nao": "sempre"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "Não usa: o gerar.sh não mixa efeito.",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": false,
+    "motivo": "o formato não escreve a fala; a frase fixa nas faixas é o conteúdo e fica o vídeo inteiro"
+  },
+  "layouts": [
+    "dividido"
+  ],
+  "material_aceito": [
+    "video-curto"
+  ],
+  "usa": [
+    {
+      "oque": "Corte do bruto",
+      "quem": "Tira silêncio, gaguejo e erro de começo no seu Mac (corte.py; transcrição Groq com cota grátis)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Rosto embaixo",
+      "quem": "seguir_rosto.py (OpenCV no seu Mac): o recorte da câmera acompanha o rosto",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "ffmpeg + PIL no seu Mac: tela em cima, câmera embaixo, sombrinha e frase em faixas branca e vermelha (Gilroy ExtraBold)",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar as duas gravações",
+        "andamento": "preparar",
+        "faz": "Câmera em work/joao.mp4 (já cortada pelo Estúdio; conferir rotation) e gravação de tela em work/tela.mp4. Se as duas foram gravadas juntas, acertar o sincronismo com --tela-atraso (bater uma palma no começo ajuda); se o corte da câmera tirou trechos, cortar a tela nos mesmos pontos."
+      },
+      {
+        "id": "frase",
+        "titulo": "Frase fixa",
+        "andamento": "preparar",
+        "faz": "A frase vem do João; sem ela, propor uma seca, em caixa-alta, de 2 a 3 linhas curtas (\"|\" quebra a linha) que diga o que está sendo analisado e o achado, sem repetir a 1ª frase falada."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Prévia",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "zsh ../gerar.sh --dir . --titulo \"<FRASE>\" --previa gera o storyboard.jpg (um quadro do meio). Conferir: o que importa da tela à vista (senão --tela-modo fit ou --tela-x), rosto embaixo com folga, frase sem cobrir o queixo; parar pro João aprovar."
+      },
+      {
+        "id": "video",
+        "titulo": "Montar e renderizar",
+        "andamento": "video",
+        "faz": "Mesmo comando sem --previa, com os ajustes aprovados. Sai em <x>Content/output/analise-de-tela/<slug>.mp4 e a folha em <sandbox>/qa/folha.jpg."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Folha do vídeo ao lado da exemplo-1-folha.jpg: emenda e faixas no mesmo lugar o vídeo inteiro, rosto no bloco de baixo quadro a quadro, voz em sincronia com a tela. Pior que o exemplo não sai."
+      }
+    ],
+    "comandos": {
+      "storyboard": "zsh ../gerar.sh --dir . --titulo \"<FRASE>\" --previa",
+      "render": "zsh ../gerar.sh --dir . --titulo \"<FRASE>\"",
+      "conferir": "python3 app/ferramentas/conferir_video.py <saida> --sandbox <sandbox>"
+    }
+  },
+  "apoio": {
+    "usa": false,
+    "tipo": "nenhum",
+    "fontes": [],
+    "duracao_s": "0",
+    "quantidade": "0",
+    "quando_nao": "sempre: em cima é a gravação de tela, embaixo a pessoa",
+    "previa": "não se aplica"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Sua câmera (você falando)",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "O arquivo vai na área de cima desta etapa. A voz sai dele.",
+      "principal": true
+    },
+    {
+      "campo": "tela",
+      "rotulo": "Gravação de tela",
+      "tipo": "arquivo",
+      "obrigatorio": true,
+      "dica": "A tela que você analisou, gravada junto com a câmera (de preferência começando no mesmo instante)."
+    },
+    {
+      "campo": "frase",
+      "rotulo": "Frase fixa",
+      "tipo": "texto",
+      "obrigatorio": false,
+      "dica": "Fica nas faixas o vídeo todo. Use | pra quebrar a linha. Sem frase, o Estúdio propõe."
+    }
+  ],
+  "seguir_direto": true
+}

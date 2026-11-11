@@ -1,0 +1,2899 @@
+{
+ "titulo": "Explicador 3D · Cidade de 12 mil (v4, ritmo Loaded Dice)",
+ "saida": "cidade-12-mil-loaded.mp4",
+ "roteiro": "roteiro.txt",
+ "voz": "work/voz.wav",
+ "palavras": "work/tr2/words.json",
+ "musica": {
+  "arquivo": "audio/musicas/876.mp3",
+  "volume": 0.207
+ },
+ "estilo": {
+  "desfoque": 1,
+  "exposicao": 0.97,
+  "ambiente": 0.4
+ },
+ "elenco": {
+  "dentista": "dentista",
+  "paciente": "paciente",
+  "estudante": "estudante",
+  "vovo": "vovo",
+  "aposentado": "aposentado",
+  "menina": "menina",
+  "executivo": "executivo",
+  "comerciante": "comerciante",
+  "motoboy": "motoboy",
+  "vendedora": "vendedora",
+  "pedreiro": "pedreiro"
+ },
+ "mundos": {
+  "cons": {
+   "tipo": "consultorio",
+   "gente": [
+    {
+     "quem": "dentista",
+     "id": "dentista",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "paciente",
+     "id": "paciente",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    }
+   ],
+   "objetos": [
+    {
+     "tipo": "contador",
+     "id": "led_mai",
+     "pos": [
+      -3.0,
+      1.95,
+      -2.95
+     ],
+     "rotulo": "MAIO",
+     "escala": 0.45
+    },
+    {
+     "tipo": "contador",
+     "id": "led_jun",
+     "pos": [
+      -2.2,
+      1.95,
+      -2.95
+     ],
+     "rotulo": "JUNHO",
+     "escala": 0.45
+    },
+    {
+     "tipo": "contador",
+     "id": "led_jul",
+     "pos": [
+      -1.4,
+      1.95,
+      -2.95
+     ],
+     "rotulo": "JULHO",
+     "escala": 0.45
+    },
+    {
+     "tipo": "pilha",
+     "id": "p_mai",
+     "pos": [
+      -3.0,
+      0.82,
+      -1.95
+     ],
+     "rotulo": "MAI",
+     "max": 18,
+     "semente": 3
+    },
+    {
+     "tipo": "pilha",
+     "id": "p_jun",
+     "pos": [
+      -2.2,
+      0.82,
+      -1.95
+     ],
+     "rotulo": "JUN",
+     "max": 18,
+     "semente": 5
+    },
+    {
+     "tipo": "pilha",
+     "id": "p_jul",
+     "pos": [
+      -1.4,
+      0.82,
+      -1.95
+     ],
+     "rotulo": "JUL",
+     "max": 18,
+     "semente": 9
+    },
+    {
+     "tipo": "calendario",
+     "id": "cal",
+     "pos": [
+      -1.25,
+      0.82,
+      -1.85
+     ],
+     "rot": -25,
+     "mes": "MAI",
+     "escala": 0.8
+    },
+    {
+     "tipo": "celular",
+     "id": "cel",
+     "pos": [
+      0,
+      1.3,
+      1
+     ],
+     "escala": 0.75,
+     "fora": true
+    },
+    {
+     "tipo": "balao",
+     "id": "bal",
+     "pos": [
+      0,
+      2,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "tipo": "contador",
+     "id": "led51",
+     "pos": [
+      2.4,
+      2.45,
+      -2.95
+     ],
+     "rotulo": "APROVADO",
+     "escala": 0.55,
+     "cor": "#3cff6a",
+     "fora": true
+    }
+   ]
+  },
+  "cid": {
+   "tipo": "cidade",
+   "gente": [
+    {
+     "quem": "dentista",
+     "id": "dentista",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "paciente",
+     "id": "paciente",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "estudante",
+     "id": "estudante",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "vovo",
+     "id": "vovo",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "aposentado",
+     "id": "aposentado",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "menina",
+     "id": "menina",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "executivo",
+     "id": "executivo",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "comerciante",
+     "id": "comerciante",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "motoboy",
+     "id": "motoboy",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "vendedora",
+     "id": "vendedora",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "pedreiro",
+     "id": "pedreiro",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    }
+   ],
+   "objetos": [
+    {
+     "tipo": "placa",
+     "id": "placa",
+     "pos": [
+      12,
+      0,
+      4.7
+     ],
+     "rot": 180,
+     "numero": "12.000 hab."
+    },
+    {
+     "tipo": "ondas",
+     "id": "ondas",
+     "pos": [
+      -15.0,
+      1.75,
+      -9.1
+     ],
+     "rot": 20
+    },
+    {
+     "tipo": "balao",
+     "id": "b1",
+     "pos": [
+      0,
+      2,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "tipo": "balao",
+     "id": "b2",
+     "pos": [
+      0,
+      2,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "tipo": "balao",
+     "id": "b3",
+     "pos": [
+      0,
+      2,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "tipo": "balao",
+     "id": "b4",
+     "pos": [
+      0,
+      2,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "tipo": "holofote",
+     "id": "h1",
+     "pos": [
+      4.6,
+      0.16,
+      -4.2
+     ]
+    },
+    {
+     "tipo": "holofote",
+     "id": "h2",
+     "pos": [
+      6.0,
+      0.16,
+      -4.2
+     ]
+    },
+    {
+     "tipo": "holofote",
+     "id": "h3",
+     "pos": [
+      7.4,
+      0.16,
+      -4.2
+     ]
+    },
+    {
+     "tipo": "etiqueta",
+     "id": "e1",
+     "pos": [
+      4.6,
+      2.35,
+      -4.1
+     ],
+     "texto": "NUNCA TE VIU",
+     "cor": "#2ec4e8",
+     "escala": 0.6
+    },
+    {
+     "tipo": "etiqueta",
+     "id": "e2",
+     "pos": [
+      6.0,
+      2.35,
+      -4.1
+     ],
+     "texto": "JÁ TE VIU",
+     "cor": "#ffd23a",
+     "escala": 0.6
+    },
+    {
+     "tipo": "etiqueta",
+     "id": "e3",
+     "pos": [
+      7.4,
+      2.4,
+      -4.1
+     ],
+     "linhas": [
+      "JÁ PEDIU",
+      "ORÇAMENTO"
+     ],
+     "cor": "#ff8a2a",
+     "escala": 0.6
+    }
+   ]
+  },
+  "elei": {
+   "tipo": "cidade",
+   "eleicao": true,
+   "gente": [
+    {
+     "quem": "dentista",
+     "id": "dentista",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "paciente",
+     "id": "paciente",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "estudante",
+     "id": "estudante",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "vovo",
+     "id": "vovo",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "aposentado",
+     "id": "aposentado",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "menina",
+     "id": "menina",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "executivo",
+     "id": "executivo",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "comerciante",
+     "id": "comerciante",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "motoboy",
+     "id": "motoboy",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "vendedora",
+     "id": "vendedora",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    },
+    {
+     "quem": "pedreiro",
+     "id": "pedreiro",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    }
+   ],
+   "objetos": [
+    {
+     "tipo": "urna",
+     "id": "urna",
+     "pos": [
+      -7.6,
+      0.82,
+      -4.1
+     ]
+    },
+    {
+     "tipo": "calendario",
+     "id": "cal2",
+     "pos": [
+      -6.75,
+      0.82,
+      -4.05
+     ],
+     "rot": -20,
+     "mes": "SET",
+     "escala": 0.7
+    },
+    {
+     "tipo": "contador",
+     "id": "led194",
+     "pos": [
+      -12.2,
+      3.3,
+      -4.6
+     ],
+     "rotulo": "VENDAS OUTUBRO",
+     "escala": 1.15,
+     "haste": 3.0
+    },
+    {
+     "tipo": "confete",
+     "id": "conf",
+     "pos": [
+      -11.0,
+      0,
+      -2.2
+     ],
+     "w": 7,
+     "d": 4,
+     "h": 5,
+     "n": 160
+    },
+    {
+     "tipo": "confete",
+     "id": "moed",
+     "pos": [
+      -11.0,
+      0,
+      -2.2
+     ],
+     "w": 4,
+     "d": 2.5,
+     "h": 5,
+     "n": 45,
+     "moedas": true,
+     "semente": 4
+    },
+    {
+     "tipo": "placa",
+     "id": "placa",
+     "pos": [
+      12,
+      0,
+      4.7
+     ],
+     "rot": 180,
+     "numero": "12.000 hab."
+    }
+   ]
+  },
+  "esc": {
+   "tipo": "escritorio",
+   "gente": [
+    {
+     "quem": "dentista",
+     "id": "dentista",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    }
+   ],
+   "objetos": [
+    {
+     "tipo": "gaveta",
+     "id": "gav",
+     "pos": [
+      0.6,
+      0,
+      -1.45
+     ]
+    },
+    {
+     "tipo": "contador",
+     "id": "led124",
+     "pos": [
+      0.6,
+      2.0,
+      -1.55
+     ],
+     "rotulo": "ORÇAMENTO PARADO",
+     "escala": 0.5
+    },
+    {
+     "tipo": "balao",
+     "id": "estr",
+     "pos": [
+      0.75,
+      1.45,
+      -1.2
+     ],
+     "fora": true
+    }
+   ]
+  },
+  "aq": {
+   "tipo": "aquario",
+   "gente": [
+    {
+     "quem": "dentista",
+     "id": "dentista",
+     "pos": [
+      0,
+      0
+     ],
+     "fora": true
+    }
+   ],
+   "objetos": [
+    {
+     "tipo": "aquario",
+     "id": "tanque",
+     "pos": [
+      0,
+      0,
+      -1.6
+     ],
+     "peixes": 30
+    }
+   ]
+  }
+ },
+ "planos": [
+  {
+   "oracoes": [
+    "Você é dentista"
+   ],
+   "mundo": "cons",
+   "mostra": "o dentista de jaleco no consultório, se achando",
+   "lugar": {
+    "dentista": {
+     "pos": "@centro",
+     "rot": 15,
+     "pose": "neutro",
+     "rosto": "feliz"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@dentista",
+     "rosto": "presuncoso",
+     "pose": "mostra_d"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     0.3,
+     1.35,
+     0.2
+    ],
+    "dist": 2.4,
+    "az": -12,
+    "alt": 0.15,
+    "fov": 44,
+    "push": 0.12,
+    "lado": 0.12
+   }
+  },
+  {
+   "oracoes": [
+    "numa cidade de 12"
+   ],
+   "mundo": "cid",
+   "mostra": "a placa 12.000 hab. acende no 12; dois moradores na entrada",
+   "obj": {
+    "placa": {
+     "acende": "@12"
+    }
+   },
+   "lugar": {
+    "aposentado": {
+     "pos": [
+      14.4,
+      3.7
+     ],
+     "rot": 200,
+     "y": 0.16,
+     "pose": "cruzado"
+    },
+    "menina": {
+     "pos": [
+      9.6,
+      3.9
+     ],
+     "rot": 160,
+     "y": 0.16
+    }
+   },
+   "cam": {
+    "alvo": [
+     12,
+     1.9,
+     4.7
+    ],
+    "dist": 8.4,
+    "az": 190,
+    "alt": -0.1,
+    "fov": 50,
+    "push": 0.1,
+    "sobe": 0.12
+   }
+  },
+  {
+   "oracoes": [
+    "e todo mundo já te conhece"
+   ],
+   "mundo": "cid",
+   "mostra": "seis vizinhos diferentes acenam pro dentista na porta do consultório",
+   "lugar": {
+    "dentista": {
+     "pos": [
+      -1.6,
+      -4.5
+     ],
+     "y": 0.16,
+     "rot": 0,
+     "rosto": "feliz"
+    },
+    "aposentado": {
+     "pos": [
+      -0.3,
+      -3.7
+     ],
+     "rot": -110,
+     "y": 0.16,
+     "olha": "dentista"
+    },
+    "vovo": {
+     "pos": [
+      -2.9,
+      -3.9
+     ],
+     "y": 0.16,
+     "rot": 80,
+     "olha": "dentista"
+    },
+    "menina": {
+     "pos": [
+      -0.8,
+      -2.5
+     ],
+     "rot": -140,
+     "y": 0.04,
+     "olha": "dentista"
+    },
+    "executivo": {
+     "pos": [
+      -2.5,
+      -2.4
+     ],
+     "y": 0.04,
+     "rot": 130,
+     "olha": "dentista"
+    },
+    "comerciante": {
+     "pos": [
+      0.5,
+      -2.0
+     ],
+     "y": 0.04,
+     "rot": -120,
+     "olha": "dentista"
+    },
+    "motoboy": {
+     "pos": [
+      -3.9,
+      -2.2
+     ],
+     "y": 0.04,
+     "rot": 110,
+     "olha": "dentista"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "aposentado",
+     "em": "@todo",
+     "pose": "acena",
+     "rosto": "sorrisao"
+    },
+    {
+     "quem": "vovo",
+     "em": "@mundo",
+     "pose": "acena",
+     "rosto": "feliz"
+    },
+    {
+     "quem": "menina",
+     "em": "@já",
+     "pose": "acena",
+     "rosto": "sorrisao"
+    },
+    {
+     "quem": "executivo",
+     "em": "@te",
+     "pose": "acena",
+     "rosto": "feliz"
+    },
+    {
+     "quem": "comerciante",
+     "em": "@conhece",
+     "pose": "acena",
+     "rosto": "sorrisao"
+    },
+    {
+     "quem": "motoboy",
+     "em": "@conhece",
+     "pose": "acena",
+     "rosto": "feliz"
+    },
+    {
+     "quem": "dentista",
+     "em": "@conhece",
+     "rosto": "sorrisao",
+     "pose": "acena"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -1.6,
+     1.3,
+     -3.3
+    ],
+    "dist": 6.2,
+    "az": 4,
+    "alt": 0.55,
+    "fov": 48,
+    "push": 0.14
+   }
+  },
+  {
+   "oracoes": [
+    "Em maio",
+    "você vende 157"
+   ],
+   "mundo": "cons",
+   "mostra": "a folha do calendário vira pra MAI; a câmera vai pro contador que rola até 157 e a pilha cresce",
+   "obj": {
+    "cal": {
+     "de": "ABR",
+     "para": "MAI",
+     "em": "@maio",
+     "dura": 0.2
+    },
+    "led_mai": {
+     "de": 0,
+     "para": 157,
+     "em": "@157",
+     "dura": 0.8,
+     "acende": "@você"
+    },
+    "p_mai": {
+     "n0": 0,
+     "n": 16,
+     "em": "@157",
+     "dura": 0.8
+    },
+    "led_jun": {
+     "acende": 99
+    },
+    "led_jul": {
+     "acende": 99
+    },
+    "p_jun": {
+     "n": 0
+    },
+    "p_jul": {
+     "n": 0
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      -3.75,
+      -1.25
+     ],
+     "rot": 25,
+     "rosto": "feliz",
+     "olha": [
+      -3.0,
+      1.9,
+      -2.9
+     ]
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@157",
+     "rosto": "sorrisao",
+     "pose": "comemora",
+     "olha": "camera",
+     "pop": "grande"
+    }
+   ],
+   "cam": {
+    "de": [
+     -0.75,
+     1.15,
+     -1.0
+    ],
+    "para": [
+     -0.85,
+     1.12,
+     -1.18
+    ],
+    "olha": [
+     -1.25,
+     1.02,
+     -1.85
+    ],
+    "fov": 34
+   },
+   "passos": [
+    {
+     "em": "@você",
+     "alvo": [
+      -3.0,
+      1.4,
+      -1.9
+     ],
+     "dist": 3.8,
+     "az": -6,
+     "alt": 0.25,
+     "fov": 50,
+     "push": 0.1,
+     "lado": 0.1
+    }
+   ],
+   "brilho": "@157",
+   "efeitos": [
+    {
+     "em": "@157",
+     "arquivo": "extra/ding.mp3",
+     "rel": -10
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "Em junho",
+    "Em julho"
+   ],
+   "mundo": "cons",
+   "mostra": "chuva de moedas caindo leva o 157 embora; o contador para no 98 (surpresa) e a câmera desliza pro 71 (pânico)",
+   "trans": "moedas_caem",
+   "obj": {
+    "led_mai": {
+     "de": 157
+    },
+    "p_mai": {
+     "n": 16
+    },
+    "led_jun": {
+     "de": 0,
+     "para": 98,
+     "em": "@98",
+     "dura": 0.6,
+     "acende": "@junho"
+    },
+    "p_jun": {
+     "n0": 0,
+     "n": 10,
+     "em": "@98",
+     "dura": 0.6
+    },
+    "led_jul": {
+     "de": 0,
+     "para": 71,
+     "em": "@71",
+     "dura": 0.6,
+     "acende": "@julho"
+    },
+    "p_jul": {
+     "n0": 0,
+     "n": 7,
+     "em": "@71",
+     "dura": 0.5
+    },
+    "cal": {
+     "de": "JUN",
+     "para": "JUL",
+     "em": "@julho",
+     "dura": 0.2
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      -0.6,
+      -1.2
+     ],
+     "rot": -20,
+     "rosto": "sorrisao",
+     "olha": [
+      -2.2,
+      1.9,
+      -2.9
+     ]
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@98",
+     "rosto": "surpreso"
+    },
+    {
+     "quem": "dentista",
+     "em": "@71",
+     "rosto": "panico",
+     "pose": "panico",
+     "olha": "camera"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -2.0,
+     1.45,
+     -1.9
+    ],
+    "dist": 3.4,
+    "az": 10,
+    "alt": 0.2,
+    "fov": 48,
+    "push": 0.08
+   },
+   "passos": [
+    {
+     "em": "@julho",
+     "alvo": [
+      -1.1,
+      1.4,
+      -1.5
+     ],
+     "dist": 2.7,
+     "az": 18,
+     "alt": 0.15,
+     "fov": 46,
+     "push": 0.1
+    }
+   ],
+   "efeitos": [
+    {
+     "em": "@98",
+     "arquivo": "extra/baque.mp3",
+     "rel": -10
+    },
+    {
+     "em": "@71",
+     "arquivo": "extra/baque.mp3",
+     "rel": -10
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "Paciente novo não aparece",
+    "e o seu Instagram só recebe"
+   ],
+   "mundo": "cons",
+   "mostra": "a sala de espera vazia; a câmera desliza pro dentista olhando o celular",
+   "lugar": {
+    "dentista": {
+     "pos": [
+      0.3,
+      0.2
+     ],
+     "rot": 0,
+     "pose": "celular1",
+     "props": {
+      "D": "celular"
+     },
+     "rosto": "preocupado",
+     "olha": [
+      0.1,
+      1.05,
+      0.55
+     ]
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@instagram",
+     "rosto": "desconfiado"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -5.6,
+     1.0,
+     -0.8
+    ],
+    "dist": 4.0,
+    "az": 42,
+    "alt": 0.6,
+    "fov": 50,
+    "push": 0.1,
+    "lado": -0.2
+   },
+   "passos": [
+    {
+     "em": "@e",
+     "alvo": [
+      0.3,
+      1.3,
+      0.2
+     ],
+     "dist": 2.8,
+     "az": 12,
+     "alt": 0.2,
+     "fov": 44,
+     "push": 0.1
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "\"quanto custa?\""
+   ],
+   "mundo": "cons",
+   "mostra": "o celular com 'quanto custa?' pipocando",
+   "obj": {
+    "cel": {
+     "pos": [
+      0.3,
+      1.32,
+      0.75
+     ],
+     "titulo": "Direct",
+     "msgs": [
+      {
+       "texto": "quanto custa?",
+       "lado": "in",
+       "em": "@quanto"
+      },
+      {
+       "texto": "quanto custa?",
+       "lado": "in",
+       "em": "@quanto+0.14"
+      },
+      {
+       "texto": "qnto custa??",
+       "lado": "in",
+       "em": "@custa"
+      },
+      {
+       "texto": "valor?",
+       "lado": "in",
+       "em": "@custa+0.3"
+      }
+     ]
+    }
+   },
+   "cam": {
+    "alvo": [
+     0.3,
+     1.33,
+     0.75
+    ],
+    "dist": 0.78,
+    "az": 0,
+    "alt": 0.03,
+    "fov": 40,
+    "push": 0.08
+   },
+   "efeitos": [
+    {
+     "em": "@custa",
+     "arquivo": "notificacao.mp3",
+     "rel": -15
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "Você pensa no que"
+   ],
+   "mundo": "cons",
+   "mostra": "o dentista pensando, balão 'hmm...'",
+   "obj": {
+    "bal": {
+     "pos": [
+      0.3,
+      1.85,
+      0.25
+     ],
+     "texto": "hmm...",
+     "tipo": "pensa",
+     "em": "@pensa",
+     "escala": 0.6
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      0.3,
+      0.2
+     ],
+     "rot": -15,
+     "rosto": "neutro"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@pensa",
+     "pose": "pensa",
+     "rosto": "pensativo"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     0.45,
+     1.45,
+     0.2
+    ],
+    "dist": 2.8,
+    "az": -18,
+    "alt": 0.15,
+    "fov": 46,
+    "push": 0.12
+   }
+  },
+  {
+   "oracoes": [
+    "todo mundo pensa"
+   ],
+   "mundo": "cid",
+   "mostra": "quatro moradores diferentes pensando a mesma coisa (balões)",
+   "lugar": {
+    "comerciante": {
+     "pos": [
+      2.0,
+      -4.3
+     ],
+     "rot": -45,
+     "y": 0.16,
+     "rosto": "neutro"
+    },
+    "vovo": {
+     "pos": [
+      3.1,
+      -4.5
+     ],
+     "rot": -45,
+     "y": 0.16,
+     "rosto": "neutro"
+    },
+    "estudante": {
+     "pos": [
+      4.2,
+      -4.3
+     ],
+     "rot": -45,
+     "y": 0.16,
+     "rosto": "neutro"
+    },
+    "motoboy": {
+     "pos": [
+      5.3,
+      -4.5
+     ],
+     "rot": -45,
+     "y": 0.16,
+     "rosto": "neutro"
+    }
+   },
+   "obj": {
+    "b1": {
+     "pos": [
+      1.8,
+      2.05,
+      -4.2
+     ],
+     "texto": "...",
+     "tipo": "pensa",
+     "em": "@todo",
+     "escala": 0.45
+    },
+    "b2": {
+     "pos": [
+      2.9,
+      2.05,
+      -4.4
+     ],
+     "texto": "...",
+     "tipo": "pensa",
+     "em": "@mundo",
+     "escala": 0.45
+    },
+    "b3": {
+     "pos": [
+      4.0,
+      2.05,
+      -4.2
+     ],
+     "texto": "...",
+     "tipo": "pensa",
+     "em": "@mundo+0.12",
+     "escala": 0.45
+    },
+    "b4": {
+     "pos": [
+      5.1,
+      2.05,
+      -4.4
+     ],
+     "texto": "...",
+     "tipo": "pensa",
+     "em": "@pensa",
+     "escala": 0.45
+    }
+   },
+   "acoes": [
+    {
+     "quem": "comerciante",
+     "em": "@todo",
+     "pose": "pensa",
+     "rosto": "pensativo"
+    },
+    {
+     "quem": "vovo",
+     "em": "@mundo",
+     "pose": "pensa",
+     "rosto": "pensativo"
+    },
+    {
+     "quem": "estudante",
+     "em": "@mundo+0.12",
+     "pose": "pensa",
+     "rosto": "pensativo"
+    },
+    {
+     "quem": "motoboy",
+     "em": "@pensa",
+     "pose": "pensa",
+     "rosto": "pensativo"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     3.6,
+     1.45,
+     -4.4
+    ],
+    "dist": 6.0,
+    "az": -58,
+    "alt": 0.35,
+    "fov": 46,
+    "push": 0.12,
+    "lado": 0.3
+   }
+  },
+  {
+   "oracoes": [
+    "postar mais",
+    "impulsionar mais"
+   ],
+   "mundo": "cid",
+   "mostra": "na praça o dentista posta no celular e depois grita no megafone; ninguém olha",
+   "obj": {
+    "ondas": {
+     "de": "@impulsionar",
+     "ate": 9
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      -15.4,
+      -9.6
+     ],
+     "y": 0.45,
+     "rot": 30,
+     "pose": "digita",
+     "props": {
+      "D": "celular"
+     },
+     "rosto": "decidido"
+    },
+    "executivo": {
+     "pos": [
+      -13.0,
+      -9.0
+     ],
+     "y": 0.12,
+     "rot": 120,
+     "pose": "celular1",
+     "props": {
+      "D": "celular"
+     },
+     "olha": [
+      -12.4,
+      1,
+      -8.4
+     ]
+    },
+    "vendedora": {
+     "pos": [
+      -13.2,
+      -7.6
+     ],
+     "y": 0.12,
+     "rot": 200,
+     "olha": "executivo"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@mais",
+     "rosto": "sorrisao"
+    },
+    {
+     "quem": "dentista",
+     "em": "@impulsionar",
+     "pose": "megafone",
+     "props": {
+      "D": "megafone"
+     },
+     "rosto": "gritando"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -14.9,
+     1.6,
+     -9.2
+    ],
+    "dist": 4.6,
+    "az": 22,
+    "alt": 0.3,
+    "fov": 48,
+    "push": 0.12
+   },
+   "efeitos": [
+    {
+     "em": "@postar",
+     "arquivo": "tique.mp3",
+     "rel": -15
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "Nada muda"
+   ],
+   "mundo": "cons",
+   "mostra": "o 71 parado, o dentista tonto e a câmera mergulha no olho dele",
+   "obj": {
+    "led_mai": {
+     "de": 157
+    },
+    "p_mai": {
+     "n": 16
+    },
+    "led_jun": {
+     "de": 98
+    },
+    "p_jun": {
+     "n": 10
+    },
+    "led_jul": {
+     "de": 71
+    },
+    "p_jul": {
+     "n": 7
+    },
+    "cal": {
+     "de": "JUL"
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      -0.5,
+      -1.0
+     ],
+     "rot": -10,
+     "rosto": "neutro",
+     "olha": "camera"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@muda",
+     "rosto": "tonto"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -1.1,
+     1.35,
+     -1.5
+    ],
+    "dist": 2.9,
+    "az": 14,
+    "alt": 0.2,
+    "fov": 46,
+    "push": 0.08,
+    "saida": {
+     "para": [
+      -0.62,
+      1.46,
+      -0.68
+     ],
+     "olha": [
+      -0.64,
+      1.45,
+      -1.0
+     ],
+     "dura": 0.38,
+     "fov": 30
+    }
+   },
+   "efeitos": [
+    {
+     "em": "@muda",
+     "arquivo": "extra/grilo.mp3",
+     "rel": -15,
+     "dura": 1.0
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "Mas aqui vem a parte estranha",
+    "Na sua gaveta"
+   ],
+   "mundo": "esc",
+   "mostra": "no escritório escuro um '?!' salta da gaveta (a parte estranha); a câmera vai pra gaveta que abre",
+   "obj": {
+    "estr": {
+     "pos": [
+      0.7,
+      1.5,
+      -1.1
+     ],
+     "texto": "?!",
+     "em": "@estranha",
+     "escala": 0.5
+    },
+    "gav": {
+     "abre": "@gaveta",
+     "transborda": false
+    },
+    "led124": {
+     "acende": 99
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      -0.6,
+      0.2
+     ],
+     "rot": 50,
+     "rosto": "desconfiado",
+     "olha": [
+      0.6,
+      1.2,
+      -1.0
+     ]
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@estranha",
+     "cab": [
+      0,
+      0,
+      10
+     ],
+     "rosto": "desconfiado",
+     "olhar": [
+      0.6,
+      0
+     ]
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -0.1,
+     1.3,
+     -0.4
+    ],
+    "dist": 3.6,
+    "az": 40,
+    "alt": 0.3,
+    "fov": 48,
+    "push": 0.14
+   },
+   "passos": [
+    {
+     "em": "@na",
+     "de": [
+      1.5,
+      1.45,
+      0.9
+     ],
+     "para": [
+      1.35,
+      1.4,
+      0.65
+     ],
+     "olha": [
+      0.6,
+      1.1,
+      -1.2
+     ],
+     "fov": 42
+    }
+   ],
+   "efeitos": [
+    {
+     "em": "@estranha",
+     "arquivo": "extra/ding.mp3",
+     "rel": -15
+    },
+    {
+     "em": "@gaveta",
+     "arquivo": "porta.mp3",
+     "rel": -10,
+     "dura": 0.7
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "tem 124",
+    "em orçamento parado"
+   ],
+   "mundo": "esc",
+   "mostra": "notas subindo pela tela revelam a gaveta transbordando e o contador parando no 124; o dentista com as mãos no rosto",
+   "trans": "notas_sobem",
+   "obj": {
+    "gav": {
+     "abre": -5,
+     "transborda": "@124-0.25"
+    },
+    "led124": {
+     "de": 0,
+     "para": 124,
+     "em": "@124",
+     "dura": 0.8,
+     "acende": "@tem"
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      -0.8,
+      0.5
+     ],
+     "rot": 35,
+     "rosto": "desconfiado",
+     "olha": [
+      0.6,
+      1.4,
+      -1.0
+     ]
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@124",
+     "rosto": "surpreso",
+     "pose": "maos_rosto",
+     "olha": "camera"
+    },
+    {
+     "quem": "dentista",
+     "em": "@parado",
+     "rosto": "triste",
+     "pose": "ombros"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -0.3,
+     1.4,
+     -0.5
+    ],
+    "dist": 4.0,
+    "az": -15,
+    "alt": 0.3,
+    "fov": 50,
+    "push": 0.1
+   },
+   "passos": [
+    {
+     "em": "@em",
+     "alvo": [
+      -0.8,
+      1.5,
+      0.5
+     ],
+     "dist": 2.2,
+     "az": 30,
+     "alt": 0.15,
+     "fov": 46,
+     "push": 0.1
+    }
+   ],
+   "brilho": "@124"
+  },
+  {
+   "oracoes": [
+    "Gente que já sentou",
+    "e disse vou"
+   ],
+   "mundo": "cons",
+   "mostra": "a paciente na cadeira do dentista; ela diz 'vou pensar...' (balão) e a câmera voa pela porta",
+   "obj": {
+    "bal": {
+     "pos": [
+      1.75,
+      1.95,
+      -1.0
+     ],
+     "texto": "vou pensar...",
+     "em": "@vou",
+     "escala": 0.6
+    }
+   },
+   "lugar": {
+    "paciente": {
+     "pos": [
+      1.62,
+      -1.05
+     ],
+     "rot": -20,
+     "senta": true,
+     "y": 0.55,
+     "rosto": "feliz",
+     "olha": "dentista"
+    },
+    "dentista": {
+     "pos": [
+      0.45,
+      -0.3
+     ],
+     "rot": 60,
+     "rosto": "feliz",
+     "olha": "paciente"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "paciente",
+     "em": "@cadeira",
+     "rosto": "sorrisao"
+    },
+    {
+     "quem": "paciente",
+     "em": "@vou",
+     "pose": "pensa",
+     "rosto": "pensativo"
+    },
+    {
+     "quem": "dentista",
+     "em": "@pensar",
+     "rosto": "triste"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     1.0,
+     1.3,
+     -0.7
+    ],
+    "dist": 3.4,
+    "az": -25,
+    "alt": 0.25,
+    "fov": 46,
+    "push": 0.12,
+    "saida": {
+     "para": [
+      -4.2,
+      1.6,
+      -2.7
+     ],
+     "olha": [
+      -4.2,
+      1.6,
+      -3.2
+     ],
+     "dura": 0.45,
+     "fov": 36
+    }
+   }
+  },
+  {
+   "oracoes": [
+    "É como pescar",
+    "num aquário cheio"
+   ],
+   "mundo": "aq",
+   "mostra": "o dentista de olho vendado pescando; a câmera abre no aquário cheio de peixe",
+   "obj": {
+    "tanque": {
+     "vara": "dentista",
+     "anzol": [
+      0.9,
+      1.3,
+      0.25
+     ]
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      2.2,
+      0.1
+     ],
+     "y": 0.45,
+     "rot": -125,
+     "pose": "vara",
+     "props": {
+      "D": "vara"
+     },
+     "venda": true,
+     "rosto": "vendado",
+     "olha": [
+      0,
+      1.5,
+      -1.6
+     ]
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@fechado",
+     "rosto": "presuncoso",
+     "cab": [
+      0,
+      8,
+      0
+     ]
+    },
+    {
+     "quem": "dentista",
+     "em": "@cheio",
+     "rosto": "triste"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     1.75,
+     1.6,
+     -0.3
+    ],
+    "dist": 3.8,
+    "az": -22,
+    "alt": 0.15,
+    "fov": 48,
+    "push": 0.12
+   },
+   "passos": [
+    {
+     "em": "@num",
+     "alvo": [
+      0.6,
+      1.45,
+      -0.9
+     ],
+     "dist": 4.8,
+     "az": -12,
+     "alt": 0.2,
+     "fov": 52,
+     "push": 0.1,
+     "lado": 0.2
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "Então você para",
+    "pra cidade inteira"
+   ],
+   "mundo": "cid",
+   "mostra": "o dentista larga o megafone; a câmera sobe até ver a cidade inteira",
+   "obj": {
+    "ondas": {
+     "de": -2,
+     "ate": "@para-0.1"
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      -15.4,
+      -9.6
+     ],
+     "y": 0.45,
+     "rot": 30,
+     "pose": "megafone",
+     "props": {
+      "D": "megafone"
+     },
+     "rosto": "gritando"
+    },
+    "aposentado": {
+     "pos": [
+      -6,
+      -4.3
+     ],
+     "y": 0.16
+    },
+    "pedreiro": {
+     "pos": [
+      3,
+      1
+     ],
+     "rot": 90
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@para",
+     "pose": "neutro",
+     "rosto": "surpreso",
+     "props": {}
+    },
+    {
+     "quem": "dentista",
+     "em": "@gritar",
+     "rosto": "aliviado"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -15.3,
+     1.6,
+     -9.5
+    ],
+    "dist": 3.2,
+    "az": 45,
+    "alt": 0.3,
+    "fov": 46,
+    "push": 0.1
+   },
+   "passos": [
+    {
+     "em": "@pra",
+     "de": [
+      -2,
+      22,
+      16
+     ],
+     "para": [
+      -2.5,
+      24,
+      17.5
+     ],
+     "olha": [
+      -4,
+      0,
+      -9
+     ],
+     "fov": 54,
+     "dura": 0.6
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "e começa a falar",
+    "quem nunca te",
+    "quem já te viu"
+   ],
+   "mundo": "cid",
+   "mostra": "três pessoas diferentes; um holofote acende em cada uma; a câmera passa da que nunca te viu pra que já te viu",
+   "obj": {
+    "h1": {
+     "em": "@começa"
+    },
+    "h2": {
+     "em": "@falar"
+    },
+    "h3": {
+     "em": "@três"
+    },
+    "e1": {
+     "em": "@nunca"
+    },
+    "e2": {
+     "em": "@já"
+    }
+   },
+   "lugar": {
+    "estudante": {
+     "pos": [
+      4.6,
+      -4.2
+     ],
+     "y": 0.16,
+     "rot": 0,
+     "rosto": "neutro"
+    },
+    "vovo": {
+     "pos": [
+      6.0,
+      -4.2
+     ],
+     "y": 0.16,
+     "rot": 0,
+     "rosto": "neutro"
+    },
+    "paciente": {
+     "pos": [
+      7.4,
+      -4.2
+     ],
+     "y": 0.16,
+     "rot": 0,
+     "rosto": "neutro"
+    },
+    "dentista": {
+     "pos": [
+      5.6,
+      -0.6
+     ],
+     "y": 0.04,
+     "rot": 170,
+     "rosto": "decidido"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "estudante",
+     "em": "@três",
+     "rosto": "surpreso"
+    },
+    {
+     "quem": "estudante",
+     "em": "@nunca",
+     "rosto": "desconfiado",
+     "pose": "ombros"
+    },
+    {
+     "quem": "vovo",
+     "em": "@já",
+     "rosto": "feliz",
+     "pose": "acena"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     6.0,
+     1.3,
+     -3.4
+    ],
+    "dist": 6.0,
+    "az": 4,
+    "alt": 0.8,
+    "fov": 46,
+    "push": 0.1
+   },
+   "passos": [
+    {
+     "em": "@quem",
+     "alvo": [
+      4.6,
+      1.55,
+      -4.2
+     ],
+     "dist": 3.0,
+     "az": -14,
+     "alt": 0.1,
+     "fov": 44,
+     "push": 0.08
+    },
+    {
+     "em": "@quem#2",
+     "alvo": [
+      6.0,
+      1.55,
+      -4.2
+     ],
+     "dist": 3.0,
+     "az": 8,
+     "alt": 0.1,
+     "fov": 44,
+     "push": 0.08
+    }
+   ],
+   "efeitos": [
+    {
+     "em": "@três",
+     "arquivo": "carimbo.mp3",
+     "rel": -10
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "e quem já pediu",
+    "Pra essa última"
+   ],
+   "mundo": "cid",
+   "mostra": "a paciente com o papel do orçamento sob o holofote; o dentista aponta pra ela",
+   "obj": {
+    "h1": {
+     "em": -9
+    },
+    "h2": {
+     "em": -9
+    },
+    "h3": {
+     "em": -9
+    },
+    "e1": {
+     "em": -9
+    },
+    "e2": {
+     "em": -9
+    },
+    "e3": {
+     "em": "@pediu"
+    }
+   },
+   "lugar": {
+    "estudante": {
+     "pos": [
+      4.6,
+      -4.2
+     ],
+     "y": 0.16,
+     "rot": 0,
+     "rosto": "neutro"
+    },
+    "vovo": {
+     "pos": [
+      6.0,
+      -4.2
+     ],
+     "y": 0.16,
+     "rot": 0,
+     "rosto": "neutro"
+    },
+    "paciente": {
+     "pos": [
+      7.4,
+      -4.2
+     ],
+     "y": 0.16,
+     "rot": -10,
+     "pose": "segura",
+     "props": {
+      "D": "papel"
+     },
+     "rosto": "neutro"
+    },
+    "dentista": {
+     "pos": [
+      4.9,
+      -1.6
+     ],
+     "y": 0.04,
+     "rot": 150,
+     "rosto": "decidido",
+     "olha": "paciente"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "paciente",
+     "em": "@pediu",
+     "rosto": "pensativo",
+     "pose": "pensa"
+    },
+    {
+     "quem": "dentista",
+     "em": "@última",
+     "pose": "aponta",
+     "rot": 135
+    },
+    {
+     "quem": "paciente",
+     "em": "@última",
+     "rosto": "surpreso",
+     "olha": "dentista"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     7.4,
+     1.55,
+     -4.2
+    ],
+    "dist": 3.0,
+    "az": 18,
+    "alt": 0.15,
+    "fov": 44,
+    "push": 0.1
+   },
+   "passos": [
+    {
+     "em": "@pra",
+     "alvo": [
+      6.1,
+      1.35,
+      -2.9
+     ],
+     "dist": 4.6,
+     "az": -28,
+     "alt": 0.3,
+     "fov": 46,
+     "push": 0.1
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "uma mensagem só",
+    "a condição mudou"
+   ],
+   "mundo": "cons",
+   "mostra": "o dentista digita; a câmera entra no celular e sai 'A condição mudou.'",
+   "obj": {
+    "cel": {
+     "pos": [
+      0.3,
+      1.32,
+      0.75
+     ],
+     "titulo": "Paciente · orçamento",
+     "msgs": [
+      {
+       "texto": "vou pensar...",
+       "lado": "in",
+       "em": -5
+      },
+      {
+       "texto": "A condição mudou.",
+       "lado": "out",
+       "em": "@condição"
+      }
+     ]
+    }
+   },
+   "lugar": {
+    "dentista": {
+     "pos": [
+      0.3,
+      0.2
+     ],
+     "rot": -10,
+     "pose": "digita",
+     "props": {
+      "D": "celular"
+     },
+     "rosto": "decidido",
+     "olha": [
+      0.3,
+      1.0,
+      0.7
+     ]
+    }
+   },
+   "acoes": [
+    {
+     "quem": "dentista",
+     "em": "@só",
+     "rosto": "presuncoso"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     0.3,
+     1.3,
+     0.2
+    ],
+    "dist": 2.4,
+    "az": -15,
+    "alt": 0.2,
+    "fov": 44,
+    "push": 0.1
+   },
+   "passos": [
+    {
+     "em": "@a",
+     "alvo": [
+      0.3,
+      1.33,
+      0.75
+     ],
+     "dist": 0.78,
+     "az": 0,
+     "alt": 0.03,
+     "fov": 40,
+     "push": 0.06
+    }
+   ],
+   "efeitos": [
+    {
+     "em": "@condição",
+     "arquivo": "notificacao.mp3",
+     "rel": -15
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "Uma paciente que",
+    "em fevereiro"
+   ],
+   "mundo": "cons",
+   "mostra": "a paciente lê a mensagem no celular; a câmera vai pro calendário que vira pra FEV",
+   "obj": {
+    "cal": {
+     "de": "JAN",
+     "para": "FEV",
+     "em": "@fevereiro",
+     "dura": 0.2
+    }
+   },
+   "lugar": {
+    "paciente": {
+     "pos": [
+      -0.8,
+      0.4
+     ],
+     "rot": 20,
+     "pose": "celular1",
+     "props": {
+      "D": "celular"
+     },
+     "rosto": "neutro",
+     "olha": [
+      -0.65,
+      1.05,
+      0.8
+     ]
+    }
+   },
+   "acoes": [
+    {
+     "quem": "paciente",
+     "em": "@orçou",
+     "rosto": "surpreso",
+     "olha": "camera"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -0.75,
+     1.35,
+     0.4
+    ],
+    "dist": 2.4,
+    "az": 15,
+    "alt": 0.2,
+    "fov": 44,
+    "push": 0.1
+   },
+   "passos": [
+    {
+     "em": "@em",
+     "de": [
+      -0.8,
+      1.12,
+      -1.05
+     ],
+     "para": [
+      -0.88,
+      1.1,
+      -1.2
+     ],
+     "olha": [
+      -1.25,
+      1.02,
+      -1.85
+     ],
+     "fov": 34
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "aprova 51"
+   ],
+   "mundo": "cons",
+   "mostra": "uma ficha gigante passa na frente (wipe); o contador APROVADO rola até 51, a paciente comemora e o calendário corre até OUT",
+   "trans": "wipe",
+   "obj": {
+    "led51": {
+     "de": 0,
+     "para": 51,
+     "em": "@51",
+     "dura": 0.6,
+     "acende": "@aprova"
+    },
+    "cal": {
+     "de": "FEV",
+     "para": "OUT",
+     "em": "@outubro",
+     "dura": 0.6,
+     "pos": [
+      3.0,
+      0.96,
+      -2.45
+     ]
+    }
+   },
+   "lugar": {
+    "paciente": {
+     "pos": [
+      1.62,
+      -1.05
+     ],
+     "rot": -20,
+     "senta": true,
+     "y": 0.55,
+     "rosto": "feliz",
+     "olha": "camera"
+    },
+    "dentista": {
+     "pos": [
+      2.9,
+      -0.3
+     ],
+     "rot": -70,
+     "rosto": "feliz",
+     "olha": "paciente"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "paciente",
+     "em": "@51",
+     "pose": "punho",
+     "rosto": "sorrisao",
+     "pop": "grande"
+    },
+    {
+     "quem": "dentista",
+     "em": "@outubro",
+     "rosto": "apaixonado",
+     "pose": "comemora"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     2.4,
+     1.65,
+     -1.6
+    ],
+    "dist": 3.6,
+    "az": -10,
+    "alt": 0.2,
+    "fov": 50,
+    "push": 0.1
+   },
+   "brilho": "@51",
+   "efeitos": [
+    {
+     "em": "@51",
+     "arquivo": "extra/moedas.mp3",
+     "rel": -10
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "E em outubro mês",
+    "você vende 194"
+   ],
+   "mundo": "elei",
+   "mostra": "na praça da eleição o calendário vira pra OUT e o eleitor vota na urna; a câmera vai pro placar que rola até 194 com confete e moedas",
+   "obj": {
+    "urna": {
+     "fim": "@eleição"
+    },
+    "cal2": {
+     "de": "SET",
+     "para": "OUT",
+     "em": "@outubro",
+     "dura": 0.2
+    },
+    "led194": {
+     "de": 71,
+     "para": 194,
+     "em": "@194",
+     "dura": 0.9
+    },
+    "conf": {
+     "em": "@194"
+    },
+    "moed": {
+     "em": "@194+0.05"
+    }
+   },
+   "lugar": {
+    "aposentado": {
+     "pos": [
+      -7.0,
+      -4.75
+     ],
+     "y": 0.16,
+     "rot": 200,
+     "pose": "digita",
+     "rosto": "pensativo",
+     "olha": [
+      -7.5,
+      0.9,
+      -4.1
+     ]
+    },
+    "menina": {
+     "pos": [
+      -5.9,
+      -3.6
+     ],
+     "y": 0.16,
+     "rot": -120,
+     "rosto": "feliz"
+    },
+    "comerciante": {
+     "pos": [
+      -9.1,
+      -3.4
+     ],
+     "y": 0.16,
+     "rot": 120,
+     "rosto": "neutro"
+    },
+    "dentista": {
+     "pos": [
+      -11.0,
+      -2.4
+     ],
+     "y": 0.04,
+     "rot": 15,
+     "rosto": "surpreso",
+     "olha": [
+      -12.2,
+      3.3,
+      -4.6
+     ]
+    },
+    "paciente": {
+     "pos": [
+      -9.7,
+      -2.0
+     ],
+     "y": 0.04,
+     "rot": -25,
+     "rosto": "feliz"
+    },
+    "vovo": {
+     "pos": [
+      -12.4,
+      -1.7
+     ],
+     "y": 0.04,
+     "rot": 40,
+     "rosto": "feliz"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "aposentado",
+     "em": "@eleição",
+     "rosto": "sorrisao",
+     "pose": "punho"
+    },
+    {
+     "quem": "dentista",
+     "em": "@194",
+     "rosto": "apaixonado",
+     "pose": "comemora",
+     "pulo": {
+      "n": 3
+     },
+     "olha": "camera"
+    },
+    {
+     "quem": "paciente",
+     "em": "@194",
+     "pose": "comemora",
+     "rosto": "sorrisao"
+    },
+    {
+     "quem": "vovo",
+     "em": "@194",
+     "pose": "acena",
+     "rosto": "sorrisao"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -7.2,
+     1.25,
+     -4.0
+    ],
+    "dist": 3.2,
+    "az": 18,
+    "alt": 0.4,
+    "fov": 48,
+    "push": 0.1
+   },
+   "passos": [
+    {
+     "em": "@você",
+     "alvo": [
+      -11.4,
+      1.95,
+      -3.0
+     ],
+     "dist": 5.6,
+     "az": 6,
+     "alt": 0,
+     "fov": 50,
+     "push": 0.12,
+     "sobe": 0.2
+    }
+   ],
+   "brilho": "@194",
+   "efeitos": [
+    {
+     "em": "@eleição",
+     "arquivo": "extra/urna.mp3",
+     "rel": -15
+    },
+    {
+     "em": "@194",
+     "arquivo": "comemoracao.mp3",
+     "rel": -10,
+     "dura": 2.2
+    }
+   ]
+  },
+  {
+   "oracoes": [
+    "Na mesma cidade"
+   ],
+   "mundo": "elei",
+   "mostra": "chuva de moedas e a mesma cidade vista do alto, em festa",
+   "trans": "moedas_caem",
+   "obj": {
+    "led194": {
+     "de": 194
+    },
+    "conf": {
+     "em": -3
+    }
+   },
+   "cam": {
+    "de": [
+     2,
+     19,
+     15
+    ],
+    "para": [
+     4,
+     17,
+     13.5
+    ],
+    "olha": [
+     4,
+     0,
+     -6
+    ],
+    "fov": 50
+   }
+  },
+  {
+   "oracoes": [
+    "de 12 mil habitantes"
+   ],
+   "mundo": "elei",
+   "mostra": "a placa 12.000 hab. de novo, moradores acenando",
+   "trans": "dissolve",
+   "obj": {
+    "placa": {
+     "acende": "@12"
+    },
+    "conf": {
+     "em": 99
+    },
+    "moed": {
+     "em": 99
+    }
+   },
+   "lugar": {
+    "menina": {
+     "pos": [
+      9.6,
+      3.9
+     ],
+     "rot": 160,
+     "y": 0.16
+    },
+    "aposentado": {
+     "pos": [
+      14.4,
+      3.7
+     ],
+     "rot": 200,
+     "y": 0.16,
+     "pose": "acena"
+    },
+    "pedreiro": {
+     "pos": [
+      11.2,
+      3.6
+     ],
+     "rot": 180,
+     "y": 0.16,
+     "pose": "acena"
+    }
+   },
+   "cam": {
+    "alvo": [
+     12,
+     1.9,
+     4.7
+    ],
+    "dist": 8.4,
+    "az": 168,
+    "alt": -0.1,
+    "fov": 50,
+    "push": 0.1,
+    "sobe": 0.12
+   }
+  },
+  {
+   "oracoes": [
+    "onde todo mundo"
+   ],
+   "mundo": "cid",
+   "mostra": "os mesmos vizinhos acenam pro dentista na porta (emenda no começo)",
+   "lugar": {
+    "dentista": {
+     "pos": [
+      -1.6,
+      -4.5
+     ],
+     "y": 0.16,
+     "rot": 0,
+     "rosto": "feliz"
+    },
+    "aposentado": {
+     "pos": [
+      -0.3,
+      -3.7
+     ],
+     "rot": -110,
+     "y": 0.16,
+     "olha": "dentista"
+    },
+    "vovo": {
+     "pos": [
+      -2.9,
+      -3.9
+     ],
+     "y": 0.16,
+     "rot": 80,
+     "olha": "dentista"
+    },
+    "menina": {
+     "pos": [
+      -0.8,
+      -2.5
+     ],
+     "rot": -140,
+     "y": 0.04,
+     "olha": "dentista"
+    },
+    "executivo": {
+     "pos": [
+      -2.5,
+      -2.4
+     ],
+     "y": 0.04,
+     "rot": 130,
+     "olha": "dentista"
+    },
+    "comerciante": {
+     "pos": [
+      0.5,
+      -2.0
+     ],
+     "y": 0.04,
+     "rot": -120,
+     "olha": "dentista"
+    },
+    "motoboy": {
+     "pos": [
+      -3.9,
+      -2.2
+     ],
+     "y": 0.04,
+     "rot": 110,
+     "olha": "dentista"
+    }
+   },
+   "acoes": [
+    {
+     "quem": "aposentado",
+     "em": "@todo",
+     "pose": "acena",
+     "rosto": "sorrisao"
+    },
+    {
+     "quem": "vovo",
+     "em": "@mundo",
+     "pose": "acena",
+     "rosto": "feliz"
+    },
+    {
+     "quem": "menina",
+     "em": "@já",
+     "pose": "acena",
+     "rosto": "sorrisao"
+    },
+    {
+     "quem": "executivo",
+     "em": "@te",
+     "pose": "acena",
+     "rosto": "feliz"
+    },
+    {
+     "quem": "comerciante",
+     "em": "@conhece",
+     "pose": "acena",
+     "rosto": "sorrisao"
+    },
+    {
+     "quem": "motoboy",
+     "em": "@conhece",
+     "pose": "acena",
+     "rosto": "feliz"
+    },
+    {
+     "quem": "dentista",
+     "em": "@conhece",
+     "rosto": "sorrisao",
+     "pose": "mostra_d",
+     "olha": "camera"
+    }
+   ],
+   "cam": {
+    "alvo": [
+     -1.5,
+     1.3,
+     -3.8
+    ],
+    "dist": 6.2,
+    "az": 8,
+    "alt": 0.55,
+    "fov": 46,
+    "push": 0.3
+   }
+  }
+ ]
+}

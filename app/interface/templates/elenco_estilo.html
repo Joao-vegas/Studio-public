@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block titulo %}Elenco do {{ titulo }}{% endblock %}
+{% block conteudo %}
+<link rel="stylesheet" href="{{ url_for('static', filename='elenco.css') }}">
+<div class="nv el" id="el">
+  <div class="nv-topo"><h1>Elenco do {{ titulo }}</h1>
+    <span><a class="btn" href="{{ url_for('elenco_tela') }}">Todos os elencos</a> <a class="btn" href="{{ url_for('formato_detalhe', slug=slug) }}">← Voltar ao estilo</a></span>
+  </div>
+  <p class="meta el-sub">Os personagens do {{ titulo }}, valem pra qualquer cliente. Clique num pra ver ele grande (arraste pra girar), trocar roupa, cor, cabelo e pele, e salvar. Nos próximos vídeos do estilo o personagem já nasce assim.</p>
+  <p class="el-erro" id="el-erro" hidden></p>
+
+  <div class="el-layout">
+    <div>
+      <div class="el-grade" id="el-grade"><p class="meta" id="el-carregando">Montando os personagens em 3D…</p></div>
+    </div>
+
+    <aside class="el-painel" id="el-painel">
+      <div class="el-vazio" id="el-vazio"><b>Escolha um personagem</b><span>Ele aparece aqui grande, girando devagar. Arraste pra girar na mão.</span></div>
+      <div id="el-editor" hidden>
+        <canvas id="el-vivo" width="480" height="560"></canvas>
+        <div class="el-opcoes el-enq" id="el-enq" aria-label="Enquadramento"><button type="button" data-enq="busto" class="ativo">Meio corpo</button><button type="button" data-enq="tudo">Corpo inteiro</button></div>
+        <h2 id="el-titulo"></h2>
+        <div id="el-controles"></div>
+        <div class="el-salvar">
+          <label class="nv-campo"><b>Nome deste personagem</b><input id="el-nome" autocomplete="off" maxlength="40"></label>
+          <p class="meta" id="el-nome-dica"></p>
+          <div class="el-botoes">
+            <button type="button" class="btn primario grande" id="el-salvar"></button>
+            <button type="button" class="btn" id="el-desfazer">Desfazer o que mexi</button>
+            <button type="button" class="btn" id="el-voltar" hidden></button>
+          </div>
+          <p class="meta" id="el-msg" role="status"></p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script id="el-dados" type="application/json">{{ {'slug': slug, 'elenco': elenco, 'rotulos': rotulos, 'previa': previa}|tojson }}</script>
+<script src="{{ url_for('static', filename='elenco-previa.js') }}"></script>
+<script src="{{ url_for('static', filename='elenco.js') }}"></script>
+{% endblock %}

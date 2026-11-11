@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Elenco · Estúdio{% endblock %}
+{% block conteudo %}
+<link rel="stylesheet" href="{{ url_for('static', filename='elenco.css') }}">
+<div class="nv el" id="el">
+  <div class="nv-topo"><h1>Elenco</h1></div>
+  <p class="meta el-sub">Cada estilo com personagens tem o seu elenco: os personagens ficam do estilo e valem pra qualquer cliente. Escolha o estilo pra editar.</p>
+  <div class="el-estilos">
+    {% for e in estilos %}
+    <a class="el-estilo-card" href="{{ url_for('elenco_estilo', slug=e.slug) }}">
+      <b>{{ e.titulo }}</b>
+      <span class="meta">{{ e.frase }}</span>
+      <span class="meta">{{ e.total }} personagens{% if e.alterados %} · {{ e.alterados }} com figurino seu{% endif %}</span>
+      <span class="btn primario">Abrir o elenco</span>
+    </a>
+    {% endfor %}
+    <div class="el-estilo-card el-estilo-vazio"><b>Outros estilos</b><span class="meta">Estilo com personagens aparece aqui.</span></div>
+  </div>
+</div>
+{% endblock %}

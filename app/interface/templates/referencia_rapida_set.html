@@ -1,0 +1,33 @@
+{% extends 'base.html' %}{% from '_regua.html' import regua_bloco %}{% from '_aprovou.html' import uso_e_nao_copia %}{% block titulo %}Set de referências{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="/referencias">Referências</a> / set de {{ s.itens|length }}</p>
+<div class="topo-pagina"><div><h1>{{ c.nome or ('Set de ' ~ s.itens|length ~ ' vídeos') }}</h1>
+<p class="sub">Cada vídeo foi entendido sozinho e a régua conjunta mostra o que se repete: isso é o fundamento da pegada.</p></div>
+<span class="selo {{ 'ok' if c.estado == 'confirmado' else 'espera' }}">{{ 'guardado' if c.estado == 'confirmado' else ('olhando…' if s.analisando else 'Aprovou? Falta confirmar') }}</span></div>
+<div class="grade-cards">{% for i in s.itens %}<a class="card-video" href="{{ url_for('referencia_rapida_ver', id_=i.id) }}">
+  {% if i.estado in ('pronto','confirmado') %}<img loading="lazy" alt="" src="{{ url_for('referencia_rapida_folha', id_=i.id) }}">{% else %}<div class="midia vazio">{{ 'erro' if i.estado == 'erro' else 'olhando…' }}</div>{% endif %}
+  <b>{{ i.nome_curto }}</b><small class="meta"><span class="selo {{ 'ok' if i.estado in ('pronto','confirmado') else 'erro' if i.estado == 'erro' else 'espera' }}">{{ {'analisando':i.passo or 'olhando','pronto':'entendido','confirmado':'guardado','erro':'deu erro'}.get(i.estado, i.estado) }}</span></small></a>{% endfor %}</div>
+{% if c.regua %}{{ regua_bloco(regua) }}{% elif c.aviso_regua %}<p class="meta">{{ c.aviso_regua }}</p>{% elif s.todas_prontas %}<p class="meta">Medindo a régua conjunta… (grátis, no seu Mac)</p>{% endif %}
+{% if s.todas_prontas %}
+{% for i in s.itens if i.estado in ('pronto','confirmado') and estilos.get(i.id) %}{% set e = estilos[i.id] %}<section class="painel"><b>{{ i.nome_curto }}</b>
+  <p class="meta">Gancho: {{ e.gancho.mecanismo }} · Ritmo: ~{{ '%.0f'|format(e.ritmo.corte_a_cada_s) }} s por cena · Legenda: {{ (e.legenda.palavras_por_vez ~ ' palavra(s) por vez') if e.legenda.palavras_por_vez else 'sem legenda' }}</p></section>{% endfor %}
+{% if c.estado != 'confirmado' %}
+<section class="painel aprovou" id="aprovou"><h2>Aprovou?</h2><p class="passo-dica">Nada foi guardado ainda.</p>{{ uso_e_nao_copia() }}</section>
+<form method="post" action="{{ url_for('referencia_rapida_set_confirmar', cid=c.id) }}" class="form"><section class="painel">
+  <label>Guardar em qual estilo?<select name="formato">{% for f in formatos %}<option value="{{ f.slug }}">{{ f.titulo }}</option>{% endfor %}</select></label>
+  <label>Nome<input name="nome" placeholder="ex.: análise com prints"></label>
+  <label class="check"><input type="checkbox" name="principal" value="1"> A 1ª vira a principal do estilo</label>
+  <p class="meta">Cada vídeo vai pra <code>formatos/&lt;estilo&gt;/estudos/NN-nome/</code>, com folha, estilo e régua. Nada é apagado.</p>
+  <button class="btn grande primario">Sim, confirmar o set</button></section></form>
+<form method="post" action="{{ url_for('referencia_rapida_set_estilo_novo', cid=c.id) }}" class="form"><section class="painel">
+  <p class="passo-dica">Ou crie um estilo novo com o set. Ele nasce em teste e só vira pronto com o seu OK no 1º vídeo.</p>
+  <label>Nome do estilo novo<input name="nome" placeholder="ex.: legenda amarela"></label><button class="btn">Criar este estilo novo</button></section></form>
+<form method="post" action="{{ url_for('referencia_rapida_set_descartar', cid=c.id) }}" class="form" onsubmit="return confirm('Descartar o set inteiro? Vai pra lixeira e volta em Configurações.')"><button class="btn fantasma perigo">Descartar o set</button></form>
+{% endif %}
+<section class="painel" id="variacoes-bloco"><h2>Ideias de vídeo nesse estilo</h2>
+{% for v in variacoes %}<p><a href="{{ url_for('variacoes_ver', vid=v.id) }}">{{ {'analisando':'Pensando…','proposta':'Ideias esperando você','erro':'Deu erro'}.get(v.estado, v.estado) }} · {{ v.criado_em[:16] }}</a></p>{% endfor %}
+<form method="post" action="{{ url_for('variacoes_propor') }}">{% for i in s.itens if i.estado in ('pronto','confirmado') %}<input type="hidden" name="ref" value="{{ i.id }}">{% endfor %}<input type="hidden" name="cliente" value="{{ c.cliente }}">
+<button class="btn grande">Quero 3 ideias de vídeo nesse estilo</button> <small class="meta">eu escrevo 3 ideias (gancho + roteiro curto) sem copiar a fala. Nenhuma vira vídeo sem o seu clique.</small></form></section>
+{% endif %}
+{% endblock %}
+{% block scripts %}{% if s.analisando or (s.todas_prontas and not c.regua and not c.aviso_regua) %}<script>setTimeout(function(){location.reload()},5000)</script>{% endif %}{% endblock %}

@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block titulo %}Custos{% endblock %}
+{% macro brl(usd) %}R$ {{ '%.2f'|format(usd * r.cotacao)|replace('.', ',') }}{% endmacro %}
+{% macro dol(usd) %}US$ {{ '%.2f'|format(usd)|replace('.', ',') }}{% endmacro %}
+{% block conteudo %}
+<div class="cabecalho">
+  <div><h1>Custos</h1><p class="sub">Só o que saiu do seu bolso. Assinatura não conta.</p></div>
+</div>
+
+<div class="custo-topo">
+  <div class="custo-card grande">
+    <span class="rotulo">Hoje</span>
+    <strong>{{ brl(v.hoje.usd) }}</strong>
+    <p>{{ v.hoje.n }} cobrança{{ '' if v.hoje.n == 1 else 's' }}{% if not v.hoje.n %} · nada cobrado ainda hoje{% endif %}</p>
+    {% if v.hoje.filas or v.hoje.fora_de_fila %}<ul class="origem">{% for nome, u in v.hoje.filas %}<li>{{ nome }} <b>{{ brl(u) }}</b></li>{% endfor %}{% if v.hoje.fora_de_fila %}<li>fora de fila <b>{{ brl(v.hoje.fora_de_fila) }}</b></li>{% endif %}</ul>{% endif %}
+    <p class="sub">Hoje = só hoje.{% if v.dias_antes %} O mês soma também os dias {{ v.dias_antes }}.{% endif %}</p>
+  </div>
+  <div class="custo-card">
+    <span class="rotulo">Este mês ({{ v.mes_rotulo }})</span>
+    <strong>{{ brl(v.mes.usd) }}</strong>
+    <p>Soma de todos os dias do mês</p>
+    <p class="se-api"><span>Se tudo fosse pela API:</span> <b>{{ brl(v.equivalente_mes_usd) }}</b> <small>(hoje sai da assinatura)</small></p>
+    {% if v.mes.origem %}<ul class="origem">{% for nome, u in v.mes.origem %}<li>{{ nome }} <b>{{ brl(u) }}</b></li>{% endfor %}</ul>{% else %}<p>nada cobrado</p>{% endif %}
+    <p class="sub nota-api"><b>Claude pela API</b> são só as rodadas grandes de construção cobradas do crédito (a fila), não os vídeos feitos pela tela.</p>
+  </div>
+  <div class="custo-card">
+    <span class="rotulo">Última fila</span>
+    {% if v.ultima %}<strong>{{ brl(v.ultima.usd) }}</strong>
+    <p>{{ v.ultima.fila }} · {{ v.ultima.n }} tarefa{{ '' if v.ultima.n == 1 else 's' }} · {{ v.ultima.fim.strftime('%d/%m %H:%M') }} · crédito da API Anthropic</p>
+    {% else %}<strong>R$ 0,00</strong><p>Nenhuma fila neste mês</p>{% endif %}
+  </div>
+</div>
+
+{% if v.filas %}
+<h2>Por fila</h2>
+<table class="tabela-simples tabela-cheia">
+  <thead><tr><th>Fila</th><th>Quando</th><th>Tarefas</th><th style="text-align:right">Gasto</th></tr></thead>
+  <tbody>{% for f in v.filas %}<tr{% if loop.index > 10 %} class="mais-linha" hidden{% endif %}><td><b>{{ f.fila }}</b></td><td>{{ f.fim.strftime('%d/%m') }}{% if f.ini.date() != f.fim.date() %} <small class="sub">desde {{ f.ini.strftime('%d/%m') }}</small>{% endif %}</td><td>{{ f.n }}</td><td class="valor">{{ brl(f.usd) }}</td></tr>{% endfor %}</tbody>
+</table>
+{% if v.filas|length > 10 %}<p><button type="button" class="btn mini fantasma" onclick="document.querySelectorAll('.mais-linha').forEach(function(e){e.hidden=false});this.remove()">Ver todas ({{ v.filas|length }})</button></p>{% endif %}
+{% endif %}
+
+<details class="ver-detalhes"><summary class="btn fantasma">Ver detalhes do gasto</summary>
+<h2>Em outro período</h2>
+<form method="get" class="filtro-periodo">
+  {% for k,t in [('hoje','Hoje'),('ontem','Ontem'),('7d','7 dias'),('mes','Este mês'),('mes-passado','Mês passado'),('tudo','Tudo')] %}<a class="pilula {{ 'ativa' if r.periodo==k }}" href="{{ url_for('custos', periodo=k, projeto=r.projeto) }}">{{ t }}</a>{% endfor %}
+  <details class="outro-periodo"><summary class="pilula">Outro período</summary>
+    <div class="outro-corpo"><span class="sub">de</span><input type="date" name="de" value="{{ r.de }}" class="btn mini"><span class="sub">até</span><input type="date" name="ate" value="{{ r.ate }}" class="btn mini">
+    <input type="hidden" name="periodo" value="datas">
+    <select name="projeto" class="btn mini" aria-label="Projeto"><option value="">Todos os projetos</option>{% for p in r.projetos %}<option {{ 'selected' if p==r.projeto }}>{{ p }}</option>{% endfor %}</select>
+    <button class="btn mini">Filtrar</button></div></details>
+</form>
+<p class="sub custo-periodo">Mostrando: <b>{{ r.rotulo }}</b></p>
+
+<div class="numeros">
+  <div class="numero pago"><small>Dinheiro que saiu</small><strong>{{ brl(r.dinheiro_saiu_usd) }}</strong><p>{{ dol(r.dinheiro_saiu_usd) }} · crédito da API, créditos da kie.ai e outros pagos</p></div>
+  {% if r.total.estimado %}<div class="numero"><small>Estimado (não confirmado)</small><strong>{{ brl(r.total.estimado) }}</strong><p>{{ dol(r.total.estimado) }} · voz antiga do Gemini: pode ter sido cota grátis</p></div>{% endif %}
+  <div class="numero"><small>Assinaturas (fixo por mês)</small><strong>{{ brl(r.fixo_usd) }}</strong><p>{% if r.fixo_usd %}{{ dol(r.fixo_usd) }} · só as que você usou{% else %}Preencha os planos abaixo{% endif %}</p></div>
+  <div class="numero"><small>Grátis</small><strong>R$ 0,00</strong><p>Tudo que roda no seu Mac e as cotas grátis</p></div>
+</div>
+<p class="equivalente">Equivalente no plano (você não pagou): {{ dol(r.equivalente_plano_usd) }}
+  <span class="balao" tabindex="0" aria-label="O que é preço de tabela">?<span class="balao-texto">Preço de tabela = quanto custaria se este trabalho fosse pago por uso na API. No plano do Claude você não paga isso: só gasta uma parte do limite da semana.</span></span></p>
+<p class="sub" style="font-size:var(--t1);margin:-4px 0 18px"><b>Como ler:</b> <i>token</i> é um pedaço de texto que a IA lê ou escreve (uma palavra tem uns 1,5). <i>Memória</i> são trechos que o Claude já leu e reaproveita, por isso sai mais barato. <i>Equivale a US$ X</i> é quanto custaria se você pagasse pela API; como você usa a assinatura, isso <b>não sai do bolso</b>. <i>Estimado</i> quer dizer que o valor é uma conta aproximada e não dá pra provar que foi cobrado.</p>
+
+<h2>Por projeto</h2>
+{% macro etiqueta(t) %}{% if t=='pago' %}<span class="etiqueta destaque">pago</span>{% elif t=='estimado' %}<span class="etiqueta">estimado</span>{% elif t=='assinatura' %}<span class="etiqueta">na assinatura</span>{% elif t=='nao_registrado' %}<span class="etiqueta falta">não registrado</span>{% else %}<span class="etiqueta ok">grátis</span>{% endif %}{% endmacro %}
+{% macro resumo_linha(pago, tabela, estimado, medido=True) %}<span class="resumo-valores">Gasto de verdade <b>{{ brl(pago) }}</b>{% if tabela %} · Valor estimado <b>{{ dol(tabela) }}</b> <small>(incluso na assinatura)</small>{% elif medido %} · Valor estimado <small>Claude não medido</small>{% endif %}{% if estimado %} · <small>voz a confirmar {{ brl(estimado) }}</small>{% endif %}</span>{% endmacro %}
+{% if r.videos %}
+<div class="carrossel" id="carrossel">
+  <div class="faixa">
+  {% for lote in r.videos|batch(4) %}
+  <div class="slide">
+    {% for p in lote %}
+    <details class="proj">
+      <summary><span class="proj-nome">{{ p.projeto }}{% if p.formato_nome %} <span class="proj-formato">· {{ p.formato_nome }}</span>{% endif %}</span>{{ resumo_linha(p.pago, p.tabela, p.estimado, p.formato_nome != '') }}</summary>
+      {% for v in p.versoes %}
+      <details class="versao">
+        <summary><span><b>{{ v.versao }}</b>
+          {% if v.status=='em produção' %}<span class="etiqueta destaque">em produção</span>{% elif v.status=='pronto' and p.formato_nome %}<span class="etiqueta ok">pronto</span>{% elif v.status in ('erro','interrompido') %}<span class="etiqueta">{{ 'deu erro' if v.status=='erro' else 'interrompido' }}</span>{% endif %}
+          {% if p.formato_nome %}<small class="sub">{{ v.quando.strftime('%d/%m %H:%M') if v.quando else v.data }}</small>{% endif %}</span>
+          {{ resumo_linha(v.pago_usd, v.tabela_usd, v.estimado_usd, p.formato_nome != '') }}</summary>
+        <table class="tabela-simples tabela-cheia">
+          <thead><tr><th>Serviço</th><th>Tipo</th><th>Detalhe</th></tr></thead>
+          <tbody>{% for i in v.itens %}<tr><td>{{ i.servico }}</td><td>{{ etiqueta(i.tipo) }}</td><td class="sub">{{ i.detalhe }}</td></tr>{% endfor %}</tbody>
+        </table>
+        {% if v.nota %}<p class="sub" style="font-size:var(--t1);margin:6px 0 2px">{{ v.nota }}</p>{% endif %}
+        {% if v.arquivo %}<p class="sub" style="font-size:var(--t1);margin:2px 0">{{ v.arquivo }}</p>{% endif %}
+      </details>
+      {% endfor %}
+    </details>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  </div>
+  {% if r.videos|length > 4 %}
+  <div class="carr-nav"><button type="button" class="btn mini" data-dir="-1" aria-label="Anteriores">‹</button><span class="bolinhas"></span><button type="button" class="btn mini" data-dir="1" aria-label="Próximos">›</button><small class="sub" id="carr-pos"></small></div>
+  {% endif %}
+</div>
+{% else %}
+<p class="sub">Nenhum projeto no período.</p>
+{% endif %}
+
+{% if r.api %}
+<details class="cartao-config"><summary><b>Gasto da API por tarefa</b></summary>
+<p class="sub" style="font-size:var(--t1);margin:-4px 0 10px">Tudo que o Claude fez cobrando do seu crédito, por fila. "Estúdio" são os vídeos feitos pela tela; as outras filas são tarefas em lote.</p>
+<table class="tabela-simples tabela-cheia">
+  <thead><tr><th>Fila</th><th>Tarefa</th><th>Vezes</th><th style="text-align:right">Gasto</th></tr></thead>
+  <tbody>{% for a in r.api %}<tr><td>{{ a.fila }}</td><td>{{ a.tarefa }}</td><td>{{ a.n }}</td><td class="valor">{{ brl(a.usd) }} <small class="sub">{{ dol(a.usd) }}</small></td></tr>{% endfor %}</tbody>
+</table></details>
+{% endif %}
+
+<h2>Por serviço</h2>
+<table class="tabela-simples tabela-cheia">
+  <thead><tr><th>Serviço</th><th>Tipo</th><th>Usos</th><th style="text-align:right">Valor</th></tr></thead>
+  <tbody>
+  {% for s in r.por_servico %}
+    <tr><td>{{ s.servico }}</td>
+      <td>{% if s.gaveta=='pago' %}<span class="etiqueta destaque">pago</span>{% elif s.gaveta=='estimado' %}<span class="etiqueta">estimado</span>{% elif s.gaveta=='assinatura' %}<span class="etiqueta">na assinatura</span>{% else %}<span class="etiqueta ok">grátis</span>{% endif %}</td>
+      <td>{{ s.n }}{% if s.unidade %} <small class="sub">{{ s.unidade }}</small>{% endif %}</td>
+      <td class="valor">{% if s.erro %}<span class="sub">não consegui ler ({{ s.erro }})</span>{% elif s.gaveta=='assinatura' %}<span class="sub">equivale a {{ dol(s.usd) }} (incluso na assinatura)</span>{% elif s.gaveta=='gratis' %}grátis{% elif s.gaveta=='estimado' %}{{ brl(s.usd) }} <small class="sub">{{ dol(s.usd) }} estimado</small>{% else %}{{ brl(s.usd) }} <small class="sub">{{ dol(s.usd) }}</small>{% endif %}</td></tr>
+  {% else %}
+    <tr><td colspan="4" class="sub">Nenhum gasto registrado neste período.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<details class="cartao-config"><summary><b>Assinaturas que você usa</b></summary>
+<form method="post">
+  <p class="sub" style="margin:0 0 14px">Preencha o valor de cada plano pra ver o custo fixo do mês. Só aparecem as que tiveram uso neste período. Só fica no seu Mac.</p>
+  <table class="tabela-simples tabela-cheia" id="tab-assinaturas">
+    <thead><tr><th>Serviço</th><th>Plano</th><th>Valor por mês</th><th>Moeda</th><th>Pra quê</th></tr></thead>
+    <tbody>
+    {% for a in r.assinaturas if a.usos %}
+      <tr>
+        <td><input name="nome" value="{{ a.nome }}" placeholder="Novo serviço" style="width:100%;border:0;background:none;font:inherit;color:inherit"></td>
+        <td><input name="plano" value="{{ a.plano }}" placeholder="Ex.: Max" style="width:100%;border:0;background:none;font:inherit;color:inherit"></td>
+        <td><input name="valor" value="{{ a.valor or '' }}" inputmode="decimal" placeholder="0" style="width:90px;border:0;background:none;font:inherit;color:inherit"></td>
+        <td><select name="moeda" style="border:0;background:none;font:inherit;color:inherit"><option {{ 'selected' if a.moeda=='USD' }}>USD</option><option {{ 'selected' if a.moeda=='BRL' }}>BRL</option></select></td>
+        <td><input name="cobre" value="{{ a.cobre }}" style="width:100%;border:0;background:none;font:inherit;color:inherit"></td>
+      </tr>
+    {% endfor %}
+    <tr>
+        <td><input name="nome" value="" placeholder="Novo serviço" style="width:100%;border:0;background:none;font:inherit;color:inherit"></td>
+        <td><input name="plano" value="" placeholder="Ex.: Max" style="width:100%;border:0;background:none;font:inherit;color:inherit"></td>
+        <td><input name="valor" value="" inputmode="decimal" placeholder="0" style="width:90px;border:0;background:none;font:inherit;color:inherit"></td>
+        <td><select name="moeda" style="border:0;background:none;font:inherit;color:inherit"><option>USD</option><option selected>BRL</option></select></td>
+        <td><input name="cobre" value="" style="width:100%;border:0;background:none;font:inherit;color:inherit"></td>
+    </tr>
+    </tbody>
+  </table>
+  {% for a in r.assinaturas if not a.usos %}<div hidden><input name="nome" value="{{ a.nome }}"><input name="plano" value="{{ a.plano }}"><input name="valor" value="{{ a.valor or '' }}"><input name="moeda" value="{{ a.moeda }}"><input name="cobre" value="{{ a.cobre }}"></div>{% endfor %}
+  {% set sem = r.assinaturas|rejectattr('usos')|map(attribute='nome')|list %}{% if sem %}<p class="sub" style="font-size:var(--t1);margin:10px 0 0">Sem uso neste período (escondidas, o cadastro continua salvo): {{ sem|join(', ') }}.</p>{% endif %}
+  <div style="margin-top:14px"><button class="btn primario" type="submit">Salvar assinaturas</button></div>
+</form></details>
+
+<h2>Tabela de preços</h2>
+<details class="cartao-config" id="precos">
+  <summary style="cursor:pointer"><b>Preço oficial de cada modelo que o Estúdio usa</b> <small class="sub">({{ r.precos|length }} modelos · clique pra abrir)</small></summary>
+  <p class="sub" style="font-size:var(--t1);margin:10px 0">Cada preço vem da página oficial do provedor (link na tabela). Onde não achei o preço oficial, aparece "preço não confirmado" e o valor não entra na conta.</p>
+  <table class="tabela-simples tabela-cheia">
+    <thead><tr><th>Serviço</th><th>Modelo</th><th>Preço</th><th>Fonte</th></tr></thead>
+    <tbody>{% for p in r.precos %}<tr><td>{{ p.provedor }}</td><td><code>{{ p.modelo }}</code>{% if p.usado %} <span class="etiqueta ok">usado aqui</span>{% endif %}</td>
+      <td>{% if p.nao_achado %}<span class="etiqueta falta">preço não confirmado</span>{% else %}{{ p.preco }}{% if p.nota %}<br><small class="sub">{{ p.nota }}</small>{% endif %}{% endif %}</td>
+      <td class="sub">{% if p.fonte %}<a href="{{ p.fonte }}" target="_blank" rel="noopener">{{ p.fonte.replace('https://','').split('/')[0] }}</a> · conferido {{ p.conferido_em }}{% else %}sem fonte{% endif %}</td></tr>{% endfor %}</tbody>
+  </table>
+</details>
+
+<h2>De graça</h2>
+<details class="cartao-config"><summary style="cursor:pointer"><b>O que roda sem custo</b> <small class="sub">({{ r.gratis_local|length }} itens · clique pra abrir)</small></summary>
+  {% for nome, pra in r.gratis_local %}<div class="linha-status"><span><b>{{ nome }}</b><small>{{ pra }}</small></span><span class="etiqueta ok">grátis</span></div>{% endfor %}
+</details>
+
+<p class="sub" style="font-size:var(--t1);margin-top:26px">Os livros de gastos guardam os últimos {{ r.dias_livro }} dias. O que é mais antigo vai pro arquivo morto (app/custos/arquivo, nada é apagado) e aparece quando você escolhe "Tudo", "Mês passado" ou um intervalo de datas antigo.</p>
+<details style="margin-top:14px"><summary class="sub">Ver cada lançamento ({{ r.n }})</summary>
+<table class="tabela-simples tabela-cheia" style="margin-top:12px">
+  <thead><tr><th>Quando</th><th>Serviço</th><th>O quê</th><th>Projeto</th><th style="text-align:right">Valor</th></tr></thead>
+  <tbody>{% for l in r.linhas[:150] %}<tr><td>{{ l.data.strftime('%d/%m %H:%M') }}</td><td>{{ l.servico }}</td><td>{{ l.oque }}</td><td>{{ l.projeto }}</td><td class="valor">{% if l.gaveta=='assinatura' %}<span class="sub">equivale a {{ dol(l.usd) }}</span>{% elif l.gaveta=='gratis' %}grátis{% elif l.gaveta=='estimado' %}{{ dol(l.usd) }} <small class="sub">estimado</small>{% else %}{{ dol(l.usd) }}{% endif %}</td></tr>{% endfor %}</tbody>
+</table>
+<p class="sub" style="font-size:var(--t1);margin-top:10px">Cotação usada: R$ {{ '%.2f'|format(r.cotacao)|replace('.', ',') }} por dólar. Fontes: execuções do Estúdio, ~/geracoes/_custos.tsv (kie.ai) e o rastreador do Cérebro.</p>
+</details>
+<style>
+.equivalente{font-size:var(--t1);color:var(--txt3);margin:-6px 0 10px}
+.balao{position:relative;display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;border-radius:50%;border:1px solid var(--linha);font-size:var(--t1);cursor:help;margin-left:4px;color:var(--txt2)}
+.balao-texto{display:none;position:absolute;left:22px;top:-6px;z-index:5;width:290px;padding:10px 12px;border-radius:10px;background:var(--painel);border:1px solid var(--linha);box-shadow:0 6px 20px rgba(0,0,0,.18);font-size:var(--t1);line-height:1.45;text-align:left;color:var(--txt)}
+.balao:hover .balao-texto,.balao:focus .balao-texto{display:block}
+.tabela-cheia{width:100%!important;display:table!important;table-layout:auto}
+.tabela-cheia thead{display:table-header-group!important}.tabela-cheia tbody{display:table-row-group!important}
+.numeros{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.numero small{font-size:var(--t1)}
+.carrossel{margin:0 0 26px}
+.carrossel .faixa{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;align-items:flex-start;gap:0;scrollbar-width:none;transition:height .2s}
+.carrossel .faixa::-webkit-scrollbar{display:none}
+.carrossel .slide{flex:0 0 100%;min-width:0;scroll-snap-align:start;display:flex;flex-direction:column;gap:8px}
+details.proj{background:var(--painel);border:1px solid var(--linha);border-radius:14px;padding:0 16px}
+details.proj>summary,details.versao>summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:6px 18px;flex-wrap:wrap;padding:11px 0;list-style-position:inside}
+details.proj>summary{font-size:14px}
+.proj-nome{font-weight:600}.proj-formato{font-weight:400;color:var(--txt2)}
+.resumo-valores{font-size:var(--t1);color:var(--txt2)}.resumo-valores b{color:var(--txt);font-weight:650}
+details.versao{border-top:1px solid var(--linha);padding:0 0 10px}
+details.versao>summary{padding:9px 0}
+.etiqueta.falta{color:var(--txt3);background:transparent;border:1px dashed var(--linha)}
+.carr-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px}
+.carr-nav .bolinhas{display:flex;gap:7px}
+.carr-nav .bolinhas button{width:9px;height:9px;padding:0;border-radius:50%;border:0;background:var(--linha);cursor:pointer}
+.carr-nav .bolinhas button.ativa{background:var(--destaque)}
+</style>
+</details>
+<script>
+(function(){
+  var c=document.getElementById('carrossel'); if(!c) return;
+  var f=c.querySelector('.faixa'), sl=[].slice.call(c.querySelectorAll('.slide')), nav=c.querySelector('.carr-nav');
+  function ativo(){return Math.max(0,Math.min(sl.length-1,Math.round(f.scrollLeft/f.clientWidth)));}
+  function ajusta(){var i=ativo(); f.style.height=sl[i].offsetHeight+'px';
+    if(nav){[].forEach.call(nav.querySelectorAll('.bolinhas button'),function(b,k){b.classList.toggle('ativa',k===i);});
+      var p=document.getElementById('carr-pos'); if(p) p.textContent=(i*4+1)+'–'+Math.min((i+1)*4,{{ r.videos|length }})+' de {{ r.videos|length }}';}}
+  function ir(i){f.scrollTo({left:Math.max(0,Math.min(sl.length-1,i))*f.clientWidth});}
+  if(nav){var bol=nav.querySelector('.bolinhas');
+    sl.forEach(function(_,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Página '+(k+1));b.onclick=function(){ir(k);};bol.appendChild(b);});
+    [].forEach.call(nav.querySelectorAll('[data-dir]'),function(b){b.onclick=function(){ir(ativo()+parseInt(b.dataset.dir));};});}
+  f.addEventListener('scroll',function(){clearTimeout(f._t);f._t=setTimeout(ajusta,60);});
+  c.addEventListener('toggle',function(){setTimeout(ajusta,0);},true);
+  window.addEventListener('resize',ajusta); ajusta();
+})();
+</script>
+{% if r.ao_vivo %}<script>setTimeout(function(){ if(!document.querySelector('details[open]')) location.reload(); }, 20000);</script>{% endif %}
+{% endblock %}

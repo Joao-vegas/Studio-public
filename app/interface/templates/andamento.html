@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block titulo %}Em andamento{% endblock %}
+{% block conteudo %}
+<div class="topo-pagina">
+  <div><h1>Em andamento</h1><p class="sub">Em que passo cada vídeo está, feito pela tela ou pelo chat. A página se atualiza sozinha.</p></div>
+</div>
+<div id="and-vivo" class="and-lista" data-and-poll="{{ url_for('andamento_lista', parcial=1) }}" aria-live="polite">
+{% set modo = 'lista' %}{% include '_andamento.html' %}
+</div>
+{% endblock %}
+{% block scripts %}{% include '_andamento_poll.html' %}{% endblock %}

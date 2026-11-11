@@ -1,0 +1,43 @@
+<!doctype html>
+<!-- TROQUE: o visual deste formato. O render.py abre esta página no Playwright, põe as cenas em window.PLANO e chama
+     seek(t) quadro a quadro. Regra: a cena do segundo t depende só de t (nada de animação solta no relógio). -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Motor do formato</title>
+<style>
+  html, body { margin: 0; overflow: hidden; background: #111; color: #fff; }
+  #cena { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+          padding: 0 8%; font: 700 72px/1.15 Helvetica, Arial, sans-serif; text-align: center; }
+  #fundo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
+</style>
+</head>
+<body>
+<img id="fundo" alt="">
+<div id="cena"></div>
+<script>
+  // window.PLANO vem do cenas.json (o render.py injeta): {total, largura, altura, cenas: [{n, tipo, de, ate, texto, imagem}]}
+  const P = window.PLANO || { total: 3, largura: 1080, altura: 1920, cenas: [{ n: 1, tipo: 'frase', de: 0, ate: 3, texto: 'Exemplo' }] };
+  document.body.style.width = P.largura + 'px';
+  document.body.style.height = P.altura + 'px';
+  const cena = document.getElementById('cena'), fundo = document.getElementById('fundo');
+  window.seek = function (t) {
+    const c = P.cenas.find(function (x) { return t >= x.de && t < x.ate; }) || P.cenas[P.cenas.length - 1] || {};
+    // entrada de 0,25 s, medida em t; a 1ª cena já começa inteira (o 1º quadro é o gancho e a capa: nunca preto)
+    const k = c === P.cenas[0] ? 1 : Math.min(1, Math.max(0, (t - (c.de || 0)) / 0.25));
+    cena.textContent = c.texto || '';
+    cena.style.opacity = k;
+    cena.style.transform = 'translateY(' + (1 - k) * 40 + 'px)';
+    if (!c.imagem) { fundo.style.display = 'none'; return null; }
+    if (fundo.getAttribute('src') !== c.imagem) fundo.src = c.imagem;
+    fundo.style.display = 'block';
+    return fundo.decode().catch(function () {});   // o render espera a imagem aparecer antes de tirar o quadro
+  };
+  window.seek(0);
+  // pronto só depois das fontes e imagens: senão o 1º quadro sai sem letra
+  Promise.all([document.fonts.ready].concat(P.cenas.filter(function (c) { return c.imagem; }).map(function (c) {
+    return new Promise(function (ok) { const i = new Image(); i.onload = i.onerror = ok; i.src = c.imagem; });
+  }))).then(function () { window.pronto = true; });
+</script>
+</body>
+</html>

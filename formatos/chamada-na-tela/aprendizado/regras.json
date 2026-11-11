@@ -1,0 +1,30 @@
+{
+  "formato": "chamada-na-tela",
+  "regras": [
+    {
+      "id": "gancho-que-atrai",
+      "titulo": "Gancho que atrai, em cor desde o t=0",
+      "texto": "A pessoa aparece em cor falando no primeiro quadro (nunca começo preto). Nos primeiros 0,8 s um golpe de atenção: título que bate com tremor e clarão, close que puxa a câmera, feixe de luz que revela o título ou falha de sinal. Revezar entre os vídeos do mesmo lote. A TV da referência é só ideia: não copiar (João, 19/10)."
+    },
+    {
+      "id": "titulo-neon-no-gancho",
+      "titulo": "Título neon no peito durante o gancho",
+      "texto": "2 linhas em fonte condensada, neon na cor da ficha (núcleo claro + halo), centro y 1150, até 860 px. Fica NO MÁXIMO 3 s (mín. 2,2 s) e sai com falha de sinal de 0,3 s; depois entra a legenda. Texto preso muito tempo na tela cansa (João, 19/10, combinação 13: 'fica preso muito tempo')."
+    },
+    {
+      "id": "motion-um-por-vez",
+      "titulo": "Motion limpo, um por vez",
+      "texto": "Sem motion fica parado. No tempo da palavra forte: palavra neon grande (1,6 s, empurrão de câmera de 6%), riscado (1,9 s) ou etiqueta (2,6 s). Mínimo 3,5 s entre dois; enquanto o motion está na tela a legenda some (a fala escrita uma vez só). Nada de b-roll nem dois elementos juntos (João, 19/10)."
+    },
+    {
+      "id": "legenda-uma-palavra",
+      "titulo": "Legenda de uma palavra no peito",
+      "texto": "Uma palavra por vez, caixa alta, Bold branca com sombra, centro y 1150 (abaixo do queixo); número e palavra de destaque no mesmo neon do título; sem ponto final."
+    },
+    {
+      "id": "cama-com-ducking",
+      "titulo": "Cama musical baixa com ducking",
+      "texto": "Música sempre (João, 19/10: faltou no 1º), ~-31 LUFS antes do sidechain na voz, fade de 1,2 s no fim; faixa diferente do vídeo anterior. Sem efeito sonoro."
+    }
+  ]
+}

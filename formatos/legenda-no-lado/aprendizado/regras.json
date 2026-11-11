@@ -1,0 +1,25 @@
+{
+  "formato": "legenda-no-lado",
+  "regras": [
+    {
+      "id": "corta-o-que-nao-fala",
+      "titulo": "Cortar todo som sem fala",
+      "texto": "Pausa de 0,26 s ou mais vira 0,14 s (0,07 s de cada lado). Medir pela energia do áudio com filtro de 150 Hz a 4 kHz, suavizada em 50 ms; limiar = piso do ruído (percentil 12) + 3 dB. No carro o ruído de estrada é alto (piso -42 dB): silencedetect com limiar fixo não acha nada. Corte em quadro cheio a 30 fps. Falso começo sai (fica a última versão do take). João, 04/11."
+    },
+    {
+      "id": "sem-volante",
+      "titulo": "O volante nunca aparece",
+      "texto": "Zoom de 1,25x (recorte de 80% da largura) começando em 20% da esquerda e 8% do topo: tira o volante (canto de baixo à esquerda) e deixa a cabeça inteira. Zoom sozinho no centro perde a pessoa: o recorte anda pra direita, ela vai pra esquerda. Escurecer o canto de baixo à esquerda (até 62%) e o lado direito (até 30%) pra sumir o que sobrar do carro. Rodar de um 4K: o zoom não perde nitidez. João, 04/11."
+    },
+    {
+      "id": "legenda-no-lado",
+      "titulo": "Legenda do lado, sem caixa",
+      "texto": "Texto no lado livre (direito, x de 1110 a 1810 px de 1920, centro em y=385: acima da janela, sobre o teto escuro, nunca em cima do rosto). MAIÚSCULAS, Gilroy ExtraBold 74 px, até 3 palavras e 2 linhas por vez, sombra suave, sem caixa. A palavra falada acende em dourado #d4af37. Entra em 0,12 s subindo 14 px. Referência: reel DfPYxlRx4Lv (pessoa à direita, texto à esquerda; aqui espelhado porque o João fica à esquerda). João, 04/11."
+    },
+    {
+      "id": "legenda-confere",
+      "titulo": "Legenda confere com a voz",
+      "texto": "Transcrever o vídeo FINAL de novo (Groq) e comparar palavra a palavra com a legenda: média dentro de 0,05 s; nenhuma palavra a mais de 0,5 s. Corrigir o que o Whisper erra (ex.: \"uma talha\" por \"um atalho\", \"Eu\" fora de ordem). G5."
+    }
+  ]
+}

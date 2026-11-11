@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block titulo %}Editar ficha · {{ m.nome }}{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('home') }}">Clientes</a> › <a href="{{ url_for('cliente', nome=c.nome) }}">{{ c.nome }}</a> › <a href="{{ url_for('modelo', nome=c.nome, mod=m.nome) }}">{{ m.nome }}</a> › editar ficha</p>
+<h1>Editar ficha · {{ f.titulo or m.nome }}</h1>
+<p class="sub">O que você salvar aqui vira a referência do modelo (o Claude lê a ficha antes de produzir). Mudança de cor/fonte/estrutura entra também como aprendizado no histórico.</p>
+<form method="post" class="form painel" id="fficha">
+  <div class="duas">
+    <label>Título <input name="titulo" value="{{ f.titulo or '' }}"></label>
+    <label>Tipo <select name="tipo"><option value="completo" {{ 'selected' if f.tipo != 'camada' }}>completo (edição inteira)</option><option value="camada" {{ 'selected' if f.tipo == 'camada' }}>camada (aplicada por cima de outro modelo/bruto)</option></select></label>
+  </div>
+  <label>Resumo (o que o vídeo final é, em 1-2 frases) <textarea name="resumo" rows="2">{{ f.resumo or '' }}</textarea></label>
+  <label>Quando usar <textarea name="quando_usar" rows="2">{{ f.quando_usar or '' }}</textarea></label>
+  <div class="tres">
+    <label>Resolução <input name="formato_resolucao" value="{{ f.formato.resolucao if f.formato else '' }}"></label>
+    <label>Proporção <input name="formato_proporcao" value="{{ f.formato.proporcao if f.formato else '' }}"></label>
+    <label>Duração típica <input name="formato_duracao" value="{{ f.formato.duracao_tipica if f.formato else '' }}"></label>
+  </div>
+  <label>Estrutura da tela (um item por linha, de cima pra baixo / no tempo) <textarea name="estrutura" rows="6">{{ (f.estrutura or [])|join('\n') }}</textarea></label>
+
+  <h3>Paleta</h3>
+  <p class="meta">Cada cor com a explicação de ONDE ela aparece. Deixe o hex vazio pra remover a linha.</p>
+  <div id="paleta">
+    {% for p in (f.paleta or []) + [{'cor':'','uso':''}, {'cor':'','uso':''}] %}
+    <div class="tres linha-cor">
+      <label>Cor <div class="cor-input"><input type="color" value="{{ p.cor if p.cor else '#000000' }}" oninput="this.nextElementSibling.value=this.value.toUpperCase()"><input name="paleta_cor" value="{{ p.cor or '' }}" placeholder="#RRGGBB"></div></label>
+      <label class="larga2">Onde aparece / o que significa <input name="paleta_uso" value="{{ p.uso or '' }}" placeholder="ex.: trilho do switch quando está desligado"></label>
+    </div>
+    {% endfor %}
+  </div>
+
+  <h3>Fontes</h3>
+  <div id="fontes">
+    {% for ft in (f.fontes or []) + [{'nome':'','uso':''}, {'nome':'','uso':''}] %}
+    <div class="duas"><label>Fonte <input name="fonte_nome" value="{{ ft.nome or '' }}" placeholder="ex.: Barlow-Black"></label><label>Onde aparece <input name="fonte_uso" value="{{ ft.uso or '' }}"></label></div>
+    {% endfor %}
+  </div>
+
+  <h3>Áudio</h3>
+  <div class="tres">
+    <label>Voz <input name="audio_voz" value="{{ f.audio.voz if f.audio else '' }}"></label>
+    <label>Música <input name="audio_musica" value="{{ f.audio.musica if f.audio else '' }}"></label>
+    <label>SFX (vírgula) <input name="audio_sfx" value="{{ (f.audio.sfx if f.audio and f.audio.sfx else [])|join(', ') }}"></label>
+  </div>
+
+  <label>Política de b-roll <textarea name="broll" rows="3">{{ f.broll or '' }}</textarea></label>
+  <label>O que o bruto precisa ter <textarea name="entrada" rows="3">{{ f.entrada or '' }}</textarea></label>
+  <label>Como usar (um passo por linha) <textarea name="como_usar" rows="6">{{ (f.como_usar or [])|join('\n') }}</textarea></label>
+  <label>Comando de referência <textarea name="comando" rows="3">{{ f.comando or '' }}</textarea></label>
+  <label>QA antes de entregar (um item por linha) <textarea name="qa" rows="5">{{ (f.qa or [])|join('\n') }}</textarea></label>
+  <label>Templates / assets da identidade (um por linha) <textarea name="templates" rows="3">{{ (f.templates or [])|join('\n') }}</textarea></label>
+  <div class="tres">
+    <label>Motor <input name="motor" value="{{ f.motor or '' }}"></label>
+    <label>Origem <input name="origem" value="{{ f.origem or '' }}"></label>
+    <label>Tempo de produção <input name="tempo_producao" value="{{ f.tempo_producao or '' }}"></label>
+  </div>
+  <label>Por que mudou? (vai pro histórico do modelo; opcional) <input name="motivo" placeholder="ex.: o vermelho estava forte demais, troquei pro #B4232C"></label>
+  <div class="acoes"><button class="btn primario">Salvar ficha</button><a class="btn" href="{{ url_for('modelo', nome=c.nome, mod=m.nome) }}">Cancelar</a></div>
+</form>
+{% endblock %}

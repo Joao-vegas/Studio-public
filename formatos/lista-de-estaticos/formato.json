@@ -1,0 +1,177 @@
+{
+  "ordem": 7,
+  "grupo": "falando",
+  "titulo": "Lista de estáticos (pessoa no canto)",
+  "frase": "Você num canto e uma lista numerada que se preenche conforme fala; a cada item aparece a estática daquele tipo de anúncio. Título em duas linhas com uma palavra forte, texto leve em minúscula. O Estúdio acha onde você está e decide o lado da lista e da estática.",
+  "entrada": "video",
+  "proporcao": "9:16",
+  "tipo": "motor",
+  "motor": "Python (PIL + ffmpeg) com OpenCV pra achar o rosto: base/render_lista.py",
+  "status": "pronto",
+  "modelos": [
+    "lista-de-estaticos"
+  ],
+  "base": "formatos/lista-de-estaticos/base",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-2.mp4",
+      "poster": "exemplo-2.jpg",
+      "legenda": "10 estáticos pra Black Friday · João (exemplo principal)",
+      "origem": "~/Downloads/black-friday-10-estaticos.mp4",
+      "folha": "exemplo-2-folha.jpg",
+      "principal_desde": "2026-10-14"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": false,
+      "de_onde": "Sem música: só a sua fala (como na referência).",
+      "quando_nao": "sempre"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "Sem efeitos: a estática entra com fade de 0,18 s.",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": false,
+    "motivo": "O formato não escreve a fala: o conteúdo é o título e a lista que se preenche."
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [
+    "print",
+    "mockup",
+    "cena-produto"
+  ],
+  "usa": [
+    {
+      "oque": "Transcrição",
+      "quem": "Groq (whisper-large-v3, cota grátis) pelo corte.py",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Posição da pessoa",
+      "quem": "OpenCV no seu Mac (rosto → lado da lista)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "PIL + ffmpeg no seu Mac",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "motor": "render_lista.py",
+    "cenas": "cenas.json",
+    "copiar_motor": false,
+    "comandos": {
+      "storyboard": "python3 formatos/lista-de-estaticos/base/render_lista.py --pasta <sandbox> --storyboard",
+      "render": "python3 formatos/lista-de-estaticos/base/render_lista.py --pasta <sandbox> --out <saida>",
+      "conferir": "python3 formatos/lista-de-estaticos/base/render_lista.py --pasta <sandbox> --conferir --out <saida>"
+    },
+    "motor_arquivos": [
+      "render_lista.py",
+      "cenas-modelo.json",
+      "README.md"
+    ],
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar a entrada",
+        "andamento": "preparar",
+        "faz": "Pôr o original da câmera em work/bruto.mov (iPhone HDR: converter pra bt709 sem mexer na cor). Transcrever com tempo por palavra (python3 app/ferramentas/corte.py transcrever <bruto> <sandbox>/work --groq) e rodar python3 app/ferramentas/analisar_fala.py <bruto> <sandbox>/work/words.json --saida <sandbox>/work/analise.json: ele diz onde a pessoa está (esquerda, centro ou direita), as pausas, os recomeços e as pistas de cada item."
+      },
+      {
+        "id": "cenas",
+        "titulo": "Montar as cenas",
+        "andamento": "storyboard",
+        "faz": "Ler o ESTUDO.md e a folha do exemplo principal. Com a análise: decidir o lado (pessoa à esquerda → coluna à direita; à direita → à esquerda; no meio → estática acima da cabeça e lista estreita ao lado), os cortes (recomeço e pausa; conferir as palavras de cada corte) e, pelas palavras, o nome e o segundo de cada item (um item por estática, na ordem da pasta). Título em 2 linhas, texto leve em minúscula e UMA palavra forte e suave (nada de promessa agressiva). Escrever <sandbox>/cenas.json (ver base/cenas-modelo.json). Lista maior que a tela: reduzir o passo ou quebrar em 2 colunas. Estilo (escolha do Criar): \"lista\" = lista que se preenche; \"ao-lado\" = sem lista, a estática ao lado da cabeça com \"N. nome\" em cima (pessoa no meio: alterna os lados). Legenda palavra por palavra é opcional (campo \"palavras\")."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "Gerar o storyboard pelo comando do formato (um quadro por beat, com o tempo e o item), olhar ao lado da folha do exemplo principal e parar pro João aprovar. O storyboard é decisão da IA: lado, cortes, tempos e zooms são dela, com o motivo em uma linha."
+      },
+      {
+        "id": "video",
+        "titulo": "Vídeo",
+        "andamento": "video",
+        "faz": "Renderizar pelo comando do formato com o cenas.json aprovado. Vídeo 1080x1920, h264_videotoolbox, áudio original (só pausa e erro saem)."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Gerar a folha do vídeo pronto (comando conferir) e olhar ao lado da folha do exemplo principal: posição certa pro rosto, nada cobrindo o queixo, texto legível, item na hora da fala, fala sem corte no meio de palavra. Só entrega igual ou melhor que o exemplo."
+      }
+    ]
+  },
+  "estimativa": "sem custo de API (tudo local; a IA só decide as cenas)",
+  "passos": [
+    "Você manda o vídeo gravado e a pasta das estáticas numeradas.",
+    "A IA acha onde você está, corta pausa e erro e decide a posição de cada coisa.",
+    "Você aprova o storyboard.",
+    "O vídeo sai com a lista se preenchendo e a estática de cada item."
+  ],
+  "funil": "topo",
+  "funil_motivo": "Lista de ideias práticas: pega atenção e salvamento, ainda não posiciona (interrupção).",
+  "escolhas": [
+    {
+      "campo": "estilo",
+      "rotulo": "Estilo de referência",
+      "tipo": "um",
+      "opcoes": [
+        "Lista que se preenche (padrão)",
+        "Estática ao lado da cabeça"
+      ],
+      "padrao": "Lista que se preenche (padrão)",
+      "previas": {
+        "Lista que se preenche (padrão)": "formatos/lista-de-estaticos/estudos/01-luke-21-formatos-black-friday/storyboard-1.jpg",
+        "Estática ao lado da cabeça": "formatos/lista-de-estaticos/estudos/02-estatica-ao-lado-da-cabeca/storyboard-1.jpg"
+      },
+      "_sobre": "cenas.json \"estilo\": \"lista\" ou \"ao-lado\". Passe o mouse na opção pra ver a referência."
+    }
+  ],
+  "apoio": {
+    "usa": true,
+    "tipo": "estática (imagem) por item da lista",
+    "fontes": [
+      "acervo",
+      "pexels",
+      "cliente"
+    ],
+    "duracao_s": "2-4",
+    "quantidade": "1 por item",
+    "quando_nao": "no gancho",
+    "previa": "folha com 3 opções por item antes do render"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "O arquivo vai na área de cima desta etapa (ou cole o link).",
+      "principal": true
+    },
+    {
+      "campo": "itens",
+      "rotulo": "Itens da lista",
+      "tipo": "texto",
+      "obrigatorio": false,
+      "dica": "Um item por linha. Sem isso, saem da fala."
+    }
+  ]
+}

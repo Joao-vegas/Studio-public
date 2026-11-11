@@ -1,0 +1,83 @@
+[
+ {
+  "id": "260",
+  "arquivo": "audio/musicas/260.mp3",
+  "nome": "Molly Hip Hop Beat",
+  "clima": "animada",
+  "energia": "média",
+  "bpm": 73.8,
+  "duracao_s": 99.3,
+  "lufs": -13.4,
+  "banda_media_aguda": 0.58,
+  "drone": false,
+  "status": "aprovada",
+  "usos": "CMP03 dentista"
+ },
+ {
+  "id": "364",
+  "arquivo": "audio/musicas/364.mp3",
+  "nome": "Waka Floka Type",
+  "clima": "sombria",
+  "energia": "média",
+  "bpm": 86.1,
+  "duracao_s": 103.4,
+  "lufs": -12.2,
+  "banda_media_aguda": 0.53,
+  "drone": false,
+  "status": "aprovada"
+ },
+ {
+  "id": "369",
+  "arquivo": "audio/musicas/369.mp3",
+  "nome": "Need for speed",
+  "clima": "animada",
+  "energia": "média",
+  "bpm": 92.3,
+  "duracao_s": 97.8,
+  "lufs": -14.2,
+  "banda_media_aguda": 0.74,
+  "drone": false,
+  "status": "aprovada"
+ },
+ {
+  "id": "872",
+  "arquivo": "audio/musicas/872.mp3",
+  "nome": "Gimme that Groove!",
+  "clima": "animada",
+  "energia": "média",
+  "bpm": 112.3,
+  "duracao_s": 88.4,
+  "lufs": -14.5,
+  "banda_media_aguda": 0.68,
+  "drone": false,
+  "status": "aprovada",
+  "usos": "WSJ Vídeo 1 v6"
+ },
+ {
+  "id": "876",
+  "arquivo": "audio/musicas/876.mp3",
+  "nome": "Like a Loop Machine",
+  "clima": "animada",
+  "energia": "média",
+  "bpm": 107.7,
+  "duracao_s": 129.3,
+  "lufs": -12.2,
+  "banda_media_aguda": 0.75,
+  "drone": false,
+  "status": "aprovada",
+  "usos": "CMP03 dentista"
+ },
+ {
+  "id": "1127",
+  "arquivo": "audio/musicas/1127.mp3",
+  "nome": "",
+  "clima": "animada",
+  "energia": "média",
+  "bpm": 112.3,
+  "duracao_s": 96.6,
+  "lufs": -14.4,
+  "banda_media_aguda": 0.73,
+  "drone": false,
+  "status": "aprovada"
+ }
+]

@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block titulo %}{{ f.titulo }}{% endblock %}
+{% block conteudo %}
+{# Exemplo principal = o aprovado mais recente: "principal_desde" (gravado ao aprovar, ver promover_exemplo); sem data, vale a ordem da lista (o 1º é o principal) #}
+{% set exs = (f.exemplos|selectattr('principal_desde')|sort(attribute='principal_desde', reverse=True)|list) + (f.exemplos|rejectattr('principal_desde')|list) %}
+<p class="sobre"><a href="{{ url_for('formatos_lista') }}">Estilos</a> / {{ f.titulo }}</p>
+<div class="formato-detalhe">
+  <div>
+    {% if exs %}
+      <div class="s-player {{ 'horizontal' if '16:9' in f.proporcao and '9:16' not in f.proporcao else '' }}">
+        <video id="player" controls playsinline preload="metadata" src="{{ url_for('arquivo', caminho=exs[0].video) }}" {% if exs[0].poster_rel %}poster="{{ url_for('arquivo', caminho=exs[0].poster_rel) }}"{% endif %}></video>
+      </div>
+      <p class="sub" id="legenda-exemplo" style="margin-top:10px;font-size:13px">{{ exs[0].legenda }}</p>
+      {% if exs|length > 1 %}
+      <details class="outros-exemplos"><summary>Ver outros exemplos ({{ exs|length - 1 }})</summary>
+        <div class="abas-exemplo">
+          {% for e in exs %}<button type="button" class="{{ 'ativo' if loop.first }}" data-video="{{ url_for('arquivo', caminho=e.video) }}" data-legenda="{{ e.legenda }}">{{ e.legenda }}</button>{% endfor %}
+        </div>
+      </details>
+      {% endif %}
+    {% else %}
+      {% if f.previa %}<a href="{{ url_for('arquivo', caminho=f.previa) }}" target="_blank"><img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=f.previa) }}" alt="Storyboard em produção" style="width:100%;border-radius:20px"></a><p class="sub" >Em produção: último storyboard. O vídeo aparece aqui quando ficar pronto.</p>{% else %}
+      <div class="s-player"><div class="sem-exemplo" style="position:absolute;inset:0;display:grid;place-items:center;color:#aaa;text-align:center;padding:30px">Sem exemplo ainda.<br>O primeiro vídeo aprovado neste formato vira o exemplo.</div></div>{% endif %}
+    {% endif %}
+  </div>
+  <div>
+    <h1>{{ f.titulo }}</h1>
+    <p class="frase-grande">{{ f.frase }}</p>
+    <div class="acoes-formato">
+      <a class="btn primario grande" href="{{ url_for('novo_tela', estilo=f.slug, cliente=request.args.get('cliente') or None) }}">Usar este estilo</a>
+      {% if f.entrada == 'video' %}<a class="btn" href="/novo-lote?formato={{ f.slug }}">Fazer vários</a>{% endif %}
+    </div>
+    {% if elenco is not none %}
+    <div class="el-estilo" id="el-estilo">
+      <h2>Elenco <a class="btn" href="{{ url_for('elenco_estilo', slug=f.slug) }}">Editar elenco</a></h2>
+      <div class="el-fila" id="el-estilo-fila"><p class="meta">Montando os personagens em 3D…</p></div>
+    </div>
+    <link rel="stylesheet" href="{{ url_for('static', filename='elenco.css') }}">
+    <script id="el-estilo-dados" type="application/json">{{ {'elenco': elenco, 'rotulos': rotulos, 'previa': previa}|tojson }}</script>
+    <script src="{{ url_for('static', filename='elenco-previa.js') }}"></script>
+    <script src="{{ url_for('static', filename='elenco-estilo.js') }}"></script>
+    {% endif %}
+    {% if storyboard %}<a class="link-como-fica" href="#como-fica">Ver o ritmo e as cenas ↓</a>{% endif %}
+    {% if f.na_tela is defined and not f.na_tela %}
+    <div class="aviso aviso-topo">Este formato ainda não roda pela tela: peça pelo chat. Falta terminar o motor dele; cada vídeo aprovado deixa o formato mais pronto.</div>
+    {% elif f.status == 'receita' %}
+    <div class="aviso aviso-topo">Formato novo: o Estúdio monta cada vídeo olhando o exemplo e as regras. Cada aprovação deixa o formato mais pronto.</div>
+    {% endif %}
+    {% if f.estudo == 'branco' %}
+    <div class="aviso aviso-topo">Falta responder o estudo da referência, uma vez só: perguntas curtas em <a href="{{ url_for('arquivo', caminho='formatos/' ~ f.slug ~ '/ESTUDO.md') }}" target="_blank">ESTUDO.md</a>.</div>
+    {% endif %}
+    <h2>Como funciona</h2>
+    <p class="sub rfc-uma">Os passos que o Estúdio segue em cada vídeo deste estilo.</p>
+    <ol class="passos-simples passos-circulo">{% for p in passos[:5] %}<li>{{ p }}</li>{% endfor %}</ol>
+    <p class="linha-custo"><b>Quanto custa:</b> {{ prev.total }}</p>
+    <div class="linhas-recolhidas">
+      <details><summary>Quanto custa</summary>
+        {% set cu = exs[0].custo if exs else None %}{% if cu %}
+        <p class="sub"><b>O vídeo de exemplo custou</b></p>
+        <div class="linha-status"><span>Tokens da IA</span><span>{{ cu.tokens }}</span></div>
+        <div class="linha-status"><span>Equivale na API (já incluso na assinatura)</span><span>{{ cu.tabela }}</span></div>
+        <div class="linha-status"><span>Pago de verdade (voz etc.)</span><span>{{ cu.pago }}</span></div>
+        <div class="linha-status"><span>No seu plano</span><span>{{ cu.plano }}</span></div>
+        <p class="sub" style="margin-top:12px"><b>O que cada vídeo usa</b></p>{% endif %}
+        {% for oque, quem, tipo in prev.usa %}<div class="linha-status"><span><b>{{ oque }}</b><small>{{ quem }}</small></span><span class="etiqueta {{ 'ok' if tipo=='gratis' else 'destaque' if tipo=='pago' else '' }}">{{ {'gratis':'grátis','pago':'pago, se pedir','assinatura':'na assinatura'}[tipo] }}</span></div>{% endfor %}
+        <div class="linha-status"><span><b>Por vídeo</b><small>{{ prev.total }}</small></span></div>
+      </details>
+    </div>
+  </div>
+</div>
+<section class="rfc-estilo" id="estudos">
+  <h2>Referências <small class="meta">({{ estudos|length }})</small></h2>
+  <p class="sub rfc-uma">Os vídeos que ensinaram este estilo. Cada vídeo novo parte deles.</p>
+  {% set principal = estudos|selectattr('principal')|list %}{% set outras = estudos|rejectattr('principal')|list %}
+  {% if estudos %}
+  <div class="painel rfc-como">
+    <h3>Como as referências são usadas</h3>
+    <ul>
+      {% if principal %}<li><b>{{ principal[0].titulo }}</b> é a principal: guia o jeito do vídeo (ritmo, cenas e acabamento).</li>
+      {% else %}<li>Nenhuma é a principal ainda: o Estúdio mistura todas por igual.</li>{% endif %}
+      {% if outras %}<li>{% for e in outras %}<b>{{ e.titulo }}</b>{{ ', ' if not loop.last }}{% endfor %} {{ 'entra' if outras|length == 1 else 'entram' }} só com uma <b>mistura leve</b>: dão um pouco do ritmo e do clima, sem mudar o jeito.</li>{% endif %}
+      <li>No Criar vídeo, em “Referências e peso”, você pode dar um peso a cada uma (ex.: 50 · 30 · 20) ou escolher “Só esta”. A prévia mostra qual está valendo.</li>
+      <li><b>Usar como principal</b> troca quem guia o estilo. Nada é apagado.</li>
+    </ul>
+  </div>
+  <div class="grade-cards rfc-grade">
+    {% for e in principal + outras %}
+    <div class="card-video rfc-card">
+      {% if e.videos %}<video poster="{{ url_for('thumb_rota', caminho=e.videos[0]) }}" controls playsinline preload="none" src="{{ url_for('arquivo', caminho=e.videos[0]) }}#t=0.5"></video>{% elif e.storyboards %}<img class="storyboard" alt="" loading="lazy" src="{{ url_for('arquivo', caminho=e.storyboards[0]) }}">{% else %}<div class="midia vazio"></div>{% endif %}
+      <b>{{ e.titulo }}</b>
+      <span class="rfc-papel"><span class="selo {{ 'ok' if e.principal else 'espera' }}">{{ 'guia o estilo' if e.principal else 'mistura leve' }}</span></span>
+      {% if e.frase %}<p class="rfc-frase">{{ e.frase }}</p>{% endif %}
+      {% if not e.principal %}<form method="post" action="{{ url_for('formato_estilo', slug=f.slug, nome=e.nome) }}" class="rfc-acao"><button class="btn mini" title="O estilo passa a seguir o jeito deste vídeo">Usar como principal</button></form>{% endif %}
+      <details class="rfc-det"><summary>Ver detalhes</summary>
+        {% if e.estudo %}<div class="rfc-md">{{ e.estudo|md|safe }}</div>{% endif %}
+        {% if e.roteiros %}<details><summary><b>Roteiro</b></summary><div class="rfc-md">{{ e.roteiros|md|safe }}</div></details>{% endif %}
+        {% if e.storyboards %}<div class="rfc-sbs">{% for img in e.storyboards %}<a href="{{ url_for('arquivo', caminho=img) }}" target="_blank"><img src="{{ url_for('arquivo', caminho=img) }}" alt="Storyboard" loading="lazy"></a>{% endfor %}</div>{% endif %}
+      </details>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}<p class="sub">Nenhuma referência ainda. <a href="/referencias#jogar">Jogue um vídeo</a> e ele entra aqui.</p>{% endif %}
+  <details class="rfc-mais"><summary>+ Juntar uma referência a este estilo</summary>
+    <p class="meta">O jeito mais simples é <a href="/referencias#jogar">Jogar um vídeo</a> em Referências: o Estúdio escolhe o estilo sozinho. Aqui você põe direto neste.</p>
+    <form method="post" action="{{ url_for('formato_referencia', slug=f.slug) }}" enctype="multipart/form-data" style="margin-top:10px">
+      <div class="campo"><label>Nome (opcional)</label><input name="nome" placeholder="Ex.: episódios na chuva"></div>
+      <div class="campo"><label>Vídeos</label><input type="file" name="videos" multiple accept="video/*,.mov,.mp4"></div>
+      <div class="campo"><label>Ou links (um por linha)</label><textarea name="links" style="min-height:70px" placeholder="https://www.instagram.com/p/..."></textarea></div>
+      <button class="btn primario">Juntar ao estilo</button>
+    </form>
+  </details>
+</section>
+{% if storyboard %}
+<section class="sbt-secao" id="como-fica">
+  <h2>Ritmo e cenas</h2>
+  <p class="sub rfc-uma">Como o vídeo de referência se mexe e que tipos de cena ele usa.</p>
+  <link rel="stylesheet" href="{{ url_for('static', filename='tira.css') }}">
+  <div class="tira-resumo" id="tira-resumo"></div>
+  <details class="rfc-det"><summary>Ver detalhes: todos os planos, um por um</summary>
+  <p class="tira-conta" id="tira-conta" aria-live="polite">Carregando os planos…</p>
+  <ol class="sbt tira-linha" id="tira-lista"></ol></details>
+</section>
+<script src="{{ url_for('static', filename='tira.js') }}"></script>
+<script>TiraUI.montar({url: "{{ url_for('api_storyboard', slug=f.slug) }}", caixa: document.getElementById('como-fica'), resumo: document.getElementById('tira-resumo'), conta: document.getElementById('tira-conta'), lista: document.getElementById('tira-lista')});</script>
+{% endif %}
+<script>
+document.querySelectorAll('.abas-exemplo button').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.abas-exemplo button').forEach(function(x){x.classList.toggle('ativo',x===b)});
+    var p=document.getElementById('player'); p.src=b.dataset.video; document.getElementById('legenda-exemplo').textContent=b.dataset.legenda; p.play().catch(function(){});
+  });
+});
+// link com #estudos abre a linha recolhida
+function abrirAlvo(){var el=location.hash&&document.getElementById(location.hash.slice(1));var d=el&&(el.tagName==='DETAILS'?el:el.closest('details'));if(d&&!d.open){d.open=true;el.scrollIntoView();}}
+window.addEventListener('hashchange',abrirAlvo);document.addEventListener('DOMContentLoaded',abrirAlvo);
+</script>
+
+{# por último e recolhido: regras por tema, cada uma com título + 1 linha; o texto inteiro só ao clicar #}
+{% set temas = {'layout':'Imagem e cenas','copy':'Roteiro e texto','processo':'Jeito de trabalhar','audio':'Voz e música','som':'Som','legenda':'Legenda','broll':'B-roll','beats':'Ritmo das cenas','ritmo':'Ritmo','qa':'Conferência','gancho':'Abertura','cenas':'Cenas','cards':'Cards','enquadramento':'Enquadramento'} %}
+<div class="linhas-recolhidas largo">
+<details id="aprendemos"><summary>O que já aprendemos ({{ apr.formato|length }}) <small class="meta">as regras que suas correções criaram</small></summary>
+  {% if apr.formato %}
+  {% for tema, regras in apr.formato|groupby('categoria') %}
+  <div class="tema-regras">
+    <h4>{{ temas.get(tema) or (tema|capitalize if tema else 'Outras') }} <span class="sub">({{ regras|length }})</span></h4>
+    {% for r in regras %}<details class="regra-curta"><summary><b>{{ r.titulo or r.id }}</b><small>{{ r.texto|truncate(110, True, '…') }}</small></summary><p>{{ r.texto }}</p>{% if r.evitar %}<p class="sub"><b>Evita:</b> {{ r.evitar }}</p>{% endif %}{% for o in r.origem or [] %}<p class="sub"><b>De onde veio</b> ({{ o.data }}{{ ', ' ~ o.video if o.video }}): {{ o.texto }}</p>{% endfor %}</details>{% endfor %}
+  </div>
+  {% endfor %}
+  {% else %}<p class="sub">Ainda nenhuma regra. As correções que você fizer nos vídeos desse formato aparecem aqui.</p>{% endif %}
+  {% if f.variantes %}<p class="sub">Já ajustado para: {% for v in f.variantes %}<a href="{{ url_for('aprendizado_ver', cli=v.cliente, mod=v.modelo) }}">{{ v.cliente }}</a>{{ ', ' if not loop.last }}{% endfor %}.</p>{% endif %}
+</details>
+</div>
+{# Melhorias deste estilo (30-out-2026): as que esperam o João e o histórico; cada estilo tem a dele #}
+{% set _est = {'proposta':'Esperando você','pronta':'Pronta pra aplicar','preparando':'Preparando','aplicando':'Aplicando','aplicada':'Aplicada','falhou':'Não passou na prova','recusada':'Deixada pra depois','desfeita':'Desfeita'} %}
+{% set _abertas = melhorias|selectattr('estado','in',['proposta','pronta','falhou','preparando','aplicando'])|list %}
+{% set _hist = melhorias|selectattr('estado','in',['aplicada','desfeita','recusada'])|list %}
+<section class="mpe-secao" id="melhorias">
+  <h2>Melhorias deste estilo <small class="meta">({{ melhorias|length }})</small></h2>
+  <p class="sub rfc-uma">O que o Estúdio propôs consertar no motor deste estilo depois de revisar os vídeos dele. Só muda quando você aplica; dá pra desfazer.</p>
+  {% if _abertas %}<h3 class="mpe-sub">Esperando você</h3>
+  {% for m in _abertas %}<div class="mpe-item"><div class="mpe-txt"><b>{{ m.titulo_curto }}</b><p class="meta">{{ _est.get(m.estado, m.estado) }} · {{ m.criado_em[8:10] }}/{{ m.criado_em[5:7] }}{% if m.estado == 'falhou' %} · {{ m.motivo }}{% endif %}</p></div>
+    <div class="mpe-acoes">
+      {% if m.estado in ['proposta','falhou'] %}<form method="post" action="{{ url_for('melhoria_acao', id_=m.id, acao='ver') }}"><input type="hidden" name="volta" value="/formato/{{ f.slug }}#melhorias"><button class="btn mini">Ver a mudança</button></form>{% endif %}
+      {% if m.estado in ['proposta','pronta'] %}<form method="post" action="{{ url_for('melhoria_acao', id_=m.id, acao='aplicar') }}"><input type="hidden" name="volta" value="/formato/{{ f.slug }}#melhorias"><button class="btn mini primario">Aplicar</button></form>{% endif %}
+      <a class="btn mini fantasma" href="{{ url_for('melhoria_ver', id_=m.id) }}">Abrir</a>
+    </div></div>{% endfor %}{% endif %}
+  {% if _hist %}<h3 class="mpe-sub">Já respondidas</h3>
+  {% for m in _hist %}<div class="mpe-item"><div class="mpe-txt"><b>{{ m.titulo_curto }}</b><p class="meta">{{ _est.get(m.estado, m.estado) }} · {{ m.criado_em[8:10] }}/{{ m.criado_em[5:7] }}</p></div>
+    <div class="mpe-acoes">
+      {% if m.estado == 'aplicada' %}<form method="post" action="{{ url_for('melhoria_acao', id_=m.id, acao='desfazer') }}"><input type="hidden" name="volta" value="/formato/{{ f.slug }}#melhorias"><button class="btn mini">Desfazer</button></form>{% endif %}
+      <a class="btn mini fantasma" href="{{ url_for('melhoria_ver', id_=m.id) }}">Abrir</a>
+    </div></div>{% endfor %}{% endif %}
+  {% if not melhorias %}<p class="sub">Nenhuma ainda. Depois de cada vídeo deste estilo o Estúdio se revisa; quando achar um erro do motor que se repete, a proposta aparece aqui.</p>{% endif %}
+</section>
+<form method="post" action="{{ url_for('formato_remover', slug=f.slug) }}" class="tirar-estilo"><button class="btn mini" onclick="return confirm('Tirar o estilo {{ f.titulo }} do catálogo? Ele vai pra lixeira (com as referências) e volta em Configurações. Os modelos dos clientes ficam.')">Tirar este estilo do catálogo</button></form>
+<style>
+  .mpe-secao{margin-top:28px}
+  .mpe-sub{margin:14px 0 6px;font-size:14px;color:var(--txt2)}
+  .mpe-item{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;border:1px solid var(--linha);border-radius:14px;background:var(--painel);padding:12px 16px;margin:8px 0}
+  .mpe-txt{flex:1 1 260px;min-width:0}.mpe-txt p{margin:2px 0 0}
+  .mpe-acoes{display:flex;gap:8px;flex-wrap:wrap}.mpe-acoes form{margin:0}
+  .passos-simples{margin:6px 0 4px 0;padding-left:22px;line-height:1.55;font-size:15px}
+  .passos-simples li{margin:4px 0}
+  .linhas-recolhidas{margin-top:22px;border:1px solid var(--linha);border-radius:16px;background:var(--painel);padding:0 18px}
+  .linhas-recolhidas.largo{margin-top:28px}
+  .linhas-recolhidas>details{border-bottom:1px solid var(--linha);padding:14px 0}
+  .linhas-recolhidas>details:last-child{border-bottom:0}
+  .linhas-recolhidas>details>summary{font-weight:600;font-size:15px;color:var(--txt)}
+  .linhas-recolhidas .sub{font-size:13px}
+  .linhas-recolhidas .linha-status{font-size:13px}
+  .outras-refs{margin-top:16px}
+  .outros-exemplos{margin-top:8px;font-size:13px}
+  .outros-exemplos>summary{cursor:pointer;color:var(--txt2);font-size:13px}
+  .fileira-refs{display:flex;gap:12px;overflow-x:auto;padding:10px 0 6px}
+  .mini-ref{flex:0 0 96px;display:flex;flex-direction:column;gap:5px;text-decoration:none;color:var(--txt)}
+  .mini-ref video,.mini-ref .sem-capa{width:96px;aspect-ratio:9/16;object-fit:cover;border-radius:10px;background:#000;pointer-events:none}
+  .mini-ref b{font-size:12px;line-height:1.25;font-weight:600;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .mini-ref small{font-size:10.5px}
+  .ver-estudos{margin-top:12px}
+  .ver-estudos>summary{cursor:pointer;font-size:13px;font-weight:400;color:var(--txt2);text-decoration:underline}
+  .tema-regras{margin-top:16px}
+  .tema-regras h4{margin:0 0 4px;font-size:14px}
+  .regra-curta{border-bottom:1px solid var(--linha);padding:8px 0}
+  .regra-curta:last-child{border-bottom:0}
+  .regra-curta summary{cursor:pointer;font-size:14px}
+  .regra-curta summary small{display:block;font-size:12.5px;color:var(--txt2);font-weight:400;margin-top:2px}
+  .regra-curta p{font-size:13.5px;margin:6px 0 0}
+  .ref-principal{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:20px;align-items:start}
+  .ref-principal video{width:100%;border-radius:14px;background:#000;aspect-ratio:9/16}
+  @media (max-width:700px){.ref-principal{grid-template-columns:1fr}}
+</style>
+{% endblock %}

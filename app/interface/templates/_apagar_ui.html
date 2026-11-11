@@ -1,0 +1,45 @@
+{# Apagar de verdade em toda grade de vídeos: leva tudo do vídeo pra Lixeira do Mac. ANTES de mandar, abre o PAINEL (studio.js) que lista
+   tudo que vai, com miniatura (vídeo toca, imagem aparece, música tem play), tamanho, o que é e "Mostrar no Finder"; só o botão
+   "Mandar pra Lixeira" do painel envia o form (studio.js: data-apagar-lote, data-apagar, data-apagar-previa).
+
+   COMO USAR em qualquer lugar que apaga (ex.: uma música):
+     {% from "_apagar_ui.html" import apagar_form with context %}
+     {{ apagar_form(url_for('musica_apagar', id=m.id), "/espaco/previa?arquivo=" ~ m.arquivo|urlencode ~ "&explica=" ~ "Música do acervo: o arquivo de áudio.", "Apagar", {"id": m.id}) }}
+   ou, num form seu: <form method="post" action="..." data-apagar-previa="/espaco/previa?arquivo=<caminho no Estúdio>&explica=<texto>">
+   (várias coisas: repita arquivo=; vídeo do Estúdio: video=cliente/slug). Se a lista é montada no servidor: espaco.previa(...) devolve o JSON
+   do painel; sua rota só precisa de um GET que o devolva (data-apagar-previa="/sua/rota/previa?id=..."). O servidor da ação continua
+   sendo o dono do que realmente apaga (nunca o que o painel mostrou). #}
+{% macro forms(volta) %}
+<form id="apagar-um" method="post" action="{{ url_for('espaco_apagar') }}" data-apagar-lote hidden><input type="hidden" name="volta" value="{{ volta }}"></form>
+<form id="apagar-lote" method="post" action="{{ url_for('espaco_apagar') }}" data-apagar-lote hidden><input type="hidden" name="volta" value="{{ volta }}"></form>
+{% endmacro %}
+{# nome: video (cliente/slug) · caminho (mp4 em output/) · rascunho (pasta do Editar vídeo) #}
+{% macro card(nome, valor, titulo) %}
+<label class="vc-marca" title="Marcar pra apagar"><input type="checkbox" form="apagar-lote" name="{{ nome }}" value="{{ valor }}" aria-label="Marcar {{ titulo }}"></label>
+<details class="menu-mais vc-mais"><summary aria-label="Mais ações">⋯</summary><div class="mm-caixa"><button class="btn mini perigo" form="apagar-um" name="{{ nome }}" value="{{ valor }}" data-titulo="{{ titulo }}">Apagar</button></div></details>
+{% endmacro %}
+{% macro barra() %}
+<div class="vc-barra"><button type="button" class="btn mini" data-marcar-todos>Marcar todos</button> <button class="btn mini perigo" form="apagar-lote">Apagar marcados</button></div>
+{% endmacro %}
+{# Música: "Não usar mais" (a faixa nunca mais volta como opção; acervo/musicas-reprovadas.jsonl) e "Apagar" (arquivo vai pra Lixeira do Mac, com o mesmo painel).
+   O Apagar usa o form "apagar-um" de forms(); o campo é `musica` (caminho relativo ao Estúdio). data-previa = URL do áudio pra ouvir antes de confirmar. #}
+{% macro musica(arquivo, titulo, previa='') %}
+<button type="button" class="btn mini nao-usar" data-arquivo="{{ arquivo }}" data-titulo="{{ titulo }}" title="Nunca mais aparece como opção (o arquivo fica)">Não usar mais</button>
+<button class="btn mini perigo" form="apagar-um" name="musica" value="{{ arquivo }}" data-apaga data-titulo="{{ titulo }}" data-previa="{{ previa }}" title="Manda o arquivo pra Lixeira do Mac">Apagar</button>
+{% endmacro %}
+{% macro nao_usar_js() %}
+<script>
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('.nao-usar'); if (!b) return; e.preventDefault();
+  var fd = new URLSearchParams(); if (b.dataset.arquivo) fd.append('arquivo', b.dataset.arquivo); if (b.dataset.chave) fd.append('chave', b.dataset.chave); fd.append('titulo', b.dataset.titulo || '');
+  b.disabled = true;
+  fetch('/musica/reprovar', { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { b.disabled = false; alert(j.erro || 'Não deu.'); return; }
+    var card = b.closest('.card, .linha-video, .mb-item, .mv-opcao'); if (card) { card.style.opacity = .4; card.insertAdjacentHTML('beforeend', '<p class="meta">Pronto: “' + (j.titulo || '') + '” não aparece mais como opção. O arquivo continua no disco.</p>'); }
+  }).catch(function () { b.disabled = false; alert('Não consegui falar com o Estúdio.'); });
+});
+</script>
+{% endmacro %}
+{% macro apagar_form(acao, previa, rotulo="Apagar", campos={}, titulo="") %}
+<form method="post" action="{{ acao }}" data-apagar-previa="{{ previa }}"{% if titulo %} data-titulo="{{ titulo }}"{% endif %}>{% for k, v in campos.items() %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}<button class="btn mini perigo">{{ rotulo }}</button></form>
+{% endmacro %}

@@ -1,0 +1,7 @@
+{
+  "titulo": "Documentário",
+  "resumo": "Frases em serifa acendendo palavra por palavra, recortes em preto e branco, relógio, caderno e jornal, com música e efeitos suaves. Tom de mini-documentário.",
+  "motor": "HTML (motor do documentário: render.py + index.html)",
+  "tipo": "completo",
+  "formato": "documentario"
+}

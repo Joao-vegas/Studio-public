@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% from "_formato.html" import cartao, script_play %}
+{% block titulo %}Estilos{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <div>
+    <h1>Estilos</h1>
+    <p class="sub">Passe o mouse pra ver o exemplo. Escolha um e use.</p>
+  </div>
+  <a class="btn grande primario" id="esn-criar" href="{{ url_for('referencias', novo=1) }}#jogar">Criar estilo novo</a>
+</div>
+<p class="esn-dica">Jogue um vídeo que você gosta; o Estúdio monta o estilo e ele vira pronto quando você aprovar o 1º vídeo.</p>
+<div class="filtro-periodo" id="filtro-estilos">
+  <button type="button" class="pilula ativa" data-filtro="">Todos</button>
+  <button type="button" class="pilula" data-filtro="video">Vídeo gravado</button>
+  <button type="button" class="pilula" data-filtro="roteiro">Roteiro</button>
+</div>
+{% for g in catalogo if g.formatos %}
+<h2 class="titulo-grupo">{{ g.titulo }}</h2>
+<div class="grade-formatos grade-cards" data-grupo="{{ g.grupo }}">
+  {% for c in g.formatos %}
+  <div class="item-estilo" data-entrada="{{ c.formato.entrada }}">
+    {{ cartao(c.formato, usado=(c.slug in usados)) }}
+    <div class="acoes-estilo">
+      <a class="btn primario" href="{{ url_for('novo_tela', estilo=c.slug, cliente=request.args.get('cliente') or None) }}">Usar este estilo</a>
+      {% if c.formato.entrada == 'video' %}<a class="link-botao" href="/novo-lote?formato={{ c.slug }}">Fazer vários</a>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+{% if ocultos %}
+<details class="mais-formatos"><summary class="pilula">Mais estilos em teste ({{ ocultos|length }})<span class="sr-only"> · Mais formatos (em teste)</span></summary>
+  <div class="grade-formatos grade-cards">
+    {% for f in ocultos %}{{ cartao(f) }}{% endfor %}
+  </div>
+</details>
+{% endif %}
+<p class="rodape-estilos links-linha"><a class="btn fantasma" href="/referencias#jogar">Jogar um vídeo</a></p>
+
+<script>
+document.querySelectorAll('#filtro-estilos .pilula').forEach(function(b){b.addEventListener('click',function(){
+  document.querySelectorAll('#filtro-estilos .pilula').forEach(function(x){x.classList.toggle('ativa',x===b)});
+  var f=b.dataset.filtro;
+  document.querySelectorAll('.item-estilo').forEach(function(i){i.hidden=!!f&&i.dataset.entrada!==f});
+  document.querySelectorAll('.titulo-grupo').forEach(function(t){var g=t.nextElementSibling;t.hidden=g.querySelectorAll('.item-estilo:not([hidden])').length===0;g.hidden=t.hidden});
+});});
+</script>
+{{ script_play() }}
+{% endblock %}

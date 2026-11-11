@@ -1,0 +1,16 @@
+{
+  "cliente": "Avulso",
+  "fonte": "Pele neutra, sem marca. Preto, marfim e dourado vêm do :root do formato motion-narrado (clientes/Avulso/avulsoContent/modelos/motion-venda/index.html: --bg #0A0B0D, --paper #F4EFE6, --gold #D4AF37).",
+  "cores": [
+    "#0a0b0d",
+    "#f4efe6",
+    "#d4af37"
+  ],
+  "papeis": {
+    "fundo": "#0a0b0d",
+    "texto": "#f4efe6",
+    "destaque": "#d4af37"
+  },
+  "uso": "Fundo preto, texto marfim, um único destaque dourado. Sem logo, sem cor de marca. Serve pra testar formato ou peça solta.",
+  "fontes": "Bebas Neue (títulos) e Barlow (texto), como no motion-venda."
+}

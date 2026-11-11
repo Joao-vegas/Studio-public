@@ -1,0 +1,7 @@
+{
+  "titulo": "Editorial",
+  "resumo": "Análise de caso real narrada: foto e print da internet, rajada em P&B, colagem, cartão, pílulas, círculo com ícone, grupo de conversa e texto que acende palavra por palavra. Câmera que nunca para, imagem nova a cada ~0,7 s, e o caso vira lição de posicionamento.",
+  "motor": "HTML próprio (base/render.py genérico + base/index.html com a biblioteca de 13 cenas)",
+  "tipo": "completo",
+  "formato": "editorial"
+}

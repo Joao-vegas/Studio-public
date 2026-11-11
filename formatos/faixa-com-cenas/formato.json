@@ -1,0 +1,202 @@
+{
+  "grupo": "falando",
+  "ordem": 50,
+  "titulo": "Faixa com cenas",
+  "frase": "Você falando com cenas fortes entrando em cima (dividido) ou na tela inteira, e uma frase em faixas branca e vermelha no meio: o vídeo todo ou só no gancho, depois legenda.",
+  "entrada": "video",
+  "proporcao": "9:16",
+  "tipo": "gravado",
+  "motor": "ffmpeg + PIL (gerar.py do modelo do cliente)",
+  "status": "pronto",
+  "modelos": [
+    "faixa-com-cenas"
+  ],
+  "base": "clientes/Joao/vegasContent/modelos/faixa-com-cenas",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-2.mp4",
+      "poster": "exemplo-2.jpg",
+      "legenda": "Estilo Gancho + legenda: frase no gancho, depois legenda; cenas divididas e em tela cheia",
+      "origem": "~/Projetos/Skill/Estúdio/clientes/Joao/vegasContent/output/faixa-com-cenas/video-2.mp4",
+      "folha": "exemplo-2-folha.jpg",
+      "principal_desde": "2026-10-26",
+      "estilo": "gancho-legenda"
+    },
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Estilo Frase fixa: frase o vídeo todo, dividido e João em tela cheia",
+      "origem": "~/Projetos/Skill/Estúdio/clientes/Joao/vegasContent/output/faixa-com-cenas/12-anos.mp4",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-10-26",
+      "estilo": "frase-fixa"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": false,
+      "de_onde": "Não usa: só a voz da câmera.",
+      "quando_nao": "sempre"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "Não usa: o gerar.py não mixa efeito.",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": true,
+    "como": "Estilo \"Frase fixa\" (PLANO.json estilo frase-fixa): a frase fica o vídeo todo e não entra legenda da fala."
+  },
+  "layouts": [
+    "dividido",
+    "cheio"
+  ],
+  "material_aceito": [
+    "video-curto",
+    "foto-pessoa",
+    "print"
+  ],
+  "usa": [
+    {
+      "oque": "Corte do bruto",
+      "quem": "Tira silêncio, gaguejo e erro de começo no seu Mac (corte.py; transcrição Groq com cota grátis)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Cenas",
+      "quem": "Pexels e Wikimedia (grátis, licença livre) pela skill get-brolls, ou o acervo",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Rosto embaixo",
+      "quem": "seguir_rosto.py (OpenCV no seu Mac)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "ffmpeg + PIL no seu Mac: cenas, faixas branca e vermelha (Gilroy ExtraBold), sombrinha e legenda (Barlow)",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "cortar",
+        "titulo": "Cortar o bruto",
+        "andamento": "preparar",
+        "faz": "work/joao.mp4 sai do corte.py (auto + aplicar). Conferir os 3 primeiros segundos transcritos: a 1ª palavra da 1ª frase tem que estar lá (gaguejo marcado além do início do take bom come a palavra: encurtar o t1 em gaguejos.json) e falso começo (take refeito) tem que ter saído. Retranscrever o cortado em work/cortado/words.json e ler o texto corrigindo palavra trocada (vai em trocas/palavras_extra do PLANO)."
+      },
+      {
+        "id": "frase",
+        "titulo": "Frase e estilo",
+        "andamento": "preparar",
+        "faz": "A frase é a 1ª ideia falada, em caixa-alta, 2 a 3 linhas (| quebra). Estilo da escolha do Criar: frase-fixa ou gancho-legenda (faixa_ate = fim da 1ª ideia, ~9 s). Gravar no PLANO.json."
+      },
+      {
+        "id": "cenas",
+        "titulo": "Escolher as cenas",
+        "andamento": "storyboard",
+        "faz": "Ler a fala e marcar as janelas no PLANO.json: S (dividido) nas frases com imagem concreta, C (cena em tela cheia) em 2 a 4 momentos de impacto, João em tela cheia nas frases de tese e no CTA. 1ª janela no t=0, sempre S. Cenas pelo get-brolls (Pexels): folha de prévias, olhar os quadros, escolher pelo sentido da frase."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Prévia",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "zsh ../gerar.sh --dir . --previa grava storyboard.jpg (12 quadros). Conferir: abertura forte, sem marca, legenda fora do rosto, rosto embaixo com folga. Parar pro João aprovar."
+      },
+      {
+        "id": "video",
+        "titulo": "Montar e renderizar",
+        "andamento": "video",
+        "faz": "zsh ../gerar.sh --dir . (render num -novo.mp4 e troca no fim). Sai em <x>Content/output/faixa-com-cenas/<slug>.mp4 e a folha em <sandbox>/qa/folha.jpg."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "python3 app/ferramentas/conferir_video.py <saida> --sandbox <sandbox> e a folha ao lado da folha do exemplo do mesmo estilo. Pior que o exemplo não sai."
+      }
+    ],
+    "comandos": {
+      "storyboard": "zsh ../gerar.sh --dir . --previa",
+      "render": "zsh ../gerar.sh --dir .",
+      "conferir": "python3 app/ferramentas/conferir_video.py <saida> --sandbox <sandbox>"
+    }
+  },
+  "apoio": {
+    "usa": true,
+    "tipo": "cena de filme/stock que ilustra a frase falada (literal ou metáfora forte)",
+    "fontes": [
+      "acervo/",
+      "Pexels (get-brolls)",
+      "Wikimedia Commons"
+    ],
+    "duracao_s": "2,5 a 8 s por cena; a de abertura até ~3 s",
+    "quantidade": "uma cena a cada frase com imagem concreta: ~7 a 12 num vídeo de 60 a 80 s",
+    "quando_nao": "frase de tese, opinião e CTA: o João em tela cheia",
+    "previa": "folha com 3 a 4 opções por cena antes do render"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "O arquivo vai na área de cima desta etapa (ou cole o link).",
+      "principal": true
+    },
+    {
+      "campo": "frase",
+      "rotulo": "Frase das faixas",
+      "tipo": "texto",
+      "obrigatorio": false,
+      "dica": "Caixa-alta, use | pra quebrar a linha. Sem frase, o Estúdio usa a 1ª ideia falada."
+    }
+  ],
+  "escolhas": [
+    {
+      "campo": "estilo",
+      "rotulo": "Estilo",
+      "tipo": "um",
+      "opcoes": [
+        "Frase fixa (a frase o vídeo todo, sem legenda)",
+        "Gancho + legenda (a frase no gancho, depois legenda)"
+      ],
+      "padrao": "Gancho + legenda (a frase no gancho, depois legenda)",
+      "_sobre": "PLANO.json estilo: Frase fixa = frase-fixa; Gancho + legenda = gancho-legenda (faixa_ate no fim da 1ª ideia, ~9 s). As duas referências aparecem lado a lado no Criar.",
+      "previas": {
+        "Frase fixa (a frase o vídeo todo, sem legenda)": "formatos/faixa-com-cenas/estilos/frase-fixa.jpg",
+        "Gancho + legenda (a frase no gancho, depois legenda)": "formatos/faixa-com-cenas/estilos/gancho-legenda.jpg"
+      },
+      "videos": {
+        "Frase fixa (a frase o vídeo todo, sem legenda)": "formatos/faixa-com-cenas/exemplo-1.mp4",
+        "Gancho + legenda (a frase no gancho, depois legenda)": "formatos/faixa-com-cenas/exemplo-2.mp4"
+      }
+    },
+    {
+      "campo": "cenas",
+      "rotulo": "Cenas de apoio",
+      "tipo": "um",
+      "opcoes": [
+        "B-roll real (grátis)",
+        "B-roll real + IA onde você pedir (IA é paga)"
+      ],
+      "padrao": "B-roll real (grátis)",
+      "quantidade": 8,
+      "cenas_por_segundo": 0.11,
+      "minimo": 4,
+      "maximo": 12,
+      "_sobre": "João 29-out-2026: tem coisa muito parada, as pessoas querem dopamina. O formato já dizia ~7 a 12 cenas em 60-80 s, mas a tela só dava o teto genérico de 3 (maior trecho parado: 27 s). Agora ~1 cena a cada 9 s (0,11 por segundo), de 4 a 12."
+    }
+  ],
+  "seguir_direto": false
+}

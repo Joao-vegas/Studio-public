@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block titulo %}Usar em outro formato{% endblock %}
+{% block conteudo %}
+<h1>Usar em outro formato</h1>
+<p class="sub" style="margin-bottom:22px">Escolha o formato. Eu crio um vídeo novo com uma cópia de <b>{{ nome }}</b> (o original não é mexido). Nada roda até você mandar montar.</p>
+<div class="pra-quem">
+{% for f in opcoes %}
+  <form method="post" style="display:contents"><input type="hidden" name="caminho" value="{{ caminho }}"><input type="hidden" name="titulo" value="{{ nome }}"><input type="hidden" name="formato" value="{{ f.slug }}">
+    <button class="pessoa"><span class="avatar">{{ f.titulo[:2]|upper }}</span><span><b>{{ f.titulo }}</b><small>{{ f.frase }}</small></span></button></form>
+{% else %}<p class="vazio-bonito">Nenhum formato recebe vídeo gravado agora.</p>{% endfor %}
+</div>
+<p style="margin-top:16px"><a class="sub" href="javascript:history.back()">← Voltar</a></p>
+{% endblock %}

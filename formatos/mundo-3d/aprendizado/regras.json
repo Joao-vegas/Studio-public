@@ -1,0 +1,101 @@
+{
+  "formato": "mundo-3d",
+  "regras": [
+    {
+      "id": "json-por-grupo",
+      "titulo": "Um json por grupo de cenas",
+      "categoria": "processo",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "Cada grupo de cenas tem o seu short3d*.json (--json) e o seu arquivo de peças; o Registro3D só soma os grupos. Assim vários agentes trabalham em paralelo sem pisar um no outro."
+    },
+    {
+      "id": "um-render-por-vez",
+      "titulo": "Um único render por vez",
+      "categoria": "processo",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "Nunca rode dois renders ao mesmo tempo: a máquina engasga e os quadros saem errados. Stills de grupos diferentes podem rodar em paralelo."
+    },
+    {
+      "id": "still-angle-conferido",
+      "titulo": "Stills com --gl=angle, conferidos abrindo a imagem",
+      "categoria": "processo",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "Cada cena é conferida com --still (usa --gl=angle) e a imagem é aberta e olhada. Passar no código não basta: render de verdade só no fim."
+    },
+    {
+      "id": "texto-3d-de-frente",
+      "titulo": "Texto 3D sempre voltado para a câmera",
+      "categoria": "visual",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "Régua, rótulo e número em plano voltado para a câmera. De lado o texto fica ilegível (foi o defeito da régua do S001)."
+    },
+    {
+      "id": "legenda-zona-segura",
+      "titulo": "Legenda em y≈1340; nada importante abaixo de ~1620 px",
+      "categoria": "visual",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "A legenda palavra por palavra fica em y≈1340. Nada que a fala mostra entre y=1280 e y=1480 (a legenda cobriu os carrinhos do S001) e nada importante abaixo de ~1620 px (zona do Instagram)."
+    },
+    {
+      "id": "sem-chip-sem-rodape",
+      "titulo": "Sem chip no canto e sem rodapé",
+      "categoria": "visual",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "O número vive DENTRO da cena (régua, contador, barras). Nada de chip de número no canto, faixa ou rodapé."
+    },
+    {
+      "id": "sem-logo",
+      "titulo": "Sem logos; nome de empresa só em texto simples",
+      "categoria": "conteudo",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "Nenhum logo nem marca desenhada. Nomes de empresa e produto só como texto simples."
+    },
+    {
+      "id": "numero-sem-fonte",
+      "titulo": "Número sem fonte, a frase sai",
+      "categoria": "conteudo",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "Todo número do roteiro tem fonte oficial anotada em fontes/. Sem fonte, a frase sai: o drama vem do jeito de contar, nunca de inventar fato."
+    },
+    {
+      "id": "modelos-livres",
+      "titulo": "Modelos só de domínio público, CC0 ou feitos por nós",
+      "categoria": "conteudo",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "Objeto 3D vem de código, de domínio público ou de licença CC0 (kenney.nl, quaternius.com, poly.pizza) com a licença anotada. Nada que dependa de fair use."
+    },
+    {
+      "id": "pecas-compartilhadas-so-leitura",
+      "titulo": "Peças compartilhadas só lidas pelos outros grupos",
+      "categoria": "processo",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "Cenas3D, Comum e CenasB-texto têm um dono; os outros grupos só importam. Peça nova vai em arquivo próprio (copiar CenaModelo) e entra no Registro3D."
+    },
+    {
+      "id": "camera-sempre-andando",
+      "titulo": "Câmera sempre em movimento, cena de 3 a 5 s presa à palavra",
+      "categoria": "ritmo",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "A posição da câmera depende do quadro (nunca parada). A cena muda a cada 3 a 5 s e o início dela é o tempo de uma palavra dita (de = palavras.json)."
+    },
+    {
+      "id": "fim-cheio",
+      "titulo": "Fechar com o objeto grande, nunca com a Terra pequena e vazio",
+      "categoria": "visual",
+      "peso": "4",
+      "desde": "2026-10-17",
+      "texto": "O S001 terminou com a Terra pequena e a tela vazia. O fecho volta ao objeto do gancho, preenchendo a tela."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "titulo": "Lista de estáticos (pessoa no canto)",
+  "resumo": "Você num canto e uma lista numerada que se preenche conforme fala; a cada item aparece a estática daquele tipo de anúncio. Título em duas linhas com uma palavra forte, texto leve em minúscula. O Estúdio acha onde você está e decide o lado da lista e da estática.",
+  "motor": "Python (PIL + ffmpeg) com OpenCV pra achar o rosto: base/render_lista.py",
+  "tipo": "completo",
+  "formato": "lista-de-estaticos",
+  "roda_da_base": "formatos/lista-de-estaticos/base"
+}

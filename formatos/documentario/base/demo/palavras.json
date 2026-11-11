@@ -1,0 +1,342 @@
+{
+"words": [
+{
+"word": "Correria",
+"start": 0.25,
+"end": 0.597
+},
+{
+"word": "é",
+"start": 0.617,
+"end": 0.678
+},
+{
+"word": "gíria",
+"start": 0.698,
+"end": 0.923
+},
+{
+"word": "de",
+"start": 0.943,
+"end": 1.045
+},
+{
+"word": "malandro.",
+"start": 1.065,
+"end": 1.453
+},
+{
+"word": "Existe",
+"start": 1.973,
+"end": 2.236
+},
+{
+"word": "um",
+"start": 2.256,
+"end": 2.358
+},
+{
+"word": "hábito",
+"start": 2.378,
+"end": 2.641
+},
+{
+"word": "que",
+"start": 2.661,
+"end": 2.803
+},
+{
+"word": "virou",
+"start": 2.823,
+"end": 3.047
+},
+{
+"word": "normal.",
+"start": 3.067,
+"end": 3.371
+},
+{
+"word": "É",
+"start": 3.891,
+"end": 3.962
+},
+{
+"word": "o",
+"start": 3.982,
+"end": 4.052
+},
+{
+"word": "dono",
+"start": 4.072,
+"end": 4.279
+},
+{
+"word": "dormir",
+"start": 4.299,
+"end": 4.597
+},
+{
+"word": "pensando",
+"start": 4.617,
+"end": 5.006
+},
+{
+"word": "no",
+"start": 5.026,
+"end": 5.142
+},
+{
+"word": "caixa.",
+"start": 5.162,
+"end": 5.46
+},
+{
+"word": "Das",
+"start": 5.98,
+"end": 6.124
+},
+{
+"word": "onze",
+"start": 6.144,
+"end": 6.329
+},
+{
+"word": "da",
+"start": 6.349,
+"end": 6.452
+},
+{
+"word": "noite",
+"start": 6.472,
+"end": 6.698
+},
+{
+"word": "às",
+"start": 6.718,
+"end": 6.821
+},
+{
+"word": "cinco",
+"start": 6.841,
+"end": 7.067
+},
+{
+"word": "da",
+"start": 7.087,
+"end": 7.19
+},
+{
+"word": "manhã.",
+"start": 7.21,
+"end": 7.477
+},
+{
+"word": "No",
+"start": 7.997,
+"end": 8.125
+},
+{
+"word": "começo,",
+"start": 8.145,
+"end": 8.522
+},
+{
+"word": "trabalhar",
+"start": 8.542,
+"end": 9.017
+},
+{
+"word": "demais",
+"start": 9.037,
+"end": 9.364
+},
+{
+"word": "é",
+"start": 9.384,
+"end": 9.463
+},
+{
+"word": "o",
+"start": 9.483,
+"end": 9.563
+},
+{
+"word": "preço.",
+"start": 9.583,
+"end": 9.909
+},
+{
+"word": "Revisar",
+"start": 10.43,
+"end": 10.837
+},
+{
+"word": "cada",
+"start": 10.857,
+"end": 11.104
+},
+{
+"word": "peça,",
+"start": 11.124,
+"end": 11.424
+},
+{
+"word": "responder",
+"start": 11.444,
+"end": 11.958
+},
+{
+"word": "cada",
+"start": 11.978,
+"end": 12.225
+},
+{
+"word": "cliente.",
+"start": 12.245,
+"end": 12.705
+},
+{
+"word": "Só",
+"start": 12.875,
+"end": 13.006
+},
+{
+"word": "que",
+"start": 13.026,
+"end": 13.206
+},
+{
+"word": "aí",
+"start": 13.226,
+"end": 13.356
+},
+{
+"word": "vem",
+"start": 13.376,
+"end": 13.557
+},
+{
+"word": "uma",
+"start": 13.577,
+"end": 13.757
+},
+{
+"word": "bifurcação.",
+"start": 13.777,
+"end": 14.358
+},
+{
+"word": "Eu",
+"start": 14.878,
+"end": 14.991
+},
+{
+"word": "fui",
+"start": 15.011,
+"end": 15.167
+},
+{
+"word": "assim",
+"start": 15.187,
+"end": 15.432
+},
+{
+"word": "por",
+"start": 15.452,
+"end": 15.609
+},
+{
+"word": "muito",
+"start": 15.629,
+"end": 15.874
+},
+{
+"word": "tempo.",
+"start": 15.894,
+"end": 16.184
+},
+{
+"word": "Chega",
+"start": 16.704,
+"end": 16.964
+},
+{
+"word": "uma",
+"start": 16.984,
+"end": 17.151
+},
+{
+"word": "hora",
+"start": 17.171,
+"end": 17.384
+},
+{
+"word": "que",
+"start": 17.404,
+"end": 17.571
+},
+{
+"word": "não",
+"start": 17.591,
+"end": 17.758
+},
+{
+"word": "cabe",
+"start": 17.778,
+"end": 17.992
+},
+{
+"word": "mais.",
+"start": 18.012,
+"end": 18.272
+},
+{
+"word": "E",
+"start": 18.792,
+"end": 18.871
+},
+{
+"word": "isso",
+"start": 18.891,
+"end": 19.118
+},
+{
+"word": "acontece",
+"start": 19.138,
+"end": 19.562
+},
+{
+"word": "com",
+"start": 19.582,
+"end": 19.76
+},
+{
+"word": "você.",
+"start": 19.78,
+"end": 20.056
+},
+{
+"word": "A",
+"start": 20.576,
+"end": 20.646
+},
+{
+"word": "liberdade",
+"start": 20.666,
+"end": 21.092
+},
+{
+"word": "se",
+"start": 21.112,
+"end": 21.226
+},
+{
+"word": "constrói.",
+"start": 21.246,
+"end": 21.672
+}
+],
+"motor": "say -v Luciana (voz de teste do Mac)",
+"idioma": "pt",
+"duracao_audio_s": 22.192
+}

@@ -1,0 +1,195 @@
+{
+  "formato": "tela-dividida",
+  "descricao": "Regras que valem pra este formato em qualquer cliente. Consolidadas em 2026-10-09 a partir das variantes dos clientes.",
+  "regras": [
+    {
+      "id": "broll-video-do-mundo-do-cliente",
+      "titulo": "B-roll de vídeo do mundo do cliente",
+      "categoria": "broll",
+      "texto": "Embaixo é sempre B-ROLL DE VÍDEO, mudo e dinâmico — nunca imagem parada — e do MUNDO DO CLIENTE (o nicho e a receita de camadas de cada perfil ficam na regra do cliente). Sem rosto que compita com a pessoa do bloco de cima. Quando a fala cita um filme, a cena dele entra SÓ enquanto a fala o cita (~2 takes) e o resto volta pro mundo do cliente. Plano de filme escuro demais não entra. Pesquisar b-roll que case com o transcript (buscar-broll.sh).",
+      "evitar": "Imagem estática embaixo. Stock posado com cara de banco de imagem, principalmente no 1º take. B-roll genérico (dinheiro, cartão, maquininha, celular com feed) só porque a manchete fala de preço. Segurar cena de filme além da fala que a justifica. Fechar o reel com alguém posando/parado.",
+      "peso": 10,
+      "origem": [
+        "Joao/broll-e-video-do-mundo-do-cliente",
+        "Cliente2/video-nao-imagem"
+      ]
+    },
+    {
+      "id": "broll-referencia-reconhecivel",
+      "titulo": "B-roll: corte reconhecível que casa com o texto",
+      "categoria": "broll",
+      "texto": "O b-roll é um CORTE RECONHECÍVEL que faz o link na hora (cena de filme, corte de documentário, desenho conhecido tipo Os Simpsons): (a) reconhecível e com contexto, (b) alinhado ao texto daquele trecho, (c) dinâmico. Metáfora só se for reconhecível e casar com a fala. Como o b-roll vai mudo, nada de busto/entrevista falando (documentário que é quase todo entrevista não serve).",
+      "evitar": "Institucional/stock clichê. Metáfora abstrata ou aleatória. Busto falando competindo com a pessoa de cima.",
+      "peso": 10,
+      "origem": [
+        "Cliente2/broll-referencia-reconhecivel"
+      ]
+    },
+    {
+      "id": "broll-variedade-e-movimento",
+      "titulo": "Variedade e movimento no b-roll",
+      "categoria": "broll",
+      "texto": "Variedade é obrigatória: pool de 7+ fontes distintas (10+ no mix curado), 3-4 b-rolls distintos por reel, nenhum local/plano mais de 2-3 vezes em 20 blocos, cada corte com material NOVO, nunca o mesmo trecho. Priorizar MOVIMENTO (roleta girando, correr, mergulhar, veículo, multidão, câmera andando) intercalado com planos parados. Cortes de vídeo real ~3-5s; o ritmo é do perfil do cliente. Plano que só serve de gancho (olho/pupila) = 1 take na abertura. Com vários --srcs, o ss de cada ocorrência cai num ponto diferente do clipe (razão áurea, frac(k*0.618) no gerar.sh; portar se faltar).",
+      "evitar": "Um clipe só segurando 15-20s ou rodando em loop. Loopar clipe de ~4s 2-3x pra encher tempo. Mesmo cenário em metade dos blocos. Só plano estático ou gente parada conversando. Pool pequeno com o mesmo segundo do clipe repetindo.",
+      "peso": 10,
+      "origem": [
+        "Joao/broll-variedade-e-movimento",
+        "Cliente2/broll-variar-sem-repetir-trecho"
+      ]
+    },
+    {
+      "id": "cenas-sem-teto-seguem-a-fala",
+      "titulo": "Cenas sem teto: cobrem o vídeo inteiro conforme a fala",
+      "categoria": "broll",
+      "texto": "Tela dividida NÃO tem número máximo de cenas. Embaixo tem cena o vídeo inteiro, uma por momento da fala, trocando conforme ele fala: vídeo de 3 min leva bem mais cenas que um de 60 s (regra do formato.json: ~1 a cada 10 s, mínimo 3, sem máximo). Nunca esticar poucas cenas pra caber num teto.",
+      "evitar": "Travar em 8 ou 12 cenas num vídeo longo. Cena segurando trecho grande só porque bateu o limite.",
+      "peso": 8,
+      "desde": "2026-10-16",
+      "origem": [
+        "Joao/empreender-no-brasil"
+      ]
+    },
+    {
+      "id": "broll-mix-curado-takes-lineares",
+      "titulo": "Mix curado com cortes lineares",
+      "categoria": "broll",
+      "texto": "Pra controlar quais planos entram e casar com a fala: montar UM arquivo mix/master na ordem narrativa — blocos de ~3s curados e concatenados — e marchar linear com --srcs 'mix.mp4' --takes '0,3,6,...' --step 2.5 (ou --takes '0,4,8,...' --step 4.0). Cada corte cai dentro de um bloco escolhido e nunca cruza corte de cena. Pra cobrir o reel sem repetir, cortar vários trechos DIFERENTES da mesma fonte longa e concatenar como um take único (--step >= duração total). Transcrever e conferir com /watch se o b-roll faz sentido em cada trecho.",
+      "evitar": "Vários --srcs sem --takes: o round-robin embaralha a narrativa e o ss automático varre o clipe às cegas (pega trecho escuro ou no meio de um corte).",
+      "peso": 9,
+      "origem": [
+        "Joao/broll-mix-curado-com-takes-lineares"
+      ]
+    },
+    {
+      "id": "broll-conferir-o-clipe",
+      "titulo": "Conferir o clipe antes de usar",
+      "categoria": "broll",
+      "texto": "Antes do mix, conferir: (1) marca d'água ou preview tiled: no canto só serve se o crop da faixa cortar; no centro, descarta; (2) letterbox queimado: crop/scale não removem; (3) legenda queimada; (4) fonte ÚNICA e identificável, nunca supercut/compilation; (5) close de pessoa falando, que compete com o rosto de cima; (6) relação clara com a fala. Scroll/feed lento: setpts=0.5*PTS (2x). Limpas: A Procura da Felicidade/NOW PLAYING (r7isb4Cu6Xc = banheiro do metrô, zti1NcP9WKQ = táxi), 'Scrolling Instagram No Copyright' (3uQAEjBSP_U), Scene City (hKi3-5gO4uE, cropar o watermark inferior esquerdo).",
+      "evitar": "Baixar e usar direto. Compilation de fonte desconhecida. Watermark no centro. Rosto competindo com a pessoa de cima. Scroll lento ou parado.",
+      "peso": 9,
+      "origem": [
+        "Joao/broll-conferir-o-clipe-antes-de-usar",
+        "Cliente2/broll-sem-rosto-competindo"
+      ]
+    },
+    {
+      "id": "broll-nada-ilicito-nem-sensual",
+      "titulo": "Nada de b-roll ilícito ou sensual",
+      "categoria": "broll",
+      "texto": "PROIBIDO b-roll com droga, agulha, pílula, álcool em contexto de vício ou qualquer coisa que leia como ilícito — mesmo como metáfora, mesmo de filme mainstream (Requiem for a Dream, Flight); vício se ilustra com gráfico próprio, texto ou cena neutra. PROIBIDO também apelo sensual ou trecho intimista: pra ilustrar feed/conteúdo, preferir a grade/EXPLORE do Instagram (posts e paisagens, sem gente) ao feed do TikTok, que entrega pessoa com decote/dança.",
+      "evitar": "Cena com uso de droga ou pessoa bebendo escondido. Clipe que precisa de contexto pra não parecer ilícito. Feed de TikTok com pessoas. Corpo/apelo sexual.",
+      "peso": 10,
+      "origem": [
+        "Joao/broll-nada-ilicito-nem-sensual"
+      ]
+    },
+    {
+      "id": "faixa-central-com-manchete",
+      "titulo": "Faixa central vermelha com manchete",
+      "categoria": "layout",
+      "texto": "Entre os dois blocos vai a faixa central vermelho-vivo de bordas rasgadas, com a manchete em Bebas Neue branca, centralizada (padrão do formato nas variantes atuais; cliente com paleta própria registra a troca na regra dele). A manchete pode ser GANCHO DE CURIOSIDADE ('OLHA A DÚVIDA QUE ESSA ALUNA MANDOU') quando o conteúdo responde uma pergunta ou depoimento. CTA opcional troca a faixa depois (--cta 'COMENTE ...').",
+      "evitar": "Faixa apagada ou descentralizada.",
+      "peso": 8,
+      "origem": [
+        "Joao/faixa-vermelha-com-manchete-bebas",
+        "Cliente2/faixa-vermelha-bebas"
+      ]
+    },
+    {
+      "id": "manchete-polemica-complementa-a-fala",
+      "titulo": "Manchete polêmica complementa a fala",
+      "categoria": "copy",
+      "texto": "Manchete = verdade inconveniente/contraintuitiva, frase seca, caixa-alta, que um leigo entende de primeira, do núcleo contraintuitivo do transcript na voz do cliente. COMPLEMENTA a primeira frase falada, nunca a repete quase literal (fala 'tem alguém mais burro que você ganhando mais' + manchete 'O BURRO DA SUA SALA GANHA MAIS QUE VOCÊ' duplicou; passou 'O MAIS BURRO DA SUA SALA HOJE ROUBA O SEU CLIENTE'). Ataca o problema ou mostra a consequência, nunca culpa quem vê ('CULTURA FRACA NÃO CRESCE EMPRESA' passou; '... NÃO É CULPA DA EQUIPE. É SUA.' foi reprovada).",
+      "evitar": "Manchete morna, descritiva ou de tutorial. Manchete que transcreve a fala de abertura. Acusar o espectador ('a culpa é sua').",
+      "peso": 10,
+      "origem": [
+        "Joao/manchete-polemica-que-nao-repete-a-fala",
+        "Cliente2/manchete-polemica-sem-culpar-quem-ve"
+      ]
+    },
+    {
+      "id": "proporcao-dos-blocos",
+      "titulo": "Proporção entre os blocos",
+      "categoria": "layout",
+      "texto": "Padrão: bloco de cima (pessoa) ~55% da tela: --joao-h ~1056, b-roll ~594, faixa 270. Não precisa ser 50/50, mas o b-roll NUNCA vira videozinho fino no rodapé (450px foi reprovado). Pra destacar o de baixo, inverter: ~60% pro b-roll (--joao-h ~690). Faixa encostando no queixo: DESCER A FAIXA com --joao-h (gerar.sh + build-band.py --top-h), não empurrar offset-y. No bloco, subir --video-offset-y até sobrar pouco espaço morto acima da cabeça; embaixo, cropar o b-roll com âncora acima do centro, y=(ih-h)*0.35. Variante sem --joao-h usa bloco fixo 816/834: portar a flag.",
+      "evitar": "B-roll fino no rodapé. Espaço morto grande acima da cabeça. Crop do b-roll sempre centralizado. Assumir 816/834 como fixos.",
+      "peso": 10,
+      "origem": [
+        "Joao/proporcao-do-bloco-e-altura-da-faixa"
+      ]
+    },
+    {
+      "id": "rosto-no-bloco-de-cima",
+      "titulo": "Rosto com folga no bloco de cima",
+      "categoria": "enquadramento",
+      "texto": "Rosto NO MEIO do bloco de cima o vídeo todo, com folga em cima e o queixo longe da faixa. O recorte SEGUE O ROSTO (seguir_rosto.py do modelo, padrão do gerar.sh): quando ele se mexe e sai do centro (>60 px por >1 s), o quadro DESLIZA ~0,8 s até recentralizar, como mudança de posição, nunca corte seco; mexida rápida não move. Centro do rosto a ~55% do bloco. O storyboard usa o mesmo recorte. Plano aberto pede mais zoom; selfie de braço não cabe em 816 (--joao-h ~1056). Bruto 16:9 fechado: pré-montar 1080x1920. Valores aprovados de cada setup ficam na regra do cliente.",
+      "evitar": "Faixa pegando o queixo. Cortar a testa. Recorte fixo com ele saindo do centro. Recentralizar com corte seco. Rosto no canto.",
+      "peso": 11,
+      "origem": [
+        "Joao/enquadrar-o-rosto-no-bloco-de-cima",
+        "Cliente2/enquadramento-plano-aberto"
+      ]
+    },
+    {
+      "id": "bruto-rotation-e-silencio",
+      "titulo": "Checar rotação e cortar silêncio",
+      "categoria": "processo",
+      "texto": "Antes de qualquer conversão: ffprobe -v error -select_streams v:0 -show_entries stream_side_data=rotation. Bruto 3840x2160 com rotation=90 é VERTICAL 2160x3840 — converter sempre pra 1080x1920, re-encodando com a rotação aplicada. Cortar o silêncio do COMEÇO (setup antes de falar) e do FIM (depois da última palavra), detectado com silencedetect, deixando ~0.1-0.2s de margem (ex: fala de 1.6s a 58.7s → -ss 1.5 -to 58.9).",
+      "evitar": "scale=1920:1080 em bruto com rotation=90 (espreme o rosto). Assumir que 3840x2160 é horizontal. Deixar silêncio ou a pessoa parada no começo ou no fim.",
+      "peso": 10,
+      "origem": [
+        "Joao/checar-rotation-antes-de-converter",
+        "Cliente2/cortar-silencio-inicio-e-fim"
+      ]
+    },
+    {
+      "id": "musica-cama-baixa-sem-voice-tag",
+      "titulo": "Música baixa, sem voz de banco",
+      "categoria": "audio",
+      "texto": "Trilha em cama BAIXA sob a voz (volume ~0.13-0.15 sobre a trilha crua, normalize=0 no amix) com fade in/out, nunca competindo com a fala. Variante com --music no gerar.sh mixa no render; sem a flag, mixar pós-render com amix duration=first e -c:v copy. Trilha não pode ter voice-tag ('chancão', marca falada de site grátis tipo AudioJungle/Artlist): passar a trilha no Whisper/Groq — se transcrever palavras, descarta; preferir criadores tag-free (Alex-Productions). Gênero, faixa e ponto de entrada da trilha são do cliente.",
+      "evitar": "Música alta brigando com a fala. Trilha com voice-tag de site grátis.",
+      "peso": 8,
+      "origem": [
+        "Joao/musica-do-comeco-e-em-cama-baixa",
+        "Cliente2/musica-tensa-sem-chancao"
+      ]
+    },
+    {
+      "id": "qa-watch-e-zonas-do-instagram",
+      "titulo": "Conferir com watch e zonas do Instagram",
+      "categoria": "qa",
+      "texto": "Obrigatório ao terminar: rodar a skill /watch (não só extrair frames) e conferir (a) o rosto frame a frame — só se mexendo de leve é ok; rosto cortado ou no canto = reajustar offset/zoom e re-renderizar; (b) as ZONAS PROIBIDAS do Instagram: topo = perfil, direita = botões, base = legenda/CTA do app — nada importante atrás da UI.",
+      "evitar": "Entregar sem rodar /watch. Conteúdo importante atrás da UI do Instagram.",
+      "peso": 10,
+      "origem": [
+        "Joao/qa-watch-e-zonas-do-instagram",
+        "Cliente2/verificar-watch"
+      ]
+    },
+    {
+      "id": "entregar-o-lote-inteiro",
+      "titulo": "Entregar o lote inteiro",
+      "categoria": "processo",
+      "texto": "Quando o plano tem N clipes, entregar TODOS os N, não um subconjunto. Lote parcial só se combinado antes.",
+      "evitar": "Entregar lote parcial sem combinar antes.",
+      "peso": 8,
+      "origem": [
+        "Joao/entregar-o-lote-inteiro"
+      ]
+    },
+    {
+      "id": "arquivos-autocontidos-saida-fixa",
+      "titulo": "Arquivos na pasta do cliente, saída fixa",
+      "categoria": "processo",
+      "texto": "Cada cliente é AUTOCONTIDO: sandbox e output na pasta dele (<Cliente>/<x>Content/), nunca na de outro. Um reel = um arquivo de saída com nome fixo (--out nome-fixo.mp4 fora do Estúdio): iterar sobre ele, sem acumular renders timestampados (job em feedback: não apagar versões referenciadas no job.json até fechar a rodada). Assets em SUBPASTAS por tipo: logos/telas/imagens em material/<assunto>/; trilhas e b-roll aprovados no acervo/. Sem arquivo 'a mais': teste, _chk e transcrições soltas saem; ficam scripts do modelo e aprendizado/. A sandbox do vídeo fica inteira até o Finalizar da tela.",
+      "evitar": "Renderizar conteúdo de um cliente na pasta de outro. Acumular N renders timestampados do mesmo reel. Asset solto na raiz. JSON/arquivo temporário que não afeta o modelo.",
+      "peso": 9,
+      "origem": [
+        "Cliente2/output-na-pasta-do-cliente2",
+        "Cliente2/output-atualiza-nao-duplica",
+        "Cliente2/assets-em-subpastas",
+        "Cliente2/higiene-de-arquivos"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block titulo %}Novo vídeo{% endblock %}
+{% block conteudo %}
+<p class="eyebrow">1 · VÍDEO BRUTO</p><h1>Comece pelo que você gravou.</h1>
+<p class="sub">Envie o bruto, prepare o corte e revise a edição. Salvar o projeto não inicia nenhuma chamada de IA.</p>
+<form method="post" action="{{ url_for('novo_video_finder') }}" id="ffinder2"></form>
+<form method="post" enctype="multipart/form-data" class="form painel" id="fnovo">
+  {% if pre_corte %}<input type="hidden" name="do_corte" value="{{ pre_corte }}"><div class="aviso ok">Usando o vídeo já cortado — não precisa subir arquivo.</div>{% endif %}
+  <div class="drop" id="drop">
+    <b>Escolher o vídeo bruto</b>
+    {% if bruto_escolhido %}<p class="aviso ok">✓ {{ bruto_escolhido.split('/')[-1] }}</p>{% endif %}
+    <button type="button" class="btn primario" onclick="document.getElementById('ffinder2').submit()">🔎 Abrir o Finder</button>
+    <p class="meta">ou use o seletor do navegador:</p>
+    <input type="file" name="bruto" id="bruto" accept="video/*,.mov,.mp4,.mkv,.webm" {{ '' if (pre_corte or bruto_escolhido) else 'required' }}>
+    <p class="meta" id="drop-txt">clique em "Escolher arquivo" acima, ou arraste o bruto aqui (.mov / .mp4)</p>
+  </div>
+  <h2>Como vamos editar?</h2>
+  <div class="duas">
+    <label>Cliente
+      <select name="cliente" id="cliente" required>
+        <option value="">— escolher —</option>
+        {% for c in clientes %}<option value="{{ c.nome }}" {{ 'selected' if c.nome == pre_cliente }}>{{ c.nome }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Modelo
+      <select name="modelo" id="modelo" required><option value="">— escolha o cliente —</option></select>
+    </label>
+  </div>
+  <p class="meta" id="desc-modelo"></p>
+  <div id="camadas-box" hidden><span class="meta">Somar camadas deste cliente (opcional):</span><div class="checks" id="camadas"></div></div>
+  <label>Título do vídeo (opcional) <input name="titulo" placeholder="Usaremos o nome do arquivo se deixar vazio"></label>
+  <label>Briefing (o que é o vídeo, oferta, links do produto, o que você quer ver) <textarea name="briefing" rows="4"></textarea></label>
+
+  <label class="check"><input type="checkbox" name="cortar_bruto" value="1" checked> <b>Cortar o bruto pra mim</b> — gravei corrido, com erro e take repetido: transcreva, escolha os melhores takes e monte o corte antes de editar (eu aprovo na tela)</label>
+  <details><summary>Materiais e b-rolls opcionais</summary>
+  <label>Material próprio (opcional): imagens ou vídeos seus que devem entrar — a IA usa onde couber, com prioridade, e ainda busca alternativas <input type="file" name="materiais" multiple accept="image/*,video/*"></label>
+  <details id="templates-box" hidden>
+    <summary>Usar templates deste cliente (<span id="templates-n">0</span>)</summary>
+    <p class="meta">Imagem, vídeo, logo e capa que já estão organizados no cliente. Marcar aqui copia os
+      arquivos pro material deste vídeo — a produção usa com prioridade máxima. Se preferir, é só pedir
+      no briefing (“usa o template da Marca3”).</p>
+    <div class="checks" id="templates-lista"></div>
+  </details>
+  <details>
+    <summary>Separar b-rolls do acervo ({{ acervo|length }} disponíveis)</summary>
+    <input class="filtro" id="filtro-acervo" placeholder="filtrar por título/tag…">
+    <div class="grade acervo-pick" id="pick">
+      {% for it in acervo %}
+      <label class="pick" data-blob="{{ (it.titulo ~ ' ' ~ (it.tags|join(' ')))|lower }}">
+        <input type="checkbox" name="brolls" value="{{ it.slug }}">
+        {% if it.thumb_rel %}<img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=it.thumb_rel) }}" alt="">{% endif %}
+        <span>{{ it.titulo }}</span><small>{{ it.tags|join(', ') }}</small>
+      </label>
+      {% endfor %}
+    </div>
+  </details>
+
+  </details>
+  <div class="acoes"><button class="btn primario" name="rodar" value="0">Salvar bruto e abrir edição →</button></div>
+  <p class="meta">A análise só começa quando você revisar e confirmar a etapa seguinte.</p>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+const MAPA = {{ mapa|tojson }};
+const TEMPLATES = {{ material_por_cliente|tojson }};
+const selC = document.getElementById('cliente'), selM = document.getElementById('modelo'), desc = document.getElementById('desc-modelo');
+const pre = {{ pre_modelo|tojson }};
+function preencher(){
+  const ms = MAPA[selC.value] || [];
+  selM.replaceChildren(new Option('Escolha o modelo','')); ms.forEach(m=>selM.add(new Option(m.titulo||m.nome,m.nome,false,m.nome===pre)));
+  mostrar();
+}
+function mostrar(){
+  const ms = MAPA[selC.value] || []; const m = ms.find(x => x.nome === selM.value);
+  desc.textContent = m ? ((m.tipo === 'camada' ? '[CAMADA — aplicada sobre o bruto/outro modelo] ' : '') + m.desc) : '';
+  const cam = ms.filter(x => x.tipo === 'camada' && x.nome !== selM.value);
+  const box = document.getElementById('camadas-box'), el = document.getElementById('camadas');
+  el.replaceChildren(); cam.forEach(x=>{const label=document.createElement('label');label.className='check';const check=document.createElement('input');check.type='checkbox';check.name='camadas';check.value=x.nome;label.append(check,document.createTextNode(x.titulo+' ('+x.nome+')'));el.append(label)});
+  box.hidden = cam.length === 0;
+}
+function templates(){
+  const cols = TEMPLATES[selC.value] || [];
+  const box = document.getElementById('templates-box'), lista = document.getElementById('templates-lista');
+  lista.replaceChildren();
+  cols.forEach(col => {
+    const label = document.createElement('label'); label.className = 'check';
+    const check = document.createElement('input'); check.type = 'checkbox'; check.name = 'material_cliente'; check.value = col.slug;
+    const txt = document.createTextNode(col.titulo + ' (' + col.n + ' arquivo' + (col.n === 1 ? '' : 's') + ')');
+    label.append(check, txt); lista.append(label);
+  });
+  document.getElementById('templates-n').textContent = cols.length;
+  box.hidden = cols.length === 0;
+}
+selC.addEventListener('change', () => { preencher(); templates(); });
+selM.addEventListener('change', mostrar); preencher(); templates();
+document.getElementById('filtro-acervo').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  document.querySelectorAll('#pick .pick').forEach(el => el.style.display = (!q || el.dataset.blob.includes(q)) ? '' : 'none');
+});
+
+</script>
+{% endblock %}

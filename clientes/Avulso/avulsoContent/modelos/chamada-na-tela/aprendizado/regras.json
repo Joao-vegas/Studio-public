@@ -1,0 +1,8 @@
+{
+  "modelo": "chamada-na-tela",
+  "cliente": "Avulso",
+  "descricao": "Portado de Cliente1/chamada-na-tela em 2026-10-30 pelo Estúdio, AUTOCONTIDO em Avulso/. As regras do modelo de origem NÃO herdam automaticamente — o que vale aqui é o que o João aprovar/corrigir neste cliente.",
+  "portado_de": "Cliente1/chamada-na-tela",
+  "descricao_origem": "Anúncio de fala do Cliente1 (Produto1): gancho que chama atenção no t=0, título neon laranja #FF9800, legenda de uma palavra no peito, motion limpo de vez em quando, cama musical baixa. Motor: tela.py (config por vídeo; lote.py gera as 20 combinações).",
+  "regras": []
+}

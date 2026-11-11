@@ -1,0 +1,17 @@
+{# Modelo + esforço: o modelo é quem pensa, o esforço é quanto ele pensa antes de agir. O JS (modelo-forca.js) desenha os cartões e o deslizante. #}
+{% macro modelo_forca(nome_modelo='ia_modelo', nome_esforco='ia_esforco', gpt=True, compacto=False, id='mf') %}
+{% set d = modelo_forca_dados(gpt) %}
+<div class="mf{{ ' mf-compacto' if compacto }}" id="{{ id }}" data-mf data-dados='{{ d|tojson }}'>
+  <input type="hidden" name="{{ nome_modelo }}" value="{{ d.padrao.modelo }}" data-mf-modelo>
+  <input type="hidden" name="{{ nome_esforco }}" value="{{ d.padrao.esforco }}" data-mf-esforco>
+  <div class="mf-modelos" role="radiogroup" aria-label="Modelo"></div>
+  <div class="mf-forca" style="--f:.5;--p:50">
+    <div class="mf-topo"><span class="mf-rot">Esforço</span><strong class="mf-nome">Forte</strong><span class="mf-det"></span></div>
+    <input type="range" class="mf-r" min="0" max="4" step="1" value="2" aria-label="Esforço do modelo">
+    <div class="mf-escala"></div>
+    <p class="meta mf-desc"></p>
+  </div>
+  <p class="meta mf-nota"><b>O modelo</b> é quem pensa; <b>o esforço</b> é quanto ele pensa antes de agir.</p>
+  <p class="meta mf-gpt" hidden>O GPT usa a sua conta do ChatGPT (login do Codex) ou o crédito da OpenAI, conforme Configurações.</p>
+</div>
+{% endmacro %}

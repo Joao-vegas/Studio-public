@@ -1,0 +1,95 @@
+{# Aba Em andamento: pedaço que a página busca de novo a cada 4 s (modo "lista" ou "detalhe"). #}
+{% macro barra(d) %}
+<ol class="and-barra" aria-label="Etapas">
+{% for e in d.barra %}<li class="{{ e.estado }}{% if e.estado=='agora' %} {{ d.estado }}{% endif %}" {% if e.estado=='agora' %}aria-current="step"{% endif %}><i aria-hidden="true"></i><span>{{ e.nome }}</span></li>{% endfor %}
+</ol>
+{% endmacro %}
+{% macro selo(d) %}<span class="selo {{ {'trabalhando':'info','esperando':'espera','pronto':'ok','erro':'erro'}.get(d.estado,'') }}"><i class="selo-ponto" aria-hidden="true"></i>{{ {'trabalhando':'Trabalhando','esperando':'Esperando você','pronto':'Pronto','erro':'Erro'}.get(d.estado, d.estado) }}</span>{% endmacro %}
+{% macro agora(d, grande=False) %}
+{% if grande %}
+<div class="and-agora-grande {{ d.estado }}{{ ' parado' if d.sem_noticia }}">
+  {{ selo(d) }}
+  <p class="and-frase"><b>{{ d.atual.texto }}</b></p>
+  <p class="and-ha">{{ d.ha }}</p>
+</div>
+{% else %}
+<p class="and-agora {{ d.estado }}{{ ' parado' if d.sem_noticia }}">
+  {% if d.estado=='trabalhando' %}<span class="and-vivo" aria-hidden="true"></span>{{ 'Último passo' if d.sem_noticia else 'Agora' }}:
+  {% elif d.estado=='esperando' %}<span class="and-rotulo">Esperando você:</span>
+  {% elif d.estado=='pronto' %}<span class="and-rotulo">✓</span>
+  {% else %}<span class="and-rotulo">✗</span>{% endif %}
+  <b>{{ d.atual.texto }}</b> <span class="and-ha">· {{ d.ha }}</span>
+</p>
+{% endif %}
+{% endmacro %}
+
+{% macro passo(p) %}<li class="{{ p.estado }}"><span class="and-hora">{{ p.inicio[11:16] }}</span><span class="and-txt">{{ p.texto }}</span><span class="and-dura">{{ p.dura }}</span></li>{% endmacro %}
+
+{% if modo == 'lista' %}
+{% for d in itens %}
+<a class="and-card {{ d.estado }}" href="{{ url_for('andamento_ver', cli=d.cliente, slug=d.slug) }}">
+  {% if d.imagem %}<img class="and-thumb" loading="lazy" src="{{ url_for('arquivo', caminho=d.imagem) }}?v={{ d.atualizado|replace(' ','') }}" alt="" onerror="this.style.visibility='hidden'">
+  {% elif d.video %}<img class="and-thumb" loading="lazy" src="{{ url_for('thumb_rota', caminho=d.video) }}" alt="">
+  {% else %}<span class="and-thumb and-mini"><svg class="icon"><use href="#i-andamento"/></svg></span>{% endif %}
+  <div class="and-corpo">
+    <div class="and-titulo"><b>{{ d.titulo }}</b><small>{{ d.cliente }}{% if d.formato_titulo %} · {{ d.formato_titulo }}{% endif %} · {{ 'pelo chat' if d.origem=='chat' else 'pela tela' }}{% if d.tempo_total %} · {{ d.tempo_total }}{% endif %}</small></div>
+    {{ agora(d) }}
+    {{ barra(d) }}
+  </div>
+  <span class="and-selo">{{ selo(d) }}</span>
+</a>
+{% else %}
+<div class="vazio">
+  <svg class="icon vazio-icone" aria-hidden="true"><use href="#i-andamento"/></svg>
+  <h3>Nada em andamento agora</h3>
+  <p>Quando um vídeo estiver sendo feito, ele aparece aqui com o passo em que está.</p>
+  <a class="btn primario grande" href="{{ url_for('novo_tela') }}">Criar vídeo</a>
+</div>
+{% endfor %}
+
+{% else %}
+<div class="and-status {{ d.estado }}">
+  {% if d.sem_noticia %}<div class="and-parado-faixa"><svg class="icon" aria-hidden="true"><use href="#i-aviso"/></svg><span>{% if d.origem=='tela' %}Parou {{ d.ha }}. O Estúdio pode ter reiniciado.{% else %}Parou {{ d.ha }}. A conversa do chat pode ter fechado.{% endif %}</span>{% if d.origem=='tela' and d.tem_job %}<form method="post" action="{{ url_for('job_tentar', cli=d.cliente, slug=d.slug) }}"><input type="hidden" name="volta" value="{{ url_for('andamento_ver', cli=d.cliente, slug=d.slug) }}"><button class="btn mini">Tentar de novo</button></form>{% endif %}</div>{% endif %}
+  {{ agora(d, True) }}{{ barra(d) }}
+</div>
+<div class="and-duas">
+  <div class="and-midia">
+    {% if d.video and not sem_player %}<h2>Vídeo</h2><video controls preload="metadata" class="player" src="{{ url_for('arquivo', caminho=d.video) }}?v={{ mtime(d.video) }}"></video>{% endif %}
+    {% if d.imagem %}
+      <h2>{{ 'Storyboard' if 'storyboard' in d.imagem else ('Folha de conferência' if 'folha' in d.imagem else 'Imagem') }}</h2>
+      {% set rs = referencia_storyboard(d.cliente, d.slug) if 'storyboard' in d.imagem else '' %}
+      {% if rs %}<p class="{{ 'meta' if rs == 'Referência: usada' or rs.startswith('Referência: usada (') else 'aviso' }} and-ref-uso"><b>{{ rs }}</b></p>{% endif %}
+      <a class="and-img-caixa" href="{{ url_for('arquivo', caminho=d.imagem) }}" target="_blank" rel="noopener"><img loading="lazy" decoding="async" class="and-img" src="{{ url_for('arquivo', caminho=d.imagem) }}?v={{ d.atualizado|replace(' ','') }}" alt="Imagem do passo atual: {{ d.atual.texto }}"></a>
+      <p class="meta">Role dentro da caixa pra ver tudo; clique pra abrir em tamanho real.{% if sem_player %} É a imagem da produção: depois das edições por cena ela pode estar desatualizada. O que vale é a tira de cenas do editor.{% endif %}</p>
+    {% endif %}
+    {% set vc = video_cortado(d.cliente, d.slug) if not d.video and not d.imagem else '' %}
+    {% if vc %}<h2>Vídeo já cortado</h2><video controls preload="metadata" class="player" src="{{ url_for('arquivo', caminho=vc) }}"></video>
+      <p class="meta">O Estúdio cortou sozinho. Errou algo? <a href="{{ url_for('corte_manual', tipo='video', a=d.cliente, b=d.slug) }}">✂︎ Ajustar o corte</a></p>
+    {% elif not d.video and not d.imagem %}<div class="and-esqueleto" aria-hidden="true"><i></i><i></i><i></i></div><p class="and-esqueleto-txt">O storyboard aparece aqui</p>{% endif %}
+  </div>
+  <div>
+    <h2>Passo a passo</h2>
+    {% set n_antes = d.passos|length - 6 %}
+    {% if n_antes > 0 %}<details class="and-antes" id="and-passos-antes"><summary>{{ 'Ver o passo anterior' if n_antes==1 else 'Ver os %d passos anteriores'|format(n_antes) }}</summary>
+    <ol class="and-linha">{% for p in d.passos[:n_antes] %}{{ passo(p) }}{% endfor %}</ol></details>{% endif %}
+    <ol class="and-linha">{% for p in (d.passos[n_antes:] if n_antes > 0 else d.passos) %}{{ passo(p) }}{% endfor %}</ol>
+    <p class="meta">Começou {{ d.inicio[8:10] }}/{{ d.inicio[5:7] }} às {{ d.inicio[11:16] }}{% if d.tempo_total %} · {{ d.tempo_total }} até agora{% endif %}.</p>
+  </div>
+</div>
+<span id="and-estado" hidden data-estado="{{ d.estado }}" data-aplicando="{{ '1' if d.aplicando else '' }}"></span>
+{% if d.respostas %}
+<details class="and-antes" id="and-respostas"><summary>Respostas dadas ({{ d.respostas|length }})</summary>
+<ul class="and-resps">
+{% for r in d.respostas|reverse %}
+  <li>
+    <div class="and-resp-topo"><span class="and-hora">{{ r.em[8:10] }}/{{ r.em[5:7] }} {{ r.em[11:16] }}</span>
+      <b>{{ 'Aprovou' if r.decisao=='aprovar' else 'Pediu ajuste' }}</b>
+      <span class="and-st {{ r.status }}">{{ {'enviado':'enviado','aplicando':'aplicando…','feito':'feito','erro':'deu erro'}[r.status] or r.status }}</span></div>
+    {% if r.texto %}<p>{{ r.texto }}</p>{% endif %}
+    {% if r.ref %}<small>Referência: {{ r.ref.split('/')[-1] }}{% if r.segundo is not none %}, {{ (r.segundo // 60)|int }}:{{ '%02d'|format((r.segundo % 60)|int) }}{% endif %}</small>{% endif %}
+  </li>
+{% endfor %}
+</ul>
+</details>
+{% endif %}
+{% endif %}

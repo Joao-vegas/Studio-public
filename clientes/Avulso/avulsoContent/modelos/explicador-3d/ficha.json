@@ -1,0 +1,7 @@
+{
+  "titulo": "Explicador 3D",
+  "resumo": "Narrador em off conta um caso, de qualquer assunto, com cara de jogo antigo realista e feio (Loaded Dice): elenco variado escolhido pelo roteiro (gente low-poly com rosto pintado esquisito e exagerado), cenários cheios com luz de cinema, plano de ~2 s com a câmera trabalhando dentro, corte seco, transição com objeto (moedas, notas, ficha) nos números e cada fala virando a imagem do que diz. 45-90 s.",
+  "motor": "Three.js + Playwright próprio (PBR, sombra suave, profundidade de campo, glow, grade de cinema; gramática do Desenho 3D)",
+  "tipo": "completo",
+  "formato": "explicador-3d"
+}

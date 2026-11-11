@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block titulo %}Revisar b-roll{% endblock %}
+{% block conteudo %}
+<p class="migalha"><a href="{{ url_for('broll_studio',cli=j.cliente,slug=j.slug) }}">← Cenas deste vídeo</a></p>
+<div class="cabecalho"><div><p class="eyebrow">{{ r.inicio }}–{{ r.fim }}s · {{ j.titulo }}</p><h1>{{ 'Revise sua cena.' if r.status=='pronto' else ('Revise antes de gerar.' if r.status=='rascunho' else ('Sua cena está a caminho.' if r.status in ('enviando','processando') else 'Confira o status da geração.')) }}</h1></div><span class="chip">{{ estados[r.status] }}</span></div>
+<div class="creation-flow" aria-label="Fluxo da cena"><span class="{{ 'ativo' if r.tipo=='imagem' }}">1. Gerar imagem</span><span class="{{ 'ativo' if r.tipo=='imagem' and r.status=='pronto' }}">2. Você aprova a imagem</span><span class="{{ 'ativo' if r.tipo=='video' }}">3. Animar (opcional)</span><span>4. Aprovar e usar na edição</span></div>
+<div class="broll-workspace">
+<section class="painel scene-preview">
+{% if r.arquivo %}{% if r.tipo=='video' %}<video class="generated-preview" controls preload="metadata" src="{{ url_for('arquivo',caminho=j.sandbox~'/'~r.arquivo) }}"></video>{% else %}<img loading="lazy" decoding="async" class="generated-preview" src="{{ url_for('arquivo',caminho=j.sandbox~'/'~r.arquivo) }}" alt="B-roll gerado para o trecho selecionado">{% endif %}
+{% elif parent %}<img loading="lazy" decoding="async" class="generated-preview" src="{{ url_for('arquivo',caminho=j.sandbox~'/'~parent.arquivo) }}" alt="Imagem aprovada para animar"><p class="meta">Esta imagem será enviada à Kie para animação.</p>
+{% else %}<div class="scene-frame" style="--ratio:{{ r.ratio|replace(':','/') }}"><span>{{ r.ratio }}<small>A imagem aparece aqui após gerar</small></span></div>{% endif %}
+<blockquote>“{{ r.fala }}”</blockquote>{% if r.aviso_formato %}<div class="aviso">{{ r.aviso_formato }}</div>{% endif %}
+</section>
+<section class="painel">
+<p class="eyebrow">{{ ('ANIMAÇÃO · ' ~ nomes.get(r.model, r.model)|upper) if r.tipo=='video' else ('ACABAMENTO LOCAL' if r.overlay_de else ('IMAGEM · ' ~ nomes.get(r.model, r.model)|upper)) }}</p>
+<h2>{{ ratios[r.ratio] }}</h2><p class="meta">{{ r.resolucao }}{% if r.duracao %} · {{ r.duracao }} segundos · o áudio da cena será descartado na edição{% endif %}</p>
+<h3>{{ 'Texto aplicado' if r.overlay_de else 'Prompt que será enviado' }}</h3><p class="prompt-review">{{ r.input.prompt }}</p>
+<div class="cost-review"><span>{{ 'Custo estimado desta etapa' if r.usd_estimado else 'Acabamento local' }}</span><strong>US$ {{ '%.3f'|format(r.usd_estimado) }}</strong><small>1 {{ 'vídeo' if r.tipo=='video' else 'imagem' }} · tabela de {{ r.preco_em }}{% if r.creditos_reais is not none and r.creditos_reais is defined %} · cobrança reportada: {{ r.creditos_reais }} créditos{% endif %}</small></div>
+{% if r.status=='rascunho' %}
+<p class="meta">{{ 'Só esta imagem. Nenhuma animação será iniciada.' if r.tipo=='imagem' else 'Só esta animação, a partir da imagem aprovada.' }} O preço final é definido pela Kie; sem repetição automática.</p>
+<details class="optional-tool"><summary>Ajustar este rascunho</summary><form method="post" action="{{ url_for('broll_studio',cli=j.cliente,slug=j.slug) }}" class="form">
+<input type="hidden" name="tipo" value="{{ r.tipo }}"><input type="hidden" name="beat" value="{{ r.beat }}"><input type="hidden" name="modelo" value="{{ r.model }}">
+{% if parent %}<input type="hidden" name="origem" value="{{ parent.id }}"><input type="hidden" name="imagem_aprovada" value="1"><input type="hidden" name="duracao" value="{{ r.duracao }}">{% endif %}
+<label>Descrição da cena<textarea name="prompt" minlength="10" maxlength="{{ 4000 if parent else 15000 }}" rows="4" required>{{ r.input.prompt }}</textarea></label>
+{% if not parent %}<label>Formato<select name="ratio">{% for value,label in ratios.items() %}<option value="{{ value }}" {{ 'selected' if value==r.ratio }}>{{ label }}</option>{% endfor %}</select></label>{% endif %}
+<input type="hidden" name="resolucao" value="{{ r.resolucao }}"><button class="btn">Salvar nova revisão · sem gerar</button></form></details>
+{% if not kie_ok %}<div class="aviso">Chave Kie não encontrada. Configure KIE_API_KEY ou KIE_ENV_FILE no ambiente do Estúdio.</div>{% endif %}
+<form method="post" action="{{ url_for('broll_confirm',cli=j.cliente,slug=j.slug,ident=r.id) }}" class="form"><input type="hidden" name="nonce" value="{{ r.nonce }}"><label class="check"><input type="checkbox" name="aprovar" value="1" required> Aprovo esta cena e o custo estimado de uma geração.</label><button class="btn primario" {{ 'disabled' if not kie_ok }}>Gerar {{ 'vídeo' if r.tipo=='video' else 'imagem' }} · ~US$ {{ '%.3f'|format(r.usd_estimado) }}</button></form>
+{% elif r.status in ('enviando','processando') %}<p role="status" data-generation-status="{{ url_for('broll_status',cli=j.cliente,slug=j.slug,ident=r.id) }}">{{ estados[r.status] }}. Você pode sair e voltar a esta cena.</p><button type="button" class="btn" data-generation-refresh>Consultar andamento</button><p class="meta">Consultar não inicia outra geração. Se o envio ficar sem resposta após reiniciar o Studio, confira o histórico da Kie antes de tentar novamente.</p>
+{% elif r.status=='pronto' %}
+<form method="post" action="{{ url_for('broll_use',cli=j.cliente,slug=j.slug,ident=r.id) }}"><button class="btn primario">Aprovar e usar neste trecho →</button></form><p class="meta">Seleciona a cena no plano. O render final continua separado.</p>
+{% if r.tipo=='imagem' %}
+<details class="optional-tool"><summary>Aprovar imagem e preparar animação</summary>
+<form method="post" action="{{ url_for('broll_studio',cli=j.cliente,slug=j.slug) }}" class="form">
+<input type="hidden" name="tipo" value="video"><input type="hidden" name="origem" value="{{ r.id }}"><input type="hidden" name="beat" value="{{ r.beat }}">
+<label>Movimento da cena (em inglês)<textarea name="prompt" required minlength="10" maxlength="4000" rows="3">Slow subtle camera push-in. Natural restrained motion. Preserve the subject, composition and lighting. No cuts, no text, no speaking.</textarea></label>
+{% set atualv = (mod_vid|selectattr('id','equalto',vid_padrao)|first) %}{% set rv = (atualv.precos|selectattr(0,'equalto','720p')|list or atualv.precos)|first %}
+<label>Modelo de animação<select name="modelo" id="video-model">{% for m in mod_vid %}<option value="{{ m.id }}" {{ 'selected' if m.id==vid_padrao }}>{{ m.nome }} · {{ 'desde ' if m.varia }}US$ {{ '%.3f'|format(m.desde)|replace('.',',') }}/s · {{ m.nota }}</option>{% endfor %}</select></label>
+<div class="duas"><label>Duração<select name="duracao" id="video-duration">{% for d in atualv.duracoes %}<option value="{{ d }}">{{ d }} segundos</option>{% endfor %}</select></label><label>Resolução<select name="resolucao" id="video-resolution">{% for res, usd in atualv.precos %}<option value="{{ res }}" {{ 'selected' if res==rv[0] }}>{{ res }} · US$ {{ '%.4f'|format(usd)|replace('.',',') }}/s</option>{% endfor %}</select></label></div>
+<p class="meta">Estimativa desta animação: <b id="video-price">~US$ {{ '%.3f'|format(rv[1]*atualv.duracoes[0])|replace('.',',') }}</b></p>
+<p class="meta">O vídeo mantém o formato {{ r.ratio }} da imagem. O custo exato da configuração aparece na próxima tela.</p>
+<label class="check"><input type="checkbox" name="imagem_aprovada" value="1" required> Revisei a imagem e quero usá-la como referência.</label>
+<button class="btn">Revisar animação e custo →</button></form></details>
+<details class="optional-tool"><summary>Adicionar texto · sem créditos de IA</summary><form method="post" action="{{ url_for('broll_overlay',cli=j.cliente,slug=j.slug,ident=r.id) }}" class="form"><label>Texto curto<input name="texto" maxlength="100" required placeholder="Uma ideia por cena"></label><label>Posição<select name="posicao"><option value="top">Topo</option><option value="bottom">Base</option></select></label><button class="btn">Criar cópia com texto</button><p class="meta">Mantém a imagem original. Confira a leitura e a posição antes de usar.</p></form></details>
+{% endif %}
+{% else %}<div class="aviso erro">{{ r.erro }}</div>{% endif %}
+{% if r.status in ('enviando','incerto') %}<details class="optional-tool"><summary>Retomar uma tarefa do histórico da Kie</summary><p class="meta">Se o envio perdeu a resposta, copie o taskId desta cena no histórico do provedor. Isso só consulta uma tarefa existente. Durante um envio ativo, aguarde pelo menos 3 minutos.</p><form method="post" action="{{ url_for('broll_recover',cli=j.cliente,slug=j.slug,ident=r.id) }}" class="form"><label>Identificador da tarefa<input name="task_id" required maxlength="160" placeholder="taskId da Kie"></label><button class="btn">Vincular e consultar · sem gerar</button></form></details>{% endif %}
+{% if r.task_id %}<details><summary>Identificador da tarefa</summary><code>{{ r.task_id }}</code></details>{% endif %}
+<a class="text-link" href="{{ url_for('broll_studio',cli=j.cliente,slug=j.slug,beat=r.beat) }}">Preparar outra cena</a>
+</section></div>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var sel = document.getElementById('video-model'), dur = document.getElementById('video-duration'), res = document.getElementById('video-resolution'), preco = document.getElementById('video-price');
+  if (!sel || !dur || !res) return;
+  var cat = {{ mod_vid|tojson }};
+  function achar() { return cat.filter(function (m) { return m.id === sel.value; })[0]; }
+  function mostrar() {
+    var m = achar(); if (!m || !preco) return;
+    var p = m.precos.filter(function (x) { return x[0] === res.value; })[0];
+    if (p) preco.textContent = '~US$ ' + (p[1] * Number(dur.value)).toFixed(3).replace('.', ',');
+  }
+  function refazer(el, itens, antes, padrao) {
+    el.innerHTML = '';
+    itens.forEach(function (x) { var o = document.createElement('option'); o.value = x[0]; o.textContent = x[1]; el.appendChild(o); });
+    var tem = itens.some(function (x) { return String(x[0]) === String(antes); });
+    var pad = itens.some(function (x) { return String(x[0]) === padrao; });
+    el.value = tem ? antes : (pad ? padrao : itens[0][0]);
+  }
+  function trocar() {
+    var m = achar(); if (!m) return;
+    refazer(dur, m.duracoes.map(function (d) { return [d, d + ' segundos']; }), dur.value, '');
+    refazer(res, m.precos.map(function (x) { return [x[0], x[0] + ' · US$ ' + x[1].toFixed(4).replace('.', ',') + '/s']; }), res.value, '720p');
+    mostrar();
+  }
+  sel.addEventListener('change', trocar);
+  dur.addEventListener('change', mostrar);
+  res.addEventListener('change', mostrar);
+})();
+</script>
+{% endblock %}

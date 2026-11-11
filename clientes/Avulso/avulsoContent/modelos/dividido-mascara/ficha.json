@@ -1,0 +1,104 @@
+{
+  "titulo": "Dividido-Máscara (beats)",
+  "resumo": "Reel vertical com o João em tela cheia e legenda karaokê, pontuado a cada poucos segundos por um beat: cena de b-roll mesclada numa faixa esfumada, card branco animado ou push-in suave. É o formato de retenção principal do perfil: conteúdo, VSL curta e anúncio.",
+  "quando_usar": "Vídeo de 30-90s com o João falando parado na câmera em que a fala pede ilustração (cena de filme, print de página, prova, mockup de oferta). Se for anúncio no estilo karaokê, usar a mistura com o anuncio-vegas (camada de manchete por trigger). Não usar quando o bruto já vem editado.",
+  "formato": {
+    "resolucao": "1080x1920",
+    "proporcao": "9:16",
+    "duracao_tipica": "30-90s"
+  },
+  "estrutura": [
+    "Gancho curto opcional (~2.5s) e corte seco pro corpo",
+    "Base: João em tela cheia, enquadramento aberto (zoom ~1.2, offset-y ~120), sem efeito/cor",
+    "Legenda karaokê Barlow-Black branca com traçado preto, 3 palavras por bloco, sempre abaixo do queixo (~legy 1270)",
+    "Beat 'broll': faixa de baixo (ou de cima com --band-pos top) com borda esfumada e sombra, b-roll mudo casando com a palavra falada; primeiro beat em ~0.4s em anúncio/VSL",
+    "Beat 'card': fundo claro, frase-chave em Bebas com palavra em vermelho, animado palavra a palavra COM click de mouse em cada palavra (o João pediu o click de volta em 17/09/2026 — é o único efeito sonoro aprovado); variante com mockup de oferta (build-cardkit.py)",
+    "Beat 'punch': push-in suave ~18% mantendo cabeça+peito, 2.5-3s",
+    "Beat de impacto em tela cheia (build-impacto.py): b-roll tratado dark + texto grande, 2.2-2.8s, com --leg-hide na janela; se o b-roll for 16:9, pré-compor uma fonte 1080x1920 (blur cover + clipe contido) antes, senão o corte central come o sujeito da frase",
+    "Cronômetro regressivo opcional no canto superior esquerdo (build-timer.py)",
+    "Áudio: voz do João normalizada (loudnorm -16) + cama baixa da VSL do Cliente8 (bed.mp3, 0.055, constante com fade) + click por palavra só nos cards brancos. Sem whoosh/boom. Render: --sem-sfx --click-cards"
+  ],
+  "paleta": [
+    {
+      "cor": "#B4232C",
+      "uso": "vermelho Vegas: palavra de destaque em cards/manchetes (dor/alerta)"
+    },
+    {
+      "cor": "#D4AF37",
+      "uso": "gold Vegas: oferta/valor/resultado nos cards"
+    },
+    {
+      "cor": "#F5F4F0",
+      "uso": "fundo claro dos cards"
+    },
+    {
+      "cor": "#111111",
+      "uso": "texto dos cards"
+    },
+    {
+      "cor": "#FFFFFF",
+      "uso": "legenda karaokê (traçado preto)"
+    }
+  ],
+  "fontes": [
+    {
+      "nome": "Barlow-Black",
+      "uso": "legenda karaokê"
+    },
+    {
+      "nome": "BebasNeue-Regular",
+      "uso": "cards, manchetes e texto do beat de impacto"
+    },
+    {
+      "nome": "Barlow-SemiBold",
+      "uso": "textos secundários dos cards"
+    }
+  ],
+  "audio": {
+    "musica": "OBRIGATÓRIA e conservadora: a cama que o João já aprovou (assets/musica/bed.mp3, a da VSL do Cliente8), --music-vol 0.055 (faixa útil 0.045-0.08), CONSTANTE, com fade de 1,5s na entrada e na saída (o gerar.sh já aplica no ramo de --music-vol). Em 17/09/2026 ele reprovou faixa nova com curva de volume ('a música tá pior ainda'), eu entreguei a peça seca e ele reclamou de novo ('a música sumiu agoraaa, eu só não tinha gostado do outro'): reprovar uma FAIXA não é reprovar ter música. Faixa inédita (banco-musicas/candidatas) só como variação separada na sandbox, depois de ele ouvir. --music-expr (volume desenhado em janelas) está reprovado.",
+    "sfx": [
+      "Único SFX aprovado: o CLICK por palavra do CARD DE FUNDO BRANCO (volume 0.55). João 17/09/2026: 'onde aparece o fundo branco você tirou o click, ele poderia ter deixado'",
+      "Render padrão: `--sem-sfx --click-cards` — mata whoosh/boom e mantém só o click do card branco",
+      "PROIBIDO: whoosh na entrada de b-roll e boom no beat de impacto (João 17/09/2026: 'efeito sonoro em todas as coisas... péssimo, péssimo, péssimo')",
+      "Card de ARQUIVO sem sidecar .clicks (ex.: impacto fullscreen) não é fundo branco e fica mudo — no full-face isso é garantido por um .clicks vazio (0 byte)",
+      "Mix com mais de uma entrada fecha em alimiter=limit=0.71:level=0 — level=1 é auto-level e SOBE a loudness; teto 0.71 (não 0.89) porque o AAC 128k do encode final devolve ~1,2 dB de overshoot"
+    ],
+    "voz": "áudio original do João, loudnorm I=-16; b-roll sempre mudo"
+  },
+  "broll": "Cada beat ilustra A PALAVRA dita naquele segundo, não o tema geral. Literal primeiro (página real do cliente, print da matéria real, mockup real). Conteúdo de conexão: cena de filme famosa bate stock (ex.: À Procura da Felicidade, Simpsons 'Homer's Enemy'). Stock genérico do ytsearch não serve. PROIBIDO droga/álcool/ilícito mesmo como metáfora; nada sensual. Rodar cropdetect e detecção de corte em todo clipe; conferir gesto de mão frame a frame; canais com watermark (Motion Array, Stock Pilots, VideoKot) nem baixar. Não reaproveitar pacote do vídeo anterior.",
+  "entrada": "Bruto vertical do João falando na câmera (iPhone/câmera; checar rotation com ffprobe e converter pra 1080x1920). Enquadramento varia por vídeo: calibrar zoom/offset/legy com frames. Se o bruto já tem manchete queimada no topo: zoom 1.0, offset 0, sem punch e --leg-hide na janela do texto. Ouvir o bruto atrás de take repetido (palavra >1.5s no words.json).",
+  "como_usar": [
+    "Criar _sandbox-<nome>/ dentro do modelo com work/joao.mp4 (1080x1920) e brolls/",
+    "Ler aprendizado/regras.json inteiro (50+ regras) antes de qualquer decisão",
+    "Rodar o gerar.sh uma vez só pra transcrever (GROQ word-timestamps → work/words.json) e passar normaliza-words.py",
+    "Marcar os beats pelo words.json: tempo exato da palavra, 1-2s de respiro entre beats, primeiro beat em ~0.4s em anúncio",
+    "Buscar/curar b-roll (skill broll + buscar-broll.sh), rodar cropdetect e sheet de frames da janela exata",
+    "Montar cards (build-card.py --sync), cardkit de oferta, impacto fullscreen ou timer quando a fala pedir",
+    "Rodar gerar.sh com --beats e calibração do enquadramento; se pedido anúncio karaokê, aplicar build-manchete.py depois",
+    "QA por frames com seek preciso; deixar só a versão final em output/dividido-mascara/"
+  ],
+  "comando": "#!/bin/zsh\n# Full Face v2 — dividido-mascara (Vegas) — rodada 17/09/2026 (ajuste pós-feedback)\n# João: \"você fez um efeito sonoro em todas as coisas, eu não gostei. Péssimo.\"\n#       \"A música tá pior ainda.\"\n# => v2 SEM efeito sonoro nenhum (nem whoosh, nem boom, nem click de card) e SEM música.\n#    Vídeo/beats/legenda IDÊNTICOS à v1.\nset -e\ncd \"$(dirname \"$0\")/..\"\n\n./gerar.sh --dir _sandbox-full-face \\\n  --band-pos top --band-h 560 --band-feather 160 \\\n  --video-zoom 1.0 --video-offset-y 0 \\\n  --legy 1350 --leg-fontsize 56 --leg-maxwords 3 --leg-lead 0.12 \\\n  --leg-hide \"25.3-27.9\" \\\n  --punch-zoom 1.10 \\\n  --sem-sfx \\\n  --beats \"broll:0.4-3.2:brolls/clips/b1-clean.mp4;broll:4.2-6.3:brolls/clips/b2-clean.mp4;broll:7.35-9.25:brolls/clips/b3-clean.mp4;broll:10.2-11.8:brolls/clips/b4-clean.mp4;card:12.94-15.0:POR QUE FAZER *IGUAL?*;broll:16.0-18.6:brolls/clips/b6-clean.mp4;punch:19.7-21.9;broll:22.9-24.3:brolls/clips/b8-clean.mp4;card:25.3-27.9:@brolls/clips/b9-impacto.mp4;card:30.78-33.3:PELO MENOS 5 MICRO *NARRATIVAS*;card:37.25-39.4:PAGA SEM *CHORAR* *O* *PREÇO*;broll:40.4-42.2:brolls/clips/b12-clean.mp4;broll:43.2-45.9:brolls/clips/b13-clean.mp4;card:47.62-50.6:REPETIÇÃO DA SUA *PROMESSA*;broll:51.6-54.45:brolls/clips/b15-clean.mp4\"",
+  "qa": [
+    "Legenda casando com a fala em vários pontos (seek com -ss depois do -i)",
+    "Legenda abaixo do queixo, nunca no rosto; sem duplicar texto queimado do bruto",
+    "Faixa mesclada (não parece split duro); sem letterbox preto no b-roll",
+    "Cards e b-rolls no tempo exato da palavra; impacto fullscreen curto",
+    "Zonas proibidas do Instagram (topo/direita/base) livres",
+    "Transcrição revisada (palavra errada, capitalização, preço)",
+    "Sem efeito/cor; só a versão final em output/",
+    "Áudio: confirmar que NÃO há SFX — null test invertendo a fase da voz de referência contra o render (resíduo deve ficar no nível de artefato de AAC, ~-40 dB médio) — e true peak < 0 dBFS com ebur128=peak=true. Se houver música, medir com volumedetect numa janela de silêncio da fala (OFF ~ -50 dB, ON ~ -33/-37 dB)",
+    "Ajuste só de áudio: PSNR entre a versão anterior e a nova tem que dar 'inf' (frames idênticos) — prova que o vídeo não regrediu",
+    "Áudio: medir I (alvo ~-15,5/-16 LUFS) e true peak (tem que ficar <= -1,5 dBTP). Se a peça tem click/música, nular contra uma REFERÊNCIA montada com o MESMO loudnorm + MESMO alimiter + MESMO encode (nular contra outra versão não serve, o limiter mexe na voz): click deve aparecer ~10 dB acima da cama no resíduo, e as janelas dos antigos whoosh/boom no mesmo nível das janelas sem click.",
+    "Ajuste só de áudio: conferir PSNR contra a versão anterior — 'inf' prova que o vídeo não mexeu e o QA visual anterior continua valendo (mesmo assim, contact sheet novo do render entregue)."
+  ],
+  "templates": [
+    "assets/musica/bed.mp3",
+    "assets/musica/opcoes/*.mp3",
+    "build-card.py / build-cardkit.py / build-impacto.py / build-timer.py / build-manchete.py",
+    "assets/sfx/click.mp3 + whoosh.mp3 + boom.mp3 (existem, mas DESLIGADOS por padrão — ver --sem-sfx)"
+  ],
+  "motor": "ffmpeg + PIL + GROQ (whisper-large-v3 word timestamps), h264_videotoolbox",
+  "origem": "Evolução do reel-dividido-por-video do João; beat de impacto portado do dividido-mascara do Cliente7",
+  "tempo_producao": "2-4h (busca e verificação de b-roll dominam)",
+  "tipo": "completo"
+}

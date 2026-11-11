@@ -1,0 +1,78 @@
+{# Voz com emoção (PLANO-2.0, item 6): por voz, seis variações. Amostra -> ouvir -> "Aprovei" cria o perfil; o João tem trechos dele. JS: inline #}
+<h2>Voz com emoção <small class="meta">grátis · o Claude marca a emoção de cada frase do roteiro e a narração usa a variação da voz</small></h2>
+<p class="meta">O motor de voz imita a emoção do áudio de referência. Por isso cada emoção é uma variação fixa da voz (o mesmo timbre), criada de uma amostra falada com aquela emoção.
+Nada vira voz sem você ouvir e aprovar. Sem variação aprovada, a frase sai com a voz normal.</p>
+<div id="emo">
+{% for v in emocoes_ui %}
+<section class="cartao-config emo-voz" data-voz="{{ v.id }}">
+  <h3>{{ v.nome }} {% if v.padrao %}<span class="selo ok">voz padrão</span>{% endif %}{% if v.joao %}<span class="selo espera">sua voz: só com trechos reais seus</span>{% endif %}</h3>
+  {% if v.joao %}
+  <p class="meta">Procuro nos seus vídeos brutos trechos de 10 a 18 s com cada emoção. Você ouve e escolhe; se eu não achar, você grava 15 s lendo o texto sugerido.
+    <button type="button" class="btn mini emo-procurar">Procurar nos meus vídeos</button> <span class="meta emo-msg-geral"></span></p>
+  {% else %}
+  <p class="meta"><button type="button" class="btn mini emo-todas">Gerar as amostras que faltam</button> <span class="meta emo-msg-geral"></span></p>
+  {% endif %}
+  <div class="emo-grade">
+  {% for e in v.emocoes %}
+    <div class="emo-card" data-emocao="{{ e.slug }}">
+      <b>{{ e.rotulo }}</b> <small class="meta">{{ e.dica }}</small>
+      <div class="emo-status">
+        {% if e.status == 'aprovada' %}<span class="selo ok">em uso</span>
+        {% elif e.status == 'aguardando' %}<span class="selo espera">aguarda você</span>
+        {% else %}<span class="selo">sem variação</span>{% endif %}
+      </div>
+      {% if not v.joao %}
+        {% if e.amostra %}<button type="button" class="btn mini emo-ouvir" data-url="{{ url_for('vozes_emocao_audio', voz=v.id, emocao=e.slug) }}">▶ ouvir a amostra</button>{% endif %}
+        {% if e.status == 'aguardando' %}<button type="button" class="btn mini primario emo-aprovar">Aprovei</button> <button type="button" class="btn mini emo-refazer">Refazer</button>
+        {% elif e.status != 'aprovada' %}<button type="button" class="btn mini emo-gerar">Gerar amostra</button>{% endif %}
+      {% else %}
+        {% if e.status == 'aprovada' %}<small class="meta">perfil “João · {{ e.rotulo|lower }}” criado.</small>
+        {% else %}
+          {% for c in e.candidatos %}
+          <div class="emo-cand" data-id="{{ c.id }}"><small class="meta">Achei um trecho seu {{ e.rotulo|lower }}: “{{ (c.texto or 'sem texto')[:110] }}”</small><br>
+            <button type="button" class="btn mini emo-ouvir" data-url="{{ url_for('vozes_emocao_audio', cand=c.id) }}">▶ ouvir</button>
+            <button type="button" class="btn mini primario emo-usar">Usar como “João · {{ e.rotulo|lower }}”</button></div>
+          {% else %}
+          <small class="meta">Não achei trecho seu {{ e.rotulo|lower }}. Grave 15 s assim: “{{ texto_gravar[e.slug] }}”</small>
+          {% endfor %}
+          <label class="campo"><small class="meta">ou suba a sua gravação</small><input type="file" class="emo-arquivo" accept="audio/*,video/*"></label>
+        {% endif %}
+      {% endif %}
+      <span class="meta emo-msg"></span>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+{% else %}<div class="vazio">Nenhuma voz pra ligar emoção agora. Abra o VoiceStudio e recarregue.</div>{% endfor %}
+</div>
+
+{% if comparacao %}
+<h2>Comparar motores <small class="meta">a mesma frase com emoção nos dois motores · o padrão continua o OmniVoice</small></h2>
+<div class="cartao-config">{% for c in comparacao %}<div><small class="meta">{{ c.nome }}</small> <audio controls preload="none" src="{{ c.url }}"></audio></div>{% endfor %}</div>
+{% endif %}
+
+<script>
+(function () {
+  var U = { amostra: {{ url_for('vozes_emocao_amostra')|tojson }}, aprovar: {{ url_for('vozes_emocao_aprovar')|tojson }}, refazer: {{ url_for('vozes_emocao_refazer')|tojson }},
+            procurar: {{ url_for('vozes_emocao_procurar')|tojson }}, usar: {{ url_for('vozes_emocao_usar')|tojson }}, gravacao: {{ url_for('vozes_emocao_gravacao')|tojson }} };
+  var aud = new Audio();
+  function post(url, fd, msg, quando) { msg.textContent = 'Fazendo… (pode levar até 2 minutos)';
+    return fetch(url, { method: 'POST', body: fd }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j.ok) { msg.textContent = '✖ ' + j.erro; return j; } msg.textContent = '✓ Pronto'; if (quando !== false) setTimeout(function () { location.reload(); }, 400); return j; })
+      .catch(function () { VozesUI.explicar(msg, 'Não deu agora. Tente de novo.'); return { ok: false }; }); }
+  function fd(card, extra) { var f = new FormData(); f.append('voz', card.closest('.emo-voz').dataset.voz); f.append('emocao', card.dataset.emocao); Object.keys(extra || {}).forEach(function (k) { f.append(k, extra[k]); }); return f; }
+  [].forEach.call(document.querySelectorAll('#emo .emo-ouvir'), function (b) { b.onclick = function () { aud.pause(); aud.src = b.dataset.url; aud.play(); }; });
+  [].forEach.call(document.querySelectorAll('#emo .emo-gerar'), function (b) { b.onclick = function () { var c = b.closest('.emo-card'); post(U.amostra, fd(c), c.querySelector('.emo-msg')); }; });
+  [].forEach.call(document.querySelectorAll('#emo .emo-aprovar'), function (b) { b.onclick = function () { var c = b.closest('.emo-card'); post(U.aprovar, fd(c), c.querySelector('.emo-msg')); }; });
+  [].forEach.call(document.querySelectorAll('#emo .emo-refazer'), function (b) { b.onclick = function () { var c = b.closest('.emo-card'); post(U.refazer, fd(c), c.querySelector('.emo-msg')); }; });
+  [].forEach.call(document.querySelectorAll('#emo .emo-usar'), function (b) { b.onclick = function () { var c = b.closest('.emo-card'); post(U.usar, fd(c, { id: b.closest('.emo-cand').dataset.id }), c.querySelector('.emo-msg')); }; });
+  [].forEach.call(document.querySelectorAll('#emo .emo-arquivo'), function (i) { i.onchange = function () { if (!i.files.length) return; var c = i.closest('.emo-card'), f = fd(c); f.append('audio', i.files[0]); post(U.gravacao, f, c.querySelector('.emo-msg')); }; });
+  [].forEach.call(document.querySelectorAll('#emo .emo-procurar'), function (b) { b.onclick = function () { post(U.procurar, new FormData(), b.parentNode.querySelector('.emo-msg-geral')); }; });
+  [].forEach.call(document.querySelectorAll('#emo .emo-todas'), function (b) { b.onclick = function () {
+    var voz = b.closest('.emo-voz'), msg = voz.querySelector('.emo-msg-geral'), cards = [].filter.call(voz.querySelectorAll('.emo-card'), function (c) { return c.querySelector('.emo-gerar'); }), i = 0;
+    b.disabled = true;
+    (function prox() { if (i >= cards.length) { msg.textContent = '✓ Amostras prontas: ouça e aprove'; location.reload(); return; }
+      msg.textContent = 'Gerando ' + (i + 1) + ' de ' + cards.length + '…';
+      post(U.amostra, fd(cards[i]), cards[i].querySelector('.emo-msg'), false).then(function (j) { if (j && j.ok === false) { b.disabled = false; return; } i++; prox(); }); })(); }; });
+})();
+</script>

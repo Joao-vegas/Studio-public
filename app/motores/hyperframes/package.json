@@ -1,0 +1,8 @@
+{
+  "name": "estudio-hyperframes",
+  "private": true,
+  "description": "Motor HyperFrames do Estúdio (HTML vira MP4).",
+  "dependencies": {
+    "hyperframes": "0.8.201"
+  }
+}

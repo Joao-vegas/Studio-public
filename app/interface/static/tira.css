@@ -1,0 +1,30 @@
+/* Momento a momento (tira.js): resumo por tipo + tira horizontal com todos os planos. Só variáveis do estilo.css. */
+.tira-resumo{margin:0 0 var(--e4)}
+.tira-tit{margin:0 0 var(--e3);font-size:var(--t1);font-weight:650;color:var(--txt)}
+.tira-tipos{display:flex;flex-wrap:wrap;gap:var(--e2)}
+.tira-tipo{display:inline-flex;align-items:center;gap:var(--e2);padding:var(--e1) var(--e3) var(--e1) var(--e1);background:var(--painel);border:1.5px solid var(--linha);border-radius:999px;color:var(--txt);font:inherit;font-size:var(--t1);cursor:pointer;min-height:44px}
+.tira-tipo:hover{background:var(--painel2)}
+.tira-tipo.ativo{border-color:var(--ac);background:var(--ac-suave)}
+.tira-tipo:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.tira-tipo img,.tira-tipo i{width:32px;height:32px;object-fit:cover;border-radius:50%;background:var(--painel2);flex:none}
+.tira-tipo b{font-variant-numeric:tabular-nums}
+.tira-nums{list-style:none;margin:var(--e3) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:var(--e2) var(--e5);font-size:var(--t1);color:var(--txt2)}
+.tira-nums b{color:var(--txt);font-size:var(--t2);font-variant-numeric:tabular-nums}
+.tira-conta{margin:0 0 var(--e3);font-size:var(--t-micro);color:var(--txt3)}
+.tira-link{background:none;border:0;padding:0;font:inherit;color:var(--ac);cursor:pointer;text-decoration:underline}
+ol.tira-linha{display:flex;gap:var(--e4);overflow-x:auto;scroll-snap-type:x proximity;scroll-behavior:smooth;scrollbar-width:thin;padding:0 0 var(--e3);-webkit-overflow-scrolling:touch}
+ol.tira-linha li{flex:none;width:148px;scroll-snap-align:start}
+ol.tira-linha .tira-dura{font-size:var(--t-micro);color:var(--txt3);font-variant-numeric:tabular-nums}
+ol.tira-linha li img{aspect-ratio:9/16;object-fit:cover}
+ol.tira-linha li span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+/* Prévia do Criar: a coluna é estreita, então tudo menor */
+.nv-pv-sb .tira-resumo{margin:0 0 var(--e3)}
+.nv-pv-sb .tira-tit{display:none}
+.nv-pv-sb .tira-tipo{min-height:36px;font-size:var(--t-micro);padding-right:var(--e2)}
+.nv-pv-sb .tira-tipo img,.nv-pv-sb .tira-tipo i{width:24px;height:24px}
+.nv-pv-sb .tira-nums{margin-top:var(--e2);gap:var(--e1) var(--e3);font-size:var(--t-micro)}
+.nv-pv-sb .tira-nums b{font-size:var(--t1)}
+.nv-pv-sb ol.tira-linha li{width:92px}
+.nv-pv-sb ol.tira-linha .tira-dura{display:none}
+@media(max-width:760px){ol.tira-linha li{width:124px}.nv-pv-sb ol.tira-linha li{width:92px}}
+@media(prefers-reduced-motion:reduce){ol.tira-linha{scroll-behavior:auto}}

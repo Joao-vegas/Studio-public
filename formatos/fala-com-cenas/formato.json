@@ -1,0 +1,195 @@
+{
+  "ordem": 1,
+  "grupo": "falando",
+  "titulo": "Fala com cenas",
+  "frase": "Você fala em tela cheia, com legenda. A cada 6 a 10 segundos entra um destaque: trecho de filme na faixa de baixo, gráfico ou frase na tela.",
+  "entrada": "video",
+  "proporcao": "9:16",
+  "tipo": "gravado",
+  "motor": "ffmpeg + PIL",
+  "usa": [
+    {
+      "oque": "Transcrição",
+      "quem": "Groq (whisper-large-v3, cota grátis). No corte do bruto, o Scribe da ElevenLabs entra se estiver ligado (sai do seu plano)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Cenas de filme e série",
+      "quem": "Trechos do YouTube via yt-dlp, escolhidos e aprovados por você (get-brolls). Pexels, Pixabay e Wikimedia só de apoio",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Música",
+      "quem": "Cama baixa da Biblioteca do Estúdio, ou faixa nova de banco grátis (Mixkit, Jamendo)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Cenas geradas por IA (opcional)",
+      "quem": "kie.ai, só se você pedir numa cena: Z-Image ~US$ 0,004 e Grok ~US$ 0,02 por imagem, animação ~US$ 0,12 a 0,70",
+      "tipo": "pago"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "ffmpeg + PIL no seu Mac: legenda palavra a palavra, cards com a frase-chave e faixa esfumada para a cena",
+      "tipo": "gratis"
+    }
+  ],
+  "estimativa": "equivale a ~US$ 6 a 18 na API (Opus), incluso na assinatura",
+  "status": "pronto",
+  "modelos": [
+    "dividido-mascara"
+  ],
+  "base": "clientes/Joao/vegasContent/modelos/dividido-mascara",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "folha": "exemplo-1-folha.jpg",
+      "legenda": "Concausa · Cliente3",
+      "origem": "~/Library/Mobile Documents/com~apple~CloudDocs/Clientes/Cliente3/Ads/Concausa/Ad 1/Concausa - música A (frontline).mp4"
+    },
+    {
+      "arquivo": "exemplo-2.mp4",
+      "poster": "exemplo-2.jpg",
+      "folha": "exemplo-2-folha.jpg",
+      "legenda": "Três saídas · Vegas",
+      "origem": "~/Library/Mobile Documents/com~apple~CloudDocs/Meus projetos/Vegas — Marca e Verus/Pessoal/Posts/Reels/2026/Setembro/Tres Saidas/Tres Saidas - final (dividido-mascara).mp4"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": true,
+      "escolha_na_tela": true,
+      "de_onde": "Cama constante e baixa sob a fala, do começo ao fim: acervo primeiro (acervo/itens/), depois faixa nova de banco grátis (Mixkit, Jamendo). Normalizada a -20 LUFS e tocada a --music-vol ~0,11. Qual faixa e o gênero são do cliente.",
+      "clima": "cinematográfica, escolhida pelo clima da fala (tensa, épica ou calma), cama sem voz",
+      "volume": "baixa e constante (--music-vol ~0,11; -20 LUFS antes)",
+      "quando": "do começo ao fim, sob a fala",
+      "quando_nao": "nunca por cima de trecho sem fala sozinha e nunca a mesma do vídeo anterior do cliente",
+      "troca": "1 faixa por vídeo"
+    },
+    "efeitos": {
+      "usa": true,
+      "de_onde": "Só o click por palavra no card de fundo claro (assets/sfx/click.mp3 do modelo, sidecar .clicks). Nada de whoosh ou boom de transição, a não ser que a regra do cliente peça.",
+      "quais": [
+        "click"
+      ],
+      "momentos": "só o click por palavra no card claro; whoosh só se o cliente pedir (Cliente3)",
+      "volume": "0,10-0,18",
+      "quando_nao": "sem whoosh nem boom de transição, salvo regra do cliente"
+    }
+  },
+  "legenda": {
+    "desligavel": true,
+    "como": "gerar.sh: --leg-hide \"0-99999\" (esconde a legenda do começo ao fim); beats, cards e manchete continuam. Na conferência, não cobrar legenda casando com a fala"
+  },
+  "layouts": [
+    "cheio",
+    "faixa"
+  ],
+  "material_aceito": [
+    "cena-produto",
+    "mockup",
+    "print",
+    "foto-pessoa",
+    "video-curto",
+    "logo",
+    "musica"
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar o bruto",
+        "andamento": "preparar",
+        "faz": "Pôr o bruto em work/joao.mp4 (1080x1920; 4K vertical desce; rotação conferida), procurando antes take refeito (o corte do bruto, app/ferramentas/corte.py, marca; cortou, retranscreve tudo). Transcrever com tempo por palavra em work/words.json (Groq), normalizar com normaliza-words.py (faltou na variante: portar de outra) e ler o texto inteiro corrigindo nome, número e palavra trocada."
+      },
+      {
+        "id": "enquadrar",
+        "titulo": "Enquadramento e texto queimado",
+        "andamento": "preparar",
+        "faz": "Medir cabeça e queixo DESTE bruto no t=0 e escolher --video-zoom, --video-offset-y e --legy partindo dos valores da regra do cliente: testa inteira e legenda abaixo do queixo. Conferir quadro a quadro se o bruto já traz texto queimado (cartela, gancho, manchete) e anotar a janela do --leg-hide: legenda não entra por cima, beat não entra em cartela preta e zoom não entra com manchete queimada no topo."
+      },
+      {
+        "id": "beats",
+        "titulo": "Planejar os beats",
+        "andamento": "storyboard",
+        "faz": "Pela fala do words.json, marcar um beat a cada 6 a 10 s (cena na faixa de baixo, frase na tela, impacto em tela cheia ou zoom no rosto), o primeiro em t≈0,4 s com o plano mais forte e 1 a 2 s de respiro entre eles. Cada beat ilustra a palavra dita naquele segundo, frase na tela é a fala literal e o briefing vira PEDIDOS.md numerado."
+      },
+      {
+        "id": "cenas",
+        "titulo": "Buscar as cenas e a música",
+        "andamento": "storyboard",
+        "faz": "Vale a escolha 'cenas' da tela, que chega no briefing (sem cenas de apoio = nenhum b-roll; gerada por IA = paga, só com o João aprovando). Para cada cena de apoio, até 3 opções reais e identificáveis (acervo, cenas que o João já escolheu, get-brolls em várias fontes pelo método de .claude/skills/broll/SKILL.md), olhando os quadros: sem marca d'água, tarja preta ou nada que leia como ilícito, e no máximo 2 beats da mesma obra. Música: 2 ou 3 direções distintas pela intenção da fala (acervo primeiro, sem clichê, nunca faixa já reprovada), tudo no PLANO.json, com o ANALISE.md."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "comando": "python3 app/ferramentas/storyboard.py <sandbox>",
+        "faz": "Gerar o storyboard.jpg pela ferramenta (um quadro por beat, com o tempo e a fala; rodapé com a música e os efeitos) e comparar com a folha do exemplo principal. Parar: o João escolhe as cenas e a música na tela (fica no PLANO.json)."
+      },
+      {
+        "id": "montar",
+        "titulo": "Montar as cenas aprovadas",
+        "andamento": "video",
+        "faz": "Só com as escolhas do João: cada cena de apoio com janela medida (escolher-janela-broll.py: mov<5, sem corte) e limpa (limpa-broll.py --h <altura da faixa>, conferindo que o assunto ficou dentro) em brolls/cuts/bN.mp4; frase na tela com build-card-timed.py nos tempos absolutos da fala, impacto com build-impacto.py e música normalizada a -20 LUFS. Script que faltar na variante se porta de outra variante; prévias só se o João pedir."
+      },
+      {
+        "id": "video",
+        "titulo": "Vídeo",
+        "andamento": "video",
+        "faz": "Renderizar com o gerar.sh do modelo, de dentro da sandbox (zsh ../gerar.sh --dir .), passando --beats aprovados, a música, os valores medidos de enquadramento e legenda (3 palavras por bloco), --leg-hide se houver texto queimado e --out work/render-final.mp4 (caminho relativo vale a partir da sandbox, de onde o comando roda). Voz a -16 LUFS e cama musical constante e baixa."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Extrair quadros por seek preciso e olhar: legenda casando com a fala em ~8 pontos até o fim, abaixo do queixo e escondida no texto queimado, faixa esfumada, cards no tempo e na cor da ficha, testa inteira e zonas do Instagram livres. Fazer a folha do vídeo novo (1 quadro a cada 4 s, qa/folha-video.jpg) e comparar com a folha do exemplo principal: só entrega igual ou melhor (aprovado, copiar o render pra saída esperada), com o RESULTADO.md dizendo o que foi conferido, onde cada pedido entrou e quantos beats vieram de cada fonte. Checklist: nenhum texto de tela com letra menor que 44 px de altura em 1080 de largura (G2); nome do evento/produto escrito certo na legenda (G5); a fala não aparece escrita duas vezes (G4)."
+      }
+    ],
+    "comandos": {
+      "storyboard": "python3 app/ferramentas/storyboard.py <sandbox>",
+      "render": "zsh ../gerar.sh --dir ."
+    }
+  },
+  "funil": "topo",
+  "funil_motivo": "Fala com destaques: bom pra interromper e conduzir; vira meio quando a fala reenquadra.",
+  "apoio": {
+    "usa": true,
+    "tipo": "b-roll de filme ou notícia real",
+    "fontes": [
+      "acervo",
+      "youtube",
+      "pexels"
+    ],
+    "duracao_s": "2-4",
+    "quantidade": "1 a cada 6-7 s",
+    "quando_nao": "no gancho e no CTA",
+    "previa": "folha com 3 opções por cena antes do render"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "O arquivo vai na área de cima desta etapa (ou cole o link).",
+      "principal": true
+    },
+    {
+      "campo": "produto",
+      "rotulo": "Print, mockup ou cena do produto",
+      "tipo": "arquivo",
+      "obrigatorio": false,
+      "dica": "Entra como cena de apoio quando a fala citar."
+    }
+  ]
+}

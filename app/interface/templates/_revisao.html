@@ -1,0 +1,39 @@
+{# Cartão "Revisão do Estúdio" (revisao.py). Uso: {% from '_revisao.html' import revisao_card %}{{ revisao_card(r, cli, slug) }} #}
+{% macro revisao_card(r, cli, slug) %}
+<section class="cartao-config rev" id="and-revisao" data-estado="{{ r.estado if r else 'nunca' }}">
+  {% if not r %}
+  <h3>Conferência do Estúdio</h3>
+  <p class="rev-vazio">Ainda não conferi este vídeo.</p>
+  <form method="post" action="{{ url_for('revisao_rodar', cli=cli, slug=slug) }}"><button class="btn mini">Conferir agora</button></form>
+  {% elif r.rodando %}
+  <h3>Conferência do Estúdio</h3>
+  <p class="rev-vazio">● Conferindo o vídeo quadro a quadro… Pode responder “Ficou bom?” sem esperar: o que eu achar fica registrado.</p>
+  {% elif r.estado == 'erro' %}
+  <h3>Conferência do Estúdio</h3>
+  <p class="aviso erro">{{ r.erro }}</p>
+  <form method="post" action="{{ url_for('revisao_rodar', cli=cli, slug=slug) }}"><button class="btn mini">Conferir de novo</button></form>
+  {% elif r.estado == 'velha' %}
+  <h3>Conferência do Estúdio</h3><p class="rev-vazio">{{ r.nota }}</p>
+  {% else %}
+  <details class="rev-geral"{% if r.achados and r.achados|length <= 2 %} open{% endif %}><summary><h3 style="display:inline">O Estúdio conferiu o vídeo: {% if r.achados %}{{ r.achados|length }} coisa{{ 's' if r.achados|length != 1 }} pra melhorar{% else %}nada fora do lugar{% endif %}</h3></summary>
+  {% if r.avisos %}<p class="meta">Conferência automática: {{ r.avisos|join('; ') }}.</p>{% endif %}
+  {% if r.fora_da_regua %}<p class="meta">Fora do padrão do estilo: {{ r.fora_da_regua|join('; ') }}.</p>{% endif %}
+  {% if r.nota %}<p class="meta">{{ r.nota }}</p>{% endif %}
+  {% if r.achados %}<ul class="rev-lista">{% for a in r.achados %}
+    <li class="rev-item">{% if a.miniatura %}<a href="{{ url_for('arquivo', caminho=a.miniatura) }}" target="_blank" rel="noopener"><img loading="lazy" alt="Quadro do segundo {{ a.t }}" src="{{ url_for('arquivo', caminho=a.miniatura) }}"></a>{% else %}<span></span>{% endif %}
+      <div><b>{{ a.rotulo }} <span class="rev-t">· {{ a.t }} s</span></b>
+        <p>{{ a.o_que }}</p>
+        {% if a.causa or a.conserto %}<details class="rev-detalhe"><summary>Por que aconteceu e como o Estúdio conserta</summary>
+        {% if a.causa %}<p><b>Causa:</b> {{ a.causa }}</p>{% endif %}
+        {% if a.conserto %}<p><b>Conserto:</b> {{ a.conserto }}</p>{% endif %}</details>{% endif %}
+        {% if a.repetido_em and a.repetido_em > 1 %}<p>Já apareceu em {{ a.repetido_em }} vídeos deste estilo.</p>{% endif %}
+        {% if a.regra_furou %}<p>Isso já era proibido por uma regra do estilo e furou.</p>{% endif %}
+        {% set m = r.melhorias.get(a.id) if r.melhorias else none %}
+        {% if m %}<p><a class="btn mini {{ 'primario' if m.estado in ['proposta','pronta'] }}" href="{{ url_for('melhoria_ver', id_=m.id) }}">{{ {'proposta':'Ver a melhoria sugerida','pronta':'Ver a melhoria sugerida','preparando':'Preparando a melhoria…','aplicando':'Aplicando…','aplicada':'Melhoria aplicada (dá pra desfazer)','falhou':'A melhoria não passou','recusada':'Melhoria deixada pra depois','desfeita':'Melhoria desfeita'}.get(m.estado, 'Melhoria') }}</a></p>{% endif %}
+      </div></li>{% endfor %}</ul>{% endif %}
+  <form method="post" action="{{ url_for('revisao_rodar', cli=cli, slug=slug) }}"><button class="btn mini fantasma">Conferir de novo</button></form>
+  </details>
+  {% endif %}
+</section>
+{% if r and r.rodando %}<script>setTimeout(function(){location.reload()},8000)</script>{% endif %}
+{% endmacro %}

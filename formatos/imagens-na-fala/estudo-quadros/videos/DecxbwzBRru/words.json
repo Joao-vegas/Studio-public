@@ -1,0 +1,1241 @@
+{
+  "words": [
+    {
+      "word": "Um",
+      "start": 0,
+      "end": 0.16
+    },
+    {
+      "word": "cachorro",
+      "start": 0.16,
+      "end": 0.78
+    },
+    {
+      "word": "que",
+      "start": 0.78,
+      "end": 0.96
+    },
+    {
+      "word": "quer",
+      "start": 0.96,
+      "end": 1.18
+    },
+    {
+      "word": "virar",
+      "start": 1.18,
+      "end": 1.44
+    },
+    {
+      "word": "lobo",
+      "start": 1.44,
+      "end": 1.88
+    },
+    {
+      "word": "precisa",
+      "start": 1.88,
+      "end": 2.44
+    },
+    {
+      "word": "perder",
+      "start": 2.44,
+      "end": 2.94
+    },
+    {
+      "word": "o",
+      "start": 2.94,
+      "end": 3.1
+    },
+    {
+      "word": "apetite",
+      "start": 3.1,
+      "end": 3.56
+    },
+    {
+      "word": "por",
+      "start": 3.56,
+      "end": 3.8
+    },
+    {
+      "word": "ração.",
+      "start": 3.8,
+      "end": 4.4
+    },
+    {
+      "word": "É",
+      "start": 4.46,
+      "end": 4.52
+    },
+    {
+      "word": "inútil",
+      "start": 4.52,
+      "end": 4.92
+    },
+    {
+      "word": "você",
+      "start": 4.92,
+      "end": 5.2
+    },
+    {
+      "word": "ter",
+      "start": 5.2,
+      "end": 5.32
+    },
+    {
+      "word": "grandes",
+      "start": 5.32,
+      "end": 5.7
+    },
+    {
+      "word": "ambições",
+      "start": 5.7,
+      "end": 6.08
+    },
+    {
+      "word": "enquanto",
+      "start": 6.08,
+      "end": 6.44
+    },
+    {
+      "word": "passa",
+      "start": 6.44,
+      "end": 6.86
+    },
+    {
+      "word": "o",
+      "start": 6.86,
+      "end": 6.98
+    },
+    {
+      "word": "dia",
+      "start": 6.98,
+      "end": 7.12
+    },
+    {
+      "word": "inteiro",
+      "start": 7.12,
+      "end": 7.46
+    },
+    {
+      "word": "se",
+      "start": 7.46,
+      "end": 7.6
+    },
+    {
+      "word": "alimentando",
+      "start": 7.6,
+      "end": 8.16
+    },
+    {
+      "word": "de",
+      "start": 8.16,
+      "end": 8.28
+    },
+    {
+      "word": "migalhas.",
+      "start": 8.28,
+      "end": 9.18
+    },
+    {
+      "word": "O",
+      "start": 9.06,
+      "end": 9.14
+    },
+    {
+      "word": "que",
+      "start": 9.14,
+      "end": 9.22
+    },
+    {
+      "word": "você",
+      "start": 9.22,
+      "end": 9.54
+    },
+    {
+      "word": "consome",
+      "start": 9.54,
+      "end": 10.08
+    },
+    {
+      "word": "todo",
+      "start": 10.08,
+      "end": 10.32
+    },
+    {
+      "word": "dia",
+      "start": 10.32,
+      "end": 10.64
+    },
+    {
+      "word": "define",
+      "start": 10.64,
+      "end": 11.1
+    },
+    {
+      "word": "o",
+      "start": 11.1,
+      "end": 11.2
+    },
+    {
+      "word": "tamanho",
+      "start": 11.2,
+      "end": 11.6
+    },
+    {
+      "word": "das",
+      "start": 11.6,
+      "end": 11.76
+    },
+    {
+      "word": "suas",
+      "start": 11.76,
+      "end": 11.96
+    },
+    {
+      "word": "ambições.",
+      "start": 11.96,
+      "end": 12.34
+    },
+    {
+      "word": "O",
+      "start": 12.72,
+      "end": 12.8
+    },
+    {
+      "word": "pior",
+      "start": 12.8,
+      "end": 13.16
+    },
+    {
+      "word": "é",
+      "start": 13.16,
+      "end": 13.4
+    },
+    {
+      "word": "que",
+      "start": 13.4,
+      "end": 13.58
+    },
+    {
+      "word": "quando",
+      "start": 13.58,
+      "end": 13.8
+    },
+    {
+      "word": "você",
+      "start": 13.8,
+      "end": 14.1
+    },
+    {
+      "word": "corta",
+      "start": 14.1,
+      "end": 14.52
+    },
+    {
+      "word": "as",
+      "start": 14.52,
+      "end": 14.66
+    },
+    {
+      "word": "coisas",
+      "start": 14.66,
+      "end": 14.88
+    },
+    {
+      "word": "baratas",
+      "start": 14.88,
+      "end": 15.32
+    },
+    {
+      "word": "que",
+      "start": 15.32,
+      "end": 15.48
+    },
+    {
+      "word": "você",
+      "start": 15.48,
+      "end": 15.7
+    },
+    {
+      "word": "faz",
+      "start": 15.7,
+      "end": 16.02
+    },
+    {
+      "word": "para",
+      "start": 16.02,
+      "end": 16.12
+    },
+    {
+      "word": "relaxar,",
+      "start": 16.12,
+      "end": 16.86
+    },
+    {
+      "word": "como",
+      "start": 16.88,
+      "end": 17
+    },
+    {
+      "word": "ficar",
+      "start": 17,
+      "end": 17.2
+    },
+    {
+      "word": "rolando",
+      "start": 17.2,
+      "end": 17.52
+    },
+    {
+      "word": "feed",
+      "start": 17.52,
+      "end": 17.9
+    },
+    {
+      "word": "ou",
+      "start": 17.9,
+      "end": 18.02
+    },
+    {
+      "word": "comer",
+      "start": 18.02,
+      "end": 18.18
+    },
+    {
+      "word": "besteira,",
+      "start": 18.18,
+      "end": 18.98
+    },
+    {
+      "word": "você",
+      "start": 18.96,
+      "end": 19.12
+    },
+    {
+      "word": "se",
+      "start": 19.12,
+      "end": 19.28
+    },
+    {
+      "word": "sente",
+      "start": 19.28,
+      "end": 19.56
+    },
+    {
+      "word": "vazio,",
+      "start": 19.56,
+      "end": 20.12
+    },
+    {
+      "word": "como",
+      "start": 20.12,
+      "end": 20.24
+    },
+    {
+      "word": "se",
+      "start": 20.24,
+      "end": 20.36
+    },
+    {
+      "word": "faltasse",
+      "start": 20.36,
+      "end": 20.8
+    },
+    {
+      "word": "alguma",
+      "start": 20.8,
+      "end": 21.06
+    },
+    {
+      "word": "coisa.",
+      "start": 21.06,
+      "end": 21.7
+    },
+    {
+      "word": "E",
+      "start": 21.64,
+      "end": 21.74
+    },
+    {
+      "word": "é",
+      "start": 21.74,
+      "end": 21.82
+    },
+    {
+      "word": "nesse",
+      "start": 21.82,
+      "end": 22.1
+    },
+    {
+      "word": "silêncio",
+      "start": 22.1,
+      "end": 22.58
+    },
+    {
+      "word": "que",
+      "start": 22.58,
+      "end": 22.72
+    },
+    {
+      "word": "a",
+      "start": 22.72,
+      "end": 22.78
+    },
+    {
+      "word": "maioria",
+      "start": 22.78,
+      "end": 23.28
+    },
+    {
+      "word": "das",
+      "start": 23.28,
+      "end": 23.48
+    },
+    {
+      "word": "pessoas",
+      "start": 23.48,
+      "end": 23.88
+    },
+    {
+      "word": "desiste.",
+      "start": 23.88,
+      "end": 24.86
+    },
+    {
+      "word": "E",
+      "start": 24.52,
+      "end": 24.6
+    },
+    {
+      "word": "aí",
+      "start": 24.6,
+      "end": 24.86
+    },
+    {
+      "word": "elas",
+      "start": 24.86,
+      "end": 25.1
+    },
+    {
+      "word": "começam",
+      "start": 25.1,
+      "end": 25.64
+    },
+    {
+      "word": "a",
+      "start": 25.64,
+      "end": 25.88
+    },
+    {
+      "word": "pensar",
+      "start": 25.88,
+      "end": 26.24
+    },
+    {
+      "word": "que",
+      "start": 26.24,
+      "end": 26.44
+    },
+    {
+      "word": "aquilo",
+      "start": 26.44,
+      "end": 26.78
+    },
+    {
+      "word": "que",
+      "start": 26.78,
+      "end": 26.94
+    },
+    {
+      "word": "rebaixa",
+      "start": 26.94,
+      "end": 27.3
+    },
+    {
+      "word": "elas,",
+      "start": 27.3,
+      "end": 27.6
+    },
+    {
+      "word": "na",
+      "start": 27.6,
+      "end": 27.74
+    },
+    {
+      "word": "verdade,",
+      "start": 27.74,
+      "end": 28.18
+    },
+    {
+      "word": "fazia",
+      "start": 28.18,
+      "end": 28.52
+    },
+    {
+      "word": "bem.",
+      "start": 28.52,
+      "end": 29.28
+    },
+    {
+      "word": "Mas",
+      "start": 28.8,
+      "end": 29.04
+    },
+    {
+      "word": "esse",
+      "start": 29.04,
+      "end": 29.26
+    },
+    {
+      "word": "vazio",
+      "start": 29.26,
+      "end": 29.7
+    },
+    {
+      "word": "é",
+      "start": 29.7,
+      "end": 30.02
+    },
+    {
+      "word": "justamente",
+      "start": 30.02,
+      "end": 30.62
+    },
+    {
+      "word": "o",
+      "start": 30.62,
+      "end": 30.98
+    },
+    {
+      "word": "espaço",
+      "start": 30.98,
+      "end": 31.54
+    },
+    {
+      "word": "para",
+      "start": 31.54,
+      "end": 31.76
+    },
+    {
+      "word": "o",
+      "start": 31.76,
+      "end": 31.78
+    },
+    {
+      "word": "novo",
+      "start": 31.78,
+      "end": 32.22
+    },
+    {
+      "word": "que",
+      "start": 32.22,
+      "end": 32.38
+    },
+    {
+      "word": "você",
+      "start": 32.38,
+      "end": 32.6
+    },
+    {
+      "word": "tanto",
+      "start": 32.6,
+      "end": 32.9
+    },
+    {
+      "word": "queria.",
+      "start": 32.9,
+      "end": 33.4
+    },
+    {
+      "word": "É",
+      "start": 33.44,
+      "end": 33.52
+    },
+    {
+      "word": "o",
+      "start": 33.52,
+      "end": 33.6
+    },
+    {
+      "word": "primeiro",
+      "start": 33.6,
+      "end": 34.02
+    },
+    {
+      "word": "território",
+      "start": 34.02,
+      "end": 34.6
+    },
+    {
+      "word": "da",
+      "start": 34.6,
+      "end": 34.76
+    },
+    {
+      "word": "versão",
+      "start": 34.76,
+      "end": 35.24
+    },
+    {
+      "word": "maior",
+      "start": 35.24,
+      "end": 35.72
+    },
+    {
+      "word": "de",
+      "start": 35.72,
+      "end": 35.92
+    },
+    {
+      "word": "você.",
+      "start": 35.92,
+      "end": 36.22
+    },
+    {
+      "word": "O",
+      "start": 36.6,
+      "end": 36.74
+    },
+    {
+      "word": "lobo",
+      "start": 36.74,
+      "end": 37.12
+    },
+    {
+      "word": "nasce",
+      "start": 37.12,
+      "end": 37.56
+    },
+    {
+      "word": "no",
+      "start": 37.56,
+      "end": 37.74
+    },
+    {
+      "word": "dia",
+      "start": 37.74,
+      "end": 37.9
+    },
+    {
+      "word": "em",
+      "start": 37.9,
+      "end": 38.04
+    },
+    {
+      "word": "que",
+      "start": 38.04,
+      "end": 38.08
+    },
+    {
+      "word": "o",
+      "start": 38.08,
+      "end": 38.18
+    },
+    {
+      "word": "cachorro",
+      "start": 38.18,
+      "end": 38.66
+    },
+    {
+      "word": "aceita",
+      "start": 38.66,
+      "end": 39.34
+    },
+    {
+      "word": "matar",
+      "start": 39.34,
+      "end": 39.74
+    },
+    {
+      "word": "de",
+      "start": 39.74,
+      "end": 39.98
+    },
+    {
+      "word": "fome",
+      "start": 39.98,
+      "end": 40.34
+    },
+    {
+      "word": "a",
+      "start": 40.34,
+      "end": 40.44
+    },
+    {
+      "word": "versão",
+      "start": 40.44,
+      "end": 40.76
+    },
+    {
+      "word": "menor",
+      "start": 40.76,
+      "end": 41.1
+    },
+    {
+      "word": "dele.",
+      "start": 41.1,
+      "end": 41.9
+    },
+    {
+      "word": "Então,",
+      "start": 41.62,
+      "end": 42.14
+    },
+    {
+      "word": "para",
+      "start": 42.14,
+      "end": 42.42
+    },
+    {
+      "word": "de",
+      "start": 42.42,
+      "end": 42.58
+    },
+    {
+      "word": "se",
+      "start": 42.58,
+      "end": 42.68
+    },
+    {
+      "word": "alimentar",
+      "start": 42.68,
+      "end": 43.02
+    },
+    {
+      "word": "de",
+      "start": 43.02,
+      "end": 43.2
+    },
+    {
+      "word": "ração",
+      "start": 43.2,
+      "end": 43.6
+    },
+    {
+      "word": "e",
+      "start": 43.6,
+      "end": 43.94
+    },
+    {
+      "word": "chamar",
+      "start": 43.94,
+      "end": 44.28
+    },
+    {
+      "word": "isso",
+      "start": 44.28,
+      "end": 44.38
+    },
+    {
+      "word": "de",
+      "start": 44.38,
+      "end": 44.5
+    },
+    {
+      "word": "descanso.",
+      "start": 44.5,
+      "end": 45.12
+    },
+    {
+      "word": "Aquilo",
+      "start": 45.48,
+      "end": 45.66
+    },
+    {
+      "word": "que",
+      "start": 45.66,
+      "end": 45.8
+    },
+    {
+      "word": "você",
+      "start": 45.8,
+      "end": 46
+    },
+    {
+      "word": "se",
+      "start": 46,
+      "end": 46.18
+    },
+    {
+      "word": "recusa",
+      "start": 46.18,
+      "end": 46.6
+    },
+    {
+      "word": "a",
+      "start": 46.6,
+      "end": 46.72
+    },
+    {
+      "word": "consumir",
+      "start": 46.72,
+      "end": 47.2
+    },
+    {
+      "word": "é",
+      "start": 47.2,
+      "end": 47.54
+    },
+    {
+      "word": "o",
+      "start": 47.54,
+      "end": 47.64
+    },
+    {
+      "word": "que",
+      "start": 47.64,
+      "end": 47.72
+    },
+    {
+      "word": "te",
+      "start": 47.72,
+      "end": 47.88
+    },
+    {
+      "word": "dá",
+      "start": 47.88,
+      "end": 48
+    },
+    {
+      "word": "o",
+      "start": 48,
+      "end": 48.14
+    },
+    {
+      "word": "direito",
+      "start": 48.14,
+      "end": 48.54
+    },
+    {
+      "word": "de",
+      "start": 48.54,
+      "end": 48.88
+    },
+    {
+      "word": "crescer.",
+      "start": 48.88,
+      "end": 49.72
+    }
+  ],
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 0,
+      "end": 4.24,
+      "text": " Um cachorro que quer virar lobo precisa perder o apetite por ração.",
+      "tokens": [
+        50365,
+        3301,
+        32773,
+        47385,
+        631,
+        7083,
+        4107,
+        289,
+        450,
+        1763,
+        18861,
+        26971,
+        277,
+        1882,
+        302,
+        642,
+        1515,
+        3342,
+        2917,
+        13,
+        50577
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06112085,
+      "compression_ratio": 1.6495469,
+      "no_speech_prob": 0.020645142
+    },
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 4.44,
+      "end": 8.88,
+      "text": " É inútil você ter grandes ambições enquanto passa o dia inteiro se alimentando de migalhas.",
+      "tokens": [
+        50587,
+        4922,
+        294,
+        2481,
+        20007,
+        2723,
+        1796,
+        16640,
+        3913,
+        38038,
+        31749,
+        23880,
+        277,
+        6801,
+        45633,
+        369,
+        17043,
+        1806,
+        368,
+        6186,
+        304,
+        12438,
+        13,
+        50809
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06112085,
+      "compression_ratio": 1.6495469,
+      "no_speech_prob": 0.020645142
+    },
+    {
+      "id": 2,
+      "seek": 0,
+      "start": 9.0199995,
+      "end": 12.42,
+      "text": " O que você consome todo dia define o tamanho das suas ambições.",
+      "tokens": [
+        50816,
+        422,
+        631,
+        2723,
+        1014,
+        423,
+        5149,
+        6801,
+        6964,
+        277,
+        45645,
+        1482,
+        23410,
+        3913,
+        38038,
+        13,
+        50986
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06112085,
+      "compression_ratio": 1.6495469,
+      "no_speech_prob": 0.020645142
+    },
+    {
+      "id": 3,
+      "seek": 0,
+      "start": 12.7,
+      "end": 16.72,
+      "text": " O pior é que quando você corta as coisas baratas que você faz para relaxar,",
+      "tokens": [
+        51000,
+        422,
+        45974,
+        1136,
+        631,
+        7770,
+        2723,
+        11278,
+        64,
+        382,
+        14567,
+        2159,
+        37892,
+        631,
+        2723,
+        4375,
+        1690,
+        5789,
+        289,
+        11,
+        51201
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06112085,
+      "compression_ratio": 1.6495469,
+      "no_speech_prob": 0.020645142
+    },
+    {
+      "id": 4,
+      "seek": 0,
+      "start": 16.859999,
+      "end": 18.72,
+      "text": " como ficar rolando feed ou comer besteira,",
+      "tokens": [
+        51208,
+        2617,
+        13646,
+        744,
+        16201,
+        3154,
+        2820,
+        16510,
+        22245,
+        4271,
+        11,
+        51301
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06112085,
+      "compression_ratio": 1.6495469,
+      "no_speech_prob": 0.020645142
+    },
+    {
+      "id": 5,
+      "seek": 0,
+      "start": 18.92,
+      "end": 21.359999,
+      "text": " você se sente vazio, como se faltasse alguma coisa.",
+      "tokens": [
+        51311,
+        2723,
+        369,
+        47214,
+        37533,
+        1004,
+        11,
+        2617,
+        369,
+        37108,
+        8604,
+        20259,
+        9614,
+        13,
+        51433
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06112085,
+      "compression_ratio": 1.6495469,
+      "no_speech_prob": 0.020645142
+    },
+    {
+      "id": 6,
+      "seek": 0,
+      "start": 21.619999,
+      "end": 24.38,
+      "text": " E é nesse silêncio que a maioria das pessoas desiste.",
+      "tokens": [
+        51446,
+        462,
+        1136,
+        18270,
+        3425,
+        5050,
+        8529,
+        631,
+        257,
+        44384,
+        1482,
+        10021,
+        730,
+        8375,
+        13,
+        51584
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06112085,
+      "compression_ratio": 1.6495469,
+      "no_speech_prob": 0.020645142
+    },
+    {
+      "id": 7,
+      "seek": 0,
+      "start": 24.38,
+      "end": 28.8,
+      "text": " E aí elas começam a pensar que aquilo que rebaixa elas, na verdade, fazia bem.",
+      "tokens": [
+        51584,
+        462,
+        7461,
+        23003,
+        14596,
+        335,
+        257,
+        18321,
+        631,
+        32304,
+        631,
+        319,
+        4231,
+        19195,
+        23003,
+        11,
+        1667,
+        15203,
+        11,
+        4375,
+        654,
+        7577,
+        13,
+        51805
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06112085,
+      "compression_ratio": 1.6495469,
+      "no_speech_prob": 0.020645142
+    },
+    {
+      "id": 8,
+      "seek": 2880,
+      "start": 28.8,
+      "end": 33.239998,
+      "text": " Mas esse vazio é justamente o espaço para o novo que você tanto queria.",
+      "tokens": [
+        50365,
+        5224,
+        6755,
+        37533,
+        1004,
+        1136,
+        41056,
+        277,
+        34270,
+        1690,
+        277,
+        18246,
+        631,
+        2723,
+        10331,
+        27955,
+        13,
+        50587
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06422281,
+      "compression_ratio": 1.5506608,
+      "no_speech_prob": 0.001083374
+    },
+    {
+      "id": 9,
+      "seek": 2880,
+      "start": 33.42,
+      "end": 36.239998,
+      "text": " É o primeiro território da versão maior de você.",
+      "tokens": [
+        50596,
+        4922,
+        277,
+        18314,
+        8673,
+        35052,
+        1120,
+        41471,
+        15859,
+        368,
+        2723,
+        13,
+        50737
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06422281,
+      "compression_ratio": 1.5506608,
+      "no_speech_prob": 0.001083374
+    },
+    {
+      "id": 10,
+      "seek": 2880,
+      "start": 36.579998,
+      "end": 41.42,
+      "text": " O lobo nasce no dia em que o cachorro aceita matar de fome a versão menor dele.",
+      "tokens": [
+        50754,
+        422,
+        450,
+        1763,
+        5382,
+        384,
+        572,
+        6801,
+        846,
+        631,
+        277,
+        32773,
+        47385,
+        17117,
+        2786,
+        39208,
+        368,
+        283,
+        423,
+        257,
+        41471,
+        26343,
+        16376,
+        13,
+        50996
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06422281,
+      "compression_ratio": 1.5506608,
+      "no_speech_prob": 0.001083374
+    },
+    {
+      "id": 11,
+      "seek": 2880,
+      "start": 41.559998,
+      "end": 45.14,
+      "text": " Então, para de se alimentar de ração e chamar isso de descanso.",
+      "tokens": [
+        51003,
+        6469,
+        11,
+        1690,
+        368,
+        369,
+        17043,
+        289,
+        368,
+        3342,
+        2917,
+        308,
+        8268,
+        289,
+        4616,
+        368,
+        730,
+        7035,
+        539,
+        13,
+        51182
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06422281,
+      "compression_ratio": 1.5506608,
+      "no_speech_prob": 0.001083374
+    },
+    {
+      "id": 12,
+      "seek": 2880,
+      "start": 45.42,
+      "end": 49.239998,
+      "text": " Aquilo que você se recusa a consumir é o que te dá o direito de crescer.",
+      "tokens": [
+        51196,
+        8728,
+        10720,
+        631,
+        2723,
+        369,
+        850,
+        20318,
+        257,
+        3978,
+        347,
+        1136,
+        277,
+        631,
+        535,
+        14401,
+        277,
+        36601,
+        368,
+        20964,
+        1776,
+        13,
+        51387
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.06422281,
+      "compression_ratio": 1.5506608,
+      "no_speech_prob": 0.001083374
+    }
+  ],
+  "text": "Um cachorro que quer virar lobo precisa perder o apetite por ração. É inútil você ter grandes ambições enquanto passa o dia inteiro se alimentando de migalhas. O que você consome todo dia define o tamanho das suas ambições. O pior é que quando você corta as coisas baratas que você faz para relaxar, como ficar rolando feed ou comer besteira, você se sente vazio, como se faltasse alguma coisa. E é nesse silêncio que a maioria das pessoas desiste. E aí elas começam a pensar que aquilo que rebaixa elas, na verdade, fazia bem. Mas esse vazio é justamente o espaço para o novo que você tanto queria. É o primeiro território da versão maior de você. O lobo nasce no dia em que o cachorro aceita matar de fome a versão menor dele. Então, para de se alimentar de ração e chamar isso de descanso. Aquilo que você se recusa a consumir é o que te dá o direito de crescer."
+}

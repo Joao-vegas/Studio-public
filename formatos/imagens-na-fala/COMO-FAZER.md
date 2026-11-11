@@ -1,0 +1,68 @@
+# Como fazer: Imagens na fala
+
+**Quando usar:** a pessoa fala em tela cheia, vertical 9:16, e a cada ideia entra uma pintura (ou gravura, no máximo 1/3) que ilustra a palavra dita: 1 sujeito, em cor, que se lê no celular. Tese forte, tom de ensaio. Sem gravação de tela.
+**Régua:** `exemplo-1.mp4` (@felipemustafanunes, 49 s), medida em `estudos/01-hedonismo-decx/` e `estudo-quadros/`. Estilo e qualidade, nunca molde: fala, título e imagens são sempre do vídeo novo. `exemplo-2.mp4` (@soudaviribas) é o secundário.
+**Motor:** `gerar.py` do modelo (ffmpeg decodifica, PIL desenha, ffmpeg codifica, libx264 crf 18). `medir_cartoes.py` mede o tempo dos cartões de qualquer referência e `paleta.py` a cor, a borda e o texto de cada cartão.
+**Som:** só a voz, 2 passadas de loudnorm a -14 LUFS, silêncio puro depois da última palavra. Sem música, sem efeito.
+
+## Medidas da referência (1080x1920, quadro a quadro a 30 fps)
+
+| Peça | Medida |
+|---|---|
+| Título | fixo o vídeo todo. Open Sans Bold 72 px, amarelo #F4EB0C, contorno preto 4 px + sombra. 1 linha, 83% da largura (x 8 a 92%), texto de y 16,8% a 20,6% (linha de base 378 px). |
+| Legenda | Open Sans Bold 52 px, branca, contorno preto 3 px, 1 a 2 linhas (passo 56 px). 1ª linha a 55,8% da altura (1072 px, ~190 px abaixo do queixo), centrada no ROSTO (x 63 a 66%), não na tela. |
+| Blocos da legenda | 4,7 palavras (2 a 6), bloco inteiro de uma vez (sem karaokê), corte seco, entra na 1ª palavra ±0,15 s. Presente em 93,8% dos quadros; vazio de 3 a 6 quadros no fim de frase. |
+| Posições | A: topo e centro em (23,4%; 26,0%), caixa até 38x28%. B: base e centro em (24,5%; 94,5%), até 38x38%. C: base e centro em (72%; 94,4%), até 46x33%. |
+| Paleta dos cartões | 22 cartões medidos (200 px de largura, `estudos/01-hedonismo-decx/paleta-cartoes.json`): saturação mediana 62 (12 de 22 com 60 ou mais; só 4 abaixo de 30 = gravura clara), luminância mediana 102 (8 abaixo de 90, 7 acima de 140), borda mediana 27, 1 sujeito ocupando mediana 55% da área, sem texto. É pintura em cor de meio-tom a escura, NÃO gravura em papel claro. |
+| Cartão | largura ~37% (370 a 414 px, C até 500), altura pela imagem (altura/largura 1,1 a 1,8; 22 de 25 em pé). Sem borda, sem sombra, canto reto, sem correção de cor. Parado (variação média dentro do cartão 0,06 de 255). |
+| Entrada e saída | corte seco de 1 quadro. Sem escala, deslize nem fade. Sai, fica 0,1 a 0,5 s vazio (mediana 0,35 s) e o próximo entra na mesma posição. |
+| Quantidade | 25 cartões em 49,4 s = 30 por minuto. 3 na tela em 82% do tempo, 2 em 13%, 1 em 3%, 0 em 1% (média 2,77). |
+| Duração | por cartão: mediana 4,6 s, p10 3,9 s, p90 6,1 s, máximo 11,4 s (um fica por 2 frases). |
+| Tempo por posição | cada posição tem o seu tempo: a silhueta laranja fica de 16 a 24 s enquanto A e B trocam. Entradas se espalham (intervalo mediano 1,5 a 2,5 s entre cartões de qualquer posição); só 3 vezes em 49 s dois ou mais cartões saem no mesmo quadro. 10 viradas de ideia em 49 s (1 a cada 4,9 s), não 1 limpeza de tela a cada virada. |
+| Com a fala | o cartão chega no começo da oração, até 1,3 s antes da palavra que ilustra, e mostra a COISA que ela nomeia (cachorro e lobos entram em "cachorro que quer virar lobo"). Imagem nova em 100% das orações. |
+| Pessoa | rosto (caixa Haar) em x 48 a 87%, y 23 a 45%, coluna da esquerda (até 44%) livre. Fala a 198 palavras por minuto, voz em 79% do tempo, pausa de 0,2 s depois da frase (máx 0,3 s). |
+| Secundário | título branco de 2 linhas em y 11 a 15% (~80 px), sem legenda, cartões de 26 a 30% da largura, 1 diagrama em tela dividida (33% de cima, 128 a 144 s), capa de livro com chamada no fim. |
+
+## Passo a passo (o mesmo da esteira do formato.json, na mesma ordem)
+
+1. **Cortar e transcrever.** `corte.py auto` + `aplicar` → `work/joao.mp4`; Groq em `work/words.json`. Depois `app/.venv/bin/python ../apertar_pausas.py --video <bruto> --words <words.json> --saida-video work/joao.mp4 --saida-words work/words.json --ate <fim>`: toda pausa acima de 0,30 s fica em 0,20 s (silêncio do áudio + buracos entre palavras; só deste formato, o `corte.py` não muda). Pausa depois de frase até 0,3 s. O fim do vídeo é 0,3 s depois de onde a última palavra ACABA (energia do áudio; o `end` do Groq inclui a pausa): `fim_fala` e `fim` no PLANO.json (G23).
+2. **Título e ideias.** Título = a tese, até ~25 caracteres por linha (1 linha ou 2 se não couber em 83%). `python3 ../planejar.py --dir . --oracoes` lista as orações. Cada cartão do `IDEIAS.json` nomeia o SUBSTANTIVO concreto da fala que ilustra (`palavra`, ex.: concorrente, vendendo, clientes, preço) e entra de 0 a 2,5 s antes dela (`antes` ou `t`); `planejar.py` grava o `PLANO.json` e recusa palavra fora dessa janela. Cada posição (A, B, C) tem o seu próprio tempo: entradas espalhadas, 1 posição por vez (a saída é a entrada do próximo da mesma posição menos 0,35 s), 3 cartões já em 0,6 s e no máximo 2 momentos com 2 ou mais saindo juntos (`limpa`). 14 cartões em 26 s = 32 por minuto; a referência tem 30. Fora de 26 a 34 por minuto a conferência reprova.
+3. **Escolher as imagens.** `python3 app/ferramentas/fontes_gratis.py imagem "<consulta em inglês>" --saida imagens/cand/<n> --fontes commons --n 8` (consulta com o substantivo + "painting oil", só licença livre); olhar a folha. Pintura em cor, de meio-tom a escura, 1 sujeito que ocupa o cartão, SEM letra; gravura no máximo 1/3; metáfora erudita só se a fala a nomeia. Por medida (`python3 ../paleta.py imagem <img>`, recorte de 200 px de largura): borda <= 30, sujeito >= 35% da área, zero palavra legível (tesseract), saturação mediana do conjunto >= 60 (metade dos cartões com 60 ou mais), luminância mediana de 80 a 130 com pelo menos 1 cartão claro (> 140) e 1 escuro (< 90). Nunca 2 obras do mesmo artista juntas na tela; sem 2 imagens parecidas. `app/.venv/bin/python app/ferramentas/casar_imagem.py pontuar <img> "<o que o cartão mostra, em português>" --outras "<o que os outros mostram>"`: guardar `casar` (>= 0,19 e `casa`), `tecnica`, `artista`, `palavra` em `imagens/origem.json` e rodar `python3 ../paleta.py sandbox .` (grava sat, lum, borda, sujeito_pct, palavras_texto). A conferência reprova imagem sem isso.
+   **Rota Codex (05-nov-2026, 1º vídeo real, nutri):** no lugar do Commons, `cartoes_plano.py gerar` do sandbox gera as pinturas no Codex (`codex exec -m gpt-6.1-sol`, prompt pelo stdin, 1 por chamada, 2 versões por palavra, 8 em paralelo, ~70 s cada, assinatura, sem custo de API). O prompt pede pintura a óleo em pé 2:3, 1 sujeito grande com ar em volta, fundo liso que contraste com o sujeito, brilho médio (sem isso saem escuras: luminância 34 a 60), zero letra, estilo diferente entre cartões vizinhos. Medir com `qc_cartoes.py` (paleta + casar) e, antes do render, o OCR no cartão JÁ recortado (`paleta.medir(gerar.preparar_cartao(...))`: uma pintura passou inteira e o OCR leu "Mile" a 400 px). Refação (v3, v4) quando sujeito < 35% ou escura demais. origem.json: "origem": "gerada pelo Codex" e o prompt. Peça própria (anúncio, legenda do anúncio): regra `peca-propria`.
+4. **Prévia.** `zsh ../gerar.sh --dir . --previa` grava `storyboard.jpg` (12 quadros); `--quadro S` tira um só. Conferir: cartão fora do rosto, legenda abaixo do queixo, título sem cobrir a cabeça, 3 cartões na tela na maior parte do tempo, emenda do quadro reduzido invisível. Para pro João aprovar.
+5. **Montar e renderizar.** `zsh ../gerar.sh --dir .` (~1 min para 28 s). Grava `qa/medidas.json` (o que o render fez) e `qa/words-saida.json` (a fala do vídeo entregue, que a conferência lê).
+6. **Conferência.** `python3 app/ferramentas/conferir_video.py <mp4> --sandbox <sandbox> --formato imagens-na-fala` (SEM `--formato` a régua cai em "estilo sem cena de apoio" e a r1 passou com 1,4 cartão na tela). Reprova: média de cartões na tela < 2,3, < 26 cartões por minuto, rosto com mais de 42% da largura, cartão deitado ou estreito (< 370 px, C < 420 px), legenda em fundo claro sem contorno de 5 px, imagem sem `casar`/`tecnica` ou que não casa, saturação mediana < 60, luminância fora de 80 a 130, borda > 30 ou texto num cartão, mais de 1/3 em gravura, mais de 2 saídas juntas, intervalo mediano entre entradas fora de 1,5 a 2,5 s, menos de 30% dos cartões atravessando uma virada, menos de 80% com a palavra casada, rosto p95 > 46% da largura ou a menos de 2,5% de um cartão, 2 obras do mesmo artista juntas; `qa/medidas.json` contra a tabela acima; `comparar_folha.py` põe 20 quadros da referência em cima e 20 do render embaixo. Pior que o exemplo não sai.
+
+PLANO.json, enquadramento e cartões: cabeçalho do `gerar.py`. Enquadramento `auto`: reduz o quadro (zoom 0,78 a 1,0) até o rosto ter 39% da largura, empurra pra direita até a caixa do rosto começar em 46% e põe o topo do rosto a 23,5% da altura; o que sobra nas bordas é o próprio quadro borrado (sigma 24) e a 75% do brilho, com rampa de 60 px (esquerda) e 220 px (embaixo); bruto com zoom >= 0,90 não reduz. O enquadramento ACOMPANHA o rosto (`EnqDin`): se a pessoa se inclina, o zoom cai até o rosto não passar de 45,5% da largura e o quadro vai pra direita até a borda do rosto ficar a 490 px (cartões A e B acabam em 453); a checagem mede o rosto a cada 0,5 s contra os cartões visíveis (`rosto_p95_w_pct`, folga mínima); o cartão encolhe pra não tocar o rosto (folga 2,5%). Cartão em pé: aspecto 1,10 a 1,80, largura A e B 400 px, C 454 px; se a altura não cabe, recorta a altura (nunca encolhe a largura). Legenda em fundo claro (luminância > 120): contorno 5 px e sombra mais forte, sem tarja.
+
+## Gravação (vale pra todo vídeo deste formato)
+
+- Plano médio: peito e cintura, rosto com ~40% da largura (400 a 440 px), cabeça no terço de cima (topo do rosto a ~23% da altura), corpo deslocado pra direita (rosto começando em ~46% da largura), coluna da esquerda e o terço de baixo livres.
+- Roupa escura (a referência tem 37 a 77 de luminância atrás da legenda; camiseta branca dá 200 e a legenda de 52 px perde peso).
+- Fundo com textura (quadro, plantas, estante), não parede lisa: o desvio do fundo na referência é 42 a 69, o do nosso teste 13 a 26.
+- Câmera mais longe, não zoom digital: de perto (rosto > 45%) o motor reduz o quadro e o fundo vira borrão.
+
+## Som e cena de apoio
+
+Música: não usa. Efeito: não usa. Cena de apoio = o cartão: pintura em cor (gravura no máximo 1/3), 3,4 a 11,4 s (mediana 4,6 s), do acervo, Wikimedia Commons, Internet Archive ou Openverse, com folha de opções antes do render. Não usa em fala sem ideia concreta.
+
+## Estado da receita (r3, 05-nov-2026)
+
+Reproduz: título, legenda no rosto, 3 posições, corte seco, cartão parado, vazio de 0,35 s, voz -14 LUFS, paleta em pintura de cor, cartão que nomeia a palavra, tempo próprio por posição, conferência `OK` com `--formato`. Medido na r3 (25,9 s, `exemplo-teste-r3.mp4`, folha `comparacao-r3.jpg`): 14 cartões = 32,5 por minuto, média 2,82 na tela, 3 na tela em 83,6% (3 cartões até 0,53 s), intervalo mediano entre entradas 1,8 s, 0 saídas juntas, 57% dos cartões atravessam uma virada, saturação mediana 84,5 (13 de 14 com 60 ou mais), luminância mediana 93 (7 escuros, 2 claros), borda máxima 29,7, 0 palavras de texto, 14 de 14 com a palavra casada, 0 de 14 em gravura, rosto p95 45,5% da largura e folga mínima de 3,4% até um cartão, fundo reduzido com borrão de lente.
+Ainda não bate: luminância atrás da legenda 200 (referência 37 a 77; só roupa escura resolve), fundo reduzido e borrado em vez de sala com textura e câmera de perto (zoom 0,80; o enquadramento dinâmico corrige a inclinação, não a distância), `sujeito_pct` é estimativa (distância do tom do fundo), som da referência por ouvir (`formato.json` › som segue `usa: false` até o João dizer). Revisões: `revisao-r1.md`, `revisao-r2.md`.
+
+## Variante Vegas literal (v2 da nutri, 05-nov-2026)
+
+Regra `estilo-vegas-literal`. Em vez de pintura: 1 foto editorial por palavra no Codex (`fotos_v2.py`, 2 versões, refação com fundo desfocado quando a borda passa de 38) e peças próprias em PIL (`pecas_v2.py`: R$ 70 MIL, anúncio feio, post DIETA X LANCHE, grade de posts iguais, anúncio da clínica, caixa de comentário, celular com o anúncio). `plano_v2.py` grava o IDEIAS.json; `montar_origem_v2.py` o origem.json (tecnica fotografia ou peça própria). A pintura da referência segue como variante clássica. v3: a foto do anúncio (`fa`, 3:2) mostra só as peças que a fala nomeia e `compor_cartoes.py` ecoa a fala na manchete; auditar a pontuação do words.json (regra `legenda-pontuacao`).
+
+## Tempo pela fala (v4 da nutri)
+
+Regra `tempo-na-palavra`. `tempo_v4.py` do sandbox calcula entrada e saída de cada cartão pelas palavras do words.json e grava `t` e `dur` no IDEIAS.json (`planejar.py` repassa `dur`). Entrada na palavra, saída quando o próximo da posição entra, cartão novo onde faltar; o piso da conferência segue 2,3.
+
+## Estado da receita (r4, 05-nov-2026, vídeo real da nutri)
+
+61 s, bruto `Vídeo 01.mov` recortado pelo João (cabeça baixa: o motor sobe a pessoa, zoom 0,95). 34 cartões = 33,4 por minuto (32 pinturas do Codex + anúncio e legenda do anúncio como peças próprias), média 2,81 na tela, 3 na tela em 81%, intervalo mediano 1,7 s, 0 saídas juntas, 71% atravessam uma virada, 34 de 34 com a palavra casada, saturação mediana 137, luminância mediana 85,5, rosto p95 43% da largura e folga mínima 3,4%, -14,4 LUFS. Conferência `OK` com `--formato`. `status` do formato segue `receita`.
+
+## Regras
+
+Ficam em `aprendizado/regras.json` (cada uma com id, titulo e texto). Correção do João vira regra pela REGRA Nº 2 do `CLAUDE.md`; regra nova só do exemplo, do `historico.jsonl` ou do que o João disse.

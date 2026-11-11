@@ -1,0 +1,189 @@
+{
+  "ordem": 2,
+  "grupo": "falando",
+  "titulo": "Tela dividida",
+  "frase": "A tela fica dividida o tempo todo: você em cima, uma faixa com a manchete no meio e cenas trocando embaixo.",
+  "entrada": "video",
+  "proporcao": "9:16",
+  "tipo": "gravado",
+  "motor": "ffmpeg + PIL (gerar.sh do modelo do cliente)",
+  "usa": [
+    {
+      "oque": "Transcrição",
+      "quem": "Groq (whisper-large-v3, cota grátis). No corte do bruto, o Scribe da ElevenLabs entra se estiver ligado (sai do seu plano)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Cenas de baixo",
+      "quem": "Trechos de vídeo mudos do YouTube (yt-dlp), Pexels, Pixabay e do acervo; print de site vira rolagem. Você escolhe no storyboard",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Música (opcional)",
+      "quem": "Só a trilha que você mandar ou aprovar no storyboard, baixinha embaixo da voz",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Cenas geradas por IA (opcional)",
+      "quem": "kie.ai, só se você pedir numa cena: Z-Image ~US$ 0,004 e Grok ~US$ 0,02 por imagem, animação ~US$ 0,12 a 0,70",
+      "tipo": "pago"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "ffmpeg + PIL no seu Mac: faixa vermelha com a manchete em Bebas, conferência do rosto quadro a quadro",
+      "tipo": "gratis"
+    }
+  ],
+  "estimativa": "equivale a ~US$ 5 a 15 na API (Opus), incluso na assinatura",
+  "status": "pronto",
+  "modelos": [
+    "reel-dividido-por-video"
+  ],
+  "base": "clientes/Joao/vegasContent/modelos/reel-dividido-por-video",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "folha": "exemplo-1-folha.jpg",
+      "legenda": "Três saídas · Vegas",
+      "origem": "~/Library/Mobile Documents/com~apple~CloudDocs/Meus projetos/Vegas — Marca e Verus/Pessoal/Posts/Reels/2026/Setembro/Tres Saidas/Tres Saidas - final (dividido-por-video).mp4"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": true,
+      "escolha_na_tela": true,
+      "de_onde": "Opcional: a trilha que o João mandar ou a que ele aprovar no storyboard (do cliente: python3 app/ferramentas/musica_busca.py do-cliente \"<Cliente>\", ou do acervo). Entra baixinha embaixo da voz (~0,13 a 0,15), com fade, sem voz de banco (voice-tag). Se o modelo do cliente diz que é só quando ele mandar, sem pedido sai só a voz.",
+      "clima": "leve e constante, discreta",
+      "volume": "~0,13 a 0,15 sob a voz, com fade",
+      "quando": "do início ao fim, só se o João mandar ou aprovar no storyboard",
+      "quando_nao": "sem voz de banco; sem pedido, sai só a voz",
+      "troca": "1 faixa"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "Não usa: cortes secos nas cenas de baixo, sem efeito sonoro (o gerar.sh não mixa efeito).",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": false,
+    "motivo": "Sem legenda não muda nada: a Tela dividida já sai sem a fala escrita; a faixa com a manchete é conteúdo e continua."
+  },
+  "layouts": [
+    "dividido"
+  ],
+  "material_aceito": [
+    "video-curto",
+    "cena-produto",
+    "mockup",
+    "foto-pessoa",
+    "print",
+    "musica"
+  ],
+  "passos": [
+    "Envie o vídeo gravado. Nas cenas de baixo, deixe B-roll real.",
+    "O Estúdio escreve a manchete e traz 3 opções de cena pra cada trecho da fala. Você escolhe no storyboard.",
+    "O Estúdio enquadra seu rosto e monta: você em cima, a faixa no meio, as cenas embaixo.",
+    "Você assiste e aprova. Seu comentário vira regra pro próximo."
+  ],
+  "escolhas": [
+    {
+      "campo": "cenas",
+      "rotulo": "Cenas de baixo",
+      "tipo": "um",
+      "opcoes": [
+        "B-roll real (grátis)",
+        "B-roll real + IA onde você pedir (IA é paga)"
+      ],
+      "padrao": "B-roll real (grátis)",
+      "quantidade": 8,
+      "cenas_por_segundo": 0.1,
+      "minimo": 3
+    }
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar o bruto",
+        "andamento": "preparar",
+        "faz": "Conferir a rotação (ffprobe ... stream_side_data=rotation: 3840x2160 com rotation=90 é vertical) e deixar work/joao.mp4 em 1080x1920, sem o silêncio do começo e do fim (silencedetect, ~0,15 s de margem); se o Estúdio já cortou o bruto, usar esse work/joao.mp4. Transcrever com tempo por palavra (Groq) em work/words.json e conferir nome, número e acento."
+      },
+      {
+        "id": "manchete",
+        "titulo": "Manchete da faixa",
+        "andamento": "preparar",
+        "faz": "Escrever a manchete da faixa vermelha: caixa-alta, frase seca e polêmica, que complementa a 1ª frase sem repeti-la e nunca culpa quem assiste (exemplo: A SITUAÇÃO NO BRASIL TÁ FEIA). Pôr no PLANO.json (campo manchete e no começo do resumo, que a tela mostra); CTA só se o briefing pedir (--cta e --cta-t)."
+      },
+      {
+        "id": "cenas",
+        "titulo": "Cenas de baixo",
+        "andamento": "storyboard",
+        "faz": "Dividir a fala em momentos (o exemplo: 8 cenas em 83 s) e propor um beat tipo broll por momento, cobrindo o vídeo inteiro, com 3 opções de VÍDEO mudo do mundo do cliente que casem com a fala: acervo, get-brolls (método de .claude/skills/broll/SKILL.md) e ../buscar-broll.sh pra site ou canal citado. Olhar os quadros de cada opção antes (marca d'água, letterbox, legenda queimada, rosto falando que compete com a pessoa de cima); se a tela limitou o número de cenas, cada uma cobre um trecho maior, em pedaços diferentes do mesmo clipe."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "comando": "python3 app/ferramentas/storyboard.py <sandbox>",
+        "faz": "Gerar o storyboard.jpg pela ferramenta (um quadro por cena, com o tempo e a fala), olhar ao lado da folha do exemplo principal (o 1º de exemplos, ex.: formatos/tela-dividida/exemplo-1-folha.jpg) e parar pro João escolher as cenas, a música e aprovar a manchete."
+      },
+      {
+        "id": "enquadrar",
+        "titulo": "Enquadrar o rosto",
+        "andamento": "video",
+        "faz": "Antes do render, tirar quadros de prévia do bloco de cima e calibrar pelo PIOR quadro (quando a pessoa se inclina): rosto centralizado, com folga acima da cabeça, ombros visíveis e a faixa longe do queixo. Padrão do exemplo: pessoa 1056 px (55%), faixa 270, cenas 594 (--joao-h 1056 --video-offset-y 330); partir da calibração aprovada nas regras do modelo do cliente. gerar.sh sem --joao-h (bloco fixo 816, como o do Cliente2): portar a flag do modelo base antes (regra proporcao-dos-blocos)."
+      },
+      {
+        "id": "video",
+        "titulo": "Montar e renderizar",
+        "andamento": "video",
+        "faz": "Cortar os trechos escolhidos e montar work/master.mp4 na ordem da fala, do tamanho dela (blocos de ~3 s, mudos, sem letterbox, marca d'água nem trecho repetido) e rodar o gerar.sh do modelo com --srcs work/master.mp4, --takes lineares (0,3,6,... um por corte até o fim; lista curta volta pro começo do master e repete cena) e --step 3.0, a manchete em --titulo e a calibração do passo anterior. Música aprovada entra baixinha (~0,13 a 0,15) com fade; o render sai em <x>Content/output/<modelo>/ e vai copiado pra saída final do vídeo."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Rodar a skill /watch no vídeo e o zsh ../verificar.sh <mp4> 2: rosto no lugar quadro a quadro (mexer de leve é ok), faixa longe do queixo, cenas variadas sem trecho repetido nem marca d'água, nada importante nas zonas do Instagram. Fazer a folha do vídeo com a mesma ferramenta da folha do exemplo (formatos.fazer_folha, 1 quadro a cada 4 s; comando no COMO-FAZER.md) e pôr ao lado da folha do exemplo principal: pior que o exemplo não sai; corrigir e renderizar de novo."
+      }
+    ],
+    "comandos": {
+      "storyboard": "python3 app/ferramentas/storyboard.py <sandbox>",
+      "render": "zsh ../gerar.sh --dir . --titulo \"<MANCHETE>\" --srcs work/master.mp4 --takes \"0,3,6,...\" --step 3.0"
+    }
+  },
+  "funil": "topo",
+  "funil_motivo": "Reação com manchete: interrupção rápida.",
+  "apoio": {
+    "usa": true,
+    "tipo": "cena embaixo o vídeo todo, troca por frase",
+    "fontes": [
+      "acervo",
+      "youtube",
+      "pexels"
+    ],
+    "duracao_s": "3-6",
+    "quantidade": "a que o formato pede pela duração",
+    "quando_nao": "nunca deixar a metade de baixo parada",
+    "previa": "folha com 3 opções por cena antes do render"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "O arquivo vai na área de cima desta etapa (ou cole o link).",
+      "principal": true
+    }
+  ]
+}

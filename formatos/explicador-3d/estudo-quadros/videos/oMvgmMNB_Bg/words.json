@@ -1,0 +1,1605 @@
+{
+  "words": [
+    {
+      "word": "It's",
+      "start": 0,
+      "end": 0.26
+    },
+    {
+      "word": "not",
+      "start": 0.26,
+      "end": 0.46
+    },
+    {
+      "word": "easy",
+      "start": 0.46,
+      "end": 0.68
+    },
+    {
+      "word": "to",
+      "start": 0.68,
+      "end": 0.9
+    },
+    {
+      "word": "fool",
+      "start": 0.9,
+      "end": 1.02
+    },
+    {
+      "word": "a",
+      "start": 1.02,
+      "end": 1.24
+    },
+    {
+      "word": "betting",
+      "start": 1.24,
+      "end": 1.36
+    },
+    {
+      "word": "company,",
+      "start": 1.36,
+      "end": 2.08
+    },
+    {
+      "word": "but",
+      "start": 2.08,
+      "end": 2.22
+    },
+    {
+      "word": "this",
+      "start": 2.22,
+      "end": 2.64
+    },
+    {
+      "word": "might",
+      "start": 2.64,
+      "end": 2.82
+    },
+    {
+      "word": "be",
+      "start": 2.82,
+      "end": 2.98
+    },
+    {
+      "word": "the",
+      "start": 2.98,
+      "end": 3.12
+    },
+    {
+      "word": "dumbest",
+      "start": 3.12,
+      "end": 3.5
+    },
+    {
+      "word": "way",
+      "start": 3.5,
+      "end": 3.64
+    },
+    {
+      "word": "to",
+      "start": 3.64,
+      "end": 3.8
+    },
+    {
+      "word": "do",
+      "start": 3.8,
+      "end": 3.98
+    },
+    {
+      "word": "it.",
+      "start": 3.98,
+      "end": 4.14
+    },
+    {
+      "word": "Recent",
+      "start": 4.48,
+      "end": 4.64
+    },
+    {
+      "word": "advancements",
+      "start": 4.64,
+      "end": 5.26
+    },
+    {
+      "word": "in",
+      "start": 5.26,
+      "end": 5.42
+    },
+    {
+      "word": "sports",
+      "start": 5.42,
+      "end": 5.76
+    },
+    {
+      "word": "betting",
+      "start": 5.76,
+      "end": 6
+    },
+    {
+      "word": "have",
+      "start": 6,
+      "end": 6.22
+    },
+    {
+      "word": "allowed",
+      "start": 6.22,
+      "end": 6.56
+    },
+    {
+      "word": "for",
+      "start": 6.56,
+      "end": 6.84
+    },
+    {
+      "word": "live",
+      "start": 6.84,
+      "end": 7.16
+    },
+    {
+      "word": "betting,",
+      "start": 7.16,
+      "end": 7.94
+    },
+    {
+      "word": "which",
+      "start": 7.86,
+      "end": 8.02
+    },
+    {
+      "word": "is",
+      "start": 8.02,
+      "end": 8.16
+    },
+    {
+      "word": "making",
+      "start": 8.16,
+      "end": 8.56
+    },
+    {
+      "word": "bets",
+      "start": 8.56,
+      "end": 8.88
+    },
+    {
+      "word": "as",
+      "start": 8.88,
+      "end": 9.14
+    },
+    {
+      "word": "the",
+      "start": 9.14,
+      "end": 9.3
+    },
+    {
+      "word": "games",
+      "start": 9.3,
+      "end": 9.44
+    },
+    {
+      "word": "are",
+      "start": 9.44,
+      "end": 9.64
+    },
+    {
+      "word": "unfolding",
+      "start": 9.64,
+      "end": 10.06
+    },
+    {
+      "word": "in",
+      "start": 10.06,
+      "end": 10.28
+    },
+    {
+      "word": "real",
+      "start": 10.28,
+      "end": 10.58
+    },
+    {
+      "word": "time.",
+      "start": 10.58,
+      "end": 10.88
+    },
+    {
+      "word": "And",
+      "start": 11.16,
+      "end": 11.26
+    },
+    {
+      "word": "you",
+      "start": 11.26,
+      "end": 11.36
+    },
+    {
+      "word": "don't",
+      "start": 11.36,
+      "end": 11.5
+    },
+    {
+      "word": "have",
+      "start": 11.5,
+      "end": 11.7
+    },
+    {
+      "word": "to",
+      "start": 11.7,
+      "end": 11.84
+    },
+    {
+      "word": "bet",
+      "start": 11.84,
+      "end": 11.96
+    },
+    {
+      "word": "on",
+      "start": 11.96,
+      "end": 12.1
+    },
+    {
+      "word": "the",
+      "start": 12.1,
+      "end": 12.24
+    },
+    {
+      "word": "whole",
+      "start": 12.24,
+      "end": 12.4
+    },
+    {
+      "word": "game,",
+      "start": 12.4,
+      "end": 12.9
+    },
+    {
+      "word": "you",
+      "start": 12.38,
+      "end": 13.02
+    },
+    {
+      "word": "can",
+      "start": 13.02,
+      "end": 13.18
+    },
+    {
+      "word": "bet",
+      "start": 13.18,
+      "end": 13.32
+    },
+    {
+      "word": "on",
+      "start": 13.32,
+      "end": 13.46
+    },
+    {
+      "word": "many",
+      "start": 13.46,
+      "end": 13.7
+    },
+    {
+      "word": "little",
+      "start": 13.7,
+      "end": 13.96
+    },
+    {
+      "word": "things",
+      "start": 13.96,
+      "end": 14.24
+    },
+    {
+      "word": "like",
+      "start": 14.24,
+      "end": 14.46
+    },
+    {
+      "word": "who's",
+      "start": 14.46,
+      "end": 14.84
+    },
+    {
+      "word": "going",
+      "start": 14.84,
+      "end": 14.98
+    },
+    {
+      "word": "to",
+      "start": 14.98,
+      "end": 15.14
+    },
+    {
+      "word": "score",
+      "start": 15.14,
+      "end": 15.3
+    },
+    {
+      "word": "the",
+      "start": 15.3,
+      "end": 15.46
+    },
+    {
+      "word": "next",
+      "start": 15.46,
+      "end": 15.64
+    },
+    {
+      "word": "point.",
+      "start": 15.64,
+      "end": 16.4
+    },
+    {
+      "word": "Problem",
+      "start": 16.24,
+      "end": 16.44
+    },
+    {
+      "word": "is,",
+      "start": 16.44,
+      "end": 16.96
+    },
+    {
+      "word": "when",
+      "start": 16.96,
+      "end": 17.08
+    },
+    {
+      "word": "someone",
+      "start": 17.08,
+      "end": 17.36
+    },
+    {
+      "word": "scores",
+      "start": 17.36,
+      "end": 17.64
+    },
+    {
+      "word": "that",
+      "start": 17.64,
+      "end": 17.82
+    },
+    {
+      "word": "point,",
+      "start": 17.82,
+      "end": 18.58
+    },
+    {
+      "word": "it",
+      "start": 18.4,
+      "end": 18.5
+    },
+    {
+      "word": "takes",
+      "start": 18.5,
+      "end": 18.7
+    },
+    {
+      "word": "a",
+      "start": 18.7,
+      "end": 18.82
+    },
+    {
+      "word": "second",
+      "start": 18.82,
+      "end": 19.12
+    },
+    {
+      "word": "or",
+      "start": 19.12,
+      "end": 19.28
+    },
+    {
+      "word": "two",
+      "start": 19.28,
+      "end": 19.42
+    },
+    {
+      "word": "before",
+      "start": 19.42,
+      "end": 19.74
+    },
+    {
+      "word": "the",
+      "start": 19.74,
+      "end": 19.96
+    },
+    {
+      "word": "event",
+      "start": 19.96,
+      "end": 20.22
+    },
+    {
+      "word": "is",
+      "start": 20.22,
+      "end": 20.44
+    },
+    {
+      "word": "registered",
+      "start": 20.44,
+      "end": 20.88
+    },
+    {
+      "word": "and",
+      "start": 20.88,
+      "end": 21.22
+    },
+    {
+      "word": "updated",
+      "start": 21.22,
+      "end": 21.56
+    },
+    {
+      "word": "in",
+      "start": 21.56,
+      "end": 21.78
+    },
+    {
+      "word": "the",
+      "start": 21.78,
+      "end": 21.88
+    },
+    {
+      "word": "system.",
+      "start": 21.88,
+      "end": 22.68
+    },
+    {
+      "word": "So",
+      "start": 22.5,
+      "end": 22.62
+    },
+    {
+      "word": "naturally,",
+      "start": 22.62,
+      "end": 23.44
+    },
+    {
+      "word": "there",
+      "start": 23.44,
+      "end": 23.7
+    },
+    {
+      "word": "are",
+      "start": 23.7,
+      "end": 23.84
+    },
+    {
+      "word": "people",
+      "start": 23.84,
+      "end": 24.1
+    },
+    {
+      "word": "who",
+      "start": 24.1,
+      "end": 24.24
+    },
+    {
+      "word": "try",
+      "start": 24.24,
+      "end": 24.46
+    },
+    {
+      "word": "to",
+      "start": 24.46,
+      "end": 24.62
+    },
+    {
+      "word": "take",
+      "start": 24.62,
+      "end": 24.8
+    },
+    {
+      "word": "advantage",
+      "start": 24.8,
+      "end": 25.18
+    },
+    {
+      "word": "of",
+      "start": 25.18,
+      "end": 25.4
+    },
+    {
+      "word": "that",
+      "start": 25.4,
+      "end": 25.54
+    },
+    {
+      "word": "little",
+      "start": 25.54,
+      "end": 25.74
+    },
+    {
+      "word": "delay.",
+      "start": 25.74,
+      "end": 26.52
+    },
+    {
+      "word": "They",
+      "start": 26.26,
+      "end": 26.4
+    },
+    {
+      "word": "buy",
+      "start": 26.4,
+      "end": 26.56
+    },
+    {
+      "word": "tickets",
+      "start": 26.56,
+      "end": 26.86
+    },
+    {
+      "word": "to",
+      "start": 26.86,
+      "end": 27.02
+    },
+    {
+      "word": "the",
+      "start": 27.02,
+      "end": 27.16
+    },
+    {
+      "word": "actual",
+      "start": 27.16,
+      "end": 27.5
+    },
+    {
+      "word": "games,",
+      "start": 27.5,
+      "end": 28.06
+    },
+    {
+      "word": "go",
+      "start": 28.06,
+      "end": 28.2
+    },
+    {
+      "word": "see",
+      "start": 28.2,
+      "end": 28.38
+    },
+    {
+      "word": "it",
+      "start": 28.38,
+      "end": 28.52
+    },
+    {
+      "word": "live,",
+      "start": 28.52,
+      "end": 29.28
+    },
+    {
+      "word": "And",
+      "start": 28.8,
+      "end": 29.14
+    },
+    {
+      "word": "after",
+      "start": 29.14,
+      "end": 29.36
+    },
+    {
+      "word": "the",
+      "start": 29.36,
+      "end": 29.54
+    },
+    {
+      "word": "desired",
+      "start": 29.54,
+      "end": 29.9
+    },
+    {
+      "word": "event",
+      "start": 29.9,
+      "end": 30.22
+    },
+    {
+      "word": "happens,",
+      "start": 30.22,
+      "end": 30.98
+    },
+    {
+      "word": "they",
+      "start": 30.98,
+      "end": 31.1
+    },
+    {
+      "word": "quickly",
+      "start": 31.1,
+      "end": 31.3
+    },
+    {
+      "word": "try",
+      "start": 31.3,
+      "end": 31.56
+    },
+    {
+      "word": "to",
+      "start": 31.56,
+      "end": 31.76
+    },
+    {
+      "word": "bet",
+      "start": 31.76,
+      "end": 31.88
+    },
+    {
+      "word": "on",
+      "start": 31.88,
+      "end": 32.06
+    },
+    {
+      "word": "it",
+      "start": 32.06,
+      "end": 32.18
+    },
+    {
+      "word": "before",
+      "start": 32.18,
+      "end": 32.44
+    },
+    {
+      "word": "it's",
+      "start": 32.44,
+      "end": 32.68
+    },
+    {
+      "word": "updated.",
+      "start": 32.68,
+      "end": 33.34
+    },
+    {
+      "word": "While",
+      "start": 33.36,
+      "end": 33.54
+    },
+    {
+      "word": "this",
+      "start": 33.54,
+      "end": 33.8
+    },
+    {
+      "word": "could",
+      "start": 33.8,
+      "end": 33.94
+    },
+    {
+      "word": "work,",
+      "start": 33.94,
+      "end": 34.46
+    },
+    {
+      "word": "they",
+      "start": 34.46,
+      "end": 34.72
+    },
+    {
+      "word": "will",
+      "start": 34.72,
+      "end": 34.94
+    },
+    {
+      "word": "kick",
+      "start": 34.94,
+      "end": 35.18
+    },
+    {
+      "word": "you",
+      "start": 35.18,
+      "end": 35.32
+    },
+    {
+      "word": "out",
+      "start": 35.32,
+      "end": 35.54
+    },
+    {
+      "word": "if",
+      "start": 35.54,
+      "end": 35.68
+    },
+    {
+      "word": "they",
+      "start": 35.68,
+      "end": 35.82
+    },
+    {
+      "word": "see",
+      "start": 35.82,
+      "end": 35.96
+    },
+    {
+      "word": "you",
+      "start": 35.96,
+      "end": 36.1
+    },
+    {
+      "word": "making",
+      "start": 36.1,
+      "end": 36.34
+    },
+    {
+      "word": "bets",
+      "start": 36.34,
+      "end": 36.54
+    },
+    {
+      "word": "on",
+      "start": 36.54,
+      "end": 36.68
+    },
+    {
+      "word": "the",
+      "start": 36.68,
+      "end": 36.88
+    },
+    {
+      "word": "spot,",
+      "start": 36.88,
+      "end": 37.3
+    },
+    {
+      "word": "and",
+      "start": 36.84,
+      "end": 37.5
+    },
+    {
+      "word": "you",
+      "start": 37.5,
+      "end": 37.66
+    },
+    {
+      "word": "could",
+      "start": 37.66,
+      "end": 37.78
+    },
+    {
+      "word": "get",
+      "start": 37.78,
+      "end": 37.94
+    },
+    {
+      "word": "into",
+      "start": 37.94,
+      "end": 38.16
+    },
+    {
+      "word": "some",
+      "start": 38.16,
+      "end": 38.32
+    },
+    {
+      "word": "serious",
+      "start": 38.32,
+      "end": 38.8
+    },
+    {
+      "word": "trouble.",
+      "start": 38.8,
+      "end": 39.46
+    },
+    {
+      "word": "But",
+      "start": 39.64,
+      "end": 39.86
+    },
+    {
+      "word": "there's",
+      "start": 39.86,
+      "end": 40.16
+    },
+    {
+      "word": "nothing",
+      "start": 40.16,
+      "end": 40.36
+    },
+    {
+      "word": "stopping",
+      "start": 40.36,
+      "end": 40.72
+    },
+    {
+      "word": "you",
+      "start": 40.72,
+      "end": 40.92
+    },
+    {
+      "word": "from",
+      "start": 40.92,
+      "end": 41.08
+    },
+    {
+      "word": "popping",
+      "start": 41.08,
+      "end": 41.36
+    },
+    {
+      "word": "in",
+      "start": 41.36,
+      "end": 41.54
+    },
+    {
+      "word": "an",
+      "start": 41.54,
+      "end": 41.72
+    },
+    {
+      "word": "airpod,",
+      "start": 41.72,
+      "end": 42.34
+    },
+    {
+      "word": "hopping",
+      "start": 41.88,
+      "end": 42.56
+    },
+    {
+      "word": "on",
+      "start": 42.56,
+      "end": 42.78
+    },
+    {
+      "word": "a",
+      "start": 42.78,
+      "end": 42.9
+    },
+    {
+      "word": "call",
+      "start": 42.9,
+      "end": 42.98
+    },
+    {
+      "word": "with",
+      "start": 42.98,
+      "end": 43.16
+    },
+    {
+      "word": "a",
+      "start": 43.16,
+      "end": 43.38
+    },
+    {
+      "word": "homie",
+      "start": 43.38,
+      "end": 43.56
+    },
+    {
+      "word": "and",
+      "start": 43.56,
+      "end": 43.78
+    },
+    {
+      "word": "once",
+      "start": 43.78,
+      "end": 43.98
+    },
+    {
+      "word": "someone",
+      "start": 43.98,
+      "end": 44.22
+    },
+    {
+      "word": "scores,",
+      "start": 44.22,
+      "end": 44.8
+    },
+    {
+      "word": "naturally",
+      "start": 44.3,
+      "end": 45.36
+    },
+    {
+      "word": "cheering,",
+      "start": 45.36,
+      "end": 45.94
+    },
+    {
+      "word": "WOAH",
+      "start": 45.78,
+      "end": 46.26
+    },
+    {
+      "word": "THEY",
+      "start": 46.26,
+      "end": 46.52
+    },
+    {
+      "word": "SCORED",
+      "start": 46.52,
+      "end": 46.86
+    },
+    {
+      "word": "LET'S",
+      "start": 46.86,
+      "end": 47.14
+    },
+    {
+      "word": "GO",
+      "start": 47.14,
+      "end": 47.42
+    },
+    {
+      "word": "I",
+      "start": 47.42,
+      "end": 47.64
+    },
+    {
+      "word": "LOVE",
+      "start": 47.64,
+      "end": 47.82
+    },
+    {
+      "word": "SPORTS",
+      "start": 47.82,
+      "end": 48.24
+    },
+    {
+      "word": "and",
+      "start": 48.12,
+      "end": 48.6
+    },
+    {
+      "word": "having",
+      "start": 48.6,
+      "end": 48.84
+    },
+    {
+      "word": "your",
+      "start": 48.84,
+      "end": 49.02
+    },
+    {
+      "word": "friend",
+      "start": 49.02,
+      "end": 49.36
+    },
+    {
+      "word": "quickly",
+      "start": 49.36,
+      "end": 49.72
+    },
+    {
+      "word": "make",
+      "start": 49.72,
+      "end": 49.96
+    },
+    {
+      "word": "that",
+      "start": 49.96,
+      "end": 50.14
+    },
+    {
+      "word": "bet",
+      "start": 50.14,
+      "end": 50.44
+    },
+    {
+      "word": "for",
+      "start": 50.44,
+      "end": 50.76
+    },
+    {
+      "word": "you.",
+      "start": 50.76,
+      "end": 51.16
+    },
+    {
+      "word": "However,",
+      "start": 50.8,
+      "end": 51.92
+    },
+    {
+      "word": "the",
+      "start": 51.92,
+      "end": 52.08
+    },
+    {
+      "word": "bookies",
+      "start": 52.08,
+      "end": 52.28
+    },
+    {
+      "word": "can",
+      "start": 52.28,
+      "end": 52.44
+    },
+    {
+      "word": "pretty",
+      "start": 52.44,
+      "end": 52.76
+    },
+    {
+      "word": "easily",
+      "start": 52.76,
+      "end": 53.12
+    },
+    {
+      "word": "detect",
+      "start": 53.12,
+      "end": 53.54
+    },
+    {
+      "word": "your",
+      "start": 53.54,
+      "end": 53.76
+    },
+    {
+      "word": "unusual",
+      "start": 53.76,
+      "end": 54.22
+    },
+    {
+      "word": "betting",
+      "start": 54.22,
+      "end": 54.48
+    },
+    {
+      "word": "pattern,",
+      "start": 54.48,
+      "end": 55.24
+    },
+    {
+      "word": "and",
+      "start": 54.8,
+      "end": 55.42
+    },
+    {
+      "word": "effectively",
+      "start": 55.42,
+      "end": 55.82
+    },
+    {
+      "word": "ban",
+      "start": 55.82,
+      "end": 56.22
+    },
+    {
+      "word": "your",
+      "start": 56.22,
+      "end": 56.42
+    },
+    {
+      "word": "account.",
+      "start": 56.42,
+      "end": 57.34
+    }
+  ],
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 0,
+      "end": 4.2,
+      "text": " It's not easy to fool a betting company, but this might be the dumbest way to do it.",
+      "tokens": [
+        50365,
+        467,
+        311,
+        406,
+        1858,
+        281,
+        7979,
+        257,
+        34246,
+        2237,
+        11,
+        457,
+        341,
+        1062,
+        312,
+        264,
+        10316,
+        377,
+        636,
+        281,
+        360,
+        309,
+        13,
+        50575
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.094208114,
+      "compression_ratio": 1.745614,
+      "no_speech_prob": 0.03302002
+    },
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 4.38,
+      "end": 7.5,
+      "text": " Recent advancements in sports betting have allowed for live betting,",
+      "tokens": [
+        50584,
+        17553,
+        7295,
+        1117,
+        294,
+        6573,
+        34246,
+        362,
+        4350,
+        337,
+        1621,
+        34246,
+        11,
+        50740
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.094208114,
+      "compression_ratio": 1.745614,
+      "no_speech_prob": 0.03302002
+    },
+    {
+      "id": 2,
+      "seek": 0,
+      "start": 7.8199997,
+      "end": 10.88,
+      "text": " which is making bets as the games are unfolding in real time.",
+      "tokens": [
+        50756,
+        597,
+        307,
+        1455,
+        39922,
+        382,
+        264,
+        2813,
+        366,
+        44586,
+        294,
+        957,
+        565,
+        13,
+        50909
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.094208114,
+      "compression_ratio": 1.745614,
+      "no_speech_prob": 0.03302002
+    },
+    {
+      "id": 3,
+      "seek": 0,
+      "start": 11.12,
+      "end": 12.7,
+      "text": " And you don't have to bet on the whole game,",
+      "tokens": [
+        50921,
+        400,
+        291,
+        500,
+        380,
+        362,
+        281,
+        778,
+        322,
+        264,
+        1379,
+        1216,
+        11,
+        51000
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.094208114,
+      "compression_ratio": 1.745614,
+      "no_speech_prob": 0.03302002
+    },
+    {
+      "id": 4,
+      "seek": 0,
+      "start": 12.88,
+      "end": 15.92,
+      "text": " you can bet on many little things like who's going to score the next point.",
+      "tokens": [
+        51009,
+        291,
+        393,
+        778,
+        322,
+        867,
+        707,
+        721,
+        411,
+        567,
+        311,
+        516,
+        281,
+        6175,
+        264,
+        958,
+        935,
+        13,
+        51161
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.094208114,
+      "compression_ratio": 1.745614,
+      "no_speech_prob": 0.03302002
+    },
+    {
+      "id": 5,
+      "seek": 0,
+      "start": 16.14,
+      "end": 18.1,
+      "text": " Problem is, when someone scores that point,",
+      "tokens": [
+        51172,
+        11676,
+        307,
+        11,
+        562,
+        1580,
+        13444,
+        300,
+        935,
+        11,
+        51270
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.094208114,
+      "compression_ratio": 1.745614,
+      "no_speech_prob": 0.03302002
+    },
+    {
+      "id": 6,
+      "seek": 0,
+      "start": 18.359999,
+      "end": 22.199999,
+      "text": " it takes a second or two before the event is registered and updated in the system.",
+      "tokens": [
+        51283,
+        309,
+        2516,
+        257,
+        1150,
+        420,
+        732,
+        949,
+        264,
+        2280,
+        307,
+        13968,
+        293,
+        10588,
+        294,
+        264,
+        1185,
+        13,
+        51475
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.094208114,
+      "compression_ratio": 1.745614,
+      "no_speech_prob": 0.03302002
+    },
+    {
+      "id": 7,
+      "seek": 0,
+      "start": 22.46,
+      "end": 26.039999,
+      "text": " So naturally, there are people who try to take advantage of that little delay.",
+      "tokens": [
+        51488,
+        407,
+        8195,
+        11,
+        456,
+        366,
+        561,
+        567,
+        853,
+        281,
+        747,
+        5002,
+        295,
+        300,
+        707,
+        8577,
+        13,
+        51667
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.094208114,
+      "compression_ratio": 1.745614,
+      "no_speech_prob": 0.03302002
+    },
+    {
+      "id": 8,
+      "seek": 0,
+      "start": 26.24,
+      "end": 28.8,
+      "text": " They buy tickets to the actual games, go see it live,",
+      "tokens": [
+        51677,
+        814,
+        2256,
+        12628,
+        281,
+        264,
+        3539,
+        2813,
+        11,
+        352,
+        536,
+        309,
+        1621,
+        11,
+        51805
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.094208114,
+      "compression_ratio": 1.745614,
+      "no_speech_prob": 0.03302002
+    },
+    {
+      "id": 9,
+      "seek": 2880,
+      "start": 28.8,
+      "end": 33.3,
+      "text": " And after the desired event happens, they quickly try to bet on it before it's updated.",
+      "tokens": [
+        50365,
+        400,
+        934,
+        264,
+        14721,
+        2280,
+        2314,
+        11,
+        436,
+        2661,
+        853,
+        281,
+        778,
+        322,
+        309,
+        949,
+        309,
+        311,
+        10588,
+        13,
+        50590
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    },
+    {
+      "id": 10,
+      "seek": 2880,
+      "start": 33.3,
+      "end": 37.3,
+      "text": " While this could work, they will kick you out if they see you making bets on the spot,",
+      "tokens": [
+        50590,
+        3987,
+        341,
+        727,
+        589,
+        11,
+        436,
+        486,
+        4437,
+        291,
+        484,
+        498,
+        436,
+        536,
+        291,
+        1455,
+        39922,
+        322,
+        264,
+        4008,
+        11,
+        50790
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    },
+    {
+      "id": 11,
+      "seek": 2880,
+      "start": 37.3,
+      "end": 39.3,
+      "text": " and you could get into some serious trouble.",
+      "tokens": [
+        50790,
+        293,
+        291,
+        727,
+        483,
+        666,
+        512,
+        3156,
+        5253,
+        13,
+        50890
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    },
+    {
+      "id": 12,
+      "seek": 2880,
+      "start": 39.3,
+      "end": 42.3,
+      "text": " But there's nothing stopping you from popping in an airpod,",
+      "tokens": [
+        50890,
+        583,
+        456,
+        311,
+        1825,
+        12767,
+        291,
+        490,
+        18374,
+        294,
+        364,
+        1988,
+        43388,
+        11,
+        51040
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    },
+    {
+      "id": 13,
+      "seek": 2880,
+      "start": 42.3,
+      "end": 44.8,
+      "text": " hopping on a call with a homie and once someone scores,",
+      "tokens": [
+        51040,
+        47199,
+        322,
+        257,
+        818,
+        365,
+        257,
+        3655,
+        414,
+        293,
+        1564,
+        1580,
+        13444,
+        11,
+        51165
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    },
+    {
+      "id": 14,
+      "seek": 2880,
+      "start": 44.8,
+      "end": 45.8,
+      "text": " naturally cheering,",
+      "tokens": [
+        51165,
+        8195,
+        11060,
+        11,
+        51215
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    },
+    {
+      "id": 15,
+      "seek": 2880,
+      "start": 45.8,
+      "end": 48.3,
+      "text": " WOAH THEY SCORED LET'S GO I LOVE SPORTS",
+      "tokens": [
+        51215,
+        48388,
+        10566,
+        34970,
+        9028,
+        2483,
+        4731,
+        40866,
+        11460,
+        10365,
+        286,
+        31351,
+        8420,
+        2483,
+        7327,
+        51340
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    },
+    {
+      "id": 16,
+      "seek": 2880,
+      "start": 48.3,
+      "end": 51.3,
+      "text": " and having your friend quickly make that bet for you.",
+      "tokens": [
+        51340,
+        293,
+        1419,
+        428,
+        1277,
+        2661,
+        652,
+        300,
+        778,
+        337,
+        291,
+        13,
+        51490
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    },
+    {
+      "id": 17,
+      "seek": 2880,
+      "start": 51.3,
+      "end": 55.3,
+      "text": " However, the bookies can pretty easily detect your unusual betting pattern,",
+      "tokens": [
+        51490,
+        2908,
+        11,
+        264,
+        1446,
+        530,
+        393,
+        1238,
+        3612,
+        5531,
+        428,
+        10901,
+        34246,
+        5102,
+        11,
+        51690
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    },
+    {
+      "id": 18,
+      "seek": 2880,
+      "start": 55.3,
+      "end": 57.739998,
+      "text": " and effectively ban your account.",
+      "tokens": [
+        51690,
+        293,
+        8659,
+        5643,
+        428,
+        2696,
+        13,
+        51812
+      ],
+      "temperature": 0,
+      "avg_logprob": -0.1478845,
+      "compression_ratio": 1.5819209,
+      "no_speech_prob": 0.00030255318
+    }
+  ],
+  "text": "It's not easy to fool a betting company, but this might be the dumbest way to do it. Recent advancements in sports betting have allowed for live betting, which is making bets as the games are unfolding in real time. And you don't have to bet on the whole game, you can bet on many little things like who's going to score the next point. Problem is, when someone scores that point, it takes a second or two before the event is registered and updated in the system. So naturally, there are people who try to take advantage of that little delay. They buy tickets to the actual games, go see it live, And after the desired event happens, they quickly try to bet on it before it's updated. While this could work, they will kick you out if they see you making bets on the spot, and you could get into some serious trouble. But there's nothing stopping you from popping in an airpod, hopping on a call with a homie and once someone scores, naturally cheering, WOAH THEY SCORED LET'S GO I LOVE SPORTS and having your friend quickly make that bet for you. However, the bookies can pretty easily detect your unusual betting pattern, and effectively ban your account."
+}

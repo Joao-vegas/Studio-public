@@ -1,0 +1,218 @@
+{
+  "ordem": 1,
+  "grupo": "animacao",
+  "titulo": "Documentário",
+  "frase": "Frases em serifa acendendo palavra por palavra, recortes em preto e branco, relógio, caderno e jornal, com música e efeitos suaves. Tom de mini-documentário.",
+  "entrada": "video-ou-roteiro",
+  "proporcao": "9:16",
+  "tipo": "motor",
+  "motor": "HTML (motor do documentário: render.py + index.html)",
+  "usa": [
+    {
+      "oque": "Transcrição",
+      "quem": "Groq (whisper-large-v3, cota grátis). No corte do bruto, o Scribe da ElevenLabs entra se estiver ligado (sai do seu plano)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Narração (se vier só roteiro)",
+      "quem": "Voz configurada (VoiceStudio, grátis no seu Mac; reserva ElevenLabs só com chave e voz)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Narração com a sua voz",
+      "quem": "ElevenLabs (sua voz clonada), no seu plano",
+      "tipo": "assinatura"
+    },
+    {
+      "oque": "Cenas de filme e de arquivo",
+      "quem": "Trechos de filme ou de arquivo real (YouTube via yt-dlp) e o acervo, buscados pelo get-brolls; nada de banco de imagem com ator posando; você aprova no storyboard",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Fotos por IA (só se vier só roteiro)",
+      "quem": "Z-Image na kie.ai, ~US$ 0,004 por foto, só com a sua aprovação. Com vídeo gravado não precisa: os recortes saem do próprio vídeo",
+      "tipo": "pago",
+      "usd": 0.03
+    },
+    {
+      "oque": "Recortes em preto e branco",
+      "quem": "rembg tira o fundo de um quadro do seu próprio vídeo e põe a borda branca, no seu Mac",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Música",
+      "quem": "Mixkit, já guardadas no Estúdio, mais busca no Mixkit",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Efeitos sonoros",
+      "quem": "6 efeitos suaves (Pixabay) já guardados no Estúdio, postos pelo motor no ritmo do exemplo (até 12 por minuto)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "Motor do Documentário (Playwright + ffmpeg) no seu Mac: monta as cenas, mixa música e efeitos e confere sozinho",
+      "tipo": "gratis"
+    }
+  ],
+  "estimativa": "equivale a ~US$ 10 a 25 na API (Opus), incluso na assinatura",
+  "status": "pronto",
+  "modelos": [
+    "documentario"
+  ],
+  "base": "formatos/documentario/base",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Correria · Cliente3",
+      "origem": "~/Library/Mobile Documents/com~apple~CloudDocs/Clientes/Cliente3/Ads/Perfil pessoal/Ad 1/Perfil pessoal - Ad 1 (correria).mp4"
+    }
+  ],
+  "passos": [
+    "Você manda o vídeo gravado (ou só o roteiro: a voz sai pronta).",
+    "A IA monta as cenas (frases, recortes, caderno, jornal e cenas de filme) e escolhe a música.",
+    "Você aprova o storyboard, com o tempo de cada cena e o som pra ouvir.",
+    "O vídeo sai com música e efeitos, já conferido contra o exemplo."
+  ],
+  "esteira": {
+    "motor": "render.py",
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar a fala",
+        "andamento": "preparar",
+        "faz": "Transcrever o bruto com tempo por palavra e pontuação (work/words.json), conferir nome, número e acento (iPhone em HDR vira bt709 sem mexer na cor). Gerar a folha dos rostos (python3 <sandbox>/render.py --rostos <bruto>) pra escolher o quadro do jornal e dos recortes: de frente, olho aberto, parado. Só roteiro: a voz sai do motor de voz (python3 app/ferramentas/motion/narracao_tts.py --pasta <sandbox>, depois python3 app/ferramentas/motion/preparar_audio.py --pasta <sandbox>) e o cenas.json leva \"voz\": \"audio/voz.wav\", \"palavras\": \"audio/palavras.json\" e uma foto real da pessoa em \"video\"."
+      },
+      {
+        "id": "fora",
+        "titulo": "Cenas de fora",
+        "andamento": "storyboard",
+        "faz": "Achar uma cena de fora a cada ~21 s (2 min pedem 6), cada uma de um clipe diferente e real (filme ou arquivo, nunca banco de imagem com ator posando), pela ordem: material do cliente, as que o João já escolheu, o acervo e o get-brolls grátis (.claude/skills/broll/SKILL.md), buscando de novo a cada rodada. O quadro sai da --folha-broll, sem marca d'água, e a cena leva \"origem\". Nunca a própria pessoa na polaroid ou no filme; quem aprova é o João, no storyboard. IMAGEM QUE CASA COM A FALA (REGRAS.md G6, medido): ache o quadro do objeto, da ação ou do lugar que a fala cita com `app/.venv/bin/python app/ferramentas/casar_imagem.py melhores <vídeo> \"<a frase>\" -n 5 --saida brolls/<nome>` (procura dentro de um vídeo real, ex. o oficial da empresa; descreva o que se VÊ: \"protótipo da primeira câmera digital\") e confira com `casar_imagem.py pontuar <imagem> \"<a frase>\" --outras \"<outra fala>\"` antes de fechar a cena. Comercial de outra época ou foto da pessoa no lugar do objeto não vale; a mesma pessoa nunca em 2 cenas vizinhas e no máximo 2 vezes no vídeo (a não ser que a fala seja sobre ela ali). Ação = vídeo da ação: se a fala descreve uma ação (mandar dinheiro, pagar, assinar, correr, cair, ligar, rir...), a cena de fora usa um CLIPE real de quem faz aquilo (get-brolls no YouTube/TikTok/Instagram, Pexels vídeo, Commons; trecho certo com `casar_imagem.py melhores <vídeo> \"<a ação>\"`), nunca foto parada. Real e viral, nunca clichê, nesta ordem: o momento real do caso (notícia, vídeo oficial, foto da pessoa ou do lugar), clipe viral ou famoso, e só então banco; banco com ator posando e pilha de dinheiro genérica reprovam (`casar_imagem.py cliche <imagem>` abaixo de 0,05). Nada repetido: nem a mesma foto nem outro quadro quase igual (outro quadro do mesmo clipe, o mesmo protótipo) perto no tempo; outro ângulo ou contexto passa."
+      },
+      {
+        "id": "cenas",
+        "titulo": "Montar as cenas",
+        "andamento": "storyboard",
+        "faz": "Escrever o cenas.json do zero (o anterior fica em work/rodadas/; esquema no README.md do motor) pelas regras do formato e do cliente: cena até 2,5 s, tela de texto com a ideia inteira e palavra-chave forte, caderno só com lista, papel claro e escuro alternando, pessoa até 35%, frase até 30%, objetos 30% ou mais, fim na palavra-chave. Música pelo clima, nunca a do último vídeo do cliente (2 faixas: os mesmos trechos na opção do PLANO.json), e \"efeitos\": true."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "comando": "python3 <sandbox>/render.py --storyboard --cenas <sandbox>/cenas.json",
+        "faz": "Rodar o --storyboard (confere as cenas antes e põe a legenda da pessoa abaixo do queixo) até \"APROVADO na checagem\", olhar o storyboard.jpg ao lado da folha do exemplo e mostrar ao João o storyboard.jpg e a previa-som.m4a, com o número real de efeitos que o comando imprime."
+      },
+      {
+        "id": "video",
+        "titulo": "Vídeo",
+        "andamento": "video",
+        "comando": "python3 <sandbox>/render.py --cenas <sandbox>/cenas.json",
+        "faz": "Renderizar com o motor: 1080x1920, música com ducking e efeitos suaves saem dele (nada de mixagem à mão)."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "comando": "python3 <sandbox>/render.py --conferir --cenas <sandbox>/cenas.json",
+        "faz": "Rodar o --conferir até exit 0 (ele confere também, no vídeo pronto, a legenda abaixo do queixo); reprovou, corrigir o cenas.json e renderizar de novo. Olhar a qa/folha-comparacao.jpg (exemplo em cima, este vídeo embaixo). Rodar também `app/.venv/bin/python app/ferramentas/casar_imagem.py conferir <sandbox>` (nota de cada cena com imagem contra a fala; \"não casa\" `cliche`, `quase_igual`, `acao_sem_video` e pessoa repetida se consertam trocando a imagem)."
+      }
+    ],
+    "motor_arquivos": [
+      "render.py",
+      "index.html",
+      "README.md",
+      "cenas-modelo.json",
+      "fontes",
+      "audio/sfx",
+      "audio/catalogo.json"
+    ]
+  },
+  "som": {
+    "musica": {
+      "usa": true,
+      "escolha_na_tela": true,
+      "de_onde": "Mixkit: as faixas aprovadas de base/audio/catalogo.json (arquivos em base/audio/musicas/) ou uma nova pelo clima (python3 app/ferramentas/musica_busca.py buscar \"documentary\" --fonte mixkit), nunca a do vídeo anterior do cliente. Pode trocar de faixa no meio: a opção escolhida no PLANO.json guarda os trechos.",
+      "clima": "documental sombria, piano e cordas, em rodízio pelo catálogo do formato",
+      "volume": "baixa sob a fala",
+      "quando": "do início ao fim; pode trocar de faixa no meio",
+      "quando_nao": "nunca a do vídeo anterior do cliente; não repetir as 8 últimas",
+      "troca": "1 faixa; 2 só se passar de 60 s"
+    },
+    "efeitos": {
+      "usa": true,
+      "de_onde": "6 efeitos suaves do Pixabay em base/audio/sfx, postos pelo motor no ritmo do exemplo: o teclado das telas de texto, um toque por construção, até 12 por minuto e 2,4 s ou mais entre eles. Zero golpe.",
+      "quais": [
+        "pop",
+        "click-soft",
+        "tique",
+        "whoosh-short",
+        "typing"
+      ],
+      "momentos": "teclado nas telas de texto, um toque por construção (até 12 por minuto, 2,4 s entre eles)",
+      "volume": "0,10-0,18",
+      "quando_nao": "zero golpe, boom ou impacto"
+    }
+  },
+  "legenda": {
+    "desligavel": true,
+    "como": "cenas.json: \"estilo\": {\"sem_legenda\": true} (o render.py põe \"legenda\": false em toda cena e a conferência não cobra legenda abaixo do queixo)"
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [
+    "foto-pessoa",
+    "print",
+    "video-curto",
+    "cena-produto",
+    "musica"
+  ],
+  "funil": "meio",
+  "funil_motivo": "Caso real contado com evidência: reenquadra a leitura do problema.",
+  "apoio": {
+    "usa": true,
+    "tipo": "evidência real, print, card do motor e cena de filme",
+    "fontes": [
+      "acervo",
+      "youtube",
+      "commons"
+    ],
+    "duracao_s": "2-5",
+    "quantidade": "1 a cada 5-7 s",
+    "quando_nao": "no gancho falado e no CTA",
+    "previa": "folha com 3 opções por cena antes do render"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado ou roteiro",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "Mande o vídeo na área de cima, ou escolha 'Um roteiro' no começo.",
+      "principal": true
+    },
+    {
+      "campo": "provas",
+      "rotulo": "Provas e evidências",
+      "tipo": "arquivo",
+      "obrigatorio": false,
+      "dica": "Prints, documentos, notícias, fotos reais do caso."
+    },
+    {
+      "campo": "voz",
+      "rotulo": "Voz da narração",
+      "tipo": "voz",
+      "obrigatorio": false,
+      "dica": "Já vem a do cliente ou a de Configurações. Ouça a amostra antes."
+    }
+  ]
+}

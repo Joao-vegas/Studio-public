@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block titulo %}Revisar etapa{% endblock %}
+{% block conteudo %}
+<section class="painel review-execution">
+<p class="eyebrow">REVISAR ANTES DE EXECUTAR</p><h1>{{ titulo_acao }}</h1>
+<p>Vídeo: <b>{{ j.titulo }}</b> · {{ j.cliente }}</p>
+<p><b>{{ estimativa[:1]|upper }}{{ estimativa[1:] }}</b></p>
+<p>Você está autorizando apenas esta etapa. A próxima ação será revisada separadamente.</p>
+{% if request.endpoint == 'job_analisar' %}<p><b>{% if request.form.get('usar_broll')=='1' %}Até {{ request.form.get('quantidade_broll','3') }} cenas de apoio · {{ 'buscar cenas reais' if request.form.get('origem_broll','busca')=='busca' else ('banco + propostas de IA, sem gerar agora' if request.form.get('origem_broll')=='misto' else 'planejar cenas de IA, sem gerar agora') }}{% else %}Sem b-rolls · editar apenas o bruto{% endif %}</b></p>{% endif %}
+{% if request.form.get('texto') or request.form.get('obs') or request.form.get('feedback') %}<blockquote>{{ request.form.get('texto') or request.form.get('obs') or request.form.get('feedback') }}</blockquote>{% endif %}
+<form method="post" action="{{ request.path }}">
+{% for nome, valor in campos %}{% if nome != 'confirmar_execucao' %}<input type="hidden" name="{{ nome }}" value="{{ valor }}">{% endif %}{% endfor %}
+<input type="hidden" name="confirmar_execucao" value="1">
+<div class="acoes"><a class="btn" href="{{ voltar }}">Voltar à edição</a><button class="btn primario">Confirmar e executar esta etapa</button></div>
+</form></section>
+{% endblock %}

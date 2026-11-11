@@ -1,0 +1,66 @@
+{
+  "titulo": "Reel Dividido por Vídeo",
+  "resumo": "Tela dividida clássica: João no topo, faixa vermelha com manchete polêmica em Bebas no meio e b-roll de vídeo mudo embaixo trocando em cortes curtos. É o formato de conteúdo do perfil dentista e do perfil principal.",
+  "quando_usar": "Conteúdo de 30-90s em que o b-roll embaixo é quem segura a retenção (mundo do dentista, cenas de filme, scroll de feed). Se o pedido for b-roll pontual sobre o João em tela cheia, usar o dividido-mascara.",
+  "formato": {
+    "resolucao": "1080x1920",
+    "proporcao": "9:16",
+    "duracao_tipica": "30-90s"
+  },
+  "estrutura": [
+    "Topo: bloco do João (816px padrão; ~1056px = 55% quando o rosto é grande, --joao-h), rosto centralizado com headroom",
+    "Faixa vermelha Bebas com bordas rasgadas e manchete branca polêmica (não repete a fala de abertura); pode trocar pra CTA em --cta-t",
+    "Baixo: b-roll de vídeo mudo em cortes de 2.5-4s (--takes/--step) a partir de um mix curado na ordem narrativa; nunca 'videozinho' fino",
+    "Label 'para dentistas' pequeno no topo só no perfil dentista",
+    "Variante --invertido (b-roll em cima) só quando o João pedir",
+    "Música só quando ele mandar (começo da trilha, cama ~0.13 ou música leve do próprio filme ~0.05)"
+  ],
+  "paleta": [
+    {
+      "cor": "#DE1C21",
+      "uso": "faixa vermelha da manchete (build-band.py)"
+    },
+    {
+      "cor": "#FFFFFF",
+      "uso": "manchete e label"
+    }
+  ],
+  "fontes": [
+    {
+      "nome": "BebasNeue-Regular",
+      "uso": "manchete da faixa"
+    }
+  ],
+  "audio": {
+    "musica": "opcional, só quando o João mandar a trilha; mix pós-render com fade",
+    "sfx": [],
+    "voz": "áudio original do João; b-roll sempre -an"
+  },
+  "broll": "Casar com o transcript montando UM master.mp4 na ordem narrativa (blocos de 3s curados) e marchar linear. Dentista: 3 camadas (animação 3D odonto, procedimento real de clínica alto padrão, sorriso/reação), chique e dinâmico, sem banco genérico. Perfil principal: alternar 2-3 fontes por trecho, sem loop óbvio. Cena de filme só na abertura quando a fala cita o filme. Nada sensual; nada ilícito; conferir watermark antes.",
+  "entrada": "Bruto vertical (checar rotation; converter pra 1080x1920). Bruto no carro/16:9 fechado: pré-montar sobre blur com crop 9:8. Selfie fechada: subir --joao-h. Calibrar zoom/offset por bruto, mesmo gravados no mesmo dia.",
+  "como_usar": [
+    "Criar _sandbox-<nome>/ com work/joao.mp4 e brolls/",
+    "Transcrever e escrever a manchete (polêmica, complementa o gancho)",
+    "Pesquisar b-roll (skill broll + buscar-broll.sh + PESQUISA-BROLL.md), verificar frames",
+    "Montar work/master.mp4 curado e rodar gerar.sh com --srcs master --takes --step",
+    "verificar.sh / frames: rosto no lugar, faixa longe do queixo, proporção 55/45",
+    "Entregar todos os clipes combinados; arquivar e apagar sandbox após aprovação"
+  ],
+  "comando": "./gerar.sh --dir _sandbox-dentista3 --titulo 'O DENTISTA GANHA MAIS EM UM DOS 3 MERCADOS' --cta \"COMENTE 'ODONTO'\" --cta-t 70 --srcs <abs>/work/master.mp4 --takes '0,3,...,78' --step 3.0 --video-zoom 1.0 --video-offset-y 390 --video-offset-x 0",
+  "qa": [
+    "Rosto frame a frame (só tolerar movimento leve)",
+    "Faixa não encosta no queixo",
+    "B-roll variado, sem repetição e sem marca d'água",
+    "Zonas proibidas do IG",
+    "Sem efeito/cor"
+  ],
+  "templates": [
+    "build-band.py (faixa vermelha)",
+    "buscar-broll.sh + PESQUISA-BROLL.md",
+    "verificar.sh"
+  ],
+  "motor": "ffmpeg + PIL + GROQ, h264_videotoolbox",
+  "origem": "Variante do reel-dividido-por-imagem; deu origem ao dividido-mascara",
+  "tempo_producao": "2-3h (curadoria do master)",
+  "tipo": "completo"
+}

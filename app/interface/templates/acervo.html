@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block titulo %}Biblioteca{% endblock %}
+{% from "_apagar_ui.html" import forms as ap_forms, musica as ap_musica, nao_usar_js with context %}
+{% macro faixa(it) %}
+<div class="linha-video">
+  <div class="miniatura"><svg class="icon" aria-hidden="true"><use href="#i-biblioteca"/></svg></div>
+  <div class="txt">
+    <b title="{{ it.titulo }}">{{ it.titulo }}</b>
+    <small>{{ it.clima or 'clima não anotado' }}{% if it.duracao_txt %} · {{ it.duracao_txt }}{% endif %}{% if it.modelo %} · {{ it.modelo }}{% endif %}{% if it.tags %} · {{ it.tags|join(', ') }}{% endif %}</small>
+    <audio controls preload="none" src="{{ url_for('arquivo', caminho=it.clip_rel) }}" style="display:block;width:100%;max-width:420px;height:34px;margin-top:6px"></audio>
+    {% if it.tipo != 'sfx' %}<div class="acoes-mini">{{ ap_musica(it.clip_rel, it.titulo, url_for('arquivo', caminho=it.clip_rel)) }}</div>{% endif %}
+  </div>
+</div>
+{% endmacro %}
+{% block conteudo %}
+{% if tipo in ('musica', '') %}{{ ap_forms(request.full_path) }}{{ nao_usar_js() }}{% endif %}
+<div class="cabecalho">
+  <div><h1>Biblioteca</h1><p class="sub">Tudo que o Estúdio pode usar nos vídeos: {{ itens|length }} {{ 'itens' if itens|length != 1 else 'item' }}{% if tag %} com a tag <b>{{ tag }}</b>{% endif %}. Toque no play pra ver ou ouvir.</p></div>
+  <div class="bib-acoes">
+    {% if tipo in ('musica', 'sfx') %}{% if musica_busca_ok %}<a class="btn grande primario" href="{{ url_for('musica_busca') }}"><svg class="icon"><use href="#i-search"/></svg>Buscar (grátis)</a>{% endif %}
+    {% else %}<a class="btn grande primario" href="{{ url_for('broll') }}"><svg class="icon"><use href="#i-search"/></svg>Buscar (grátis)</a>
+    <a class="btn grande" href="{{ url_for('broll_inicio') }}" title="Gerar custa dinheiro: o preço aparece antes de você confirmar"><svg class="icon"><use href="#i-spark"/></svg>Gerar com IA (pago, com o preço antes)</a>{% endif %}
+  </div>
+</div>
+
+<details class="painel" {{ 'open' if not itens }}>
+  <summary><b>＋ Guardar um arquivo ou link</b> (do Mac, YouTube, TikTok ou Instagram)</summary>
+  <p class="meta">Só jogar o arquivo ou colar o link: a IA olha os frames (ou a curva da música) e escreve título, tags, descrição e o trecho sozinha. O resto dos campos é opcional.</p>
+  <form method="post" action="{{ url_for('acervo_adicionar') }}" enctype="multipart/form-data" class="form">
+    <div class="duas">
+      <label class="soltar" id="drop-acervo"><span class="soltar-icone"><svg class="icon"><use href="#i-biblioteca"/></svg></span><b class="soltar-titulo">Arraste os arquivos aqui</b><span class="soltar-ajuda">vídeo, foto ou música · ou clique pra escolher</span><span class="soltar-linha"><video class="soltar-mini" muted playsinline preload="metadata"></video><span class="soltar-txt"><b class="soltar-nome"></b><small class="soltar-info"></small></span><span class="btn mini fantasma">Trocar</span></span><input type="file" name="arquivos" multiple accept="video/*,image/*,audio/*" class="sr-only"></label>
+      <label>ou link <input name="url" placeholder="https://youtu.be/… (yt-dlp)">
+        <span class="check"><input type="checkbox" name="so_audio" value="1"> é MÚSICA: baixar só o áudio e analisar (BPM, estrutura, trechos usáveis)</span>
+      </label>
+    </div>
+    <div class="duas">
+      <label>Título <span class="meta">(opcional — a IA escreve olhando o material)</span> <input name="titulo" placeholder="deixe vazio pra IA decidir"></label>
+      <label>Tags <span class="meta">(opcional — a IA sugere)</span> <input name="tags" placeholder="deixe vazio pra IA decidir"></label>
+    </div>
+    <details class="bib-mais"><summary>Mais campos (opcional)</summary>
+    <div class="tres">
+      <label>Trecho do link (seg) <input name="secao" placeholder="30-45"></label>
+      <label>Fonte (URL, se arquivo) <input name="fonte"></label>
+      <label>Autor <input name="autor"></label>
+    </div>
+    <div class="duas">
+      <label>Licença / condição de uso <input name="licenca" placeholder="Ex.: Pexels free · cena de filme (uso editorial)"></label>
+      <label>Observação <input name="observacao"></label>
+    </div>
+    <label>Descrição da cena<textarea name="descricao" rows="3" placeholder="O que aparece, como se move, qual sensação transmite e em que tipo de fala funciona."></textarea></label>
+    <div class="checks">{% for k, rotulo in checklist %}<label class="check"><input type="checkbox" name="chk_{{ k }}"> {{ rotulo }}</label>{% endfor %}</div>
+    </details>
+    <button class="btn primario">Guardar na Biblioteca</button>
+  </form>
+</details>
+
+<div class="abas-tipo">
+  {% if not tipo %}<a class="pilula ativa" href="{{ url_for('acervo') }}">Tudo</a>{% endif %}
+  {% for k, rotulo in tipos %}<a class="pilula {{ 'ativa' if tipo == k }}" href="{{ url_for('acervo', tipo=k) }}">{{ {'imagem':'Fotos','sfx':'Efeitos'}.get(k, rotulo) }} <b>{{ contagem[k] }}</b></a>{% endfor %}{% if tipo in ('musica', 'sfx') %}<a class="pilula {{ 'ativa' if uso == 'fav' }}" href="{{ url_for('acervo', tipo=tipo, uso='fav') }}">♥ Favoritos</a>{% endif %}
+</div>
+{% if not tipo and resumo_audio %}
+<p class="meta">Tem mais no Estúdio fora da Biblioteca:
+  {% for k, nome in [('musica', 'músicas'), ('sfx', 'efeitos')] %}{% set r = resumo_audio[k] %}<a href="{{ url_for('acervo', tipo=k) }}"><b>{{ r.biblioteca + r.formatos + r.clientes }} {{ nome }}</b></a> ({{ r.biblioteca }} na Biblioteca, {{ r.formatos }} nos estilos, {{ r.clientes }} nos clientes){{ ' · ' if not loop.last }}{% endfor %}.</p>
+{% elif de_fora is not none and resumo_audio and tipo in resumo_audio %}
+{% set r = resumo_audio[tipo] %}
+<div class="abas-tipo">
+  <a class="pilula {{ 'ativa' if not fonte }}" href="{{ url_for('acervo', tipo=tipo, q=termo) }}">Todas as fontes</a>
+  <a class="pilula {{ 'ativa' if fonte == 'biblioteca' }}" href="{{ url_for('acervo', tipo=tipo, q=termo, fonte='biblioteca') }}">Biblioteca <b>{{ r.biblioteca }}</b></a>
+  <a class="pilula {{ 'ativa' if fonte == 'formatos' }}" href="{{ url_for('acervo', tipo=tipo, q=termo, fonte='formatos') }}">Estilos <b>{{ r.formatos }}</b></a>
+  <a class="pilula {{ 'ativa' if fonte == 'clientes' }}" href="{{ url_for('acervo', tipo=tipo, q=termo, fonte='clientes') }}">Clientes <b>{{ r.clientes }}</b></a>
+</div>
+{% endif %}
+<form class="filtros" method="get"><input type="hidden" name="tipo" value="{{ tipo }}"><input type="hidden" name="fonte" value="{{ fonte }}">
+  <input name="q" value="{{ termo }}" placeholder="Digite uma fala, uma ideia ou o nome de um material" aria-label="Buscar no acervo"><select name="modo" aria-label="Tipo de busca"><option value="texto" {{ 'selected' if modo=='texto' }}>Título e tags</option><option value="fala" {{ 'selected' if modo=='fala' }}>Sentido da fala</option></select><select name="uso" aria-label="Uso do material"><option value="">Todos os usos</option><option value="nunca" {{ 'selected' if uso=='nunca' }}>Nunca usado</option><option value="mais" {{ 'selected' if uso=='mais' }}>Mais usado primeiro</option></select>
+  <button class="btn">Filtrar</button>
+  {% if termo or tag %}<a class="btn" href="{{ url_for('acervo') }}">limpar</a>{% endif %}
+</form>
+{% if facetas and facetas.clima %}
+<div class="facetas">
+  <span class="side-lbl">Como soa <span class="meta">escolha a etiqueta</span></span>
+  <div class="chips">{% for v, n in facetas.clima %}<a class="pilula {{ 'ativa' if soa == v }}" href="{{ url_for('acervo', tipo=tipo, soa='' if soa == v else v) }}">{{ v }} <b>{{ n }}</b></a>{% endfor %}</div>
+</div>
+{% endif %}
+<details class="tags-todas"><summary>Tags ({{ tags|length }})</summary>
+  <div class="chips">{% for t, n in tags %}<a class="pilula {{ 'ativa' if t == tag }}" href="{{ url_for('acervo', tag=t) }}">{{ t }} <b>{{ n }}</b></a>{% endfor %}</div>
+</details>
+
+{% if modo=='fala' and termo %}<p class="meta">{{ 'Busca semântica com embeddings locais.' if indice.motor and indice.motor!='texto-local' else 'Busca textual com sinônimos. Embedding local ainda não está instalado.' }} Resultados sugeridos: confira a cena antes de usar.</p>{% endif %}
+<form method="post" action="{{ url_for('acervo_reindexar') }}" class="wide-actions"><button class="btn mini">Reler a Biblioteca</button></form>
+{% if fonte in ('', 'biblioteca') %}
+{% if de_fora is not none %}<h2>Biblioteca <span class="meta">({{ itens|length }})</span></h2>{% endif %}
+<div class="grade acervo">
+  {% for it in itens %}
+  <div class="card broll">
+    {% if it.tipo in ('musica', 'sfx', 'audio') %}<div class="capa audio">{% if it.thumb_rel %}<img loading="lazy" decoding="async" src="{{ url_for('arquivo', caminho=it.thumb_rel) }}" alt="">{% endif %}<audio controls preload="none" src="{{ url_for('arquivo', caminho=it.clip_rel) }}"></audio></div>
+    {% elif it.e_imagem %}<img loading="lazy" decoding="async" class="capa" src="{{ url_for('arquivo', caminho=it.clip_rel) }}" alt="">
+    {% else %}<video class="capa" preload="none" muted loop controls poster="{{ url_for('arquivo', caminho=it.thumb_rel) if it.thumb_rel else '' }}" src="{{ url_for('arquivo', caminho=it.clip_rel) }}"></video>{% endif %}
+    <div class="card-corpo">
+      <div class="card-titulo">{{ it.titulo }}{% if it.descrevendo %} <span class="chip">descrevendo…</span>{% endif %}</div>
+      {% if it.como_soa %}<p class="como-soa">{{ it.como_soa }}</p>{% endif %}
+      <div class="chips fatos">
+        <span class="chip cinza">{{ 'música' if it.tipo == 'musica' else 'efeito' if it.tipo == 'sfx' else it.tipo }}</span>
+        {% if it.media and it.media.duracao %}<span class="chip cinza">{{ it.media.duracao|round|int }}s</span>{% endif %}
+        {% if it.clima %}<span class="chip cinza">{{ it.clima }}</span>{% endif %}
+      </div>
+      {% if it.resumo_curto %}<p class="desc">{{ it.resumo_curto }}</p>{% endif %}
+      <details class="bib-det"><summary>Ver detalhes</summary>
+      {% if it.trecho_sugerido %}<p class="meta"><b>trecho:</b> {{ it.trecho_sugerido.inicio_s }}–{{ it.trecho_sugerido.fim_s }}s ({{ it.trecho_sugerido.tipo }}) — {{ it.trecho_sugerido.motivo }}</p>{% endif %}
+      {% if it.descricao_longa %}<details class="desc-longa"><summary>ler a análise completa</summary><p class="desc">{{ it.descricao }}</p></details>{% endif %}
+      <div class="card-meta">{% if it.media and it.media.duracao %}{{ it.media.duracao }}s{% if it.media.largura %} · {{ it.media.largura }}×{{ it.media.altura }}{% endif %} · {% endif %}{{ {'estudio-job':'feito num vídeo','asset-de-modelo':'veio de um estilo','manual':'guardado por você'}.get(it.origem, it.origem) }}{% if it.usos %} · usado {{ it.usos|length }}×{% endif %}</div>
+      {% if it.similaridade is defined %}<p class="meta">Afinidade da busca: {{ (it.similaridade*100)|round|int }}%</p>{% endif %}
+      {% if it.usos %}<details><summary>Usado em {{ it.usos|length }} produções</summary>{% for u in it.usos %}<p class="meta">{{ u.cliente }} · {{ u.modelo }} · {{ u.job }}</p>{% endfor %}</details>{% endif %}
+      <div class="chips">{% for t in it.tags %}<a class="chip" href="{{ url_for('acervo', tag=t) }}">{{ t }}</a>{% endfor %}</div>
+      {% if it.fonte %}<a class="meta" href="{{ it.fonte }}" target="_blank">fonte ↗</a>{% endif %}
+      {% if it.analise %}
+      <div class="analise-audio">
+        <b>{{ it.analise.bpm }} BPM</b> · {{ it.analise.lufs }} LUFS · {{ it.analise.duracao_s }}s
+        {% if it.analise.bandas_geral %}· grave {{ it.analise.bandas_geral.grave }}{% endif %}
+        {% if it.analise.trechos_usaveis %}
+        <details><summary>{{ it.analise.trechos_usaveis|length }} trechos usáveis</summary>
+          {% for tr in it.analise.trechos_usaveis %}<div class="trecho"><span class="chip">{{ tr.tipo }}</span> <b>{{ tr.inicio_s }}–{{ tr.fim_s }}s</b> <small>{{ tr.motivo }}</small></div>{% endfor %}
+        </details>{% endif %}
+        {% if it.thumb_curva %}<img class="curva-audio" src="{{ url_for('arquivo', caminho=it.thumb_curva) }}" alt="curva de energia" loading="lazy">{% endif %}
+      </div>
+      {% endif %}
+      {% set ok = it.checklist.values()|select|list|length if it.checklist else 0 %}
+      <div class="meta">verificação: {{ ok }}/{{ checklist|length }}{% if it.licenca %} · {{ it.licenca[:60] }}{% endif %}</div>
+      </details>
+      <div class="acoes-mini">
+        {% if it.descrevendo %}<button class="btn mini" disabled>✨ descrevendo…</button>
+        {% elif not it.descricao %}<form method="post" action="{{ url_for('acervo_descrever', slug=it.slug) }}"><button class="btn mini">✨ Descrever</button></form>{% endif %}
+        <form method="post" action="{{ url_for('acervo_remover', slug=it.slug) }}" onsubmit="return confirm('Remover do acervo?')"><button class="btn mini perigo">🗑 Remover</button></form>
+        {% if it.tipo == 'musica' %}{{ ap_musica(it.clip_rel, it.titulo, url_for('arquivo', caminho=it.clip_rel)) }}{% endif %}</div>
+      <details><summary>editar</summary>
+        {% if it.descricao and not it.descrevendo %}<form method="post" action="{{ url_for('acervo_descrever', slug=it.slug) }}"><button class="btn mini">✨ descrever de novo</button></form>{% endif %}
+        <form method="post" action="{{ url_for('acervo_editar', slug=it.slug) }}" class="form compacto">
+          <input name="titulo" value="{{ it.titulo }}"><input name="tags" value="{{ it.tags|join(', ') }}" placeholder="tags">
+          <input name="fonte" value="{{ it.fonte }}" placeholder="fonte"><input name="autor" value="{{ it.autor }}" placeholder="autor">
+          <input name="licenca" value="{{ it.licenca }}" placeholder="licença"><input name="observacao" value="{{ it.observacao }}" placeholder="observação">
+          {% for key,label in [('descricao','O que aparece na cena'),('movimento','Movimento e ritmo'),('emocao','Sensação'),('serve_para','Em que tipo de fala usar'),('evitar','Cuidados e limitações')] %}<label>{{ label }}<textarea name="{{ key }}" rows="2">{{ it.get(key,'') }}</textarea></label>{% endfor %}
+          <div class="checks">{% for k, rotulo in checklist %}<label class="check"><input type="checkbox" name="chk_{{ k }}" {{ 'checked' if it.checklist and it.checklist.get(k) }}> {{ rotulo }}</label>{% endfor %}</div>
+          <button class="btn mini">Salvar</button>
+        </form>
+        <form method="post" action="{{ url_for('acervo_remover', slug=it.slug) }}" onsubmit="return confirm('Remover do acervo?')"><button class="btn mini perigo">Remover</button></form>
+      </details>
+    </div>
+  </div>
+  {% else %}<p class="meta">{{ 'Nada na Biblioteca com esse filtro.' if de_fora is not none else 'Acervo vazio. Alimente acima ou busque fora.' }}</p>{% endfor %}
+</div>
+{% endif %}
+
+{% if de_fora is not none %}
+{% for chave, titulo, dica in [('formatos', 'Nos estilos', 'Vêm com o estilo e valem pra qualquer cliente dele.'), ('clientes', 'Nos clientes', 'Guardadas nas pastas de cada cliente. Valem só pra ele.')] if fonte in ('', chave) %}
+<h2 style="margin-top:28px">{{ titulo }} <span class="meta">({{ de_fora[chave]|length }})</span></h2>
+<p class="meta">{{ dica }} Só pra ouvir: nada é copiado pra Biblioteca.</p>
+{% for nome, lista in de_fora[chave]|groupby('origem_nome') %}
+<details class="cartao-config" {{ 'open' if termo or fonte or loop.length == 1 }}>
+  <summary><b>{{ nome }}</b> <span class="meta">{{ lista|length }} {{ 'músicas' if tipo == 'musica' else 'efeitos' }}</span></summary>
+  <div class="lista-videos">{% for it in lista %}{{ faixa(it) }}{% endfor %}</div>
+</details>
+{% else %}<p class="meta">Nada {{ 'com esse filtro' if termo else 'guardado aqui' }}.</p>{% endfor %}
+{% endfor %}
+{% endif %}
+{% endblock %}

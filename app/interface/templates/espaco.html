@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block titulo %}Liberar espaço{% endblock %}
+{% block conteudo %}
+<style>
+.esp-topo{display:flex;flex-wrap:wrap;gap:var(--e4);align-items:flex-end;justify-content:space-between;margin-bottom:var(--e5)}
+.esp-num{display:flex;gap:var(--e5);flex-wrap:wrap}
+.esp-num div{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio-c);padding:var(--e3) var(--e4);min-width:150px}
+.esp-num small{display:block;color:var(--txt2);font-size:var(--t-micro)}
+.esp-num b{font-size:var(--t3);font-variant-numeric:tabular-nums}
+.esp-grupo{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio-c);margin-bottom:var(--e4);overflow:hidden}
+.esp-grupo>summary{display:flex;justify-content:space-between;gap:var(--e3);align-items:center;padding:var(--e4) var(--e5);cursor:pointer;font-weight:650;list-style:none}
+.esp-grupo>summary::-webkit-details-marker{display:none}
+.esp-grupo>summary span{color:var(--txt2);font-weight:500;font-size:var(--t1)}
+.esp-video{border-top:1px solid var(--linha);padding:var(--e3) var(--e5)}
+.esp-video h3{font-size:var(--t2);margin:var(--e2) 0}
+.esp-video h3 small{color:var(--txt2);font-weight:500}
+.esp-item{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:var(--e3);align-items:start;padding:var(--e2) 0}
+.esp-ver{display:flex;gap:var(--e2);flex-wrap:wrap;margin-top:var(--e2)}
+.esp-item label{cursor:pointer;overflow-wrap:anywhere}
+.esp-item .tam{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.esp-item .av{display:block;font-size:var(--t-micro);color:var(--alerta);margin-top:2px}
+.esp-fixo{position:sticky;bottom:var(--e4);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:var(--e3);background:color-mix(in srgb,var(--painel) 94%,transparent);backdrop-filter:blur(16px);border:1px solid var(--linha);border-radius:var(--raio-c);padding:var(--e3) var(--e4);margin-top:var(--e5)}
+.esp-desfazer{display:flex;flex-wrap:wrap;gap:var(--e3);align-items:center;justify-content:space-between;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio-c);padding:var(--e3) var(--e4);margin-bottom:var(--e5)}
+.esp-desfazer p{margin:0;max-width:var(--leitura)}
+.esp-nunca{color:var(--txt2);font-size:var(--t1);max-width:var(--leitura)}
+@media(max-width:700px){.esp-item{grid-template-columns:22px minmax(0,1fr)}.esp-item .tam{grid-column:2}.esp-video{padding:var(--e3)}}
+</style>
+
+<div class="cabecalho"><div><h1>Liberar espaço</h1>
+<p class="sub">O que sobrou dos vídeos e dá pra tirar do disco sem perder o vídeo pronto. Mas atenção: <b>depois da limpeza, o vídeo não dá mais pra editar nem refazer</b>; só o vídeo pronto continua. Tudo vai pra <b>Lixeira do Mac</b>: o espaço só volta quando você esvaziar a Lixeira.</p></div></div>
+
+{% if ultima %}
+<div class="esp-desfazer">
+  <p><b>Desfazer a última limpeza</b> ({{ ultima.quando }} · {{ 'mais de ' if ultima.itens_aprox }}{{ ultima.itens }} {{ 'arquivo' if ultima['itens'] == 1 else 'arquivos' }}{% if ultima.bytes %} · {{ ultima.tamanho }}{% endif %}).
+  Devolve pro lugar de origem o que ainda está na Lixeira, e os vídeos voltam a editar. Nada que já existe é trocado.</p>
+  <form method="post" action="{{ url_for('espaco_desfazer') }}" data-confirm="Devolver tudo dessa limpeza pro Estúdio? Isso traz de volta também o espaço usado no disco."><input type="hidden" name="arquivo" value="{{ ultima.arquivo }}"><button class="btn">Desfazer a última limpeza</button></form>
+</div>
+{% endif %}
+
+<div class="esp-topo">
+  <div class="esp-num">
+    <div><small>Dá pra liberar, no máximo</small><b>{{ x.total_txt }}</b></div>
+    <div><small>Marcado agora</small><b id="esp-soma">{{ x.marcado_txt }}</b></div>
+    <div><small>Livre no disco hoje</small><b>{{ livre }}</b></div>
+  </div>
+  <p class="esp-nunca">Nunca entram aqui: vídeo esperando a sua aprovação, em produção ou editado nos últimos 7 dias; o vídeo pronto, as versões do Editar vídeo, as cenas e o roteiro, e o aprendizado.
+  Onde o mesmo vídeo existe em mais de um lugar (cópia que não gasta espaço), o espaço só volta quando todos os lugares saem.</p>
+</div>
+
+{% if not x.grupos %}
+<div class="empty-state"><h3>Nada sobrando</h3><p>Todos os rascunhos ainda estão em uso ou já foram limpos.</p></div>
+{% else %}
+<form method="post" action="{{ url_for('espaco_liberar') }}" id="esp-form">
+{% for g in x.grupos %}
+<details class="esp-grupo" {% if loop.first %}open{% endif %}>
+  <summary><b>{{ g.nome }}</b><span>{{ g.tamanho }} · {{ g.videos|length }} {{ 'vídeo' if g.videos|length == 1 else 'vídeos' }}</span></summary>
+  {% for v in g.videos %}
+  <div class="esp-video">
+    <h3>{{ v.titulo }} <small>{{ v.tamanho }}{% if v.modelo %} · {{ v.modelo }}{% endif %}</small></h3>
+    {% for i in v.itens %}
+    <div class="esp-item">
+      <input type="checkbox" name="item" value="{{ i.id }}" id="i-{{ i.id }}" data-bytes="{{ i.bytes }}" data-grupo='{{ {"titulo": v.titulo, "rotulo": i.rotulo, "explica": i.explica, "aviso": i.aviso, "caminhos": i.caminhos}|tojson|forceescape }}' {% if i.marcado %}checked{% endif %}>
+      <div><label for="i-{{ i.id }}">{{ i.rotulo }}{% if i.aviso %}<span class="av">{{ i.aviso }}</span>{% endif %}</label>
+        <div class="esp-ver"><button type="button" class="btn mini" data-ap-ver='{{ {"titulo": v.titulo, "rotulo": i.rotulo, "explica": i.explica, "caminhos": i.caminhos}|tojson|forceescape }}' data-ap-titulo="{{ v.titulo }}: {{ i.rotulo }}">Ver</button>
+          <button type="button" class="btn mini" data-ap-finder="{{ i.caminhos|join('|') }}">Mostrar no Finder</button></div></div>
+      <span class="tam">{{ i.tamanho }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</details>
+{% endfor %}
+<div class="esp-fixo">
+  <span class="meta"><span id="esp-n">0</span> marcado(s) · <b id="esp-gb">0 MB</b></span>
+  <span><button type="button" class="btn" id="esp-nada">Desmarcar tudo</button> <button class="btn perigo" id="esp-ir">Liberar</button></span>
+</div>
+</form>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+(function(){
+  const f=document.getElementById('esp-form'); if(!f) return;
+  const caixas=()=>Array.from(f.querySelectorAll('input[name=item]'));
+  const fmt=b=>b>=1e9?(b/1e9).toFixed(1).replace('.',',')+' GB':Math.round(b/1e6)+' MB';
+  function soma(){
+    const m=caixas().filter(c=>c.checked); const b=m.reduce((s,c)=>s+(+c.dataset.bytes),0);
+    document.getElementById('esp-n').textContent=m.length;
+    document.getElementById('esp-gb').textContent=fmt(b);
+    document.getElementById('esp-soma').textContent=fmt(b);
+    const ir=document.getElementById('esp-ir'); ir.textContent=m.length?('Liberar '+fmt(b)):'Liberar'; ir.disabled=!m.length;
+    f.dataset.bytes=b;
+  }
+  f.addEventListener('change',soma);
+  document.getElementById('esp-nada').addEventListener('click',()=>{caixas().forEach(c=>c.checked=false);soma()});
+  f.addEventListener('submit',async e=>{   // painel com tudo que vai (miniatura, tamanho, o que é, Finder) antes de mandar
+    if(f.dataset.pronto) return; e.preventDefault();
+    const grupos=caixas().filter(c=>c.checked).map(c=>JSON.parse(c.dataset.grupo));
+    if(await EstudioApagar.abrir({corpo:{grupos},titulo:'Liberar espaço'})){f.dataset.pronto='1';f.submit()}
+  });
+  soma();
+})();
+</script>
+{% endblock %}

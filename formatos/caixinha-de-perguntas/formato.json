@@ -1,0 +1,176 @@
+{
+  "grupo": "falando",
+  "ordem": 4,
+  "titulo": "Caixinha de perguntas",
+  "frase": "Você em tela cheia respondendo, com a caixinha de perguntas do Stories do Instagram (faixa escura \"O que você quer saber?\" e a pergunta no branco) fixa em cima da cabeça o vídeo inteiro, igual ao print real; sem legenda, cenas, música nem efeito.",
+  "entrada": "video",
+  "seguir_direto": true,
+  "proporcao": "9:16",
+  "tipo": "gravado",
+  "motor": "ffmpeg + PIL (gerar.sh do modelo do cliente; caixa em SF Pro)",
+  "status": "pronto",
+  "modelos": [
+    "caixinha-de-perguntas"
+  ],
+  "base": "clientes/Joao/vegasContent/modelos/caixinha-de-perguntas",
+  "exemplos": [
+    {
+      "arquivo": "exemplo-1.mp4",
+      "poster": "exemplo-1.jpg",
+      "legenda": "Referência: caixinha do Instagram (reel DeaVGPYod4-)",
+      "origem": "https://www.instagram.com/p/DeaVGPYod4-/",
+      "folha": "exemplo-1-folha.jpg",
+      "principal_desde": "2026-10-22"
+    }
+  ],
+  "som": {
+    "musica": {
+      "usa": false,
+      "de_onde": "Não usa: só a voz do bruto.",
+      "quando_nao": "sempre"
+    },
+    "efeitos": {
+      "usa": false,
+      "de_onde": "Não usa: o gerar.sh não mixa efeito.",
+      "quando_nao": "sempre"
+    }
+  },
+  "legenda": {
+    "desligavel": false,
+    "motivo": "o formato não tem legenda da fala; a pergunta na caixinha é o conteúdo"
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [],
+  "usa": [
+    {
+      "oque": "Corte do bruto",
+      "quem": "Tira silêncio, gaguejo e erro de começo no seu Mac (corte.py; transcrição Groq com cota grátis)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Caixinha",
+      "quem": "PIL no seu Mac: SF Pro do iPhone, medidas do print do Instagram (app/ferramentas/caixinha.py)",
+      "tipo": "gratis"
+    },
+    {
+      "oque": "Montagem e render",
+      "quem": "ffmpeg no seu Mac, h264_videotoolbox",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Cortar o bruto",
+        "andamento": "preparar",
+        "faz": "Conferir a rotação (ffprobe ... stream_side_data=rotation) e deixar work/joao.mp4 em 1080x1920 cortado: sem silêncio, gaguejo nem erro de começo (se o Estúdio já cortou, usar esse work/joao.mp4). Olhar o quadro 0: se o bruto já tiver texto queimado no lugar da caixinha, avisar no storyboard. O vídeo termina no fim de uma frase dita inteira."
+      },
+      {
+        "id": "pergunta",
+        "titulo": "Pergunta da caixinha",
+        "andamento": "preparar",
+        "faz": "Pôr a pergunta no PLANO.json (campo pergunta). Se o briefing ou o MATERIAL DESTE VÍDEO (campo Pergunta da caixinha, preenchido no Criar) trouxe a pergunta, usar EXATAMENTE ela, com a abreviação e a maiúscula como ele escreveu. Se não, ler a fala e propor 3 perguntas curtas, com cara de seguidor (o que a resposta responde), no campo opcoes_pergunta (lista de 3), a recomendada em pergunta, e parar pro João escolher. Título da faixa: \"O que você quer saber?\" salvo pedido dele (--titulo)."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Prévia da caixinha",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "comando": "zsh ../gerar.sh --dir . --pergunta \"<PERGUNTA>\" --posicao <cima|peito> --previa",
+        "faz": "Gerar o storyboard.jpg (quadro do meio com a caixinha, pelo --previa), olhar ao lado da folha do exemplo principal: caixinha igual ao print, acima da cabeça sem encostar no cabelo (encostou: --posicao peito ou outra altura com --topo). Parar pro João aprovar."
+      },
+      {
+        "id": "video",
+        "titulo": "Renderizar",
+        "andamento": "video",
+        "faz": "Rodar o gerar.sh com a pergunta aprovada (Em cima = cima, Embaixo = peito). Saída em output/caixinha-de-perguntas/<slug>.mp4 e folha em <sandbox>/qa/folha.jpg. O gerar.sh grava <sandbox>/camada.json (tipo caixinha) e renderiza pelo camada.py: o João troca pergunta, texto de cima e altura depois, no botão Editar o texto do Em andamento. Ao terminar: python3 app/ferramentas/andamento.py pronto <Cliente> <slug> \"Vídeo pronto\" --video <mp4> --pasta <sandbox>."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Rodar /watch no vídeo e abrir qa/folha.jpg ao lado de exemplo-1-folha.jpg: a mesma caixinha do 1º ao último quadro, fonte e margens iguais ao print, sem cobrir o rosto, sem legenda, b-roll ou música. Rodar python3 app/ferramentas/conferir_video.py <mp4> --sandbox <sandbox>. Pior que o exemplo não sai."
+      }
+    ],
+    "comandos": {
+      "storyboard": "zsh ../gerar.sh --dir . --pergunta \"<PERGUNTA>\" --posicao <cima|peito> --previa",
+      "render": "zsh ../gerar.sh --dir . --pergunta \"<PERGUNTA>\" --posicao <cima|peito>",
+      "conferir": "python3 app/ferramentas/conferir_video.py <saida> --sandbox <sandbox>"
+    }
+  },
+  "apoio": {
+    "usa": false,
+    "tipo": "nenhum",
+    "fontes": [],
+    "duracao_s": "0",
+    "quantidade": "0",
+    "quando_nao": "sempre: o vídeo é só a pessoa e a caixinha",
+    "previa": "não se aplica"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "Você respondendo a pergunta. O arquivo vai na área de cima desta etapa (ou cole o link).",
+      "principal": true
+    },
+    {
+      "campo": "pergunta",
+      "rotulo": "Pergunta da caixinha",
+      "tipo": "texto",
+      "obrigatorio": true,
+      "dica": "Do jeito que o seguidor escreveria (q, vc, pq valem). Vai igualzinha na caixa."
+    },
+    {
+      "campo": "titulo",
+      "rotulo": "Título da faixa escura",
+      "tipo": "texto",
+      "obrigatorio": false,
+      "dica": "Padrão: O que você quer saber?",
+      "padrao": "O que você quer saber?"
+    }
+  ],
+  "estimativa": "equivale a ~US$ 1 a 3 na API (Opus), incluso na assinatura",
+  "passos": [
+    "Envie o vídeo gravado (você respondendo).",
+    "Escreva a pergunta do jeito que o seguidor escreveria (ou ele propõe 3 a partir da resposta).",
+    "O Estúdio corta o bruto: tira silêncio, gaguejo e erro de começo.",
+    "Você vê um quadro de prévia com a caixinha, aprova, e ele renderiza."
+  ],
+  "escolhas": [
+    {
+      "campo": "pergunta",
+      "rotulo": "Pergunta",
+      "tipo": "um",
+      "opcoes": [
+        "Já tenho a pergunta (escreva no campo abaixo)",
+        "A IA sugere 3 perguntas"
+      ],
+      "padrao": "Já tenho a pergunta (escreva no campo abaixo)",
+      "_sobre": "Texto escrito no campo = a pergunta EXATA da caixinha, sem corrigir abreviação."
+    },
+    {
+      "campo": "posicao-da-caixinha",
+      "rotulo": "Posição da caixinha",
+      "tipo": "um",
+      "opcoes": [
+        "Em cima da cabeça (como no Instagram)",
+        "Embaixo (no peito)"
+      ],
+      "padrao": "Em cima da cabeça (como no Instagram)",
+      "_sobre": "gerar.sh --posicao: Em cima = cima (topo y=255), Embaixo = peito (centro y=1430)."
+    }
+  ]
+}

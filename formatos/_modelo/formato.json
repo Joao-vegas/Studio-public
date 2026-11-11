@@ -1,0 +1,133 @@
+{
+  "grupo": "falando",
+  "ordem": 50,
+  "titulo": "TROQUE: nome do formato",
+  "frase": "TROQUE: uma frase dizendo como o vídeo fica (o que aparece na tela e o tom).",
+  "entrada": "video",
+  "proporcao": "9:16",
+  "tipo": "motor",
+  "motor": "HTML (motor genérico do Estúdio: base/render.py + base/index.html)",
+  "status": "receita",
+  "modelos": [],
+  "base": "formatos/_modelo/base",
+  "exemplos": [],
+  "som": {
+    "musica": {
+      "usa": true,
+      "de_onde": "TROQUE: de onde vem a música (o catálogo do formato em base/audio/, o acervo ou o Mixkit grátis: python3 app/ferramentas/musica_busca.py buscar \"<clima>\" --fonte mixkit). Não usa: \"usa\": false.",
+      "clima": "TROQUE: ...",
+      "volume": "TROQUE: ...",
+      "quando": "TROQUE: ...",
+      "quando_nao": "TROQUE: ...",
+      "troca": "TROQUE: ..."
+    },
+    "efeitos": {
+      "usa": true,
+      "de_onde": "TROQUE: de onde vêm os efeitos sonoros (base/audio/sfx do formato ou o acervo). Não usa: \"usa\": false.",
+      "quais": [
+        "TROQUE: ..."
+      ],
+      "momentos": "TROQUE: ...",
+      "volume": "TROQUE: ...",
+      "quando_nao": "TROQUE: ..."
+    }
+  },
+  "legenda": {
+    "desligavel": false,
+    "motivo": "TROQUE: diga se o formato escreve a fala (legenda sincronizada) e como desligar. Se escreve: \"desligavel\": true e \"como\" com o passo ou parâmetro exato."
+  },
+  "layouts": [
+    "cheio"
+  ],
+  "material_aceito": [
+    "foto-pessoa",
+    "print",
+    "cena-produto",
+    "video-curto",
+    "musica"
+  ],
+  "usa": [
+    {
+      "oque": "Montagem e render",
+      "quem": "Motor do formato no seu Mac",
+      "tipo": "gratis"
+    }
+  ],
+  "esteira": {
+    "motor": "render.py",
+    "etapas": [
+      {
+        "id": "briefing",
+        "titulo": "Briefing",
+        "andamento": "preparar",
+        "aprovar": true,
+        "faz": "Passo 0, já aprovado pelo João antes da esteira (na conversa ou no Criar): ler a seção BRIEFING DESTE VÍDEO do pedido e usar o material liberado só no papel e no lugar marcados. Sem briefing, vale o pedido do Criar. O pedido vale só pra este vídeo: não vira regra."
+      },
+      {
+        "id": "preparar",
+        "titulo": "Preparar a entrada",
+        "andamento": "preparar",
+        "faz": "Vídeo gravado: transcrever com tempo por palavra (python3 app/ferramentas/corte.py transcrever) em work/words.json e conferir nome, número e acento. Roteiro: gerar a narração pelo motor de voz configurado (app/ferramentas/motion/narracao_tts.py)."
+      },
+      {
+        "id": "cenas",
+        "titulo": "Montar as cenas",
+        "andamento": "storyboard",
+        "faz": "Ler o ESTUDO.md do formato (a referência estudada uma vez: não reestude) e olhar a folha do exemplo principal; montar as cenas a partir da fala, seguindo o COMO-FAZER, as regras do formato e as do cliente."
+      },
+      {
+        "id": "storyboard",
+        "titulo": "Storyboard",
+        "andamento": "storyboard",
+        "aprovar": true,
+        "faz": "Gerar o storyboard pelo comando do formato (um quadro por cena, com o tempo e a fala), comparar com a folha do exemplo principal e parar pro João aprovar."
+      },
+      {
+        "id": "video",
+        "titulo": "Vídeo",
+        "andamento": "video",
+        "faz": "Renderizar pelo comando do formato, com a música e os efeitos aprovados no storyboard."
+      },
+      {
+        "id": "conferir",
+        "titulo": "Conferência",
+        "andamento": "conferencia",
+        "faz": "Conferir o vídeo contra o exemplo principal (folha lado a lado): só entrega se ficou igual ou melhor."
+      }
+    ],
+    "motor_arquivos": [
+      "render.py",
+      "index.html",
+      "README.md",
+      "cenas-modelo.json"
+    ]
+  },
+  "apoio": {
+    "usa": true,
+    "tipo": "TROQUE: ...",
+    "fontes": [
+      "TROQUE: ..."
+    ],
+    "duracao_s": "TROQUE: ...",
+    "quantidade": "TROQUE: ...",
+    "quando_nao": "TROQUE: ...",
+    "previa": "folha com 3 opções por cena antes do render"
+  },
+  "pede": [
+    {
+      "campo": "video",
+      "rotulo": "Vídeo gravado",
+      "tipo": "arquivo_ou_link",
+      "obrigatorio": true,
+      "dica": "O arquivo vai na área de cima desta etapa (ou cole o link).",
+      "principal": true
+    },
+    {
+      "campo": "texto",
+      "rotulo": "TROQUE: o texto que este formato pede (se não pedir, apague)",
+      "tipo": "texto",
+      "obrigatorio": false,
+      "dica": "TROQUE: ..."
+    }
+  ]
+}

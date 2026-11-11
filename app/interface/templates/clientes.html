@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block titulo %}Clientes{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <div><h1>Clientes</h1><p class="sub">Cada cliente guarda a cara dele e o que já aprovou.</p></div>
+</div>
+<div class="grade-clientes">
+{% for c in clientes %}
+  <a class="cliente-card" href="{{ url_for('cliente', nome=c.nome) }}">
+    <span class="avatar">{{ c.nome[:2]|upper }}</span>
+    <b>{{ c.nome }}</b>
+    {% if c.n_videos %}<small>{{ c.n_videos }} vídeo{{ "s" if c.n_videos != 1 }} entregue{{ "s" if c.n_videos != 1 }}</small>{% endif %}
+    <div class="chips-clientes">{% for t in c.formatos[:3] %}<span class="etiqueta">{{ t }}</span>{% endfor %}{% if c.formatos|length > 3 %}<span class="etiqueta">+{{ c.formatos|length - 3 }}</span>{% endif %}</div>
+  </a>
+{% endfor %}
+  <a class="cliente-card novo-card" href="{{ url_for('novo_cliente') }}"><span class="avatar">+</span><b>Novo cliente</b></a>
+</div>
+{% endblock %}
